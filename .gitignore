@@ -1,0 +1,6 @@
+nvim/autoload/*
+progs
+Dockerfile
+makefile
+ps/*
+zsh/.zshrc.private

@@ -1,0 +1,9 @@
+coc-pyright
+coc-omnisharp
+coc-html
+coc-docker
+coc-lua
+coc-sumneko-lua
+coc-sh
+coc-json
+coc-clangd

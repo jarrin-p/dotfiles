@@ -1,0 +1,212 @@
+#  NOTE(koekeishiya): A list of all built-in modifier and literal keywords can{{{{{{
+#                     be found at https://github.com/koekeishiya/skhd/issues/1
+#
+#                     A hotkey is written according to the following rules:
+#
+#                       hotkey       = <mode> '<' <action> | <action>
+#
+#                       mode         = 'name of mode' | <mode> ',' <mode>
+#
+#                       action       = <keysym> '[' <proc_map_lst> ']' | <keysym> '->' '[' <proc_map_lst> ']'
+#                                      <keysym> ':' <command>          | <keysym> '->' ':' <command>
+#                                      <keysym> ';' <mode>             | <keysym> '->' ';' <mode>
+#
+#                       keysym       = <mod> '-' <key> | <key>
+#
+#                       mod          = 'modifier keyword' | <mod> '+' <mod>
+#
+#                       key          = <literal> | <keycode>
+#
+#                       literal      = 'single letter or built-in keyword'
+#
+#                       keycode      = 'apple keyboard kVK_<Key> values (0x3C)'
+#
+#                       proc_map_lst = * <proc_map>
+#
+#                       proc_map     = <string> ':' <command> | <string>     '~' |
+#                                      '*'      ':' <command> | '*'          '~'
+#
+#                       string       = '"' 'sequence of characters' '"'
+#
+#                       command      = command is executed through '$SHELL -c' and
+#                                      follows valid shell syntax. if the $SHELL environment
+#                                      variable is not set, it will default to '/bin/bash'.
+#                                      when bash is used, the ';' delimeter can be specified
+#                                      to chain commands.
+#
+#                                      to allow a command to extend into multiple lines,
+#                                      prepend '\' at the end of the previous line.
+#
+#                                      an EOL character signifies the end of the bind.
+#
+#                       ->           = keypress is not consumed by skhd
+#
+#                       *            = matches every application not specified in <proc_map_lst>
+#
+#                       ~            = application is unbound and keypress is forwarded per usual, when specified in a <proc_map>
+#}}}
+#  NOTE(koekeishiya): A mode is declared according to the following rules:{{{
+#
+#                       mode_decl = '::' <name> '@' ':' <command> | '::' <name> ':' <command> |
+#                                   '::' <name> '@'               | '::' <name>
+#
+#                       name      = desired name for this mode,
+#
+#                       @         = capture keypresses regardless of being bound to an action
+#
+#                       command   = command is executed through '$SHELL -c' and
+#                                   follows valid shell syntax. if the $SHELL environment
+#                                   variable is not set, it will default to '/bin/bash'.
+#                                   when bash is used, the ';' delimeter can be specified
+#                                   to chain commands.
+#
+#                                   to allow a command to extend into multiple lines,
+#                                   prepend '\' at the end of the previous line.
+#
+#                                   an EOL character signifies the end of the bind.}}}
+# add an on_enter command to the default mode{{{
+# :: default : chunkc border::color 0xff775759
+#
+# defines a new mode 'test' with an on_enter command, that captures keypresses
+# :: test @ : chunkc border::color 0xff24ccaa
+#
+# from 'default' mode, activate mode 'test'
+# cmd - x ; test
+#
+# from 'test' mode, activate mode 'default'
+# test < cmd - x ; default
+#
+# launch a new terminal instance when in either 'default' or 'test' mode
+# default, test < cmd - return : open -na /Applications/Terminal.app}}}
+# application specific bindings{{{
+#
+# cmd - n [
+#     "kitty"       : echo "hello kitty"
+#     *             : echo "hello everyone"
+#     "qutebrowser" : echo "hello qutebrowser"
+#     "terminal"    ~
+#     "finder"      : false
+# ]}}}
+# specify a file that should be included as an additional config-file.{{{
+# treated as an absolutepath if the filename begins with '/' otherwise
+# the file is relative to the path of the config-file it was loaded from.
+#
+# .load "/Users/Koe/.config/partial_skhdrc"
+# .load "partial_skhdrc"}}}
+# prevent skhd from monitoring events for specific applications.{{{
+#
+# .blacklist [
+#    "kitty"
+#    "terminal"
+#    "qutebrowser"
+# ]}}}}}}
+
+# oswide namespace is super key (naturally)
+
+# be sure to make one-shot modes
+:: default @
+:: interact
+:: terminal_navigate
+:: terminal_interact
+
+# window navigation mode
+interact < shift - escape ; default
+default < i ; interact
+
+# navigate windows in a space
+default < h : yabai -m window --focus west
+default < l : yabai -m window --focus east
+default < j : yabai -m window --focus south
+default < k : yabai -m window --focus north
+
+# rearrange windows
+default < shift - h : yabai -m window --swap west
+default < shift - l : yabai -m window --swap east
+default < shift - j : yabai -m window --swap south
+default < shift - k : yabai -m window --swap north
+
+# insert windows
+default < alt - h : yabai -m window --insert west
+default < alt - l : yabai -m window --insert east
+default < alt - j : yabai -m window --insert south
+default < alt - k : yabai -m window --insert north
+
+# stack windows; selected window consumes direction
+default < cmd - h : yabai -m window --stack west
+default < cmd - l : yabai -m window --stack east
+default < cmd - j : yabai -m window --stack south
+default < cmd - k : yabai -m window --stack north
+
+# unstack windows
+default < cmd - r : yabai -m space --layout bsp # resets layout, using modifier to prevent accidental reset
+default < ctrl - h : yabai -m window --warp west
+default < ctrl - l : yabai -m window --warp east
+default < ctrl - j : yabai -m window --warp south
+default < ctrl - k : yabai -m window --warp north
+
+# manipulate windows
+default < n : skhd -k "cmd - n"
+default < cmd - n -> : skhd -k "" # empty remap to allow passthrough of keypress
+
+default < tab : yabai -m window --focus stack.next
+default < shift - tab : yabai -m window --focus stack.prev
+
+default < q : skhd -k "cmd - w" ; yabai -m window --focus largest
+default < cmd - w -> : shkd -k "" # empty remap to allow passthrough of keypress
+
+# navigate spaces - not native support for m1 yet
+default < 0x21 : skhd -k "shift + cmd - 0x21" ; yabai -m window --focus first # left bracket
+default < shift + cmd - 0x21 -> : skhd -k ""  # empty remap to allow passthrough of keypress
+
+default < 0x1E : skhd -k "shift + cmd - 0x1E" ; yabai -m window --focus first # right bracket
+default < shift + cmd - 0x1E -> : skhd -k ""  # empty remap to allow passthrough of keypress
+
+# Send to prev/next space and follow it
+default < shift - 0x21  : yabai -m window --space prev; skhd -k "shift + cmd - 0x21" # left bracket - send to prev space
+default < shift - 0x1E  : yabai -m window --space next; skhd -k "shift + cmd - 0x1E" # right bracket - send to next space
+
+# Sent to prev/next space without following
+default < cmd + shift - 0x21  : yabai -m window --space prev # left bracket - send to prev space
+default < cmd + shift - 0x1E  : yabai -m window --space next # right bracket - send to next space
+
+# navigate displays
+default < ctrl - 0x21 : yabai -m display --focus prev # left bracket
+default < ctrl - 0x1E : yabai -m display --focus next # right bracket
+#default < ctrl + shift - 0x21 : yabai -m space --display prev # left bracket
+#default < ctrl + shift - 0x1E : yabai -m space --display next # right bracket
+
+# rotate the window tree
+default < r : yabai -m space --rotate 90
+default < shift - r : yabai -m space --rotate 270
+
+# open app finder. starts interact mode via key press, then opens zsh function
+default < o : skhd -k "i" ; \
+    yabai -m window --toggle float ; \
+    /usr/local/kitty/kitty.app/contents/MacOS/kitty \
+    --single-instance \
+    zsh -c --interactive --login "app" ;
+
+default < cmd - return : skhd -k "i" ; \
+    /usr/local/kitty/kitty.app/contents/MacOS/kitty \
+    --single-instance \
+
+# Resize windows based on parent/child positioning
+default < 0x2F : yabai -m window --ratio rel:0.05 # '.' keycode
+default < 0x2B : yabai -m window --ratio rel:-.05 # ',' keycode
+
+# still needs show desktop
+# full screen
+# (doesn't seem to work on M1) cmd + n -> space n
+# scrolling up and down through terminal using terminal mode
+# app specific modes
+# naming spaces, show title in status bar
+# one shot modes
+# show stacked windows
+# switch between stacked window and bsp modes
+# stack directional
+# fix - closing last window loses focus
+# safari browsing
+# skhd watcher -> some sort of script that monitors the state of skhd to allow
+#   for better conditional management
+
+# vim:fdm=marker:foldlevel=0
