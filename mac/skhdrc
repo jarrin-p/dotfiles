@@ -181,10 +181,10 @@ default < shift - r : yabai -m space --rotate 270
 
 # open app finder. starts interact mode via key press, then opens zsh function
 default < o : skhd -k "i" ; \
-    yabai -m window --toggle float ; \
     /usr/local/kitty/kitty.app/contents/MacOS/kitty \
     --single-instance \
-    zsh -c --interactive --login "app" ;
+    zsh -c --interactive --login "app" ; \
+    yabai -m window --toggle float
 
 default < cmd - return : skhd -k "i" ; \
     /usr/local/kitty/kitty.app/contents/MacOS/kitty \
