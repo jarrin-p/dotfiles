@@ -5,6 +5,8 @@ ZZ_DEFAULT_PROMPT=$PS1
 function sp_default { export PS1="$ZZ_DEFAULT_PROMPT" }
 function sp_level { export PS1="%n %${1}~ > " }
 
+export JAVA_HOME=`/usr/libexec/java_home -v 11.0.13`
+
 # Quick Access
 function zshrc { nvim $ZSHRC }
 function zshrcp { nvim $ZSHRCP }

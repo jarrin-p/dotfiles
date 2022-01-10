@@ -165,7 +165,7 @@ default < shift + cmd - 0x1E -> : skhd -k ""  # empty remap to allow passthrough
 default < shift - 0x21  : yabai -m window --space prev; skhd -k "shift + cmd - 0x21" # left bracket - send to prev space
 default < shift - 0x1E  : yabai -m window --space next; skhd -k "shift + cmd - 0x1E" # right bracket - send to next space
 
-# Sent to prev/next space without following
+# Send to prev/next space without following
 default < cmd + shift - 0x21  : yabai -m window --space prev # left bracket - send to prev space
 default < cmd + shift - 0x1E  : yabai -m window --space next # right bracket - send to next space
 
@@ -184,15 +184,18 @@ default < o : skhd -k "i" ; \
     /usr/local/kitty/kitty.app/contents/MacOS/kitty \
     --single-instance \
     zsh -c --interactive --login "app" ; \
-    yabai -m window --toggle float
 
 default < cmd - return : skhd -k "i" ; \
     /usr/local/kitty/kitty.app/contents/MacOS/kitty \
     --single-instance \
 
+# yabai -m window --toggle float
+
 # Resize windows based on parent/child positioning
 default < 0x2F : yabai -m window --ratio rel:0.05 # '.' keycode
 default < 0x2B : yabai -m window --ratio rel:-.05 # ',' keycode
+
+default < shift - 0x2F : yabai -m space --create
 
 # still needs show desktop
 # full screen
