@@ -101,101 +101,110 @@
 #    "qutebrowser"
 # ]}}}}}}
 
-# oswide namespace is super key (naturally)
+# default is now interact mode accessed with "i"
+:: default
+:: spaces @
+:: navigate @
+:: displays @
+:: apps @
 
-# be sure to make one-shot modes
-:: default @
-:: interact
-:: terminal_navigate
-:: terminal_interact
+# mode switches
+default, navigate, spaces, displays, apps < shift - escape ; navigate
 
-# window navigation mode
-interact < shift - escape ; default
-default < i ; interact
+# interact mode via `i`
+navigate, spaces, displays, apps < i ; default
 
-# navigate windows in a space
-default < h : yabai -m window --focus west
-default < l : yabai -m window --focus east
-default < j : yabai -m window --focus south
-default < k : yabai -m window --focus north
+# switch between different types of management modes
+# `navigate` is also a general navigation mode. spaces is for managing the space
+spaces, displays < w ; navigate
+navigate, displays < s ; spaces
+navigate, spaces < d ; displays
+
+# navigate navigate in a space
+navigate < h : yabai -m window --focus west
+navigate < l : yabai -m window --focus east
+navigate < j : yabai -m window --focus south
+navigate < k : yabai -m window --focus north
 
 # rearrange windows
-default < shift - h : yabai -m window --swap west
-default < shift - l : yabai -m window --swap east
-default < shift - j : yabai -m window --swap south
-default < shift - k : yabai -m window --swap north
+spaces < h : yabai -m window --swap west
+spaces < l : yabai -m window --swap east
+spaces < j : yabai -m window --swap south
+spaces < k : yabai -m window --swap north
 
-# insert windows
-default < alt - h : yabai -m window --insert west
-default < alt - l : yabai -m window --insert east
-default < alt - j : yabai -m window --insert south
-default < alt - k : yabai -m window --insert north
+# insert windows in a space
+spaces < alt - h : yabai -m window --insert west
+spaces < alt - l : yabai -m window --insert east
+spaces < alt - j : yabai -m window --insert south
+spaces < alt - k : yabai -m window --insert north
 
-# stack windows; selected window consumes direction
-default < cmd - h : yabai -m window --stack west
-default < cmd - l : yabai -m window --stack east
-default < cmd - j : yabai -m window --stack south
-default < cmd - k : yabai -m window --stack north
+# stack windows in a space; selected window consumes direction
+spaces < cmd - h : yabai -m window --stack west
+spaces < cmd - l : yabai -m window --stack east
+spaces < cmd - j : yabai -m window --stack south
+spaces < cmd - k : yabai -m window --stack north
 
 # unstack windows
-default < cmd - r : yabai -m space --layout bsp # resets layout, using modifier to prevent accidental reset
-default < ctrl - h : yabai -m window --warp west
-default < ctrl - l : yabai -m window --warp east
-default < ctrl - j : yabai -m window --warp south
-default < ctrl - k : yabai -m window --warp north
+spaces < cmd - r : yabai -m space --layout bsp # resets layout, using modifier to prevent accidental reset
+spaces < ctrl - h : yabai -m window --warp west
+spaces < ctrl - l : yabai -m window --warp east
+spaces < ctrl - j : yabai -m window --warp south
+spaces < ctrl - k : yabai -m window --warp north
 
-# manipulate windows
-default < n : skhd -k "cmd - n"
-default < cmd - n -> : skhd -k "" # empty remap to allow passthrough of keypress
+# new window
+navigate < n : skhd -k "cmd - n"
+navigate < cmd - n -> : skhd -k "" # empty remap to allow passthrough of keypress
 
-default < tab : yabai -m window --focus stack.next
-default < shift - tab : yabai -m window --focus stack.prev
+navigate < tab : yabai -m window --focus stack.next
+navigate < shift - tab : yabai -m window --focus stack.prev
 
-default < q : skhd -k "cmd - w" ; yabai -m window --focus largest
-default < cmd - w -> : shkd -k "" # empty remap to allow passthrough of keypress
+navigate < q : skhd -k "cmd - w" ; # yabai -m window --focus largest
+navigate < cmd - w -> : shkd -k "" # empty remap to allow passthrough of keypress
 
 # navigate spaces - not native support for m1 yet
-default < 0x21 : skhd -k "shift + cmd - 0x21" ; yabai -m window --focus first # left bracket
-default < shift + cmd - 0x21 -> : skhd -k ""  # empty remap to allow passthrough of keypress
+navigate < 0x21 : yabai -m space --focus prev #; yabai -m window --focus first # left bracket
+navigate < shift + cmd - 0x21 -> : skhd -k ""  # empty remap to allow passthrough of keypress
 
-default < 0x1E : skhd -k "shift + cmd - 0x1E" ; yabai -m window --focus first # right bracket
-default < shift + cmd - 0x1E -> : skhd -k ""  # empty remap to allow passthrough of keypress
+navigate < 0x1E : yabai -m space --focus next #; yabai -m window --focus first # right bracket
+navigate < shift + cmd - 0x1E -> : skhd -k ""  # empty remap to allow passthrough of keypress
 
 # Send to prev/next space and follow it
-default < shift - 0x21  : yabai -m window --space prev; skhd -k "shift + cmd - 0x21" # left bracket - send to prev space
-default < shift - 0x1E  : yabai -m window --space next; skhd -k "shift + cmd - 0x1E" # right bracket - send to next space
+spaces < shift - 0x21  : yabai -m window --space prev; skhd -k "shift + cmd - 0x21" # left bracket - send to prev space
+spaces < shift - 0x1E  : yabai -m window --space next; skhd -k "shift + cmd - 0x1E" # right bracket - send to next space
 
 # Send to prev/next space without following
-default < cmd + shift - 0x21  : yabai -m window --space prev # left bracket - send to prev space
-default < cmd + shift - 0x1E  : yabai -m window --space next # right bracket - send to next space
+navigate < cmd + shift - 0x21  : yabai -m window --space prev # left bracket - send to prev space
+navigate < cmd + shift - 0x1E  : yabai -m window --space next # right bracket - send to next space
 
 # navigate displays
-default < ctrl - 0x21 : yabai -m display --focus prev # left bracket
-default < ctrl - 0x1E : yabai -m display --focus next # right bracket
-#default < ctrl + shift - 0x21 : yabai -m space --display prev # left bracket
-#default < ctrl + shift - 0x1E : yabai -m space --display next # right bracket
+navigate < ctrl - 0x21 : yabai -m display --focus prev # left bracket
+navigate < ctrl - 0x1E : yabai -m display --focus next # right bracket
 
 # rotate the window tree
-default < r : yabai -m space --rotate 90
-default < shift - r : yabai -m space --rotate 270
+navigate < r : yabai -m space --rotate 90
+navigate < shift - r : yabai -m space --rotate 270
 
 # open app finder. starts interact mode via key press, then opens zsh function
-default < o : skhd -k "i" ; \
+navigate < o : skhd -k "i" ; \
     /usr/local/kitty/kitty.app/contents/MacOS/kitty \
     --single-instance \
     zsh -c --interactive --login "app" ; \
+    #yabai -m window --toggle float ; \
+    #yabai -m window --resize abs:300:300
 
-default < cmd - return : skhd -k "i" ; \
+navigate < cmd - return : skhd -k "i" ; \
     /usr/local/kitty/kitty.app/contents/MacOS/kitty \
     --single-instance \
 
-# yabai -m window --toggle float
+navigate < f : yabai -m window --toggle float
+navigate < shift - j : yabai -m window --toggle sticky
+# navigate < e : yabai -m window --toggle expose # show all windows from an application
 
 # Resize windows based on parent/child positioning
-default < 0x2F : yabai -m window --ratio rel:0.05 # '.' keycode
-default < 0x2B : yabai -m window --ratio rel:-.05 # ',' keycode
+navigate < 0x2F : yabai -m window --ratio rel:0.05 # '.' keycode
+navigate < 0x2B : yabai -m window --ratio rel:-.05 # ',' keycode
 
-default < shift - 0x2F : yabai -m space --create
+navigate < shift - 0x2F : yabai -m space --create # '.' keycode
 
 # still needs show desktop
 # full screen

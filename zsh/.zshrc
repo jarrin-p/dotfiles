@@ -8,19 +8,18 @@ function sp_level { export PS1="%n %${1}~ > " }
 export JAVA_HOME=`/usr/libexec/java_home -v 11.0.13`
 
 # Quick Access
-function zshrc { nvim $ZSHRC }
-function zshrcp { nvim $ZSHRCP }
-function nvimrc { nvim $NVIMRC }
-function skhdrc { nvim $SKHDCONF }
-function yabairc { nvim $YABAICONF }
-function kittyconf { nvim $KITTYCONF }
+alias zshrc="nvim $ZSHRC -c 'cd %:h'"
+alias zshrcp="nvim $ZSHRCP -c 'cd %:h'"
+alias nvimrc="nvim $NVIMRC -c 'cd %:h'"
+alias skhdrc="nvim $SKHDCONF -c 'cd %:h'"
+alias yabairc="nvim $YABAICONF -c 'cd %:h'"
+alias kittyconf="nvim $KITTYCONF -c 'cd %:h'"
+
+alias dcu="docker compose up"
+alias dcub="docker compose up --build"
 
 # Use neovim's man command instead of gnu-man
 function man { nvim -c "Man $1" -c "only" }
-
-# quick run
-function dcu { docker compose up }
-function dcub { docker compose up --build }
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!

@@ -77,6 +77,6 @@ map alt+shift+f                 decrease_font_size
 # bell_border_color               #6272a4
 
 # BEGIN_KITTY_THEME
-# Apprentice
+# Afterglow
 include current-theme.conf
 # END_KITTY_THEME

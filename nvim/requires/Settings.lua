@@ -3,6 +3,10 @@ local vim = vim -- keeps language server from freaking out
 Set = vim.o -- shorthand
 Set.compatible = false
 
+-- Terminal Settings
+Set.title = true
+Set.titlestring = '%t'
+
 -- Buffer Settings
 Set.hidden = true
 Set.tabstop = 4
