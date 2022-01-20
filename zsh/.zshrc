@@ -17,9 +17,14 @@ alias kittyconf="nvim $KITTYCONF -c 'cd %:h'"
 
 alias dcu="docker compose up"
 alias dcub="docker compose up --build"
+function dcrun { docker compose run $1 } # Parameter is for the service name
 
-# Use neovim's man command instead of gnu-man
-function man { nvim -c "Man $1" -c "only" }
+alias set_intel="clear ; arch -x86_64 /bin/zsh"
+
+alias load_yabai="yabai & ; sudo yabai --load-sa ; ps -ax | grep yabai ; disown yabai ; skhd & ; disown skhd ; ps -ax | grep skhd ;"
+alias stop_yabai="pkill yabai ; ps -ax | grep yabai ; pkill skhd ; ps -ax | grep skhd ;"
+
+function man { nvim -c "Man $1" -c "only" } # Use neovim's man command instead of gnu-man
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -39,14 +44,15 @@ unset __conda_setup
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # quickly open a mac .app from a variety of locations
-# used with yabai + skhd to behave like spotlight but for apps 
+# used with yabai + skhd to behave like spotlight but for apps
 # in locations I specify (spotlight wasn't picking up all of them)
 function app {
 	find /Applications -depth 1 -maxdepth 1 -name "*.app" 2>/dev/null > /tmp/appnames
 	find /System/Applications -depth 1 -maxdepth 1 -name "*.app" 2>/dev/null >> /tmp/appnames
     find /System/Applications/Utilities -depth 1 -maxdepth 1 -name "*.app" 2>/dev/null >> tmp/appnames
-	open $(cat /tmp/appnames | fzf -e)
+	open "$(cat /tmp/appnames | fzf -e)"
 	rm /tmp/appnames
 }
 
 sp_level 1
+# vim: fdm=marker

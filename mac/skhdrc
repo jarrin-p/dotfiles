@@ -104,8 +104,7 @@
 # default is now interact mode accessed with "i"
 :: default
 :: spaces @
-:: navigate @
-:: displays @
+:: navigate @ :: displays @
 :: apps @
 
 # mode switches
@@ -169,12 +168,15 @@ navigate < 0x1E : yabai -m space --focus next #; yabai -m window --focus first #
 navigate < shift + cmd - 0x1E -> : skhd -k ""  # empty remap to allow passthrough of keypress
 
 # Send to prev/next space and follow it
-spaces < shift - 0x21  : yabai -m window --space prev; skhd -k "shift + cmd - 0x21" # left bracket - send to prev space
-spaces < shift - 0x1E  : yabai -m window --space next; skhd -k "shift + cmd - 0x1E" # right bracket - send to next space
+# left bracket - send to prev space -- not sure why multi line is not working
+spaces < 0x21 : yabai -m window --space prev ; yabai -m space --focus prev
+
+# right bracket - send to next space -- not sure why multi line is not working
+spaces < 0x1E : yabai -m window --space next ; yabai -m space --focus next 
 
 # Send to prev/next space without following
-navigate < cmd + shift - 0x21  : yabai -m window --space prev # left bracket - send to prev space
-navigate < cmd + shift - 0x1E  : yabai -m window --space next # right bracket - send to next space
+navigate < cmd + shift - 0x21 : yabai -m window --space prev # left bracket - send to prev space
+navigate < cmd + shift - 0x1E : yabai -m window --space next # right bracket - send to next space
 
 # navigate displays
 navigate < ctrl - 0x21 : yabai -m display --focus prev # left bracket
@@ -206,19 +208,41 @@ navigate < 0x2B : yabai -m window --ratio rel:-.05 # ',' keycode
 
 navigate < shift - 0x2F : yabai -m space --create # '.' keycode
 
-# still needs show desktop
-# full screen
-# (doesn't seem to work on M1) cmd + n -> space n
-# scrolling up and down through terminal using terminal mode
-# app specific modes
-# naming spaces, show title in status bar
-# one shot modes
-# show stacked windows
-# switch between stacked window and bsp modes
-# stack directional
-# fix - closing last window loses focus
-# safari browsing
-# skhd watcher -> some sort of script that monitors the state of skhd to allow
-#   for better conditional management
+navigate < shift - k : skhd -k "ctrl + shift - k"
+navigate < shift - j : skhd -k "ctrl + shift - j"
+
+# mode enhancements
+# [ ] navigate: use next, prev on n, N instead of cardinal movement on hjkl and remap hjkl to app specific navigation
+# [ ] navigate: switch between stacked window and bsp modes
+# [ ]   query space to determine mode, adjust hotkey based on it
+# [ ] navigate: zoom full screen (might be duplicate of switching between stacked and bsp modes)
+# [ ] navigate: show all stacked windows
+# [ ] navigate: scrolling up and down through terminal using terminal mode
+#
+# [ ] navigate, spaces: float mode (manage floating windows ... ?)
+#
+# [ ] spaces: create
+# [ ] spaces: delete
+# [ ] spaces: rearrange (move left, right)
+# [ ] spaces: naming
+# [ ]   show title in status bar
+# [x] spaces: focus follows moved window to different space
+#
+# [ ] displays: actually make mode
+#
+# app specific functionality
+# [ ] navigate safari AT LEAST
+# [ ]   tab navigation
+# [ ]   vertical scrolling
+# [ ] messages app navigation
+# [ ]   change recipient
+# [ ]   search
+# [ ]   scroll up current message
+# [x] kittyconf: navigating terminal lines
+#
+# other stuff
+# [ ] pin specific app as status bar
+# [ ] skhd watcher -> some sort of script that monitors the state of skhd to allow
+# [ ]   for better conditional management
 
 # vim:fdm=marker:foldlevel=0
