@@ -1,19 +1,27 @@
-setopt prompt_subst
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git cvs svn
-
 source ~/.zshrc.private
 
 # prompt customizations
+setopt prompt_subst
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git cvs svn
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' stagedstr "%f[%F{6}staged changes%f] "
+zstyle ':vcs_info:*' unstagedstr "%f[%F{11}unstaged changes%f] "
+
 zstyle ':vcs_info:*' actionformats \
-  '%f[%F{2}%b%F{3}|%F{1}%a%F{5}%f] '
+  '%F{7}%r.%s %f[%F{4}%b|%a%f] %c%u
+'
 zstyle ':vcs_info:*' formats       \
-  '%f[%F{2}%b%F{5}%f] '
-zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
+  '%F{7}%r.%s %f[%F{4}%b%f] %c%u
+'
+zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r
+'
 
-precmd () { vcs_info }
-
-PS1='${vcs_info_msg_0_}%f%1~ %F{4}> %f'
+precmd () { 
+    vcs_info 
+    echo ""
+}
+PS1='${vcs_info_msg_0_}%f%n %2~ %F{4}> %f'
 
 ZZ_DEFAULT_PROMPT=$PS1
 function sp_default { export PS1="$ZZ_DEFAULT_PROMPT" }
@@ -64,7 +72,7 @@ function app {
 	find /Applications -depth 1 -maxdepth 1 -name "*.app" 2>/dev/null > /tmp/appnames
 	find /System/Applications -depth 1 -maxdepth 1 -name "*.app" 2>/dev/null >> /tmp/appnames
     find /System/Applications/Utilities -depth 1 -maxdepth 1 -name "*.app" 2>/dev/null >> tmp/appnames
-	open "'$(cat /tmp/appnames | fzf -e)'"
+	open "$(cat /tmp/appnames | fzf -e)"
 	rm /tmp/appnames
 }
 
