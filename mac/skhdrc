@@ -239,10 +239,16 @@ navigate < shift - j : skhd -k "ctrl + shift - j"
 # [ ]   search
 # [ ]   scroll up current message
 # [x] kittyconf: navigating terminal lines
+# [ ] kitty: run last command
+# [ ] kitty/nvim: save all open nvim
+# [ ] shared buffer list between kitty windows
 #
 # other stuff
 # [ ] pin specific app as status bar
 # [ ] skhd watcher -> some sort of script that monitors the state of skhd to allow
 # [ ]   for better conditional management
+# [ ]   show app names via query in like top right.
+# [ ] basic layout
+# [ ]   mode:                     space:                      tab stack
 
 # vim:fdm=marker:foldlevel=0
