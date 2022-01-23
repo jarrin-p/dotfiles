@@ -4,3 +4,4 @@ Dockerfile
 makefile
 ps/*
 zsh/.zshrc.private
+.DS_Store
