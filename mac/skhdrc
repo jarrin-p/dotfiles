@@ -163,10 +163,10 @@ navigate < cmd - w -> : shkd -k "" # empty remap to allow passthrough of keypres
 
 # navigate spaces - not native support for m1 yet
 navigate < 0x21 : yabai -m space --focus prev #; yabai -m window --focus first # left bracket
-navigate < shift + cmd - 0x21 -> : skhd -k ""  # empty remap to allow passthrough of keypress
+# navigate < shift + cmd - 0x21 -> : skhd -k ""  # empty remap to allow passthrough of keypress
 
 navigate < 0x1E : yabai -m space --focus next #; yabai -m window --focus first # right bracket
-navigate < shift + cmd - 0x1E -> : skhd -k ""  # empty remap to allow passthrough of keypress
+# navigate < shift + cmd - 0x1E -> : skhd -k ""  # empty remap to allow passthrough of keypress
 
 # Send to prev/next space and follow it
 # left bracket - send to prev space -- not sure why multi line is not working
@@ -200,7 +200,7 @@ navigate < cmd - return : skhd -k "i" ; \
     --single-instance \
 
 navigate < f : yabai -m window --toggle float
-navigate < shift - j : yabai -m window --toggle sticky
+# navigate < shift - j : yabai -m window --toggle sticky
 # navigate < e : yabai -m window --toggle expose # show all windows from an application
 
 # Resize windows based on parent/child positioning
