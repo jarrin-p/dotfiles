@@ -20,3 +20,6 @@ exec 'hi Folded ctermfg=8 cterm=italic'
 
 exec 'hi clear FgCocHintFloatBgCocFloating'
 exec 'hi clear Pmenu'
+
+exec 'hi clear MatchParen'
+exec 'hi MatchParen cterm=bold,italic'
