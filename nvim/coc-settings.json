@@ -1,0 +1,7 @@
+"java.configuration.runtimes": [
+  {
+    "name":"Java-11",
+    "path":"/Library/Java/JavaVirtualMachines/jdk-11.0.13.jdk",
+    "default": true
+  }
+]
