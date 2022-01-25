@@ -175,13 +175,9 @@ spaces < 0x21 : yabai -m window --space prev ; yabai -m space --focus prev
 # right bracket - send to next space -- not sure why multi line is not working
 spaces < 0x1E : yabai -m window --space next ; yabai -m space --focus next 
 
-# Send to prev/next space without following
-navigate < cmd + shift - 0x21 : yabai -m window --space prev # left bracket - send to prev space
-navigate < cmd + shift - 0x1E : yabai -m window --space next # right bracket - send to next space
-
 # navigate displays
-navigate < ctrl - 0x21 : yabai -m display --focus prev # left bracket
-navigate < ctrl - 0x1E : yabai -m display --focus next # right bracket
+navigate < ctrl - 0x21 : yabai -m display --focus prev ; yabai -m window --focus first # left bracket
+navigate < ctrl - 0x1E : yabai -m display --focus next ; yabai -m window --focus first # right bracket
 
 # rotate the window tree
 navigate < r : yabai -m space --rotate 90
