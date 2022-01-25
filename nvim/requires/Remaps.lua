@@ -22,6 +22,10 @@ nnoremap('<leader>H', '<C-W>H')
 nnoremap('<leader>L', '<C-W>L')
 nnoremap('<leader>wr', '<C-W>r')
 
+-- coc
+nnoremap('<leader>d', ':call CocAction("doHover")<Enter>')
+nnoremap('gd', ':call CocAction("jumpDefinition")<Enter>')
+
 -- faster finding
 nnoremap('<leader>f', ':FZF!<Enter>')
 
