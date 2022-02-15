@@ -1,6 +1,7 @@
 source ~/.zshrc.private
 
-alias ls="ls --color=auto"
+#alias ls="ls --color=auto"
+alias ls="ls -G"
 
 # Quick Access
 alias zshrc="nvim $ZSHRC -c 'cd %:h'"
