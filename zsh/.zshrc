@@ -2,9 +2,6 @@ source ~/.zshrc.private
 
 alias ls="ls --color=auto"
 
-# prompt customizations
-export JAVA_HOME=`/usr/libexec/java_home -v 11.0.13`
-
 # Quick Access
 alias zshrc="nvim $ZSHRC -c 'cd %:h'"
 alias zshrcp="nvim $ZSHRCP -c 'cd %:h'"
