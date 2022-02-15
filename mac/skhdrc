@@ -120,64 +120,27 @@ spaces, displays < w ; navigate
 navigate, displays < s ; spaces
 navigate, spaces < d ; displays
 
-# navigate navigate in a space
-navigate < h : yabai -m window --focus west
-navigate < l : yabai -m window --focus east
-navigate < j : yabai -m window --focus south
-navigate < k : yabai -m window --focus north
-
-# rearrange windows
-spaces < h : yabai -m window --swap west
-spaces < l : yabai -m window --swap east
-spaces < j : yabai -m window --swap south
-spaces < k : yabai -m window --swap north
-
-# insert windows in a space
-spaces < alt - h : yabai -m window --insert west
-spaces < alt - l : yabai -m window --insert east
-spaces < alt - j : yabai -m window --insert south
-spaces < alt - k : yabai -m window --insert north
-
-# stack windows in a space; selected window consumes direction
-spaces < cmd - h : yabai -m window --stack west
-spaces < cmd - l : yabai -m window --stack east
-spaces < cmd - j : yabai -m window --stack south
-spaces < cmd - k : yabai -m window --stack north
-
-# unstack windows
-spaces < cmd - r : yabai -m space --layout bsp # resets layout, using modifier to prevent accidental reset
-spaces < ctrl - h : yabai -m window --warp west
-spaces < ctrl - l : yabai -m window --warp east
-spaces < ctrl - j : yabai -m window --warp south
-spaces < ctrl - k : yabai -m window --warp north
+# navigate in a space
+navigate < shift - n : yabai -m window --focus prev
+navigate < n : yabai -m window --focus next
+# navigate < h : yabai -m window --focus west{{{
+# navigate < l : yabai -m window --focus east
+# navigate < j : yabai -m window --focus south
+# navigate < k : yabai -m window --focus north}}}
 
 # new window
-navigate < n : skhd -k "cmd - n"
+navigate < return : skhd -k "cmd - n"
 navigate < cmd - n -> : skhd -k "" # empty remap to allow passthrough of keypress
 
 navigate < tab : yabai -m window --focus stack.next
 navigate < shift - tab : yabai -m window --focus stack.prev
 
-navigate < q : skhd -k "cmd - w" ; # yabai -m window --focus largest
-navigate < cmd - w -> : shkd -k "" # empty remap to allow passthrough of keypress
+navigate < q : skhd -k "cmd - w" ; # yabai -m window --focus largest navigate < cmd - w -> : shkd -k "" # empty remap to allow passthrough of keypress
+navigate < cmd - w -> : skhd -k ""
 
-# navigate spaces - not native support for m1 yet
+# navigate spaces - note that focus first / last doesn't include floating windows, only tiled
 navigate < 0x21 : yabai -m space --focus prev #; yabai -m window --focus first # left bracket
-# navigate < shift + cmd - 0x21 -> : skhd -k ""  # empty remap to allow passthrough of keypress
-
 navigate < 0x1E : yabai -m space --focus next #; yabai -m window --focus first # right bracket
-# navigate < shift + cmd - 0x1E -> : skhd -k ""  # empty remap to allow passthrough of keypress
-
-# Send to prev/next space and follow it
-# left bracket - send to prev space -- not sure why multi line is not working
-spaces < 0x21 : yabai -m window --space prev ; yabai -m space --focus prev
-
-# right bracket - send to next space -- not sure why multi line is not working
-spaces < 0x1E : yabai -m window --space next ; yabai -m space --focus next 
-
-# navigate displays
-navigate < ctrl - 0x21 : yabai -m display --focus prev ; yabai -m window --focus first # left bracket
-navigate < ctrl - 0x1E : yabai -m display --focus next ; yabai -m window --focus first # right bracket
 
 # rotate the window tree
 navigate < r : yabai -m space --rotate 90
@@ -188,28 +151,74 @@ navigate < o : skhd -k "i" ; \
     /usr/local/kitty/kitty.app/contents/MacOS/kitty \
     --single-instance \
     zsh -c --interactive --login "app" ; \
-    #yabai -m window --toggle float ; \
-    #yabai -m window --resize abs:300:300
 
 navigate < cmd - return : skhd -k "i" ; \
     /usr/local/kitty/kitty.app/contents/MacOS/kitty \
     --single-instance \
 
-navigate < f : yabai -m window --toggle float
-# navigate < shift - j : yabai -m window --toggle sticky
-# navigate < e : yabai -m window --toggle expose # show all windows from an application
-
 # Resize windows based on parent/child positioning
 navigate < 0x2F : yabai -m window --ratio rel:0.05 # '.' keycode
 navigate < 0x2B : yabai -m window --ratio rel:-.05 # ',' keycode
 
-navigate < shift - 0x2F : yabai -m space --create # '.' keycode
+# tests
+# navigate < f : yabai -m window --toggle float
+# navigate < shift - j : yabai -m window --toggle sticky
+# navigate < e : yabai -m window --toggle expose # show all windows from an application
+#
+# rearrange windows
+spaces < shift - n : yabai -m window --swap prev
+spaces < n : yabai -m window --swap next
+# spaces < h : yabai -m window --swap west{{{
+# spaces < l : yabai -m window --swap east
+# spaces < j : yabai -m window --swap south
+# spaces < k : yabai -m window --swap north}}}
 
-navigate < shift - k : skhd -k "ctrl + shift - k"
-navigate < shift - j : skhd -k "ctrl + shift - j"
+# insert windows in a space
+# spaces < alt - h : yabai -m window --insert west{{{
+# spaces < alt - l : yabai -m window --insert east
+# spaces < alt - j : yabai -m window --insert south
+# spaces < alt - k : yabai -m window --insert north}}}
+
+# stack windows in a space; selected window consumes direction
+spaces < h : yabai -m window --stack prev
+spaces < l : yabai -m window --stack next
+# spaces < cmd - h : yabai -m window --stack west{{{
+# spaces < cmd - l : yabai -m window --stack east
+# spaces < cmd - j : yabai -m window --stack south
+# spaces < cmd - k : yabai -m window --stack north}}}
+
+# unstack windows
+spaces < r : yabai -m space --layout bsp # resets layout, using modifier to prevent accidental reset
+spaces < shift - h : yabai -m window --warp prev
+spaces < shift - l : yabai -m window --warp next
+# spaces < ctrl - h : yabai -m window --warp west{{{
+# spaces < ctrl - l : yabai -m window --warp east
+# spaces < ctrl - j : yabai -m window --warp south
+# spaces < ctrl - k : yabai -m window --warp north}}}
+
+# Send to prev/next space and follow it
+# left bracket - send to prev space -- not sure why multi line is not working
+spaces < 0x21 : yabai -m window --space prev ; yabai -m space --focus prev
+
+# right bracket - send to next space -- not sure why multi line is not working
+spaces < 0x1E : yabai -m window --space next ; yabai -m space --focus next 
+
+# create new space
+spaces < shift - 0x2F : yabai -m space --create # '.' keycode
+
+# left bracket - send to next display
+displays < 0x21 : yabai -m window --display next ; yabai -m display --focus next
+
+# right bracket - send to prev display
+displays < 0x1E : yabai -m window --display prev ; yabai -m display --focus prev 
+
+# change displays
+displays < shift - n : yabai -m display --focus prev ; yabai -m window --focus first
+displays < n : yabai -m display --focus next ; yabai -m window --focus first
+
 
 # mode enhancements
-# [ ] navigate: use next, prev on n, N instead of cardinal movement on hjkl and remap hjkl to app specific navigation
+# [x] navigate: use next, prev on n, N instead of cardinal movement on hjkl and remap hjkl to app specific navigation
 # [ ] navigate: switch between stacked window and bsp modes
 # [ ]   query space to determine mode, adjust hotkey based on it
 # [ ] navigate: zoom full screen (might be duplicate of switching between stacked and bsp modes)
@@ -225,7 +234,9 @@ navigate < shift - j : skhd -k "ctrl + shift - j"
 # [ ]   show title in status bar
 # [x] spaces: focus follows moved window to different space
 #
-# [ ] displays: actually make mode
+# [x] displays: actually make mode
+# [ ] displays: improved navigation
+# [ ] displays: pop some hotkeys?
 #
 # app specific functionality
 # [ ] navigate safari AT LEAST
@@ -242,10 +253,8 @@ navigate < shift - j : skhd -k "ctrl + shift - j"
 #
 # other stuff
 # [ ] pin specific app as status bar
-# [ ] skhd watcher -> some sort of script that monitors the state of skhd to allow
-# [ ]   for better conditional management
-# [ ]   show app names via query in like top right.
+# [ ] show app names via query in like top right.
 # [ ] basic layout
-# [ ]   mode:                     space:                      tab stack
+# [x]   mode:                     space:                      tab stack
 
 # vim:fdm=marker:foldlevel=0

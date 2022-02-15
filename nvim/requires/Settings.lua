@@ -23,6 +23,7 @@ Set.path = Set.path .. '**'
 Set.signcolumn = 'yes'
 Set.updatetime = 200
 Set.foldlevelstart = 99
+Set.scrolloff = 999
 
 -- Editing Settings
 Set.backspace = 'indent,eol,start'
