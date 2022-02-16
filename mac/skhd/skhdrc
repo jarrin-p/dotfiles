@@ -102,11 +102,11 @@
 # ]}}}}}}
 
 # default is now interact mode accessed with "i"
-:: default : bar_writer INTERACT
-:: spaces @ : bar_writer SPACES
-:: navigate @ : bar_writer NAVIGATE
-:: displays @ : bar_writer DISPLAYS
-:: apps @ : bar_writer APPS
+:: default
+:: spaces @
+:: navigate @
+:: displays @
+:: apps @
 
 # mode switches
 default, navigate, spaces, displays, apps < shift - escape ; navigate
