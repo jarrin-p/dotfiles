@@ -139,22 +139,27 @@ navigate < q : skhd -k "cmd - w" ; # yabai -m window --focus largest navigate < 
 navigate < cmd - w -> : skhd -k ""
 
 # navigate spaces - note that focus first / last doesn't include floating windows, only tiled
-navigate < 0x21 : yabai -m space --focus prev #; yabai -m window --focus first # left bracket
-navigate < 0x1E : yabai -m space --focus next #; yabai -m window --focus first # right bracket
+# with sa-addon
+# navigate < 0x21 : yabai -m space --focus prev #; yabai -m window --focus first # left bracket
+# navigate < 0x1E : yabai -m space --focus next #; yabai -m window --focus first # right bracket
+
+# no sa-addon
+# navigate spaces
+navigate < 0x21 : skhd -k "cmd - h" ; #; yabai -m window --focus first # left bracket
+navigate < cmd - h -> : skhd -k ""
+navigate < 0x1E : skhd -k "cmd - l" ; #; yabai -m window --focus first # right bracket
+navigate < cmd - l -> : skhd -k ""
 
 # rotate the window tree
 navigate < r : yabai -m space --rotate 90
 navigate < shift - r : yabai -m space --rotate 270
-
 # open app finder. starts interact mode via key press, then opens zsh function
-navigate < o : skhd -k "i" ; \
-    /usr/local/kitty/kitty.app/contents/MacOS/kitty \
-    --single-instance \
-    zsh -c --interactive --login "app" ; \
+# navigate < o : skhd -k "i" ; \
+#     /usr/local/bin/kitty/kitty.app/contents/MacOS/kitty \
+#     --single-instance \
+#     zsh -c --interactive --login "app" ;
 
-navigate < cmd - return : skhd -k "i" ; \
-    /usr/local/kitty/kitty.app/contents/MacOS/kitty \
-    --single-instance \
+navigate < cmd - return : skhd -k "i" ; kitty --single-instance
 
 # Resize windows based on parent/child positioning
 navigate < 0x2F : yabai -m window --ratio rel:0.05 # '.' keycode
@@ -206,11 +211,11 @@ spaces < 0x1E : yabai -m window --space next ; yabai -m space --focus next
 # create new space
 spaces < shift - 0x2F : yabai -m space --create # '.' keycode
 
-# left bracket - send to next display
-displays < 0x21 : yabai -m window --display next ; yabai -m display --focus next
-
 # right bracket - send to prev display
-displays < 0x1E : yabai -m window --display prev ; yabai -m display --focus prev 
+displays < 0x21 : yabai -m window --display prev ; yabai -m display --focus prev 
+
+# left bracket - send to next display
+displays < 0x1E : yabai -m window --display next ; yabai -m display --focus next
 
 # change displays
 displays < shift - n : yabai -m display --focus prev ; yabai -m window --focus first
