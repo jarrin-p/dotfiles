@@ -142,6 +142,8 @@ navigate < cmd - w -> : skhd -k ""
 # with sa-addon
 # navigate < 0x21 : yabai -m space --focus prev #; yabai -m window --focus first # left bracket
 # navigate < 0x1E : yabai -m space --focus next #; yabai -m window --focus first # right bracket
+#navigate < r : yabai -m space --layout bsp # resets layout, using modifier to prevent accidental reset
+navigate < r : yabai -m window --toggle split
 
 # no sa-addon
 # navigate spaces
@@ -151,8 +153,6 @@ navigate < 0x1E : skhd -k "cmd - l" ; #; yabai -m window --focus first # right b
 navigate < cmd - l -> : skhd -k ""
 
 # rotate the window tree
-navigate < r : yabai -m space --rotate 90
-navigate < shift - r : yabai -m space --rotate 270
 # open app finder. starts interact mode via key press, then opens zsh function
 # navigate < o : skhd -k "i" ; \
 #     /usr/local/bin/kitty/kitty.app/contents/MacOS/kitty \
@@ -193,7 +193,8 @@ spaces < l : yabai -m window --stack next
 # spaces < cmd - k : yabai -m window --stack north}}}
 
 # unstack windows
-spaces < r : yabai -m space --layout bsp # resets layout, using modifier to prevent accidental reset
+spaces < r : yabai -m space --rotate 90
+spaces < shift - r : yabai -m space --rotate 270
 spaces < shift - h : yabai -m window --warp prev
 spaces < shift - l : yabai -m window --warp next
 # spaces < ctrl - h : yabai -m window --warp west{{{
@@ -209,20 +210,18 @@ spaces < 0x21 : yabai -m window --space prev ; yabai -m space --focus prev
 spaces < 0x1E : yabai -m window --space next ; yabai -m space --focus next 
 
 # create new space
-spaces < shift - 0x2F : yabai -m space --create # '.' keycode
+spaces < return : yabai -m space --create # '.' keycode
 
 # right bracket - send to prev display
-displays < 0x21 : yabai -m window --display prev ; yabai -m display --focus prev 
-
+displays < 0x21 : yabai -m window --display prev ; skhd -k "cmd - h"
 # left bracket - send to next display
-displays < 0x1E : yabai -m window --display next ; yabai -m display --focus next
-
+displays < 0x1E : yabai -m window --display next ; skhd -k "cmd - l"
 # change displays
-displays < shift - n : yabai -m display --focus prev ; yabai -m window --focus first
-displays < n : yabai -m display --focus next ; yabai -m window --focus first
+displays < n : yabai -m display --focus next
+displays < shift - n : yabai -m display --focus prev
 
 
-# mode enhancements
+# mode enhancements{{{
 # [x] navigate: use next, prev on n, N instead of cardinal movement on hjkl and remap hjkl to app specific navigation
 # [ ] navigate: switch between stacked window and bsp modes
 # [ ]   query space to determine mode, adjust hotkey based on it
@@ -262,4 +261,4 @@ displays < n : yabai -m display --focus next ; yabai -m window --focus first
 # [ ] basic layout
 # [x]   mode:                     space:                      tab stack
 
-# vim:fdm=marker:foldlevel=0
+# vim:fdm=marker:foldlevel=0}}}
