@@ -19,7 +19,9 @@ exec 'hi clear Folded'
 exec 'hi Folded ctermfg=8 cterm=italic'
 
 exec 'hi clear FgCocHintFloatBgCocFloating'
+exec 'hi FgCocHintFloatBgCocFloating ctermbg=242'
 exec 'hi clear Pmenu'
+exec 'hi Pmenu ctermbg=242'
 
 exec 'hi clear MatchParen'
 exec 'hi MatchParen cterm=bold,italic'

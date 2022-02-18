@@ -23,21 +23,19 @@ nnoremap('<leader>L', '<C-W>L')
 nnoremap('<leader>wr', '<C-W>r')
 
 -- coc
-nnoremap('<leader>d', ':call CocAction("doHover")<Enter>')
+nnoremap('<leader>d', ':call CocAction("definitionHover")<Enter>')
 nnoremap('gd', ':call CocAction("jumpDefinition")<Enter>')
+nnoremap('<leader>rr', ':call CocAction("rename")')
+nnoremap('<leader>RR', ':call CocAction("refactor")')
+nnoremap('<leader>c', ':call CocAction("codeAction")')
+--nnoremap('<leader>o', '') -- needs to be expression
 
 -- faster finding
-nnoremap('<leader>f', ':FZF!<Enter>')
+nnoremap('<leader>f', ':FZF<Enter>')
 
 -- fold method changes
 nnoremap('<leader>zfi', ':set foldmethod=indent<Enter>')
 nnoremap('<leader>zfm', ':set foldmethod=manual<Enter>')
-
--- Run management
-nnoremap('<leader>r', ':make<Enter>')
-nnoremap('<leader>o', ':vertical :rightbelow :copen<Enter><C-W>h:vertical resize 100<Enter>')
-nnoremap('<leader>O', ':tab copen<Enter>')
-nnoremap('<leader>c', ':cclose<Enter>')
 
 -- for errorfinding and vimgrep
 nnoremap('<leader>n', ':cnext<Enter>')
@@ -48,8 +46,3 @@ nnoremap('<leader>b', ':b#<Enter>')
 
 -- Terminal Remapping
 tnoremap('<esc><esc>', '<C-\\><C-n>')
-
--- Custom functions
--- Surround
-nnoremap('<leader>s', ':lua Surround()<Enter>g@')
-
