@@ -28,7 +28,7 @@ nnoremap('gd', ':call CocAction("jumpDefinition")<Enter>')
 nnoremap('<leader>rr', ':call CocAction("rename")')
 nnoremap('<leader>RR', ':call CocAction("refactor")')
 nnoremap('<leader>c', ':call CocAction("codeAction")')
---nnoremap('<leader>o', '') -- needs to be expression
+--nnoremap('<leader>o', '') -- needs to be expression for toggle outline
 
 -- faster finding
 nnoremap('<leader>f', ':FZF<Enter>')

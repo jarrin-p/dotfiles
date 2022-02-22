@@ -25,3 +25,5 @@ exec 'hi Pmenu ctermbg=242'
 
 exec 'hi clear MatchParen'
 exec 'hi MatchParen cterm=bold,italic'
+
+exec 'hi javaLangObject ctermfg=8 cterm=bold'
