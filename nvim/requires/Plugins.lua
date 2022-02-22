@@ -10,7 +10,7 @@ end
 
 -- Import plugins
 Plug('morhetz/gruvbox')
-Plug('sheerun/vim-polyglot')
+--Plug('sheerun/vim-polyglot')
 vim.api.nvim_exec("Plug 'neoclide/coc.nvim', {'branch': 'release'}", false)
 vim.api.nvim_exec("Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }", false)
 vim.api.nvim_exec("Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}", false)
