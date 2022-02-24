@@ -103,26 +103,30 @@
 
 # default is now interact mode accessed with "i"
 :: default
+
+# MODAL HOTKEYS
+# {{{
 :: rearrange @
 :: navigate @
 
 # mode switches
 default, navigate, rearrange < shift - escape ; navigate
+default, navigate, rearrange < alt - escape ; rearrange
 
 # interact mode via `i`
 navigate, rearrange < i ; default
-navigate < w ; rearrange
-
-# navigate in a space
-navigate < shift - n : yabai -m window --focus prev
-navigate < n : yabai -m window --focus next
+navigate, rearrange < q ; navigate
+navigate, rearrange < w ; rearrange
 
 # new window
 navigate < return : skhd -k "cmd - n"
 navigate < cmd - n -> : skhd -k "" # empty remap to allow passthrough of keypress
 
-navigate < tab : yabai -m window --focus stack.next
-navigate < shift - tab : yabai -m window --focus stack.prev
+# navigate in a space
+navigate < h : yabai -m window --focus prev
+navigate < l : yabai -m window --focus next
+navigate < j : yabai -m window --focus stack.prev
+navigate < k : yabai -m window --focus stack.next
 
 rearrange < q : skhd -k "cmd - w" ; # yabai -m window --focus largest navigate < cmd - w -> : shkd -k "" # empty remap to allow passthrough of keypress
 rearrange < cmd - w -> : skhd -k ""
@@ -131,7 +135,6 @@ rearrange < cmd - w -> : skhd -k ""
 # with sa-addon
 # navigate < 0x21 : yabai -m space --focus prev #; yabai -m window --focus first # left bracket
 # navigate < 0x1E : yabai -m space --focus next #; yabai -m window --focus first # right bracket
-#navigate < r : yabai -m space --layout bsp # resets layout, using modifier to prevent accidental reset
 navigate < r : yabai -m window --toggle split
 
 # no sa-addon
@@ -149,19 +152,15 @@ navigate < cmd - l -> : skhd -k ""
 
 navigate, rearrange < cmd - return : skhd -k "i" ; kitty --single-instance
 
-# Resize windows based on parent/child positioning
+# resize windows based on parent/child positioning
 navigate < 0x2F : yabai -m window --ratio rel:0.05 # '.' keycode
 navigate < 0x2B : yabai -m window --ratio rel:-.05 # ',' keycode
 
 # rearrange windows
-rearrange < shift - n : yabai -m window --swap prev
-rearrange < n : yabai -m window --swap next
-
-# choose where to move a window
-rearrange < h : yabai -m window --insert west
-rearrange < l : yabai -m window --insert east
-rearrange < j : yabai -m window --insert south
-rearrange < k : yabai -m window --insert north
+rearrange < h : yabai -m window --warp prev
+rearrange < l : yabai -m window --warp next
+rearrange < j : yabai -m window --swap stack.prev
+rearrange < k : yabai -m window --swap stack.next
 
 # stack windows in a space; selected window consumes direction
 rearrange < cmd - n : yabai -m window --stack next
@@ -185,9 +184,11 @@ rearrange < f : yabai -m space --layout float
 rearrange < s : yabai -m space --layout stack
 rearrange < b : yabai -m space --layout bsp
 
-# create new space
-rearrange < return : yabai -m space --create
-rearrange < cmd - return : yabai -m space --destroy
+rearrange < 0x2F : yabai -m space --ratio rel:0.05 # '.' keycode
+rearrange < 0x2B : yabai -m space --ratio rel:-.05 # ',' keycode
+
+rearrange < return : yabai -m space --create # create new space
+rearrange < cmd - return : yabai -m space --destroy # destroy space
 
 # right bracket - send to prev display
 rearrange < shift - 0x21 : yabai -m window --display prev #; skhd -k "cmd - h"
@@ -197,7 +198,6 @@ rearrange < shift - 0x1E : yabai -m window --display next #; skhd -k "cmd - l"
 # change displays
 rearrange < shift - 0x21 : yabai -m display --focus next
 rearrange < shift - 0x1E : yabai -m display --focus prev
-
 
 # mode enhancements{{{
 # [x] navigate: use next, prev on n, N instead of cardinal movement on hjkl and remap hjkl to app specific navigation
@@ -209,16 +209,12 @@ rearrange < shift - 0x1E : yabai -m display --focus prev
 #
 # [ ] navigate, rearrange: float mode (manage floating windows ... ?)
 #
-# [ ] rearrange: create
-# [ ] rearrange: delete
+# [x] rearrange: create
+# [x] rearrange: delete
 # [ ] rearrange: rearrange (move left, right)
 # [ ] rearrange: naming
 # [ ]   show title in status bar
 # [x] rearrange: focus follows moved window to different space
-#
-# [x] displays: actually make mode
-# [ ] displays: improved navigation
-# [ ] displays: pop some hotkeys? -- me again, what does this mean?
 #
 # app specific functionality
 # [ ] navigate safari AT LEAST
@@ -238,5 +234,18 @@ rearrange < shift - 0x1E : yabai -m display --focus prev
 # [ ] show app names via query in like top right.
 # [ ] basic layout
 # [x]   mode:                     space:                      tab stack }}}
+# }}}
 
+# GLOBAL HOTKEYS
+# {{{
+default < alt - h : yabai -m window --focus prev
+default < alt - l : yabai -m window --focus next
+default < alt - j : yabai -m window --focus stack.prev
+default < alt - k : yabai -m window --focus stack.next
+default < alt - q : skhd -k "cmd - w"
+
+default < alt - b : yabai -m space --layout bsp
+default < alt - f : yabai -m space --layout float
+default < alt - s : yabai -m space --layout stack
+# }}}
 # vim:fdm=marker:foldlevel=0
