@@ -208,6 +208,9 @@ spaces < 0x21 : yabai -m window --space prev ; yabai -m space --focus prev
 
 # right bracket - send to next space -- not sure why multi line is not working
 spaces < 0x1E : yabai -m window --space next ; yabai -m space --focus next 
+spaces < f : yabai -m space --layout float
+spaces < s : yabai -m space --layout stack
+spaces < b : yabai -m space --layout bsp
 
 # create new space
 spaces < return : yabai -m space --create # '.' keycode
@@ -240,7 +243,7 @@ displays < shift - n : yabai -m display --focus prev
 #
 # [x] displays: actually make mode
 # [ ] displays: improved navigation
-# [ ] displays: pop some hotkeys?
+# [ ] displays: pop some hotkeys? -- me again, what does this mean?
 #
 # app specific functionality
 # [ ] navigate safari AT LEAST
@@ -259,6 +262,6 @@ displays < shift - n : yabai -m display --focus prev
 # [ ] pin specific app as status bar
 # [ ] show app names via query in like top right.
 # [ ] basic layout
-# [x]   mode:                     space:                      tab stack
+# [x]   mode:                     space:                      tab stack }}}
 
-# vim:fdm=marker:foldlevel=0}}}
+# vim:fdm=marker:foldlevel=0
