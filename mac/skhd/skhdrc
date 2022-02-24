@@ -103,30 +103,19 @@
 
 # default is now interact mode accessed with "i"
 :: default
-:: spaces @
+:: rearrange @
 :: navigate @
-:: displays @
-:: apps @
 
 # mode switches
-default, navigate, spaces, displays, apps < shift - escape ; navigate
+default, navigate, rearrange < shift - escape ; navigate
 
 # interact mode via `i`
-navigate, spaces, displays, apps < i ; default
-
-# switch between different types of management modes
-# `navigate` is also a general navigation mode. spaces is for managing the space
-spaces, displays < w ; navigate
-navigate, displays < s ; spaces
-navigate, spaces < d ; displays
+navigate, rearrange < i ; default
+navigate < w ; rearrange
 
 # navigate in a space
 navigate < shift - n : yabai -m window --focus prev
 navigate < n : yabai -m window --focus next
-# navigate < h : yabai -m window --focus west{{{
-# navigate < l : yabai -m window --focus east
-# navigate < j : yabai -m window --focus south
-# navigate < k : yabai -m window --focus north}}}
 
 # new window
 navigate < return : skhd -k "cmd - n"
@@ -135,10 +124,10 @@ navigate < cmd - n -> : skhd -k "" # empty remap to allow passthrough of keypres
 navigate < tab : yabai -m window --focus stack.next
 navigate < shift - tab : yabai -m window --focus stack.prev
 
-navigate < q : skhd -k "cmd - w" ; # yabai -m window --focus largest navigate < cmd - w -> : shkd -k "" # empty remap to allow passthrough of keypress
-navigate < cmd - w -> : skhd -k ""
+rearrange < q : skhd -k "cmd - w" ; # yabai -m window --focus largest navigate < cmd - w -> : shkd -k "" # empty remap to allow passthrough of keypress
+rearrange < cmd - w -> : skhd -k ""
 
-# navigate spaces - note that focus first / last doesn't include floating windows, only tiled
+# navigate rearrange - note that focus first / last doesn't include floating windows, only tiled
 # with sa-addon
 # navigate < 0x21 : yabai -m space --focus prev #; yabai -m window --focus first # left bracket
 # navigate < 0x1E : yabai -m space --focus next #; yabai -m window --focus first # right bracket
@@ -146,82 +135,68 @@ navigate < cmd - w -> : skhd -k ""
 navigate < r : yabai -m window --toggle split
 
 # no sa-addon
-# navigate spaces
+# navigate rearrange
 navigate < 0x21 : skhd -k "cmd - h" ; #; yabai -m window --focus first # left bracket
 navigate < cmd - h -> : skhd -k ""
 navigate < 0x1E : skhd -k "cmd - l" ; #; yabai -m window --focus first # right bracket
 navigate < cmd - l -> : skhd -k ""
 
-# rotate the window tree
 # open app finder. starts interact mode via key press, then opens zsh function
 # navigate < o : skhd -k "i" ; \
 #     /usr/local/bin/kitty/kitty.app/contents/MacOS/kitty \
 #     --single-instance \
 #     zsh -c --interactive --login "app" ;
 
-navigate < cmd - return : skhd -k "i" ; kitty --single-instance
+navigate, rearrange < cmd - return : skhd -k "i" ; kitty --single-instance
 
 # Resize windows based on parent/child positioning
 navigate < 0x2F : yabai -m window --ratio rel:0.05 # '.' keycode
 navigate < 0x2B : yabai -m window --ratio rel:-.05 # ',' keycode
 
-# tests
-# navigate < f : yabai -m window --toggle float
-# navigate < shift - j : yabai -m window --toggle sticky
-# navigate < e : yabai -m window --toggle expose # show all windows from an application
-#
 # rearrange windows
-spaces < shift - n : yabai -m window --swap prev
-spaces < n : yabai -m window --swap next
-# spaces < h : yabai -m window --swap west{{{
-# spaces < l : yabai -m window --swap east
-# spaces < j : yabai -m window --swap south
-# spaces < k : yabai -m window --swap north}}}
+rearrange < shift - n : yabai -m window --swap prev
+rearrange < n : yabai -m window --swap next
 
-# insert windows in a space
-# spaces < alt - h : yabai -m window --insert west{{{
-# spaces < alt - l : yabai -m window --insert east
-# spaces < alt - j : yabai -m window --insert south
-# spaces < alt - k : yabai -m window --insert north}}}
+# choose where to move a window
+rearrange < h : yabai -m window --insert west
+rearrange < l : yabai -m window --insert east
+rearrange < j : yabai -m window --insert south
+rearrange < k : yabai -m window --insert north
 
 # stack windows in a space; selected window consumes direction
-spaces < h : yabai -m window --stack prev
-spaces < l : yabai -m window --stack next
-# spaces < cmd - h : yabai -m window --stack west{{{
-# spaces < cmd - l : yabai -m window --stack east
-# spaces < cmd - j : yabai -m window --stack south
-# spaces < cmd - k : yabai -m window --stack north}}}
+rearrange < cmd - n : yabai -m window --stack next
+rearrange < cmd + shift - n : yabai -m window --stack prev
 
-# unstack windows
-spaces < r : yabai -m space --rotate 90
-spaces < shift - r : yabai -m space --rotate 270
-spaces < shift - h : yabai -m window --warp prev
-spaces < shift - l : yabai -m window --warp next
-# spaces < ctrl - h : yabai -m window --warp west{{{
-# spaces < ctrl - l : yabai -m window --warp east
-# spaces < ctrl - j : yabai -m window --warp south
-# spaces < ctrl - k : yabai -m window --warp north}}}
+# rotate space, also unstacks windows
+rearrange < r : yabai -m space --rotate 90
+rearrange < shift - r : yabai -m space --rotate 270
 
 # Send to prev/next space and follow it
 # left bracket - send to prev space -- not sure why multi line is not working
-spaces < 0x21 : yabai -m window --space prev ; yabai -m space --focus prev
+rearrange < 0x21 : yabai -m window --space prev ; skhd -k "cmd - h"
+rearrange < cmd - h -> : skhd -k ""
 
 # right bracket - send to next space -- not sure why multi line is not working
-spaces < 0x1E : yabai -m window --space next ; yabai -m space --focus next 
-spaces < f : yabai -m space --layout float
-spaces < s : yabai -m space --layout stack
-spaces < b : yabai -m space --layout bsp
+rearrange < 0x1E : yabai -m window --space next ; skhd -k "cmd - l"
+rearrange < cmd - l -> : skhd -k ""
+
+# space layout changes
+rearrange < f : yabai -m space --layout float
+rearrange < s : yabai -m space --layout stack
+rearrange < b : yabai -m space --layout bsp
 
 # create new space
-spaces < return : yabai -m space --create # '.' keycode
+rearrange < return : yabai -m space --create
+rearrange < cmd - return : yabai -m space --destroy
 
 # right bracket - send to prev display
-displays < 0x21 : yabai -m window --display prev ; skhd -k "cmd - h"
+rearrange < shift - 0x21 : yabai -m window --display prev #; skhd -k "cmd - h"
 # left bracket - send to next display
-displays < 0x1E : yabai -m window --display next ; skhd -k "cmd - l"
+rearrange < shift - 0x1E : yabai -m window --display next #; skhd -k "cmd - l"
+
 # change displays
-displays < n : yabai -m display --focus next
-displays < shift - n : yabai -m display --focus prev
+rearrange < shift - 0x21 : yabai -m display --focus next
+rearrange < shift - 0x1E : yabai -m display --focus prev
 
 
 # mode enhancements{{{
@@ -232,14 +207,14 @@ displays < shift - n : yabai -m display --focus prev
 # [ ] navigate: show all stacked windows
 # [ ] navigate: scrolling up and down through terminal using terminal mode
 #
-# [ ] navigate, spaces: float mode (manage floating windows ... ?)
+# [ ] navigate, rearrange: float mode (manage floating windows ... ?)
 #
-# [ ] spaces: create
-# [ ] spaces: delete
-# [ ] spaces: rearrange (move left, right)
-# [ ] spaces: naming
+# [ ] rearrange: create
+# [ ] rearrange: delete
+# [ ] rearrange: rearrange (move left, right)
+# [ ] rearrange: naming
 # [ ]   show title in status bar
-# [x] spaces: focus follows moved window to different space
+# [x] rearrange: focus follows moved window to different space
 #
 # [x] displays: actually make mode
 # [ ] displays: improved navigation
