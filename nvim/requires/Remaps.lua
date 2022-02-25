@@ -28,9 +28,9 @@ nnoremap('gd', ':call CocAction("jumpDefinition")<Enter>')
 nnoremap('<leader>rr', ':call CocAction("rename")<Enter>')
 nnoremap('<leader>RR', ':call CocAction("refactor")<Enter>')
 nnoremap('<leader>c', ':call CocAction("codeAction")<Enter>')
---nnoremap('<leader>o', '') -- needs to be expression for toggle outline
+nnoremap('<leader>o', ':call CocAction("showOutline")<Enter>')
 
--- faster finding
+-- fuzzy finding
 nnoremap('<leader>f', ':FZF<Enter>')
 
 -- fold method changes
