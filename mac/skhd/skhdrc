@@ -157,8 +157,8 @@ navigate < 0x2F : yabai -m window --ratio rel:0.05 # '.' keycode
 navigate < 0x2B : yabai -m window --ratio rel:-.05 # ',' keycode
 
 # rearrange windows
-rearrange < h : yabai -m window --warp prev
-rearrange < l : yabai -m window --warp next
+rearrange < h : yabai -m window --swap prev
+rearrange < l : yabai -m window --swap next
 rearrange < j : yabai -m window --swap stack.prev
 rearrange < k : yabai -m window --swap stack.next
 
@@ -247,5 +247,11 @@ default < alt - q : skhd -k "cmd - w"
 default < alt - b : yabai -m space --layout bsp
 default < alt - f : yabai -m space --layout float
 default < alt - s : yabai -m space --layout stack
+
+default < alt - 0x21 : skhd -k "cmd - h" ; #; yabai -m window --focus first # left bracket
+default < alt - 0x1E : skhd -k "cmd - l" ; #; yabai -m window --focus first # right bracket
+
+default < shift + alt - 0x21 : yabai -m display --focus prev ;
+default < shift + alt - 0x1E : yabai -m display --focus next ;
 # }}}
 # vim:fdm=marker:foldlevel=0
