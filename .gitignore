@@ -1,8 +1,6 @@
-nvim/autoload/*
-progs
+managed/nvim/autoload
 Dockerfile
 makefile
-ps/*
-zsh/.zshrc.private
+managed/zsh/.zshrc.private
 nvim/coc-settings.json
 .DS_Store
