@@ -27,3 +27,8 @@ exec 'hi clear MatchParen'
 exec 'hi MatchParen cterm=bold,italic'
 
 exec 'hi javaLangObject ctermfg=8 cterm=bold'
+
+exec 'hi clear CursorLine'
+exec 'hi CursorLine ctermbg=0'
+
+exec 'hi CursorLineNr cterm=none ctermbg=0'
