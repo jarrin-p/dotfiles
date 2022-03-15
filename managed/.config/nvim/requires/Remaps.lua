@@ -25,8 +25,8 @@ nnoremap('<leader>wr', '<C-W>r')
 -- coc
 nnoremap('<leader>d', ':call CocAction("definitionHover")<Enter>')
 nnoremap('gd', ':call CocAction("jumpDefinition")<Enter>')
-nnoremap('<leader>rr', ':call CocAction("rename")<Enter>')
-nnoremap('<leader>RR', ':call CocAction("refactor")<Enter>')
+nnoremap('<leader>r', ':call CocAction("rename")<Enter>')
+nnoremap('<leader>R', ':call CocAction("refactor")<Enter>')
 nnoremap('<leader>c', ':call CocAction("codeAction")<Enter>')
 nnoremap('<leader>o', ':call CocAction("showOutline")<Enter>')
 

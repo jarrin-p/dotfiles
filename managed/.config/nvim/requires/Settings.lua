@@ -1,5 +1,8 @@
 local vim = vim -- keeps language server from freaking out
 
+-- repeatable setting values
+tab_width = 4
+
 Set = vim.o -- shorthand
 Set.compatible = false
 
@@ -10,9 +13,8 @@ Set.titlestring = '%t'
 -- Buffer Settings
 Set.hidden = true
 Set.tabstop = 4
-Set.shiftwidth = 4
---Set.expandtab = true
-Set.expandtab = false
+Set.shiftwidth = 0 -- 0 means use tabstop value
+Set.expandtab = true
 Set.smartindent = true
 Set.wrap = false
 Set.number = true

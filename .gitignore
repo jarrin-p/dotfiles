@@ -1,4 +1,4 @@
-managed/nvim/autoload
+managed/.config/nvim/autoload
 Dockerfile
 makefile
 managed/zsh/.zshrc.private

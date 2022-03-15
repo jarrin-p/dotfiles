@@ -11,6 +11,7 @@ require 'Settings'
 require 'Plugins'
 require 'Surround'
 require 'Remaps'
+require 'Commands'
 require 'AutoCmd'
 require 'ColorScheme'
 
