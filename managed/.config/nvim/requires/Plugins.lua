@@ -9,8 +9,9 @@ elseif vim.fn.has('mac') == 1 then
 end
 
 -- Import plugins
-Plug('morhetz/gruvbox')
-Plug('tpope/vim-fugitive')
+Plug 'morhetz/gruvbox'
+Plug 'tpope/vim-fugitive'
+Plug 'preservim/nerdtree'
 vim.api.nvim_exec("Plug 'neoclide/coc.nvim', {'branch': 'release'}", false)
 vim.api.nvim_exec("Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }", false)
 vim.api.nvim_exec("Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}", false)
