@@ -12,10 +12,10 @@ nnoremap('U', '<C-R>') -- change U to redo because I'm simple and U confuses me.
 nnoremap('<leader>V', ':tabe ' .. os.getenv('MYVIMRC') .. '<Enter>') -- edit init.lua
 
 -- Window management
-nnoremap('<leader>j', '<C-W>j')
-nnoremap('<leader>k', '<C-W>k')
-nnoremap('<leader>h', '<C-W>h')
-nnoremap('<leader>l', '<C-W>l')
+nnoremap('<C-j>', '<C-W>j')
+nnoremap('<C-k>', '<C-W>k')
+nnoremap('<C-h>', '<C-W>h')
+nnoremap('<C-l>', '<C-W>l')
 nnoremap('<leader>J', '<C-W>J')
 nnoremap('<leader>K', '<C-W>K')
 nnoremap('<leader>H', '<C-W>H')
@@ -29,6 +29,9 @@ nnoremap('<leader>r', ':call CocAction("rename")<Enter>')
 nnoremap('<leader>R', ':call CocAction("refactor")<Enter>')
 nnoremap('<leader>c', ':call CocAction("codeAction")<Enter>')
 nnoremap('<leader>o', ':call CocAction("showOutline")<Enter>')
+
+-- NERDtree
+nnoremap('<leader>t', ':NERDTreeToggle<Enter>')
 
 -- fuzzy finding
 nnoremap('<leader>f', ':FZF<Enter>')
