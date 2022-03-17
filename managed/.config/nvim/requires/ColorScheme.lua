@@ -32,3 +32,5 @@ exec 'hi clear CursorLine'
 exec 'hi CursorLine ctermbg=0'
 
 exec 'hi CursorLineNr cterm=none ctermbg=0'
+
+exec 'hi DiffText ctermfg=0'
