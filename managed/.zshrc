@@ -60,5 +60,12 @@ ZZ_DEFAULT_PROMPT=$PS1
 function sp_default { export PS1="$ZZ_DEFAULT_PROMPT" }
 function sp_level { export PS1="%n %${1}~ > " }
 
+bindkey "^W" forward-word
+bindkey "^B" backward-word
+#bindkey "^[[1;5C" forward-word
+#bindkey "^[[1;5D" backward-word
+
+source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+
 #sp_level 1
 # vim: fdm=marker
