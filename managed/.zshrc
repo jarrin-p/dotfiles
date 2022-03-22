@@ -60,10 +60,12 @@ ZZ_DEFAULT_PROMPT=$PS1
 function sp_default { export PS1="$ZZ_DEFAULT_PROMPT" }
 function sp_level { export PS1="%n %${1}~ > " }
 
-bindkey "^W" forward-word
-bindkey "^B" backward-word
-#bindkey "^[[1;5C" forward-word
-#bindkey "^[[1;5D" backward-word
+bindkey "^W" forward-word # ctrl w
+bindkey "^B" backward-word # ctrl b
+bindkey "^[[1;5C" forward-word # right arrow
+bindkey "^[[1;5D" backward-word # left arrow
+
+export FZF_DEFAULT_COMMAND='rg --glob !.git --hidden --no-ignore --files'
 
 source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
