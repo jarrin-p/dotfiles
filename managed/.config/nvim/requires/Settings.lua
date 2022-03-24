@@ -28,6 +28,7 @@ Set.updatetime = 200
 Set.foldlevelstart = 99
 Set.scrolloff = 12
 Set.cursorline = true
+-- Set.showmode = false
 
 -- Editing Settings
 Set.backspace = 'indent,eol,start'
@@ -37,3 +38,6 @@ Set.inccommand = 'nosplit'
 -- Plugin Settings
 vim.g.netrw_liststyle = 3
 vim.g.csv_nomap_cr = 1
+vim.g.NERDTreeWinSize = 50
+--vim.g.lightline.colorscheme = 'apprentice'
+--vim.api.nvim_exec('set statusline=%<%f\ %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%)\ %P', false)

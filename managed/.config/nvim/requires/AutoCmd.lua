@@ -2,14 +2,11 @@ require 'AutoloadClasses'
 
 local exec = function (str) vim.api.nvim_exec(str, false) end
 
--- Autoloads
---AutoCmd:new{ event = 'VimEnter', nested = true, cmd = 'colorscheme gruvbox' }:add()
---AutoCmd:new{ event = 'VimEnter', cmd = 'hi clear FoldColumn' }:add()
---AutoCmd:new{ event = 'VimEnter', cmd = 'hi clear SignColumn' }:add()
---AutoCmd:new{ event = 'FocusGained', nested = true, cmd = 'rshada!'}:add()
---AutoCmd:new{ event = 'FocusLost', nested = true, cmd = 'wshada!'}:add()
---AutoCmd:new{ event = 'VimEnter', nested = true, cmd = 'rshada!'}:add()
---AutoCmd:new{ event = 'VimLeave', nested = true, cmd = 'wshada!'}:add()
+-- Open NERDTree as soon as Vim opens
+AutoCmd:new{ event = 'VimEnter', nested = false, cmd = 'NERDTreeToggleVCS' }:add()
+
+-- Then go to the next window
+AutoCmd:new{ event = 'VimEnter', nested = false, cmd = 'wincmd l' }:add()
 
 exec [[
 augroup SHADA

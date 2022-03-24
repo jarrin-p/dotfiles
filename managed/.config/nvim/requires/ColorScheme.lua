@@ -1,6 +1,7 @@
 local vim = vim
 local exec = function (str) vim.api.nvim_exec(str, false) end
 
+-- For kitty apprentice theme
 exec 'hi clear FoldColumn'
 exec 'hi FoldColumn ctermfg=8'
 
@@ -11,6 +12,7 @@ exec 'hi clear StatusLineNC'
 exec 'hi StatusLine cterm=italic'
 
 exec 'hi clear VertSplit'
+exec 'hi VertSplit ctermfg=0'
 
 exec 'hi clear Search'
 exec 'hi Search cterm=bold,underline'
@@ -34,3 +36,11 @@ exec 'hi CursorLine ctermbg=0'
 exec 'hi CursorLineNr cterm=none ctermbg=0'
 
 exec 'hi DiffText ctermfg=0'
+
+exec 'hi clear TabLine'
+exec 'hi TabLine ctermbg=0'
+
+exec 'hi clear TabLineFill'
+exec 'hi TabLineFill ctermbg=0'
+
+-- End kitty apprentice theme

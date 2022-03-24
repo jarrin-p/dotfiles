@@ -5,22 +5,24 @@ local function nnoremap (lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, {norem
 local function tnoremap (lhs, rhs) vim.api.nvim_set_keymap('t', lhs, rhs, {noremap = true, silent = true}) end
 local function t (str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
 
--- Simple edits
+-- simple edits
 map('<space>', '<leader>') -- Remap leader to spacebar, obviously
-nnoremap('Y', 'y$') -- Change back to vanilla default
-nnoremap('U', '<C-R>') -- change U to redo because I'm simple and U confuses me.
+nnoremap('Y', 'y$')        -- Change back to vanilla default
+nnoremap('U', '<C-R>')     -- change U to redo because I'm simple and U confuses me.
 nnoremap('<leader>V', ':tabe ' .. os.getenv('MYVIMRC') .. '<Enter>') -- edit init.lua
 
--- Window management
-nnoremap('<C-j>', '<C-W>j')
-nnoremap('<C-k>', '<C-W>k')
-nnoremap('<C-h>', '<C-W>h')
-nnoremap('<C-l>', '<C-W>l')
-nnoremap('<leader>J', '<C-W>J')
-nnoremap('<leader>K', '<C-W>K')
-nnoremap('<leader>H', '<C-W>H')
-nnoremap('<leader>L', '<C-W>L')
-nnoremap('<leader>wr', '<C-W>r')
+-- window management
+-- these apply to vertical splits as well, mimics my skhd behavior instead using ctrl modifier
+nnoremap('<C-h>', '<C-W>W') -- previous window (above, left)
+nnoremap('<C-l>', '<C-W>w') -- next window (below, right)
+nnoremap('<C-r>', '<C-W>r') -- rotate windows
+nnoremap('<C-.>', '<C-W>+') -- increase window size
+nnoremap('<C-,>', '<C-W>-') -- reduce window size
+
+-- buffer navigating
+nnoremap('<c-b>', ':b#<Enter>')    -- most recent buffer, ctrl-b for 'back'
+nnoremap('<c-j>', ':bprev<Enter>') -- previous buffer, ctrl-j for going down in the stack
+nnoremap('<c-k>', ':bnext<Enter>') -- next buffer, ctrl-k for going up in the stack
 
 -- coc
 nnoremap('<leader>d', ':call CocAction("definitionHover")<Enter>')
@@ -30,8 +32,8 @@ nnoremap('<leader>R', ':call CocAction("refactor")<Enter>')
 nnoremap('<leader>c', ':call CocAction("codeAction")<Enter>')
 nnoremap('<leader>o', ':call CocAction("showOutline")<Enter>')
 
--- NERDtree
-nnoremap('<leader>t', ':NERDTreeToggle<Enter>')
+-- nerdtree
+nnoremap('<leader>t', ':NERDTreeToggleVCS<Enter>')
 
 -- fuzzy finding
 nnoremap('<leader>f', ':FZF<Enter>')
@@ -44,8 +46,5 @@ nnoremap('<leader>zfm', ':set foldmethod=manual<Enter>')
 nnoremap('<leader>n', ':cnext<Enter>')
 nnoremap('<leader>N', ':cprev<Enter>')
 
--- Buffer navigating
-nnoremap('<leader>b', ':b#<Enter>')
-
--- Terminal Remapping
-tnoremap('<esc><esc>', '<C-\\><C-n>')
+-- terminal remapping
+tnoremap('<esc><esc>', '<C-\\><C-n>') -- esc esc takes you to normal mode.

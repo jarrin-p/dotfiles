@@ -7,6 +7,7 @@ AutoCmd = {
         cmd = ''
     },
 
+    -- creates a new autocmd object
     new = function(self, arg_table)
         -- arg_table: event (str), pattern (str), once (bool), nested (bool), cmd (str)
         if arg_table.once == true then arg_table.once = '++once' else arg_table.once = '' end
@@ -22,6 +23,7 @@ AutoCmd = {
         return obj
     end,
 
+    -- adds autocmd
     add = function(self)
         -- prepping to make command: append a blank space to passed args, convert nil to '' so command doesn't break
         local args = {}
