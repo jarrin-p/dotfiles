@@ -27,10 +27,12 @@ nnoremap('<c-k>', ':bnext<Enter>') -- next buffer, ctrl-k for going up in the st
 -- coc
 nnoremap('<leader>d', ':call CocAction("definitionHover")<Enter>')
 nnoremap('gd', ':call CocAction("jumpDefinition")<Enter>')
-nnoremap('<leader>r', ':call CocAction("rename")<Enter>')
-nnoremap('<leader>R', ':call CocAction("refactor")<Enter>')
+--nnoremap('<leader>r', ':call CocAction("rename")<Enter>')     -- not sure why these aren't working
+--nnoremap('<leader>R', ':call CocAction("refactor")<Enter>')   -- not sure why these aren't working
 nnoremap('<leader>c', ':call CocAction("codeAction")<Enter>')
-nnoremap('<leader>o', ':call CocAction("showOutline")<Enter>')
+nnoremap('<leader>C', ':call CocAction("codeActions")<Enter>')
+nnoremap('<leader>o', ':call CocAction("showOutline")<Enter>:vert res 50<Enter>')
+nnoremap('<leader>d', ':call CocAction("jumpReferences")<Enter>:copen<Enter>')
 
 -- nerdtree
 nnoremap('<leader>t', ':NERDTreeToggleVCS<Enter>')

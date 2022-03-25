@@ -28,7 +28,7 @@ Set.updatetime = 200
 Set.foldlevelstart = 99
 Set.scrolloff = 12
 Set.cursorline = true
--- Set.showmode = false
+Set.showmode = false
 
 -- Editing Settings
 Set.backspace = 'indent,eol,start'
