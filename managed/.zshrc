@@ -60,14 +60,18 @@ ZZ_DEFAULT_PROMPT=$PS1
 function sp_default { export PS1="$ZZ_DEFAULT_PROMPT" }
 function sp_level { export PS1="%n %${1}~ > " }
 
+# shell rebinds
 bindkey "^W" forward-word # ctrl w
 bindkey "^B" backward-word # ctrl b
 bindkey "^[[1;5C" forward-word # right arrow
 bindkey "^[[1;5D" backward-word # left arrow
 
+# change fzf default to use ripgrep
 export FZF_DEFAULT_COMMAND='rg --glob !.git --hidden --no-ignore --files'
 
+# shell mods
 source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+. /usr/local/etc/profile.d/z.sh
 
 #sp_level 1
 # vim: fdm=marker
