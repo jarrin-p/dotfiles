@@ -32,7 +32,7 @@ nnoremap('gd', ':call CocAction("jumpDefinition")<Enter>')
 nnoremap('<leader>c', ':call CocAction("codeAction")<Enter>')
 nnoremap('<leader>C', ':call CocAction("codeActions")<Enter>')
 nnoremap('<leader>o', ':call CocAction("showOutline")<Enter>:vert res 50<Enter>')
-nnoremap('<leader>d', ':call CocAction("jumpReferences")<Enter>:copen<Enter>')
+nnoremap('<leader>r', ':call CocAction("jumpReferences")<Enter>:copen<Enter>')
 
 -- nerdtree
 nnoremap('<leader>t', ':NERDTreeToggleVCS<Enter>')

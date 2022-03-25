@@ -43,4 +43,17 @@ exec 'hi TabLine ctermbg=0'
 exec 'hi clear TabLineFill'
 exec 'hi TabLineFill ctermbg=0'
 
+exec 'hi clear CocUnusedHighlight'
+exec 'hi CocUnusedHighlight ctermfg=3'
+
+exec 'hi clear DiffAdd'
+exec 'hi clear DiffChange'
+exec 'hi clear DiffDelete'
+exec 'hi clear DiffText'
+
+exec 'hi DiffAdd ctermbg=6 cterm=bold ctermfg=0'
+exec 'hi DiffChange ctermbg=11 cterm=italic ctermfg=0'
+exec 'hi DiffDelete ctermbg=1 cterm=bold ctermfg=0'
+exec 'hi DiffText ctermbg=12 ctermfg=0'
+
 -- End kitty apprentice theme

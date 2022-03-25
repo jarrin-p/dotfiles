@@ -5,8 +5,8 @@ local exec = function (str) vim.api.nvim_exec(str, false) end
 -- Open NERDTree as soon as Vim opens
 AutoCmd:new{ event = 'VimEnter', nested = false, cmd = 'NERDTreeToggleVCS' }:add()
 
--- Then go to the next window
-AutoCmd:new{ event = 'VimEnter', nested = false, cmd = 'wincmd l' }:add()
+-- Ensure relative number is on. It makes navigating the tree even easier
+AutoCmd:new{ event = 'VimEnter', nested = false, cmd = 'set relativenumber' }:add()
 
 exec [[
 augroup SHADA
