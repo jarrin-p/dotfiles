@@ -35,7 +35,8 @@ nnoremap('<leader>o', ':call CocAction("showOutline")<Enter>:vert res 50<Enter>'
 nnoremap('<leader>r', ':call CocAction("jumpReferences")<Enter>:copen<Enter>')
 
 -- nerdtree
-nnoremap('<leader>t', ':NERDTreeToggleVCS<Enter>')
+nnoremap('<leader>t', ':NERDTreeToggle<Enter>')     -- at current working directory
+nnoremap('<leader>T', ':NERDTreeToggleVCS<Enter>')  -- at vcs toplevel
 
 -- fuzzy finding
 nnoremap('<leader>f', ':FZF<Enter>')
