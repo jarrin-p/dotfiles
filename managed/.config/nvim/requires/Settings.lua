@@ -26,7 +26,7 @@ Set.foldlevelstart = 99
 Set.scrolloff = 12
 Set.cursorline = true
 Set.showmode = false
-Set.grepprg = 'rg -n'
+Set.grepprg = 'rg --line-number --with-filename'
 
 -- Editing Settings
 Set.backspace = 'indent,eol,start'

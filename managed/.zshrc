@@ -10,8 +10,8 @@ alias nvimrc="nvim $NVIMRC -c 'cd %:h'"
 alias skhdrc="nvim $SKHDCONF -c 'cd %:h'"
 alias yabairc="nvim $YABAICONF -c 'cd %:h'"
 alias kittyconf="nvim $KITTYCONF -c 'cd %:h'"
+alias gittop='pushd $(git rev-parse --show-toplevel)'
 
-alias sed="gsed"
 alias dcu="docker compose up"
 alias dcub="docker compose up --build"
 function dcrun { docker compose run $1 } # Parameter is for the service name
@@ -59,12 +59,6 @@ PS1='${vcs_info_msg_0_}%f%n %2~ %F{4}> %f'
 ZZ_DEFAULT_PROMPT=$PS1
 function sp_default { export PS1="$ZZ_DEFAULT_PROMPT" }
 function sp_level { export PS1="%n %${1}~ > " }
-
-# shell rebinds
-bindkey "^W" forward-word # ctrl w
-bindkey "^B" backward-word # ctrl b
-bindkey "^[[1;5C" forward-word # right arrow
-bindkey "^[[1;5D" backward-word # left arrow
 
 # change fzf default to use ripgrep
 export FZF_DEFAULT_COMMAND='rg --glob !.git --hidden --no-ignore --files'

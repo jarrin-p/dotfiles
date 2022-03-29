@@ -187,9 +187,6 @@ rearrange < b : yabai -m space --layout bsp
 rearrange < 0x2F : yabai -m space --ratio rel:0.05 # '.' keycode
 rearrange < 0x2B : yabai -m space --ratio rel:-.05 # ',' keycode
 
-rearrange < return : yabai -m space --create # create new space
-rearrange < cmd - return : yabai -m space --destroy # destroy space
-
 # right bracket - send to prev display
 rearrange < shift - 0x21 : yabai -m window --display prev #; skhd -k "cmd - h"
 # left bracket - send to next display
