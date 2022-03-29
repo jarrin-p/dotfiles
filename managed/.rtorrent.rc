@@ -35,8 +35,7 @@ execute.throw = sh, -c, (cat,\
 #dht.mode.set = auto
 #protocol.pex.set = no
 
-#trackers.use_udp.set = no
-
+trackers.use_udp.set = yes
 
 ## Peer settings
 #throttle.max_uploads.set = 100
@@ -103,13 +102,11 @@ method.insert = d.session_file, simple, "cat=(session.path), (d.hash), .torrent"
 ## Add & download straight away
 #schedule2 = watch_start, 10, 10, ((load.start_verbose, (cat, (cfg.watch), "start/*.torrent")))
 
-
 ## Run the rTorrent process as a daemon in the background
 ## (and control via XMLRPC sockets)
 #system.daemon.set = true
 #network.scgi.open_local = (cat,(session.path),rpc.socket)
 #execute.nothrow = chmod,770,(cat,(session.path),rpc.socket)
-
 
 ## Logging:
 ##   Levels = critical error warn notice info debug
