@@ -3,7 +3,7 @@ AutoCmd = {
         event = '',
         pattern = '*',
         once = '',
-        nested = '',
+        nested = false,
         cmd = ''
     },
 

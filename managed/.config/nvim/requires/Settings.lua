@@ -21,11 +21,15 @@ Set.foldcolumn = '3'
 Set.foldmethod = 'indent'
 Set.path = Set.path .. '**'
 Set.signcolumn = 'yes'
-Set.updatetime = 200
+Set.updatetime = 100
 Set.foldlevelstart = 99
 Set.scrolloff = 12
 Set.cursorline = true
-Set.showmode = false
+Set.showmode = false  -- changed to false because of lightline plugin
+Set.splitright = true -- splits new window to the right
+Set.splitbelow = true -- splits new window down
+
+-- sets the grep program as ripgrep
 Set.grepprg = 'rg --line-number --with-filename'
 
 -- Editing Settings
@@ -37,4 +41,3 @@ Set.inccommand = 'nosplit'
 vim.g.netrw_liststyle = 3
 vim.g.csv_nomap_cr = 1
 vim.g.NERDTreeWinSize = 50
---vim.g.lightline.colorscheme = 'apprentice'

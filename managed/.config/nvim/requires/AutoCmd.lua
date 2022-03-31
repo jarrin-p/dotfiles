@@ -1,18 +1,23 @@
 require 'AutoloadClasses'
 
-local exec = function (str) vim.api.nvim_exec(str, false) end
+-- open nerdtree as soon as vim opens
+AutoCmd:new{ event = 'VimEnter', cmd = 'NERDTreeToggleVCS' }:add()
 
--- Open NERDTree as soon as Vim opens
-AutoCmd:new{ event = 'VimEnter', nested = false, cmd = 'NERDTreeToggleVCS' }:add()
+-- ensure relative number is on. it makes navigating the tree even easier
+AutoCmd:new{ event = 'VimEnter', cmd = 'set relativenumber' }:add()
 
--- Ensure relative number is on. It makes navigating the tree even easier
-AutoCmd:new{ event = 'VimEnter', nested = false, cmd = 'set relativenumber' }:add()
+-- switch to editing window
+AutoCmd:new{ event = 'VimEnter', cmd = 'wincmd l' }:add()
 
-exec [[
-augroup SHADA
-    autocmd!
-    autocmd CursorHold,TextYankPost,FocusGained,FocusLost *
-        \ if exists(':rshada') | rshada | wshada | endif
-augroup END
-]]
+-- groups not implemented yet, using standard vimscript for shada share
+-- local exec = function (str) vim.api.nvim_exec(str, false) end
+
+-- share shada (registers, etc) between windows.
+--exec [[
+--augroup SHADA
+--    autocmd!
+--    autocmd CursorHold,TextYankPost,FocusGained,FocusLost *
+--        \ if exists(':rshada') | rshada | wshada | endif
+--augroup END
+--]]
 

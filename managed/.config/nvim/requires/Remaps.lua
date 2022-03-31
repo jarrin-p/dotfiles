@@ -8,21 +8,22 @@ local function t (str) return vim.api.nvim_replace_termcodes(str, true, true, tr
 -- simple edits
 map('<space>', '<leader>') -- Remap leader to spacebar, obviously
 nnoremap('Y', 'y$')        -- Change back to vanilla default
-nnoremap('U', '<C-R>')     -- change U to redo because I'm simple and U confuses me.
-nnoremap('<leader>V', ':tabe ' .. os.getenv('MYVIMRC') .. '<Enter>') -- edit init.lua
+nnoremap('U', '<c-r>')     -- change U to redo because I'm simple and U confuses me.
+nnoremap('<leader>V', ':tabe ' .. os.getenv('MYVIMRC') .. '<enter>') -- edit init.lua
 
 -- window management
 -- these apply to vertical splits as well, mimics my skhd behavior instead using ctrl modifier
-nnoremap('<C-h>', '<C-W>W') -- previous window (above, left)
-nnoremap('<C-l>', '<C-W>w') -- next window (below, right)
-nnoremap('<C-r>', '<C-W>r') -- rotate windows
-nnoremap('<C-.>', '<C-W>+') -- increase window size
-nnoremap('<C-,>', '<C-W>-') -- reduce window size
+nnoremap('<c-h>', '<c-w>W') -- previous window (above, left)
+nnoremap('<c-l>', '<c-w>w') -- next window (below, right)
+nnoremap('<c-n>', '<c-w>n') -- exchange with next window (or prev if no next)
+nnoremap('<c-r>', '<c-w>n') -- exchange with next window (or prev if no next)
+--nnoremap('<C-.>', '<C-W>+') -- increase window size -- control . not working
+--nnoremap('<C-,>', '<C-W>-') -- reduce window size -- control , not working
 
 -- buffer navigating
-nnoremap('<c-b>', ':b#<Enter>')    -- most recent buffer, ctrl-b for 'back'
-nnoremap('<c-j>', ':bprev<Enter>') -- previous buffer, ctrl-j for going down in the stack
-nnoremap('<c-k>', ':bnext<Enter>') -- next buffer, ctrl-k for going up in the stack
+nnoremap('<c-b>', ':b#<enter>')    -- most recent buffer, ctrl-b for 'back'
+nnoremap('<c-j>', ':bprev<enter>') -- previous buffer, ctrl-j for going down in the stack
+nnoremap('<c-k>', ':bnext<enter>') -- next buffer, ctrl-k for going up in the stack
 
 -- coc
 nnoremap('<leader>d', ':call CocAction("definitionHover")<Enter>')
@@ -35,19 +36,19 @@ nnoremap('<leader>o', ':call CocAction("showOutline")<Enter>:vert res 50<Enter>'
 nnoremap('<leader>r', ':call CocAction("jumpReferences")<Enter>:copen<Enter>')
 
 -- nerdtree
-nnoremap('<leader>t', ':NERDTreeToggle<Enter>')     -- at current working directory
-nnoremap('<leader>T', ':NERDTreeToggleVCS<Enter>')  -- at vcs toplevel
+nnoremap('<leader>t', ':NERDTreeToggle<enter>')     -- at current working directory
+nnoremap('<leader>T', ':NERDTreeToggleVCS<enter>')  -- at vcs toplevel
 
 -- fuzzy finding
-nnoremap('<leader>f', ':FZF<Enter>')
+nnoremap('<leader>f', ':FZF<enter>')
 
 -- fold method changes
-nnoremap('<leader>zfi', ':set foldmethod=indent<Enter>')
-nnoremap('<leader>zfm', ':set foldmethod=manual<Enter>')
+nnoremap('<leader>zfi', ':set foldmethod=indent<enter>')
+nnoremap('<leader>zfm', ':set foldmethod=manual<enter>')
 
 -- for errorfinding and vimgrep
-nnoremap('<leader>n', ':cnext<Enter>')
-nnoremap('<leader>N', ':cprev<Enter>')
+nnoremap('<leader>n', ':cnext<enter>')
+nnoremap('<leader>N', ':cprev<enter>')
 
 -- terminal remapping
 tnoremap('<esc><esc>', '<C-\\><C-n>') -- esc esc takes you to normal mode.

@@ -51,9 +51,9 @@ exec 'hi clear DiffChange'
 exec 'hi clear DiffDelete'
 exec 'hi clear DiffText'
 
-exec 'hi DiffAdd ctermbg=6 cterm=bold ctermfg=0'
-exec 'hi DiffChange ctermbg=11 cterm=italic ctermfg=0'
-exec 'hi DiffDelete ctermbg=1 cterm=bold ctermfg=0'
-exec 'hi DiffText ctermbg=12 ctermfg=0'
+exec 'hi DiffAdd ctermfg=6 cterm=bold'
+exec 'hi DiffChange ctermfg=12 cterm=italic'
+exec 'hi DiffDelete ctermfg=1 cterm=bold'
+exec 'hi DiffText ctermfg=11 cterm=bold'
 
 -- End kitty apprentice theme

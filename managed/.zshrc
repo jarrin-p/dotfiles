@@ -11,6 +11,7 @@ alias skhdrc="nvim $SKHDCONF -c 'cd %:h'"
 alias yabairc="nvim $YABAICONF -c 'cd %:h'"
 alias kittyconf="nvim $KITTYCONF -c 'cd %:h'"
 alias gittop='pushd $(git rev-parse --show-toplevel)'
+alias g='nvim -c "Git" -c "only"'
 
 alias dcu="docker compose up"
 alias dcub="docker compose up --build"
