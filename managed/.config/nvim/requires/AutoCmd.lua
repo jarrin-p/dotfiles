@@ -9,6 +9,8 @@ AutoCmd:new{ event = 'VimEnter', cmd = 'set relativenumber' }:add()
 -- switch to editing window
 AutoCmd:new{ event = 'VimEnter', cmd = 'wincmd l' }:add()
 
+AutoCmd:new{ event = 'BufWritePre', pattern='*.java', cmd = '!gradle spotlessApply' }:add()
+
 -- groups not implemented yet, using standard vimscript for shada share
 -- local exec = function (str) vim.api.nvim_exec(str, false) end
 
