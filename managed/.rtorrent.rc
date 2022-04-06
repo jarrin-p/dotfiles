@@ -35,7 +35,8 @@ execute.throw = sh, -c, (cat,\
 #dht.mode.set = auto
 #protocol.pex.set = no
 
-trackers.use_udp.set = yes
+# udp trackers breaks rtorrent
+#trackers.use_udp.set = yes
 
 ## Peer settings
 #throttle.max_uploads.set = 100
