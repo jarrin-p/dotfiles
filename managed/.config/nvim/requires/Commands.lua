@@ -10,3 +10,5 @@ function ToggleSil()
     endif
 endfunction
 ]], false)
+
+vim.api.nvim_exec([[ command SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]], false)

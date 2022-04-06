@@ -50,10 +50,11 @@ exec 'hi clear DiffAdd'
 exec 'hi clear DiffChange'
 exec 'hi clear DiffDelete'
 exec 'hi clear DiffText'
-
 exec 'hi DiffAdd ctermfg=6 cterm=bold'
 exec 'hi DiffChange ctermfg=12 cterm=italic'
 exec 'hi DiffDelete ctermfg=1 cterm=bold'
 exec 'hi DiffText ctermfg=11 cterm=bold'
+
+exec 'hi Type cterm=italic'
 
 -- End kitty apprentice theme

@@ -12,7 +12,7 @@ Set.hidden = true
 Set.tabstop = 2        -- match the work java linter
 Set.shiftwidth = 0     -- 0 means use tabstop value
 Set.expandtab = true   -- use spaces instead of tabs
-Set.smartindent = true -- let neovim think about indentation
+Set.smartindent = false -- trying out only autoindent
 Set.wrap = false
 Set.number = true
 Set.relativenumber = true   -- show how many lines away instead of exact line number
@@ -28,6 +28,7 @@ Set.cursorline = true
 Set.showmode = false  -- changed to false because of lightline plugin
 Set.splitright = true -- splits new window to the right
 Set.splitbelow = true -- splits new window down
+--Set.sessionoptions = 'localoptions,folds,options,tabpages,winsizes,sesdir'
 
 -- sets the grep program as ripgrep
 Set.grepprg = 'rg --line-number --with-filename'

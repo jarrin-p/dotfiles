@@ -11,6 +11,9 @@ nnoremap('Y', 'y$')        -- Change back to vanilla default
 nnoremap('U', '<c-r>')     -- change U to redo because I'm simple and U confuses me.
 nnoremap('<leader>V', ':tabe ' .. os.getenv('MYVIMRC') .. '<enter>') -- edit init.lua
 
+-- formatting
+nnoremap('<leader>=', ':SA<enter>')
+
 -- window management
 -- these apply to vertical splits as well, mimics my skhd behavior instead using ctrl modifier
 nnoremap('<c-h>', '<c-w>W') -- previous window (above, left)
@@ -26,14 +29,15 @@ nnoremap('<c-j>', ':bprev<enter>') -- previous buffer, ctrl-j for going down in 
 nnoremap('<c-k>', ':bnext<enter>') -- next buffer, ctrl-k for going up in the stack
 
 -- coc
-nnoremap('<leader>d', ':call CocAction("definitionHover")<Enter>')
-nnoremap('gd', ':call CocAction("jumpDefinition")<Enter>')
---nnoremap('<leader>r', ':call CocAction("rename")<Enter>')     -- not sure why these aren't working
---nnoremap('<leader>R', ':call CocAction("refactor")<Enter>')   -- not sure why these aren't working
-nnoremap('<leader>c', ':call CocAction("codeAction")<Enter>')
-nnoremap('<leader>C', ':call CocAction("codeActions")<Enter>')
-nnoremap('<leader>o', ':call CocAction("showOutline")<Enter>:vert res 50<Enter>')
-nnoremap('<leader>r', ':call CocAction("jumpReferences")<Enter>:copen<Enter>')
+nnoremap('<leader>d', ':call CocAction("definitionHover")<enter>')
+nnoremap('gd', ':call CocAction("jumpDefinition")<enter>')
+--nnoremap('<leader>r', ':call CocAction("rename")<enter>')     -- not sure why these aren't working
+--nnoremap('<leader>R', ':call CocAction("refactor")<enter>')   -- not sure why these aren't working
+nnoremap('<leader>c', ':call CocAction("codeAction")<enter>')
+nnoremap('<leader>C', ':call CocAction("codeActions")<enter>')
+nnoremap('<leader>o', ':call CocAction("showOutline")<enter>:vert res 50<Enter>')
+nnoremap('<leader>r', ':call CocAction("jumpReferences")<enter>:copen<enter>')
+nnoremap('<leader>DD', ':call CocAction("diagnosticToggle")<enter>')
 
 -- nerdtree
 nnoremap('<leader>t', ':NERDTreeToggle<enter>')     -- at current working directory
