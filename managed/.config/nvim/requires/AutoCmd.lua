@@ -10,7 +10,9 @@ AutoCmd:new{ event = 'VimEnter', cmd = 'set relativenumber' }:add()
 AutoCmd:new{ event = 'VimEnter', cmd = 'wincmd l' }:add()
 
 --AutoCmd:new{ event = 'BufWritePost', pattern='*.java', cmd = '!gradle spotlessApply' }:add()
-AutoCmd:new{ event = 'BufWritePost', pattern='*', cmd = 'mks! .session.vim' }:add()
+AutoCmd:new{ event = 'FileType', pattern='java', cmd = 'set tabstop=2' }:add()
+AutoCmd:new{ event = 'BufWritePost', pattern='*.*', cmd = 'mkview' }:add()
+AutoCmd:new{ event = 'BufWinEnter', pattern='*.*', cmd = 'silent loadview'}:add()
 --AutoCmd:new{ event = 'BufEnter', pattern = '*', nested = false, cmd = 'lcd %:p:h'}:add()
 
 -- groups not implemented yet, using standard vimscript for shada share
