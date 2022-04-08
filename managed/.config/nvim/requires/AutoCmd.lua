@@ -7,7 +7,7 @@ AutoCmd:new{ event = 'VimEnter', cmd = 'set relativenumber' }:add()
 
 -- switch to editing window
 -- TODO conditional switch to editing window
-AutoCmd:new{ event = 'VimEnter', cmd = 'wincmd l' }:add()
+--AutoCmd:new{ event = 'VimEnter', cmd = 'wincmd l' }:add()
 
 -- match spotlessApply in main project
 AutoCmd:new{ event = 'FileType', pattern='java', cmd = 'set tabstop=2' }:add()

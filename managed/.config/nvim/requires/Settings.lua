@@ -42,3 +42,4 @@ Set.inccommand = 'nosplit'
 vim.g.netrw_liststyle = 3
 vim.g.csv_nomap_cr = 1
 vim.g.NERDTreeWinSize = 50
+vim.g.NERDTreeShowBookmarks = 1
