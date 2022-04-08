@@ -9,7 +9,7 @@ Set.titlestring = '%t'
 
 -- Buffer Settings
 Set.hidden = true
-Set.tabstop = 2        -- match the work java linter
+Set.tabstop = 4        -- autocmd for java to be 2
 Set.shiftwidth = 0     -- 0 means use tabstop value
 Set.expandtab = true   -- use spaces instead of tabs
 Set.smartindent = false -- trying out only autoindent
@@ -18,7 +18,7 @@ Set.number = true
 Set.relativenumber = true   -- show how many lines away instead of exact line number
 Set.syntax = 'on'
 Set.foldcolumn = '3'
-Set.foldmethod = 'indent'
+Set.foldmethod = 'manual'
 Set.path = Set.path .. '**'
 Set.signcolumn = 'yes'
 Set.updatetime = 100

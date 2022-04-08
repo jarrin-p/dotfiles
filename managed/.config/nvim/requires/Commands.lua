@@ -1,5 +1,6 @@
+exec = vim.api.nvim_exec
 vim.g.sil_is_toggled = 0
-vim.api.nvim_exec([[
+exec([[
 function ToggleSil()
     if g:sil_is_toggled == 0
         noremap : :silent 
@@ -11,4 +12,5 @@ function ToggleSil()
 endfunction
 ]], false)
 
-vim.api.nvim_exec([[ command SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]], false)
+exec([[ command -nargs=1 NTI let NERDTreeIgnore=<args> ]], false) -- takes an array
+exec([[ command SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]], false)
