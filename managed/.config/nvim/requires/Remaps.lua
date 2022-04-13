@@ -40,7 +40,7 @@ nnoremap('<leader>r', ':call CocAction("jumpReferences")<enter>:copen<enter>')
 nnoremap('<leader>DD', ':call CocAction("diagnosticToggle")<enter>')
 
 -- nerdtree
-nnoremap('<leader>t', ':NERDTreeToggle<enter>:set rnu<enter>')     -- at current working directory
+nnoremap('<leader>t', ':NERDTreeFind<enter>:set rnu<enter>')       -- at current working directory
 nnoremap('<leader>T', ':NERDTreeToggleVCS<enter>:set rnu<enter>')  -- at vcs toplevel
 
 -- fuzzy finding

@@ -21,11 +21,11 @@ AutoCmd:new{ event = 'BufWinEnter', pattern='*', cmd = 'silent! loadview'}:add()
 -- TODO add check
 AutoCmd:new{ event = 'BufWritePost', pattern='*.java', cmd = 'silent SA' }:add()
 AutoCmd:new{ event = 'BufWritePost', pattern='*.java', cmd = 'set noconfirm' }:add()
-AutoCmd:new{ event = 'BufWritePost', pattern='*.java', cmd = 'silent bufdo! e' }:add()
+AutoCmd:new{ event = 'BufWritePost', pattern='*.java', cmd = 'silent e' }:add()
 AutoCmd:new{ event = 'BufWritePost', pattern='*.java', cmd = 'set confirm' }:add()
 
 -- auto cd to path in vim
-AutoCmd:new{ event = 'BufEnter', pattern = '*', nested = false, cmd = 'lcd %:p:h'}:add()
+--AutoCmd:new{ event = 'BufEnter', pattern = '*', nested = false, cmd = 'lcd %:p:h'}:add()
 
 -- groups not implemented yet, using standard vimscript for shada share
 -- local exec = function (str) vim.api.nvim_exec(str, false) end
