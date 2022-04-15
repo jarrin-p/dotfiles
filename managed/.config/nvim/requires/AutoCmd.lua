@@ -4,10 +4,14 @@ require 'AutoloadClasses'
 -- and turn relative number on. it makes navigating the tree even easier
 AutoCmd:new{ event = 'VimEnter', cmd = 'NERDTreeToggleVCS' }:add()
 AutoCmd:new{ event = 'VimEnter', cmd = 'set relativenumber' }:add()
+--AutoCmd:new{ event = 'VimEnter', cmd = 'only' }:add()
+--AutoCmd:new{ event = 'VimEnter', cmd = 'norm O' }:add()
+
 
 -- switch to editing window
 -- TODO conditional switch to editing window
 --AutoCmd:new{ event = 'VimEnter', cmd = 'wincmd l' }:add()
+--AutoCmd:new{ event = 'VimEnter', cmd = "if line('$') == 1 && getline(1) == '' windcmd p"
 
 -- match spotlessApply in main project
 AutoCmd:new{ event = 'FileType', pattern='java', cmd = 'set tabstop=2' }:add()
@@ -26,6 +30,9 @@ AutoCmd:new{ event = 'BufWritePost', pattern='*.java', cmd = 'set confirm' }:add
 
 -- auto cd to path in vim
 --AutoCmd:new{ event = 'BufEnter', pattern = '*', nested = false, cmd = 'lcd %:p:h'}:add()
+
+-- coc hovers
+AutoCmd:new{ event = 'CursorHold', override=true, pattern='*', cmd = 'call CocAction("definitionHover")' }
 
 -- groups not implemented yet, using standard vimscript for shada share
 -- local exec = function (str) vim.api.nvim_exec(str, false) end

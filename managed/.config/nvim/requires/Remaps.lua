@@ -43,6 +43,9 @@ nnoremap('<leader>DD', ':call CocAction("diagnosticToggle")<enter>')
 nnoremap('<leader>t', ':NERDTreeFind<enter>:set rnu<enter>')       -- at current working directory
 nnoremap('<leader>T', ':NERDTreeToggleVCS<enter>:set rnu<enter>')  -- at vcs toplevel
 
+-- git
+nnoremap('<leader>g', ':tab G<enter>')
+
 -- fuzzy finding
 nnoremap('<leader>f', ':FZF<enter>')
 
