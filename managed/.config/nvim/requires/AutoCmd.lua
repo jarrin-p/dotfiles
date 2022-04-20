@@ -17,8 +17,8 @@ AutoCmd:new{ event = 'VimEnter', cmd = 'set relativenumber' }:add()
 AutoCmd:new{ event = 'FileType', pattern='java', cmd = 'set tabstop=2' }:add()
 
 -- keep manual folds
-AutoCmd:new{ event = 'BufWritePost', pattern='*.*', cmd = 'mkview' }:add()
-AutoCmd:new{ event = 'BufWinEnter', pattern='*', cmd = 'silent! loadview'}:add()
+--AutoCmd:new{ event = 'BufWritePost', pattern='*.*', cmd = 'mkview' }:add()
+--AutoCmd:new{ event = 'BufWinEnter', pattern='*', cmd = 'silent! loadview'}:add()
 
 -- custom spotlessApply command (SA) that runs at top of git level.
 -- assumes java is using gradle. reloads all buffers afterwards
@@ -32,7 +32,7 @@ AutoCmd:new{ event = 'BufWritePost', pattern='*.java', cmd = 'set confirm' }:add
 --AutoCmd:new{ event = 'BufEnter', pattern = '*', nested = false, cmd = 'lcd %:p:h'}:add()
 
 -- coc hovers
-AutoCmd:new{ event = 'CursorHold', override=true, pattern='*', cmd = 'call CocAction("definitionHover")' }
+--AutoCmd:new{ event = 'CursorHold', override=true, pattern='*', cmd = 'call CocAction("definitionHover")' }
 
 -- groups not implemented yet, using standard vimscript for shada share
 -- local exec = function (str) vim.api.nvim_exec(str, false) end

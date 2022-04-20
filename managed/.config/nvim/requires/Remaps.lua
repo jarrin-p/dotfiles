@@ -36,7 +36,7 @@ nnoremap('gd', ':call CocAction("jumpDefinition")<enter>')
 nnoremap('<leader>c', ':call CocAction("codeAction")<enter>')
 nnoremap('<leader>C', ':call CocAction("codeActions")<enter>')
 nnoremap('<leader>o', ':call CocAction("showOutline")<enter>:vert res 50<Enter>')
-nnoremap('<leader>r', ':call CocAction("jumpReferences")<enter>:copen<enter>')
+nnoremap('<leader>j', ':call CocAction("jumpReferences")<enter>:copen<enter>')
 nnoremap('<leader>DD', ':call CocAction("diagnosticToggle")<enter>')
 
 -- nerdtree
