@@ -34,7 +34,7 @@ Command = {
 }
 
 
-exec = vim.api.nvim_exec
+local exec = vim.api.nvim_exec
 vim.g.sil_is_toggled = 0
 exec([[
 function ToggleSil()
