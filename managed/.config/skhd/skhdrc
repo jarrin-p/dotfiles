@@ -106,131 +106,16 @@
 
 # MODAL HOTKEYS
 # {{{
-:: rearrange @
 :: navigate @
 
 # mode switches
-default, navigate, rearrange < shift - escape ; navigate
-default, navigate, rearrange < alt - escape ; rearrange
+default, navigate < shift - escape ; navigate
 
 # interact mode via `i`
-navigate, rearrange < i ; default
-navigate, rearrange < q ; navigate
-navigate, rearrange < w ; rearrange
+navigate < i ; default
+navigate < q ; navigate
 
-# new window
-navigate < return : skhd -k "cmd - n"
-navigate < cmd - n -> : skhd -k "" # empty remap to allow passthrough of keypress
-
-# navigate in a space
-navigate < h : yabai -m window --focus prev
-navigate < l : yabai -m window --focus next
-navigate < j : yabai -m window --focus stack.prev
-navigate < k : yabai -m window --focus stack.next
-
-rearrange < q : skhd -k "cmd - w" ; # yabai -m window --focus largest navigate < cmd - w -> : shkd -k "" # empty remap to allow passthrough of keypress
-rearrange < cmd - w -> : skhd -k ""
-
-# navigate rearrange - note that focus first / last doesn't include floating windows, only tiled
-# with sa-addon
-# navigate < 0x21 : yabai -m space --focus prev #; yabai -m window --focus first # left bracket
-# navigate < 0x1E : yabai -m space --focus next #; yabai -m window --focus first # right bracket
-navigate < r : yabai -m window --toggle split
-
-# no sa-addon
-# navigate rearrange
-navigate < 0x21 : skhd -k "cmd - h" ; #; yabai -m window --focus first # left bracket
-navigate < cmd - h -> : skhd -k ""
-navigate < 0x1E : skhd -k "cmd - l" ; #; yabai -m window --focus first # right bracket
-navigate < cmd - l -> : skhd -k ""
-
-# open app finder. starts interact mode via key press, then opens zsh function
-# navigate < o : skhd -k "i" ; \
-#     /usr/local/bin/kitty/kitty.app/contents/MacOS/kitty \
-#     --single-instance \
-#     zsh -c --interactive --login "app" ;
-
-navigate, rearrange < cmd - return : skhd -k "i" ; kitty --single-instance
-
-# resize windows based on parent/child positioning
-navigate < 0x2F : yabai -m window --ratio rel:0.05 # '.' keycode
-navigate < 0x2B : yabai -m window --ratio rel:-.05 # ',' keycode
-
-# rearrange windows
-rearrange < h : yabai -m window --swap prev
-rearrange < l : yabai -m window --swap next
-rearrange < j : yabai -m window --swap stack.prev
-rearrange < k : yabai -m window --swap stack.next
-
-# stack windows in a space; selected window consumes direction
-rearrange < cmd - n : yabai -m window --stack next
-rearrange < cmd + shift - n : yabai -m window --stack prev
-
-# rotate space, also unstacks windows
-rearrange < r : yabai -m space --rotate 90
-rearrange < shift - r : yabai -m space --rotate 270
-
-# Send to prev/next space and follow it
-# left bracket - send to prev space -- not sure why multi line is not working
-rearrange < 0x21 : yabai -m window --space prev ; skhd -k "cmd - h"
-rearrange < cmd - h -> : skhd -k ""
-
-# right bracket - send to next space -- not sure why multi line is not working
-rearrange < 0x1E : yabai -m window --space next ; skhd -k "cmd - l"
-rearrange < cmd - l -> : skhd -k ""
-
-# space layout changes
-rearrange < f : yabai -m space --layout float
-rearrange < s : yabai -m space --layout stack
-rearrange < b : yabai -m space --layout bsp
-
-rearrange < 0x2F : yabai -m space --ratio rel:0.05 # '.' keycode
-rearrange < 0x2B : yabai -m space --ratio rel:-.05 # ',' keycode
-
-# right bracket - send to prev display
-rearrange < shift - 0x21 : yabai -m window --display prev #; skhd -k "cmd - h"
-# left bracket - send to next display
-rearrange < shift - 0x1E : yabai -m window --display next #; skhd -k "cmd - l"
-
-# change displays
-rearrange < shift - 0x21 : yabai -m display --focus next
-rearrange < shift - 0x1E : yabai -m display --focus prev
-
-# mode enhancements{{{
-# [x] navigate: use next, prev on n, N instead of cardinal movement on hjkl and remap hjkl to app specific navigation
-# [ ] navigate: switch between stacked window and bsp modes
-# [ ]   query space to determine mode, adjust hotkey based on it
-# [ ] navigate: zoom full screen (might be duplicate of switching between stacked and bsp modes)
-# [ ] navigate: show all stacked windows
-# [ ] navigate: scrolling up and down through terminal using terminal mode
-#
-# [ ] navigate, rearrange: float mode (manage floating windows ... ?)
-#
-# [x] rearrange: create
-# [x] rearrange: delete
-# [ ] rearrange: rearrange (move left, right)
-# [ ] rearrange: naming
-# [ ]   show title in status bar
-# [x] rearrange: focus follows moved window to different space
-#
-# app specific functionality
-# [ ] navigate safari AT LEAST
-# [ ]   tab navigation
-# [ ]   vertical scrolling
-# [ ] messages app navigation
-# [ ]   change recipient
-# [ ]   search
-# [ ]   scroll up current message
-# [x] kittyconf: navigating terminal lines
-# [ ] kitty: run last command
-# [ ] kitty/nvim: save all open nvim
-# [ ] shared buffer list between kitty windows
-#
-# other stuff
-# [ ] pin specific app as status bar
-# [ ] show app names via query in like top right.
-# [ ] basic layout
-# [x]   mode:                     space:                      tab stack }}}
+navigate < cmd - return : skhd -k "i" ; kitty --single-instance
 # }}}
 
 # GLOBAL HOTKEYS
@@ -239,7 +124,6 @@ default < alt - h : yabai -m window --focus prev
 default < alt - l : yabai -m window --focus next
 default < alt - j : yabai -m window --focus stack.prev
 default < alt - k : yabai -m window --focus stack.next
-#default < alt - q : skhd -k "cmd - w"
 
 # change layouts
 default < alt - b : yabai -m space --layout bsp
@@ -260,6 +144,15 @@ default < alt - 0x2B : yabai -m window --ratio rel:-.05 # ',' keycode
 
 # change split direction
 default < alt - r : yabai -m window --toggle split
+
+# rotate space, also unstacks windows
+# rearrange < r : yabai -m space --rotate 90
+# rearrange < shift - r : yabai -m space --rotate 270
+
+# right bracket - send to prev display
+# rearrange < shift - 0x21 : yabai -m window --display prev #; skhd -k "cmd - h"
+# left bracket - send to next display
+# rearrange < shift - 0x1E : yabai -m window --display next #; skhd -k "cmd - l"
 
 # }}}
 # vim:fdm=marker:foldlevel=0
