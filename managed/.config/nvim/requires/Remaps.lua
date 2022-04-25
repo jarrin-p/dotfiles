@@ -1,3 +1,4 @@
+--require("Functions")
 local vim = vim
 
 local function map (lhs, rhs) vim.api.nvim_set_keymap('', lhs, rhs, {noremap = false, silent = true}) end
@@ -20,6 +21,8 @@ nnoremap('<c-h>', '<c-w>W') -- previous window (above, left)
 nnoremap('<c-l>', '<c-w>w') -- next window (below, right)
 nnoremap('<c-n>', '<c-w>n') -- exchange with next window (or prev if no next)
 nnoremap('<c-r>', '<c-w>n') -- exchange with next window (or prev if no next)
+nnoremap('<c-enter>', ':vsp<enter>')
+nnoremap('<leader>l', ':lua goRight()<enter>')
 --nnoremap('<C-.>', '<C-W>+') -- increase window size -- control . not working
 --nnoremap('<C-,>', '<C-W>-') -- reduce window size -- control , not working
 
