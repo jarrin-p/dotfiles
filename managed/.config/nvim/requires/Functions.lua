@@ -168,8 +168,6 @@ function GoLeft()
     end
 end
 
-GoNext()
-
 -- exec([[
 -- function! IsRightMostWindow()
 --         return 0
