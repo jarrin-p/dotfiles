@@ -1,7 +1,6 @@
 -- TODO consider how to incorporate buffers <-> kitty tabs <-> mac spaces ?
 -- TODO consider switch mac settings such that displays use same spaces?
 
-
 local winnr = vim.fn.winnr -- create alias for getting winnr() (window number)
 local v_sys = vim.fn.system -- create alias for system eval (captures shell command)
 
@@ -9,6 +8,37 @@ local v_sys = vim.fn.system -- create alias for system eval (captures shell comm
 -- @see https://stedolan.github.io/jq/
 function JQ (json_string, filter)
     return v_sys("echo '" .. json_string .. "'" .. ' | jq "' .. filter .. '"')
+end
+
+--- recursively prints a table that has nested tables in a manner that isn't awful
+-- @param element the array or table to be printed
+-- @param indent (optional) spaces that will be added in each level of recursion
+function RecursivePrint(element, indent)
+    indent = indent or ''
+    if type(element) == 'table' then
+        for key, val in pairs(element) do
+            if type(val) == 'table' then
+                print(indent .. key .. ':')
+                RecursivePrint(val, indent .. '  ')
+            else
+                print(indent .. key .. ': ' .. val)
+            end
+        end
+    end
+end
+
+--- json parse. converts character such that they will end up in a lua table structure
+-- that can simply be loaded in with `load`
+-- @param json string that will end up in a lua table
+function JsonToTable(json)
+    json = json:gsub('"([%w%p]-)":', '%1 =')
+    json = json:gsub('-', '_')
+    json = json:gsub('%[', '%{')
+    json = json:gsub('%]', '%}')
+
+    local result, err = load('return ' .. json)
+    result = result()
+    return result, err
 end
 
 --- alias for running the 'kitty @ ls' command, which shows current session info such as tabs, windows, pids, etc.
@@ -50,54 +80,54 @@ function GetFocusedKittyWindowPosition(tab_windows_json_string, window_count)
 end
 
 --- goes to the next kitty window
+-- @param focused_window_position integer, position of the next window from left to right
+-- @see https://sw.kovidgoyal.net/kitty/remote-control/#kitty-focus-window
 function GoToNextKittyWindow(focused_window_position)
     local window_id = focused_window_position or GetFocusedKittyWindowPosition()
     v_sys('kitty @ focus-window --match num:' .. window_id + 1)
 end
 
---- alias for query
-function YabaiQuery(focus_type, filter)
-    focus_type = focus_type or "windows"
-    filter = filter or "."
-    return JQ(v_sys('yabai -m query --' .. focus_type), filter)
+--- runs a yabai query on the space
+function YabaiGetQuery(type)
+    local raw = v_sys('yabai -m query --' .. type)
+    local as_json = JQ(raw, ".")
+    return JsonToTable(as_json)
 end
 
---- gets a value from a field based on the equality of a different field compared to a specified value.
--- @table arg_table values that should be passed in as arguments
--- @param field_name the json query field to look at
--- @param field_truth_value the value that will trigger `true` in the if statement
--- @param return_identifier the field value that will be returned from the if statement when true
--- @param focus_type string that can be either `displays`, `spaces`, or `windows`. defaults `windows`
--- @returns requested value. default is the id of the focused window
-function GetYabaiDetail(arg_table)
-    local focus_type = arg_table.focus_type or 'windows'
-    local field_name = arg_table.field_name or 'focused'
-    local field_truth_value = arg_table.field_truth_value or '1'
-    local return_identifier = arg_table.return_identifier or 'index'
+--- gets active yabai window id
+-- @param json (optional) string of query
 
-    local list_of = arg_table.yabai_query or YabaiQuery(focus_type)
-    local window_count = GetNumberOfWindows(list_of)
+--- @see `man yabai` for more details about focus options
+function YabaiFocusWindow(message) v_sys('yabai -m window --focus ' .. message) end
 
-    for i = 0, window_count-1 do
-        -- trim out the newline attached to 'true', 'false' using gsub
-        if JQ(list_of, '.[' .. i .. '].' .. field_name):gsub('%s+', '') == field_truth_value then
-            return (JQ(list_of, '.[' .. i .. '].' .. return_identifier))
+--- @see `man yabai` for more details about focus options
+function YabaiFocusDisplay(message) v_sys('yabai -m display --focus ' .. message) end
+
+--- finds the window id of the current focused window
+-- @param windows table with all the window values
+-- @see JsonToTable()
+function YabaiGetFocusedWindow(windows)
+    for _, window in pairs(windows) do
+        if window.focused == 1 then return window end
+    end
+end
+
+--- finds the focused space from a given index
+function YabaiGetFocusedSpace(spaces)
+    for _, space in pairs(spaces) do
+        if space.focused == 1 then return space end
+    end
+end
+
+function YabaiGetFocusedDisplay(displays, space_id_focused)
+    for _, display in pairs(displays) do
+        for _, space_index in ipairs(display.spaces) do
+            if space_index == space_id_focused then return display end
         end
     end
 end
 
-function GetFocusedSpaceWindowList(space_index)
-    return YabaiQuery('spaces', '.index' .. space_index)
-end
-
-function FocusYabaiWindow(message)
-    v_sys('yabai -m window --focus ' .. message)
-end
-
-function YabaiFocusDisplay(message)
-    v_sys('yabai -m display --focus ' .. message)
-end
---- handles where focus should go (rename to GoNext())
+--- handles where focus should go
 -- TODO move left as well
 function GoNext()
 
@@ -110,55 +140,24 @@ function GoNext()
             return
         end
 
-        -- setup for yabai
-        local window_query = YabaiQuery('windows')
-        local args = {
-            yabai_query = window_query,
-            field_name = 'focused',
-            field_truth_value = '1',
-        }
-
-        args.return_identifier = 'id'
-        local focused_window_id = tonumber(GetYabaiDetail(args))
-
-        args.return_identifier = 'space'
-        local focused_window_space_index = tonumber(GetYabaiDetail(args))
-
-        local windows_in_space = YabaiQuery(
-            'spaces',
-            '.[] | select( .index == ' .. focused_window_space_index .. ' )'
-        )
-
-        local windows = JQ(windows_in_space, '.windows')
-        local windows_count = tonumber(JQ(windows, '. | length'))
-
-        -- windows
-        for i = 0, windows_count-1 do
-            local win = tonumber(JQ(windows, '.[' .. i .. ']'))
-            if win == focused_window_id and i < windows_count-1 then
-                FocusYabaiWindow('next')
-            end
+        -- if not last window get focused window id and its space
+        local window = YabaiGetFocusedWindow(YabaiGetQuery("windows"))
+        local space = YabaiGetFocusedSpace(YabaiGetQuery("spaces"))
+        if window.id ~= space.last_window then
+            YabaiFocusWindow('next')
+            return
         end
 
-        -- displays
-        args.return_identifier = 'display'
-        local focused_window_display_index = tonumber(GetYabaiDetail(args))
-
-        local displays_count = tonumber(YabaiQuery('displays', '. | length'))
-        local displays = YabaiQuery('displays')
-        for i = 0, displays_count-1 do
-            local disp = tonumber(JQ(displays, '.[' .. i .. '].index'))
-            if disp == focused_window_display_index and i < displays_count-1 then
-                YabaiFocusDisplay('next')
-            end
-        end
+        -- yabai will try to go to the next display. no harm done if none found,
+        -- no additional logic necessary
+        YabaiFocusDisplay("next")
     else
         -- move to next vim split
         vim.cmd('wincmd w')
     end
 end
 
-function GoLeft()
+function GoPrev()
     if winnr() == winnr('$') then -- checks if last window
         -- move to next window / display
         vim.cmd('echo "hey"')
@@ -168,17 +167,4 @@ function GoLeft()
     end
 end
 
--- exec([[
--- function! IsRightMostWindow()
---         return 0
---     endif
---     return 1
--- endfunction
-
--- function! IsLeftMostWindow()
---     if winnr() == 1
---         return 0
---     endif
---     return 1
--- endfunction
--- ]], false)
+GoNext()
