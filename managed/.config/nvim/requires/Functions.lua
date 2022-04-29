@@ -10,23 +10,6 @@ function JQ (json_string, filter)
     return v_sys("echo '" .. json_string .. "'" .. ' | jq "' .. filter .. '"')
 end
 
---- recursively prints a table that has nested tables in a manner that isn't awful
--- @param element the array or table to be printed
--- @param indent (optional) spaces that will be added in each level of recursion
-function RecursivePrint(element, indent)
-    indent = indent or ''
-    if type(element) == 'table' then
-        for key, val in pairs(element) do
-            if type(val) == 'table' then
-                print(indent .. key .. ':')
-                RecursivePrint(val, indent .. '  ')
-            else
-                print(indent .. key .. ': ' .. val)
-            end
-        end
-    end
-end
-
 --- json parse. converts character such that they will end up in a lua table structure
 -- that can simply be loaded in with `load`
 -- @param json string that will end up in a lua table
@@ -41,13 +24,44 @@ function JsonToTable(json)
     return result, err
 end
 
---- alias for running the 'kitty @ ls' command, which shows current session info such as tabs, windows, pids, etc.
-function KittyLS() return v_sys('kitty @ ls') end
+--- recursively prints a table that has nested tables in a manner that isn't awful
+-- @param element the array or table to be printed
+-- @param indent (optional) spaces that will be added in each level of recursion
+function RecursivePrint(element, indent)
+    indent = indent or ''
+    if type(element) == 'table' then
+        for key, val in pairs(element) do
+            if type(val) == 'table' then
+                print(indent .. key .. ':')
+                RecursivePrint(val, indent .. '  ')
+            else
+                print(indent .. key .. ': ' .. (type(val) == 'boolean' and (val and 'true' or 'false') or val))
+            end
+        end
+    end
+end
+
+Kitty = {
+    ls = nil,
+    tab_id = nil,
+}
+
+--- alias for running the `kitty @ ls` command, which shows current session info such as tabs, windows, pids, etc.
+-- @returns lua table containing `kitty @ ls` results
+function Kitty:LS()
+    self.ls = self.ls or JsonToTable(JQ(v_sys('kitty @ ls'), "."))
+    return self.ls
+end
+
+function Kitty:GetTabs()
+    return self:LS()[1].tabs
+end
 
 --- gets the active tab kitty has open by looping through all active tabs
--- @param kitty_ls (optional) json string of the return value of `kitty @ ls`. will run `kitty @ ls` if not passed.
-function GetFocusedKittyTab(kitty_ls)
-    return JQ(kitty_ls or KittyLS(), '.[0].tabs')
+-- TODO check all tabs
+function Kitty:GetFocusedTab()
+    self.tab_id = 1
+    return self.ls[1].tabs
 end
 
 --- gets all the windows from the active tab kitty has open
@@ -133,24 +147,26 @@ function GoNext()
 
     -- if the current window number is equal to the last window number
     if winnr() == winnr('$') then
+        local r = RecursivePrint
+        r(Kitty:GetTabs())
 
-        -- get the active window id to switch to if it exists
-        if GetFocusedKittyWindowPosition() < GetNumberOfWindows() then
-            GoToNextKittyWindow()
-            return
-        end
+        -- -- get the active window id to switch to if it exists
+        --if GetFocusedKittyWindowPosition() < GetNumberOfWindows() then
+        --    GoToNextKittyWindow()
+        --    return
+        --end
 
-        -- if not last window get focused window id and its space
-        local window = YabaiGetFocusedWindow(YabaiGetQuery("windows"))
-        local space = YabaiGetFocusedSpace(YabaiGetQuery("spaces"))
-        if window.id ~= space.last_window then
-            YabaiFocusWindow('next')
-            return
-        end
+        -- -- if not last window get focused window id and its space
+        -- local window = YabaiGetFocusedWindow(YabaiGetQuery("windows"))
+        -- local space = YabaiGetFocusedSpace(YabaiGetQuery("spaces"))
+        -- if window.id ~= space.last_window then
+        --     YabaiFocusWindow('next')
+        --     return
+        -- end
 
-        -- yabai will try to go to the next display. no harm done if none found,
-        -- no additional logic necessary
-        YabaiFocusDisplay("next")
+        -- -- yabai will try to go to the next display. no harm done if none found,
+        -- -- no additional logic necessary
+        -- YabaiFocusDisplay("next")
     else
         -- move to next vim split
         vim.cmd('wincmd w')
