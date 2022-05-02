@@ -1,0 +1,3 @@
+[submodule "managed/.icons/whiskers"]
+	path = managed/.icons/whiskers
+	url = https://github.com/igrmk/whiskers.git
