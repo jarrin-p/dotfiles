@@ -11,7 +11,9 @@ end
 -- that can simply be loaded in with `load`
 -- @param json string that will end up in a lua table
 function JsonToTable(json)
+    json = json:gsub('\\', '')
     json = json:gsub('"([%w%p]-)":', '%1 =')
+    --json = json:gsub('"([%w%p]-)":', '%1 =')
     json = json:gsub('-', '_')
     json = json:gsub('%[', '%{')
     json = json:gsub('%]', '%}')
@@ -178,7 +180,7 @@ function GoNext()
     if winnr() == winnr('$') then
 
         -- get the active window id to switch to if it exists
-        if Kitty:GetFocusedWindowPosition() < Kitty:GetNumberOfWindows() then Kitty:NextWindow()
+        if Kitty:GetFocusedWindowPosition() < Kitty:GetNumberOfWindows()-1 then Kitty:NextWindow()
 
         -- check if the current window is the last window. if it is, go to the next window
         elseif Yabai:GetFocusedWindow().id ~= Yabai:GetFocusedSpace().last_window then
