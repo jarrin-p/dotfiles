@@ -62,7 +62,7 @@ function sp_default { export PS1="$ZZ_DEFAULT_PROMPT" }
 function sp_level { export PS1="%n %${1}~ > " }
 
 # change fzf default to use ripgrep
-export FZF_DEFAULT_COMMAND='rg --glob !.git --hidden --no-ignore --files'
+export FZF_DEFAULT_COMMAND='rg --glob "!*.git" --glob "!*.class" --glob "!*.jar" --glob "!*.java.html" --hidden --no-ignore --files'
 
 # shell mods
 source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh

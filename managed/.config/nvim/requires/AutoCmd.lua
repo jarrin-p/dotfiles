@@ -35,14 +35,13 @@ AutoCmd:new{ event = 'BufWritePost', pattern='*.java', cmd = 'set confirm' }:add
 --AutoCmd:new{ event = 'CursorHold', override=true, pattern='*', cmd = 'call CocAction("definitionHover")' }
 
 -- groups not implemented yet, using standard vimscript for shada share
--- local exec = function (str) vim.api.nvim_exec(str, false) end
+ local exec = function (str) vim.api.nvim_exec(str, false) end
 
--- -- share shada (registers, etc) between windows.
--- exec [[
--- augroup SHADA
---     autocmd!
---     autocmd CursorHold,TextYankPost,FocusGained,FocusLost *
---         \ if exists(':rshada') | rshada | wshada | endif
--- augroup END
--- ]]
-
+ -- share shada (registers, etc) between windows.
+ exec [[
+ augroup SHADA
+     autocmd!
+     autocmd CursorHold,TextYankPost,FocusGained,FocusLost *
+         \ if exists(':rshada') | rshada | wshada | endif
+ augroup END
+ ]]

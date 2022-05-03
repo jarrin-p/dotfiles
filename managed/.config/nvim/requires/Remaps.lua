@@ -17,12 +17,13 @@ nnoremap('<leader>=', ':SA<enter>')
 
 -- window management
 -- these apply to vertical splits as well, mimics my skhd behavior instead using ctrl modifier
-nnoremap('<c-h>', '<c-w>W') -- previous window (above, left)
-nnoremap('<c-l>', '<c-w>w') -- next window (below, right)
+nnoremap('<c-h>', ':lua GoPrev()<enter>') -- previous window (above, left)
+nnoremap('<c-l>', ':lua GoNext()<enter>') -- next window (below, right)
+-- nnoremap('<c-h>', '<c-w>W') -- previous window (above, left)
+-- nnoremap('<c-l>', '<c-w>w') -- next window (below, right)
 nnoremap('<c-n>', '<c-w>n') -- exchange with next window (or prev if no next)
 nnoremap('<c-r>', '<c-w>n') -- exchange with next window (or prev if no next)
 nnoremap('<c-enter>', ':vsp<enter>')
-nnoremap('<leader>l', ':lua goRight()<enter>')
 --nnoremap('<C-.>', '<C-W>+') -- increase window size -- control . not working
 --nnoremap('<C-,>', '<C-W>-') -- reduce window size -- control , not working
 

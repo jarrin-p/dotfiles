@@ -31,7 +31,9 @@ Set.splitbelow = true -- splits new window down
 --Set.sessionoptions = 'localoptions,folds,options,tabpages,winsizes,sesdir'
 
 -- sets the grep program as ripgrep
-Set.grepprg = 'rg --line-number --with-filename'
+Set.grepprg = "rg --line-number --with-filename --glob='!*.class' --glob='!*.jar' --glob='!*.java.html'"
+-- currently defined default fzf command
+-- rg --glob "!*.git" --glob "!*.class" --glob "!*.jar" --hidden --no-ignore --files
 
 -- Editing Settings
 Set.backspace = 'indent,eol,start'
