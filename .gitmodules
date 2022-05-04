@@ -1,3 +1,6 @@
 [submodule "managed/.icons/whiskers"]
 	path = managed/.icons/whiskers
 	url = https://github.com/igrmk/whiskers.git
+[submodule "antigen"]
+	path = antigen
+	url = https://github.com/zsh-users/antigen

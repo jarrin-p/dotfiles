@@ -3,6 +3,10 @@ source ~/.zshrc.private
 #alias ls="ls --color=auto"
 alias ls="ls -G"
 
+# new pager
+export PAGER=nvim
+function man { nvim -c "Man $1" -c "only" } # Use neovim's man command instead of gnu-man
+
 # Quick Access
 alias zshrc="nvim $ZSHRC -c 'cd %:h'"
 alias zshrcp="nvim $ZSHRCP -c 'cd %:h'"
@@ -22,7 +26,6 @@ alias set_intel="clear ; arch -x86_64 /bin/zsh ; echo $(arch)"
 alias load_yabai="yabai & ; sudo yabai --load-sa ; ps -ax | grep yabai ; disown yabai ; skhd & ; disown skhd ; ps -ax | grep skhd ;"
 alias stop_yabai="pkill yabai ; ps -ax | grep yabai ; pkill skhd ; ps -ax | grep skhd ;"
 
-function man { nvim -c "Man $1" -c "only" } # Use neovim's man command instead of gnu-man
 
 # quickly open a mac .app from a variety of locations
 # used with yabai + skhd to behave like spotlight but for apps
@@ -35,6 +38,7 @@ function app {
 	rm /tmp/appnames
 }
 
+# git/vcs status info
 setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git cvs svn
@@ -50,7 +54,7 @@ zstyle ':vcs_info:*' formats       \
 '
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r
 '
-
+# add new line after each command
 precmd () { 
     vcs_info 
     echo ""
@@ -68,5 +72,8 @@ export FZF_DEFAULT_COMMAND='rg --glob "!*.git" --glob "!*.class" --glob "!*.jar"
 source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 . /usr/local/etc/profile.d/z.sh
 
-#sp_level 1
+# antigen easy install
+# curl -L git.io/antigen > antigen.zsh
+antigen bundle jeffreytse/zsh-vi-mode
+
 # vim: fdm=marker
