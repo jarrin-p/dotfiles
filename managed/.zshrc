@@ -68,12 +68,14 @@ function sp_level { export PS1="%n %${1}~ > " }
 # change fzf default to use ripgrep
 export FZF_DEFAULT_COMMAND='rg --glob "!*.git" --glob "!*.class" --glob "!*.jar" --glob "!*.java.html" --hidden --no-ignore --files'
 
-# shell mods
-source /usr/local/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-. /usr/local/etc/profile.d/z.sh
+# run make install in the antigen folder if source error
+source /usr/local/share/antigen.zsh
 
-# antigen easy install
-# curl -L git.io/antigen > antigen.zsh
+# add bundles
 antigen bundle jeffreytse/zsh-vi-mode
+antigen bundle rupa/z
+
+# necessary after adding bundles
+antigen apply
 
 # vim: fdm=marker
