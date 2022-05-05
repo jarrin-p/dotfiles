@@ -8,14 +8,9 @@ export PAGER=nvim
 function man { nvim -c "Man $1" -c "only" } # Use neovim's man command instead of gnu-man
 
 # Quick Access
-alias zshrc="nvim $ZSHRC -c 'cd %:h'"
-alias zshrcp="nvim $ZSHRCP -c 'cd %:h'"
-alias nvimrc="nvim $NVIMRC -c 'cd %:h'"
-alias skhdrc="nvim $SKHDCONF -c 'cd %:h'"
-alias yabairc="nvim $YABAICONF -c 'cd %:h'"
-alias kittyconf="nvim $KITTYCONF -c 'cd %:h'"
 alias gittop='pushd $(git rev-parse --show-toplevel)'
 alias g='nvim -c "wincmd l" -c "Git" -c "only"'
+alias ssh='kitty +kitten ssh'
 
 alias dcu="docker compose up"
 alias dcub="docker compose up --build"
@@ -25,7 +20,6 @@ alias set_intel="clear ; arch -x86_64 /bin/zsh ; echo $(arch)"
 
 alias load_yabai="yabai & ; sudo yabai --load-sa ; ps -ax | grep yabai ; disown yabai ; skhd & ; disown skhd ; ps -ax | grep skhd ;"
 alias stop_yabai="pkill yabai ; ps -ax | grep yabai ; pkill skhd ; ps -ax | grep skhd ;"
-
 
 # quickly open a mac .app from a variety of locations
 # used with yabai + skhd to behave like spotlight but for apps
@@ -68,7 +62,7 @@ function sp_level { export PS1="%n %${1}~ > " }
 # change fzf default to use ripgrep
 export FZF_DEFAULT_COMMAND='rg --glob "!*.git" --glob "!*.class" --glob "!*.jar" --glob "!*.java.html" --hidden --no-ignore --files'
 
-# run make install in the antigen folder if source error
+# get_antigen.sh
 source /usr/local/share/antigen.zsh
 
 # add bundles

@@ -23,9 +23,9 @@ Set.path = Set.path .. '**'
 Set.signcolumn = 'yes'
 Set.updatetime = 100
 Set.foldlevelstart = 99
-Set.scrolloff = 12
+Set.scrolloff = 2
 Set.cursorline = true
-Set.showmode = false  -- changed to false because of lightline plugin
+Set.showmode = true  -- changed to false because of lightline plugin
 Set.splitright = true -- splits new window to the right
 Set.splitbelow = true -- splits new window down
 --Set.sessionoptions = 'localoptions,folds,options,tabpages,winsizes,sesdir'
@@ -40,8 +40,6 @@ Set.backspace = 'indent,eol,start'
 Set.magic = true
 Set.inccommand = 'nosplit'
 
--- Plugin Settings
+-- plugin settings that come with vim
 vim.g.netrw_liststyle = 3
 vim.g.csv_nomap_cr = 1
-vim.g.NERDTreeWinSize = 50
-vim.g.NERDTreeShowBookmarks = 1

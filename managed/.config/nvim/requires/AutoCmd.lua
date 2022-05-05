@@ -4,6 +4,10 @@ require 'AutoloadClasses'
 -- and turn relative number on. it makes navigating the tree even easier
 AutoCmd:new{ event = 'VimEnter', cmd = 'NERDTreeToggleVCS' }:add()
 AutoCmd:new{ event = 'VimEnter', cmd = 'set relativenumber' }:add()
+
+AutoCmd:new{ event = 'VimEnter', cmd = 'wincmd w' }:add()
+AutoCmd:new{ event = 'VimEnter', cmd = 'echo &filetype' }:add()
+AutoCmd:new{ event = 'VimEnter', cmd = 'if &filetype == "" | wincmd p | endif' }:add()
 --AutoCmd:new{ event = 'VimEnter', cmd = 'only' }:add()
 --AutoCmd:new{ event = 'VimEnter', cmd = 'norm O' }:add()
 

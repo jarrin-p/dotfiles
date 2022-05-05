@@ -24,7 +24,7 @@ require 'nvim-treesitter.configs'.setup {
 	ensure_installed = "all",
 
 	-- Install languages synchronously (only applied to `ensure_installed`)
-	sync_install = false,
+	sync_install = true,
 
 	-- List of parsers to ignore installing
 	-- ignore_install = { "javascript" },
@@ -40,6 +40,6 @@ require 'nvim-treesitter.configs'.setup {
 		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
 		-- Using this option may slow down your editor, and you may see some duplicate highlights.
 		-- Instead of true it can also be a list of languages
-		additional_vim_regex_highlighting = false,
+		additional_vim_regex_highlighting = true,
 	},
 }

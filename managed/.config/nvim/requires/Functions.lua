@@ -38,6 +38,7 @@ function RecursivePrint(element, indent)
     end
 end
 
+--- table that holds initial query. additionally, functions are defined on this table that operate on the list.
 Kitty = {
     ls = nil,
 }

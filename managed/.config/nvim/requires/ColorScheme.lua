@@ -15,7 +15,7 @@ exec 'hi clear VertSplit'
 exec 'hi VertSplit ctermfg=0'
 
 exec 'hi clear Search'
-exec 'hi Search cterm=bold,underline'
+exec 'hi Search cterm=bold,italic'
 
 exec 'hi clear Folded'
 exec 'hi Folded ctermfg=8 cterm=italic'
@@ -28,12 +28,16 @@ exec 'hi Pmenu ctermbg=242'
 exec 'hi clear MatchParen'
 exec 'hi MatchParen cterm=bold,italic'
 
+exec 'hi Type cterm=italic'
+
 exec 'hi javaLangObject ctermfg=8 cterm=bold'
 
+local cursor_line_settings = 'none'
 exec 'hi clear CursorLine'
-exec 'hi CursorLine ctermbg=0'
+exec('hi CursorLine ctermbg=' .. cursor_line_settings)
 
-exec 'hi CursorLineNr cterm=none ctermbg=0'
+exec('hi clear CursorLineNr')
+exec('hi CursorLineNr cterm=none ctermbg=' .. cursor_line_settings)
 
 exec 'hi DiffText ctermfg=0'
 
@@ -54,7 +58,5 @@ exec 'hi DiffAdd ctermfg=6 cterm=bold'
 exec 'hi DiffChange ctermfg=12 cterm=italic'
 exec 'hi DiffDelete ctermfg=1 cterm=bold'
 exec 'hi DiffText ctermfg=11 cterm=bold'
-
-exec 'hi Type cterm=italic'
 
 -- End kitty apprentice theme
