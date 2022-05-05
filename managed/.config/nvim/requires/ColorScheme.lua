@@ -1,24 +1,33 @@
 local vim = vim
 local exec = function (str) vim.api.nvim_exec(str, false) end
 
+-- specifying colors manually. makes tweaking easier
+local cyan = '81'
+local dark_blue = '8'
+
+-- custom groupings, basically.
+local cursor_line_settings = 'none'
+
 -- For kitty apprentice theme
 exec 'hi clear FoldColumn'
-exec 'hi FoldColumn ctermfg=8'
+exec('hi FoldColumn ctermfg=' .. dark_blue)
 
 exec 'hi clear SignColumn'
 
 exec 'hi clear StatusLine'
 exec 'hi clear StatusLineNC'
-exec 'hi StatusLine cterm=italic'
+
+exec 'hi StatusLine cterm=bold,underline ctermfg=0'
+exec 'hi StatusLineNC cterm=italic,underline ctermfg=0'
 
 exec 'hi clear VertSplit'
 exec 'hi VertSplit ctermfg=0'
 
 exec 'hi clear Search'
-exec 'hi Search cterm=bold,italic'
+exec('hi Search cterm=bold,italic ctermfg=' .. cyan)
 
 exec 'hi clear Folded'
-exec 'hi Folded ctermfg=8 cterm=italic'
+exec('hi Folded ctermfg=' .. dark_blue .. 'cterm=italic')
 
 exec 'hi clear FgCocHintFloatBgCocFloating'
 exec 'hi FgCocHintFloatBgCocFloating ctermbg=242'
@@ -30,9 +39,8 @@ exec 'hi MatchParen cterm=bold,italic'
 
 exec 'hi Type cterm=italic'
 
-exec 'hi javaLangObject ctermfg=8 cterm=bold'
+exec('hi javaLangObject ctermfg=' .. dark_blue .. ' cterm=bold')
 
-local cursor_line_settings = 'none'
 exec 'hi clear CursorLine'
 exec('hi CursorLine ctermbg=' .. cursor_line_settings)
 
@@ -58,5 +66,3 @@ exec 'hi DiffAdd ctermfg=6 cterm=bold'
 exec 'hi DiffChange ctermfg=12 cterm=italic'
 exec 'hi DiffDelete ctermfg=1 cterm=bold'
 exec 'hi DiffText ctermfg=11 cterm=bold'
-
--- End kitty apprentice theme
