@@ -11,16 +11,19 @@ map('<space>', '<leader>') -- Remap leader to spacebar, obviously
 nnoremap('Y', 'y$')        -- Change back to vanilla default
 nnoremap('U', '<c-r>')     -- change U to redo because I'm simple and U confuses me.
 nnoremap('<leader>V', ':tabe ' .. os.getenv('MYVIMRC') .. '<enter>') -- edit init.lua
+nnoremap('`', "'") -- swap mapping of "jump to mark's col,line" with "jump to mark's line"
+nnoremap("'", '`') -- swap mapping of "jump to mark's line" with "jump to mark's col,line"
 
 -- formatting
 nnoremap('<leader>=', ':SA<enter>')
 
 -- window management
+-- (need to finish rest of mapping os before GoPrev() and GoNext() are actually useful)
+-- nnoremap('<c-h>', ':lua GoPrev()<enter>') -- previous window (above, left)
+-- nnoremap('<c-l>', ':lua GoNext()<enter>') -- next window (below, right)
 -- these apply to vertical splits as well, mimics my skhd behavior instead using ctrl modifier
-nnoremap('<c-h>', ':lua GoPrev()<enter>') -- previous window (above, left)
-nnoremap('<c-l>', ':lua GoNext()<enter>') -- next window (below, right)
--- nnoremap('<c-h>', '<c-w>W') -- previous window (above, left)
--- nnoremap('<c-l>', '<c-w>w') -- next window (below, right)
+nnoremap('<c-h>', '<c-w>W') -- previous window (above, left)
+nnoremap('<c-l>', '<c-w>w') -- next window (below, right)
 nnoremap('<c-n>', '<c-w>n') -- exchange with next window (or prev if no next)
 nnoremap('<c-r>', '<c-w>n') -- exchange with next window (or prev if no next)
 nnoremap('<c-enter>', ':vsp<enter>')
@@ -57,7 +60,7 @@ nnoremap('<leader>f', ':FZF<enter>')
 nnoremap('<leader>zfi', ':set foldmethod=indent<enter>')
 nnoremap('<leader>zfm', ':set foldmethod=manual<enter>')
 
--- for errorfinding and vimgrep
+-- for errorfinding and grep
 nnoremap('<leader>n', ':cnext<enter>')
 nnoremap('<leader>N', ':cprev<enter>')
 

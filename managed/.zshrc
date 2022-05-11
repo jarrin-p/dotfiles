@@ -4,7 +4,6 @@ source ~/.zshrc.private
 alias ls="ls -G"
 
 # new pager
-export PAGER=nvim
 function man { nvim -c "Man $1" -c "only" } # Use neovim's man command instead of gnu-man
 
 # Quick Access
