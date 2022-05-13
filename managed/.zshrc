@@ -1,35 +1,24 @@
 source ~/.zshrc.private
 
-#alias ls="ls --color=auto"
+# color ls
 alias ls="ls -G"
 
-# new pager
 function man { nvim -c "Man $1" -c "only" } # Use neovim's man command instead of gnu-man
 
 # Quick Access
 alias gittop='pushd $(git rev-parse --show-toplevel)'
-alias g='nvim -c "wincmd l" -c "Git" -c "only"'
-alias ssh='kitty +kitten ssh'
 
+# requires (n)vim `fugitive` plugin
+alias g='nvim -c "wincmd l" -c "Git" -c "only"'
+
+# enhanced ssh functionality using kitty
+alias ssh='kitty +kitten ssh' 
+
+# shorthands
 alias dcu="docker compose up"
 alias dcub="docker compose up --build"
 function dcrun { docker compose run $1 } # Parameter is for the service name
-
 alias set_intel="clear ; arch -x86_64 /bin/zsh ; echo $(arch)"
-
-alias load_yabai="yabai & ; sudo yabai --load-sa ; ps -ax | grep yabai ; disown yabai ; skhd & ; disown skhd ; ps -ax | grep skhd ;"
-alias stop_yabai="pkill yabai ; ps -ax | grep yabai ; pkill skhd ; ps -ax | grep skhd ;"
-
-# quickly open a mac .app from a variety of locations
-# used with yabai + skhd to behave like spotlight but for apps
-# in locations I specify (spotlight wasn't picking up all of them)
-function app {
-	find /Applications -depth 1 -maxdepth 1 -name "*.app" 2>/dev/null > /tmp/appnames
-	find /System/Applications -depth 1 -maxdepth 1 -name "*.app" 2>/dev/null >> /tmp/appnames
-    find /System/Applications/Utilities -depth 1 -maxdepth 1 -name "*.app" 2>/dev/null >> tmp/appnames
-	open "$(cat /tmp/appnames | fzf -e)"
-	rm /tmp/appnames
-}
 
 # git/vcs status info
 setopt prompt_subst
@@ -60,11 +49,13 @@ function sp_level { export PS1="%n %${1}~ > " }
 
 # change fzf default to use ripgrep
 export FZF_DEFAULT_COMMAND='rg --glob "!*.git" --glob "!*.class" --glob "!*.jar" --glob "!*.java.html" --hidden --no-ignore --files'
+
+# fix a color scheme issue i hated
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --color=bg+:-1
 '
 
-# get_antigen.sh
+# see `dotfiles/get_antigen.sh`
 source /usr/local/share/antigen.zsh
 
 # add bundles
