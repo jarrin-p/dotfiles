@@ -14,12 +14,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'preservim/nerdtree'
 --Plug 'itchyny/lightline.vim'
 Plug 'psliwka/vim-smoothie'
+Plug 'petertriho/nvim-scrollbar'
 vim.api.nvim_exec("Plug 'neoclide/coc.nvim', {'branch': 'release'}", false)
 vim.api.nvim_exec("Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }", false)
 vim.api.nvim_exec("Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}", false)
 
--- end of
+-- end of plugins
 vim.call('plug#end')
+require("scrollbar").setup()
 
 -- plugin settings
 vim.g.NERDTreeWinSize = 50
