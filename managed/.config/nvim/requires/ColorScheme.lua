@@ -17,8 +17,8 @@ exec 'hi clear SignColumn'
 exec 'hi clear StatusLine'
 exec 'hi clear StatusLineNC'
 
-exec 'hi StatusLine cterm=bold,underline ctermfg=0'
-exec 'hi StatusLineNC cterm=italic,underline ctermfg=0'
+exec 'hi StatusLine cterm=bold ctermfg=0'
+exec 'hi StatusLineNC cterm=italic ctermfg=0'
 
 exec 'hi clear VertSplit'
 exec 'hi VertSplit ctermfg=0'

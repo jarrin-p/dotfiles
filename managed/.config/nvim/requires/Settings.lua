@@ -29,6 +29,7 @@ Set.showmode = true  -- changed to false because of lightline plugin
 Set.splitright = true -- splits new window to the right
 Set.splitbelow = true -- splits new window down
 --Set.sessionoptions = 'localoptions,folds,options,tabpages,winsizes,sesdir'
+Set.statusline = "%#Normal#%{expand('%:t')}%#StatusLine# > %{expand('%:p:h')}"
 
 -- sets the grep program as ripgrep
 Set.grepprg = "rg --line-number --with-filename --glob='!*.class' --glob='!*.jar' --glob='!*.java.html'"
