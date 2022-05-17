@@ -28,10 +28,12 @@ AutoCmd:new{event = 'BufWritePost', pattern='*.java', cmd = 'silent SA'}:add()
 
  -- share shada (registers, etc) between windows.
  -- useful when using terminal splits or tiled windows.
- exec [[
- augroup SHADA
-     autocmd!
-     autocmd CursorHold,TextYankPost,FocusGained,FocusLost *
-         \ if exists(':rshada') | rshada | wshada | endif
- augroup END
- ]]
+ -- note: no longer using after adding 'unnamed,unnamedplus' to clipboard setting
+ -- keeping code just in case
+ -- exec [[
+ -- augroup SHADA
+ --     autocmd!
+ --     autocmd CursorHold,TextYankPost,FocusGained,FocusLost *
+ --         \ if exists(':rshada') | rshada | wshada | endif
+ -- augroup END
+ -- ]]
