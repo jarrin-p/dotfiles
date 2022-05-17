@@ -15,12 +15,14 @@ Plug 'preservim/nerdtree'
 --Plug 'itchyny/lightline.vim'
 Plug 'psliwka/vim-smoothie'
 Plug 'petertriho/nvim-scrollbar'
+Plug 'jlanzarotta/bufexplorer'
 vim.api.nvim_exec("Plug 'neoclide/coc.nvim', {'branch': 'release'}", false)
 vim.api.nvim_exec("Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }", false)
 vim.api.nvim_exec("Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}", false)
 
 -- end of plugins
 vim.call('plug#end')
+
 require("scrollbar").setup()
 
 -- plugin settings
