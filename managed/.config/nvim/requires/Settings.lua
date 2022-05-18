@@ -46,6 +46,11 @@ local function s(separator) return ('%#SLSep#' .. separator) end
 local function p(file_path) return ('%#SLFilePath#' .. file_path) end
 
 local sl = "%-(" -- left justified item group
+sl = sl .. c"[ "
+sl = sl .. h"%{expand('%:t:r')}"
+sl = sl .. h".%{expand('%:t:e')}" -- file name, file extension
+sl = sl .. "%M%R%H%W" -- modifiers and other info
+sl = sl .. c" ]"
 sl = sl .. c"[ " .. h"buf %n" .. c" ]" -- buffer id
 sl = sl .. "%)"
 sl = sl .. "%<"
@@ -56,11 +61,6 @@ function BuildExpanded() return vim.fn.expand("%:p"):gsub("/", " > ") end
 
 sl = sl .. "%=" -- group separator
 sl = sl .. p"%{expand('%:p:h')} "
-sl = sl .. c"[ "
-sl = sl .. h"%{expand('%:t:r')}"
-sl = sl .. h".%{expand('%:t:e')}" -- file name, file extension
-sl = sl .. "%M%R%H%W" -- modifiers and other info
-sl = sl .. c" ]"
 Set.statusline = sl
 
 -- sets the grep program as ripgrep
