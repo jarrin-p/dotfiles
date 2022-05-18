@@ -29,13 +29,15 @@ Set.cursorline = true
 Set.showmode = true  -- changed to false because of lightline plugin
 Set.splitright = true -- splits new window to the right
 Set.splitbelow = true -- splits new window down
+Set.switchbuf = 'newtab' -- new tabs for some commands
 --Set.sessionoptions = 'localoptions,folds,options,tabpages,winsizes,sesdir'
 
 -- some custom color groups for the status line
-exec 'hi SLContainer cterm=bold'
-exec 'hi SLFileHeader ctermfg=7'
-exec 'hi SLSep ctermfg=8'
-exec 'hi SLFilePath cterm=italic ctermfg=0'
+local underline_color = " guisp=#7f8f9f" -- used for creating a "pseudo" split line
+exec('hi SLContainer cterm=bold,underline' .. underline_color)
+exec('hi SLFileHeader cterm=underline ctermfg=7' .. underline_color)
+exec('hi SLSep cterm=underline ctermfg=8' .. underline_color)
+exec('hi SLFilePath cterm=italic,underline ctermfg=0' .. underline_color)
 
 -- functions for easily changing colors in statusline
 local function c(container) return ('%#SlContainer#' .. container) end

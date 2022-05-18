@@ -14,9 +14,6 @@ nnoremap('<leader>V', ':tabe ' .. os.getenv('MYVIMRC') .. '<enter>') -- edit ini
 nnoremap('`', "'") -- swap mapping of "jump to mark's col,line" with "jump to mark's line"
 nnoremap("'", '`') -- swap mapping of "jump to mark's line" with "jump to mark's col,line"
 
--- formatting
-nnoremap('<leader>=', ':SA<enter>')
-
 -- window management
 -- (need to finish rest of mapping os before GoPrev() and GoNext() are actually useful)
 -- nnoremap('<c-h>', ':lua GoPrev()<enter>') -- previous window (above, left)
@@ -31,10 +28,10 @@ nnoremap('<c-enter>', ':vsp<enter>')
 --nnoremap('<C-,>', '<C-W>-') -- reduce window size -- control , not working
 
 -- buffer navigating
-nnoremap('<c-b>', ':b#<enter>')    -- most recent buffer, ctrl-b for 'back'
-nnoremap('<c-j>', ':bprev<enter>') -- previous buffer, ctrl-j for going down in the stack
-nnoremap('<c-k>', ':bnext<enter>') -- next buffer, ctrl-k for going up in the stack
-nnoremap('<c-t>', '<c-w>T')        -- move window to new tab
+nnoremap('<c-b>', ':b#<enter>')        -- most recent buffer, ctrl-b for 'back'
+nnoremap('<c-j>', ':bprev<enter>')     -- previous buffer, ctrl-j for going down in the stack
+nnoremap('<c-k>', ':bnext<enter>')     -- next buffer, ctrl-k for going up in the stack
+nnoremap('<c-t>', ':sbp<enter><c-w>T') -- move window to new tab
 nnoremap('<leader>b', ':BufExplorer<enter>')
 
 -- coc

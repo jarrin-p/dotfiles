@@ -4,11 +4,17 @@ local exec = function (str) vim.api.nvim_exec(str, false) end
 -- specifying colors manually. makes tweaking easier
 local cyan = '81'
 local dark_blue = '8'
+local red = '9'
 
 -- custom groupings, basically.
 local cursor_line_settings = 'none'
 
--- For kitty apprentice theme
+exec 'hi clear Todo'
+exec 'hi Todo cterm=bold'
+
+exec 'hi clear CocInfoHighlight'
+exec 'hi clear CocWarningHighlight'
+
 exec 'hi clear FoldColumn'
 exec('hi FoldColumn ctermfg=' .. dark_blue)
 
