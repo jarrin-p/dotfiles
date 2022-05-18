@@ -33,8 +33,8 @@ Set.splitbelow = true -- splits new window down
 
 -- some custom color groups for the status line
 exec 'hi SLContainer cterm=bold'
-exec 'hi link SLFileHeader Normal'
-exec 'hi SLSep ctermfg=0'
+exec 'hi SLFileHeader ctermfg=7'
+exec 'hi SLSep ctermfg=8'
 exec 'hi SLFilePath cterm=italic ctermfg=0'
 
 -- functions for easily changing colors in statusline
@@ -43,15 +43,22 @@ local function h(header) return ('%#SLFileHeader#' .. header) end
 local function s(separator) return ('%#SLSep#' .. separator) end
 local function p(file_path) return ('%#SLFilePath#' .. file_path) end
 
-local sl = "" -- shorthand for statusline, starts with left justify
-sl = sl .. c"[ " .. h"%{expand('%:t')}%M%R%H%W" .. c" ]" -- file header
-sl = sl .. c"[ " .. h"buf id:%n" .. c" ]" -- buffer id
-sl = sl .. c"[ " .. h"line %l of %L" .. c" ]" -- line numbers
-sl = sl .. c"[ " .. h"col %c" .. c" ]" -- column numbers
+local sl = "%-(" -- left justified item group
+sl = sl .. c"[ " .. h"buf %n" .. c" ]" -- buffer id
+sl = sl .. "%)"
+sl = sl .. "%<"
+
+-- work in progress status line
+function BuildExpanded() return vim.fn.expand("%:p"):gsub("/", " > ") end
+-- sl = sl .. h"" .. BuildExpanded()
 
 sl = sl .. "%=" -- group separator
-sl = sl .. p"%{expand('%:p:h')} " -- full file path
-sl = sl .. c"[ " .. s"%y" .. c" ]" -- file type
+sl = sl .. p"%{expand('%:p:h')} "
+sl = sl .. c"[ "
+sl = sl .. h"%{expand('%:t:r')}"
+sl = sl .. h".%{expand('%:t:e')}" -- file name, file extension
+sl = sl .. "%M%R%H%W" -- modifiers and other info
+sl = sl .. c" ]"
 Set.statusline = sl
 
 -- sets the grep program as ripgrep
