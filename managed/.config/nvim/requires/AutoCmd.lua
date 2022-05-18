@@ -16,24 +16,24 @@ AutoCmd:new{event = 'VimEnter', cmd = 'if line("$") == 1 && getline(1) == "" | w
 AutoCmd:new{event = 'FileType', pattern='java', cmd = 'set tabstop=2'}:add()
 
 -- keep manual folds.
-AutoCmd:new{event = 'BufWritePost', pattern='*.*', cmd = 'mkview'}:add()
-AutoCmd:new{event = 'BufWinEnter', pattern='*', cmd = 'silent! loadview'}:add()
+-- AutoCmd:new{event = 'BufWritePost', pattern='*.*', cmd = 'mkview'}:add()
+-- AutoCmd:new{event = 'BufWinEnter', pattern='*', cmd = 'silent! loadview'}:add()
 
 -- custom spotlessApply command (SA) that runs at top of git level.
 -- assumes java is using gradle with SA ipmlemented.
 AutoCmd:new{event = 'BufWritePost', pattern='*.java', cmd = 'silent SA'}:add()
 
 -- groups not implemented yet, using standard vimscript for shada share.
- local exec = function (str) vim.api.nvim_exec(str, false) end
+-- local exec = function (str) vim.api.nvim_exec(str, false) end
 
- -- share shada (registers, etc) between windows.
- -- useful when using terminal splits or tiled windows.
- -- note: no longer using after adding 'unnamed,unnamedplus' to clipboard setting
- -- keeping code just in case
- -- exec [[
- -- augroup SHADA
- --     autocmd!
- --     autocmd CursorHold,TextYankPost,FocusGained,FocusLost *
- --         \ if exists(':rshada') | rshada | wshada | endif
- -- augroup END
- -- ]]
+-- share shada (registers, etc) between windows.
+-- useful when using terminal splits or tiled windows.
+-- note: no longer using after adding 'unnamed,unnamedplus' to clipboard setting
+-- keeping code just in case
+-- exec [[
+-- augroup SHADA
+--     autocmd!
+--     autocmd CursorHold,TextYankPost,FocusGained,FocusLost *
+--         \ if exists(':rshada') | rshada | wshada | endif
+-- augroup END
+-- ]]

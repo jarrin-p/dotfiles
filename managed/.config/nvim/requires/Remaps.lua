@@ -34,6 +34,7 @@ nnoremap('<c-enter>', ':vsp<enter>')
 nnoremap('<c-b>', ':b#<enter>')    -- most recent buffer, ctrl-b for 'back'
 nnoremap('<c-j>', ':bprev<enter>') -- previous buffer, ctrl-j for going down in the stack
 nnoremap('<c-k>', ':bnext<enter>') -- next buffer, ctrl-k for going up in the stack
+nnoremap('<c-t>', '<c-w>t')        -- move window to new tab
 nnoremap('<leader>b', ':BufExplorer<enter>')
 
 -- coc
