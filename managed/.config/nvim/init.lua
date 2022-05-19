@@ -3,21 +3,20 @@ require 'os'
 local rc_path, suffix = os.getenv('MYVIMRC'), ''
 if rc_path:match('.lua') then suffix = '.lua' else suffix = '.vim' end
 
--- helper function
-local exec = function (str) vim.api.nvim_exec(str, false) end
-
 -- add path so require function will find additional files in `requires` subfolder
 package.path = string.gsub(rc_path, 'init' .. suffix, '') .. 'requires/?.lua;' .. package.path
 
--- Bring in all the settings
+-- general settings
+require 'Global'
 require 'Plugins'
-require 'Surround'
 require 'Commands'
 require 'AutoCmd'
 require 'Settings'
 require 'Remaps'
 require 'ColorScheme'
 
+-- specific files
+require 'Surround'
 require 'Statusline'
 require 'LessChords'
 

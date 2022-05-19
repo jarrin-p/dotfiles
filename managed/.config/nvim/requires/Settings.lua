@@ -1,6 +1,6 @@
-local vim = vim -- keeps language server from freaking out
+require 'Global'
 
-Set = vim.o     -- shorthand
+Set = Vim.o     -- shorthand
 Set.compatible = false
 
 -- Terminal Settings
