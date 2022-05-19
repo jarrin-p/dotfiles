@@ -1,12 +1,11 @@
---require("Functions")
-local vim = vim
+require 'Global'
 
-local function map (lhs, rhs) vim.api.nvim_set_keymap('', lhs, rhs, {noremap = false, silent = true}) end
-local function nnoremap (lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, {noremap = true, silent = true}) end
-local function tnoremap (lhs, rhs) vim.api.nvim_set_keymap('t', lhs, rhs, {noremap = true, silent = true}) end
-local function t (str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
+local function map (lhs, rhs) Vim.api.nvim_set_keymap('', lhs, rhs, {noremap = false, silent = true}) end
+local function nnoremap (lhs, rhs) Vim.api.nvim_set_keymap('n', lhs, rhs, {noremap = true, silent = true}) end
+local function tnoremap (lhs, rhs) Vim.api.nvim_set_keymap('t', lhs, rhs, {noremap = true, silent = true}) end
+local function t (str) return Vim.api.nvim_replace_termcodes(str, true, true, true) end
 
--- simple edits
+-- simple changes
 map('<space>', '<leader>') -- Remap leader to spacebar, obviously
 nnoremap('Y', 'y$')        -- Change back to vanilla default
 nnoremap('U', '<c-r>')     -- change U to redo because I'm simple and U confuses me.

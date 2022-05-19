@@ -1,7 +1,8 @@
 local winnr = vim.fn.winnr -- create alias for getting winnr() (window number)
 local v_sys = vim.fn.system -- create alias for system eval (captures shell command)
 
---- wrapper for terminal json parser `jq`
+--- `jq` wrapper for terminal json parser
+-- @depends_on `jq`
 -- @see https://stedolan.github.io/jq/
 function JQ (json_string, filter)
     return v_sys("echo '" .. json_string .. "'" .. ' | jq "' .. filter .. '"')

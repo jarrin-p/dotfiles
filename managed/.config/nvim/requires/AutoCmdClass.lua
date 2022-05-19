@@ -1,3 +1,6 @@
+require 'Global'
+
+-- TODO switch to nvim api autocmd when available
 AutoCmd = {
     args = {
         event = '',
@@ -32,6 +35,6 @@ AutoCmd = {
         for key, val in pairs(self.args) do args[key] = val .. ' ' end
         local command, count = 'autocmd' .. args.override .. ' ' .. args.event .. args.pattern .. args.once .. args.nested .. args.cmd, 0
         repeat command, count = string.gsub(command, '  ', ' ') until count == 0 -- trims extra whitespace
-        vim.api.nvim_exec(command, false)
+        Exec(command)
     end,
 }

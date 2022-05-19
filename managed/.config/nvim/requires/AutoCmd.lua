@@ -1,4 +1,4 @@
-require 'AutoloadClasses'
+require 'AutoCmdClass'
 
 -- open nerdtree as soon as vim opens.
 -- and turn relative number on. it makes navigating the tree even easier.

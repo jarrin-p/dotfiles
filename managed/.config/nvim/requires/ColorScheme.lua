@@ -1,74 +1,31 @@
-local vim = vim
-local exec = function (str) vim.api.nvim_exec(str, false) end
+require 'Global'
 
--- specifying colors manually. makes tweaking easier
-local cyan = '81'
-local dark_blue = '8'
-local red = '9'
+--- alias for setting highlight
+-- @see `:h nvim_set_hl`
+local hl = Vim.api.nvim_set_hl
 
--- custom groupings, basically.
-local cursor_line_settings = 'none'
-
-exec 'hi clear Todo'
-exec 'hi Todo cterm=bold'
-
-exec 'hi clear CocInfoHighlight'
-exec 'hi clear CocWarningHighlight'
-
-exec 'hi clear FoldColumn'
-exec('hi FoldColumn ctermfg=' .. dark_blue)
-
-exec 'hi clear SignColumn'
-
-exec 'hi clear StatusLine'
-exec 'hi clear StatusLineNC'
-
-exec 'hi StatusLine cterm=bold ctermfg=0'
-exec 'hi StatusLineNC cterm=italic ctermfg=0'
-
-exec 'hi clear VertSplit'
-exec 'hi VertSplit ctermfg=0'
-
-exec 'hi clear Search'
-exec('hi Search cterm=bold,italic ctermfg=' .. cyan)
-
-exec 'hi clear Folded'
-exec('hi Folded ctermfg=' .. dark_blue .. 'cterm=italic')
-
-exec 'hi clear FgCocHintFloatBgCocFloating'
-exec 'hi FgCocHintFloatBgCocFloating ctermbg=242'
-exec 'hi clear Pmenu'
-exec 'hi Pmenu ctermbg=242'
-
-exec 'hi clear MatchParen'
-exec 'hi MatchParen cterm=bold,italic'
-
-exec 'hi Type cterm=italic'
-
-exec('hi javaLangObject ctermfg=' .. dark_blue .. ' cterm=bold')
-
-exec 'hi clear CursorLine'
-exec('hi CursorLine ctermbg=' .. cursor_line_settings)
-
-exec('hi clear CursorLineNr')
-exec('hi CursorLineNr cterm=none ctermbg=' .. cursor_line_settings)
-
-exec 'hi DiffText ctermfg=0'
-
-exec 'hi clear TabLine'
-exec 'hi TabLine ctermbg=0'
-
-exec 'hi clear TabLineFill'
-exec 'hi TabLineFill ctermbg=0'
-
-exec 'hi clear CocUnusedHighlight'
-exec 'hi CocUnusedHighlight ctermfg=3'
-
-exec 'hi clear DiffAdd'
-exec 'hi clear DiffChange'
-exec 'hi clear DiffDelete'
-exec 'hi clear DiffText'
-exec 'hi DiffAdd ctermfg=6 cterm=bold'
-exec 'hi DiffChange ctermfg=12 cterm=italic'
-exec 'hi DiffDelete ctermfg=1 cterm=bold'
-exec 'hi DiffText ctermfg=11 cterm=bold'
+-- color scheme
+hl(0, 'CocInfoHighlight', { })
+hl(0, 'CocUnusedHighlight', { ctermfg = 3 })
+hl(0, 'CocWarningHighlight', { })
+hl(0, 'CursorLine', { ctermbg = Colors.none })
+hl(0, 'CursorLineNr', { ctermbg = Colors.none })
+hl(0, 'DiffAdd', { ctermfg = 6, bold = 1 })
+hl(0, 'DiffChange', { ctermfg = 12, italic = 1 })
+hl(0, 'DiffDelete', { ctermfg = 1, bold = 1 })
+hl(0, 'DiffText', { ctermfg = 11, bold = 1 })
+hl(0, 'FgCocHintFloatBgCocFloating', { ctermbg = 242 })
+hl(0, 'FoldColumn', { ctermfg = Colors.dark_blue })
+hl(0, 'Folded', { ctermfg = Colors.dark_blue, italic = 1 })
+hl(0, 'MatchParen', { bold = 1, italic = 1 })
+hl(0, 'Pmenu', { ctermbg = 242 })
+hl(0, 'Search', { bold = 1, italic = 1, ctermfg = Colors.cyan })
+hl(0, 'SignColumn', { })
+hl(0, 'StatusLine', { bold = 1, ctermfg = 0 })
+hl(0, 'StatusLineNC', { italic = 1, ctermfg = 0 })
+hl(0, 'TabLine', { ctermbg = 0 })
+hl(0, 'TabLineFill', { ctermbg = 0 })
+hl(0, 'Todo', { bold = 1 })
+hl(0, 'Type', { italic = 1, ctermfg=121 })
+hl(0, 'VertSplit', { ctermfg = 0 })
+hl(0, 'javaLangObject', { ctermfg = Colors.dark_blue, bold = 1 })
