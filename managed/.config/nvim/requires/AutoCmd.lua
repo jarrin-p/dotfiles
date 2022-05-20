@@ -9,8 +9,7 @@ AutoCmd:new{event = 'VimEnter', cmd = 'set relativenumber'}:add()
 -- basically if the starting buffer isn't empty, stay to it, otherwise
 -- full-size nerdtree.
 AutoCmd:new{event = 'VimEnter', cmd = 'wincmd w'}:add()
-AutoCmd:new{event = 'VimEnter', cmd = 'echo &filetype'}:add()
-AutoCmd:new{event = 'VimEnter', cmd = 'if line("$") == 1 && getline(1) == "" | wincmd p | only | endif'}:add()
+AutoCmd:new{event = 'VimEnter', cmd = 'if line("$") == 1 && getline(1) == "" && &filetype == "" | wincmd p | only | endif'}:add()
 
 -- match spotlessApply in main project.
 AutoCmd:new{event = 'FileType', pattern='java', cmd = 'set tabstop=2'}:add()
@@ -22,6 +21,7 @@ AutoCmd:new{event = 'FileType', pattern='java', cmd = 'set tabstop=2'}:add()
 -- custom spotlessApply command (SA) that runs at top of git level.
 -- assumes java is using gradle with SA ipmlemented.
 AutoCmd:new{event = 'BufWritePost', pattern='*.java', cmd = 'silent SA'}:add()
+AutoCmd:new{event = 'FileType', pattern='*.tf', cmd = 'silent TFF'}:add()
 
 -- groups not implemented yet, using standard vimscript for shada share.
 -- local exec = function (str) vim.api.nvim_exec(str, false) end
