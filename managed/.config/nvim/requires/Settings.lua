@@ -32,7 +32,7 @@ Set.switchbuf = 'newtab' -- new tabs for some commands
 --Set.sessionoptions = 'localoptions,folds,options,tabpages,winsizes,sesdir'
 
 -- sets the grep program as ripgrep
-Set.grepprg = "rg --line-number --with-filename --hidden --glob='!*.class' --glob='!*.jar' --glob='!*.java.html' --glob='!*.git*'"
+Set.grepprg = "rg --line-number --with-filename --glob='!*.class' --glob='!*.jar' --glob='!*.java.html' --glob='!*.git*'"
 -- currently defined default fzf command
 -- rg --glob "!*.git" --glob "!*.class" --glob "!*.jar" --hidden --no-ignore --files
 

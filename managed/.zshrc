@@ -48,7 +48,7 @@ function sp_default { export PS1="$ZZ_DEFAULT_PROMPT" }
 function sp_level { export PS1="%n %${1}~ > " }
 
 # change fzf default to use ripgrep
-export FZF_DEFAULT_COMMAND='rg --glob "!*.git" --glob "!*.class" --glob "!*.jar" --glob "!*.java.html" --hidden --no-ignore --files'
+export FZF_DEFAULT_COMMAND='rg --glob "!*.git" --glob "!*.class" --glob "!*.jar" --glob "!*.java.html" --no-ignore --files'
 
 # fix a color scheme issue i hated
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
