@@ -15,7 +15,8 @@ Plug 'preservim/nerdtree'
 --Plug 'itchyny/lightline.vim'
 Plug 'psliwka/vim-smoothie'
 Plug 'petertriho/nvim-scrollbar'
-Plug 'jlanzarotta/bufexplorer'
+Plug 'tpope/vim-surround'
+--Plug 'jlanzarotta/bufexplorer'
 Exec "Plug 'neoclide/coc.nvim', {'branch': 'release'}"
 Exec "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }"
 Exec "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}"

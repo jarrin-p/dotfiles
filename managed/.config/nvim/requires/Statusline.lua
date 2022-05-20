@@ -22,7 +22,7 @@ ColorGroup = {
     background = '', -- ctermbg
     special = '', -- guisp
 
-    new_group = function(self, name)
+    new_group = function(self)
         self.__index = self
         local obj = {}
         setmetatable(obj, self)
@@ -34,7 +34,9 @@ ColorGroups = {
 }
 
 -- some custom color groups for the status line
-Exec(Underline 'hi SLBracket cterm=bold,underline')
+
+local hl = Vim.api.nvim_set_hl
+hl(0, 'SLBracket', { bold = 1, underline = 1, sp = Colors.h_split_underline })
 Exec(Underline 'hi SLFileHeader cterm=underline ctermfg=7')
 Exec(Underline 'hi SLSep cterm=underline ctermfg=8')
 Exec(Underline 'hi SLFilePath cterm=italic,underline ctermfg=0')
