@@ -31,11 +31,6 @@ Set.splitbelow = true -- splits new window down
 Set.switchbuf = 'newtab' -- new tabs for some commands
 --Set.sessionoptions = 'localoptions,folds,options,tabpages,winsizes,sesdir'
 
--- sets the grep program as ripgrep
-Set.grepprg = "rg --line-number --with-filename --glob='!*.class' --glob='!*.jar' --glob='!*.java.html' --glob='!*.git*'"
--- currently defined default fzf command
--- rg --glob "!*.git" --glob "!*.class" --glob "!*.jar" --hidden --no-ignore --files
-
 -- Editing Settings
 Set.backspace = 'indent,eol,start'
 Set.magic = true
@@ -44,3 +39,17 @@ Set.inccommand = 'nosplit'
 -- plugin settings that come with vim
 GSet.netrw_liststyle = 3
 GSet.csv_nomap_cr = 1
+
+-- sets the grep program as ripgrep
+local patterns = {
+    '!*.class',
+    '!*.jar',
+    '!*.java.html',
+    '!*.git*'
+}
+local pattern_string
+for _, pattern in ipairs(patterns) do
+    if pattern_string then pattern_string = pattern_string .. " --glob='" .. pattern .. "'"
+    else pattern_string = " --glob='" .. pattern .. "'" end
+end
+Set.grepprg = "rg --line-number --with-filename" .. pattern_string
