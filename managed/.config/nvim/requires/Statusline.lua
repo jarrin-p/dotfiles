@@ -1,4 +1,5 @@
 require 'Global'
+require 'AutoCmdClass'
 
 -- status line modifications
 local bl, br = '«', '»' -- so i don't need to remember shortcuts
@@ -34,12 +35,11 @@ ColorGroups = {
 }
 
 -- some custom color groups for the status line
-
 local hl = Vim.api.nvim_set_hl
 hl(0, 'SLBracket', { bold = 1, underline = 1, sp = Colors.h_split_underline })
-Exec(Underline 'hi SLFileHeader cterm=underline ctermfg=7')
-Exec(Underline 'hi SLSep cterm=underline ctermfg=8')
-Exec(Underline 'hi SLFilePath cterm=italic,underline ctermfg=0')
+hl(0, 'SLFileHeader', { underline = 1, ctermfg = 7 })
+hl(0, 'SLSep', { underline = 1, ctermfg = 8 })
+hl(0, 'SLFilePath', { italic = 1, underline = 1, ctermfg = 0 })
 
 -- functions for easily changing colors in statusline
 local function bracket(text_to_color) return ('%#SLBracket#' .. text_to_color) end
