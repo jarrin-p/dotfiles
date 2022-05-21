@@ -16,7 +16,6 @@ require 'Remaps'
 require 'ColorScheme'
 
 -- specific files
-require 'Surround'
 require 'Statusline'
 require 'LessChords'
 

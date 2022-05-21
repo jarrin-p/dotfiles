@@ -9,6 +9,7 @@ end
 --- more intuitive shorthand for setting, use `.` syntax on setting
 Set = Vim.o
 GSet = Vim.g
+SetWinLocal = Vim.wo
 
 -- TODO look into `set termguicolors=...`
 -- specifying colors manually. makes tweaking easier
