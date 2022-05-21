@@ -9,7 +9,7 @@ local te = '⋯'
 local hl = Vim.api.nvim_set_hl
 hl(0, 'SLBracket', { bold = 0, underline = 1, ctermfg = 8, sp = Colors.h_split_underline })
 hl(0, 'SLItem', { underline = 1, ctermfg = 121, sp = Colors.h_split_underline })
-hl(0, 'SLDir', { underline = 1, italic = 1, ctermfg = 4, sp = Colors.h_split_underline })
+hl(0, 'SLDir', { underline = 1, italic = 1, ctermfg = 3, sp = Colors.h_split_underline })
 hl(0, 'SLFilePath', { italic = 1, underline = 1, ctermfg = 7, sp = Colors.h_split_underline })
 hl(0, 'SLFileHeader', { italic = 0, underline = 1, ctermfg = 11, sp = Colors.h_split_underline })
 
@@ -56,7 +56,7 @@ function MakeStatusLine()
     local sl = GetGitRelativeDir()
     sl = sl .. "%<%=" -- where to truncate and where the statusline splits
     sl = sl .. GetBranch()
-    sl = sl .. directory(te) .. sl_item" buf %n" -- buffer id
+    sl = sl .. bracket(te) .. sl_item" buf %n" -- buffer id
     SetWinLocal.statusline = sl
 end
 
