@@ -25,6 +25,7 @@ Set.updatetime = 100
 Set.foldlevelstart = 99
 Set.scrolloff = 2
 Set.cursorline = true
+Set.textwidth = 120
 Set.showmode = true  -- changed to false because of lightline plugin
 Set.splitright = true -- splits new window to the right
 Set.splitbelow = true -- splits new window down

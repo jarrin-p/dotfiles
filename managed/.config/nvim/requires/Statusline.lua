@@ -12,14 +12,14 @@ hl(0, 'SLItem', { underline = 1, ctermfg = 121, sp = Colors.h_split_underline })
 hl(0, 'SLDir', { underline = 1, italic = 1, ctermfg = 3, sp = Colors.h_split_underline })
 hl(0, 'SLFilePath', { italic = 1, underline = 1, ctermfg = 7, sp = Colors.h_split_underline })
 hl(0, 'SLFileHeader', { italic = 0, underline = 1, ctermfg = 11, sp = Colors.h_split_underline })
+hl(0, 'SLModified', { italic = 0, underline = 1, ctermfg = 9, sp = Colors.h_split_underline })
 
 -- functions for easily changing colors in statusline
-local function bracket(text_to_color) return ('%#SLBracket#' .. text_to_color) end
-local function header(text_to_color) return
-    ('%#SLFileHeader#' .. (text_to_color or ''))
-end
-local function directory(text_to_color) return ('%#SLDir#' .. text_to_color) end
-local function sl_item(text_to_color) return ('%#SLItem#' .. text_to_color) end
+local function bracket(text_to_color) return ('%#SLBracket#' .. (text_to_color or '')) end
+local function header(text_to_color) return ('%#SLFileHeader#' .. (text_to_color or '')) end
+local function directory(text_to_color) return ('%#SLDir#' .. (text_to_color or '')) end
+local function sl_item(text_to_color) return ('%#SLItem#' .. (text_to_color or '')) end
+local function mod(text_to_color) return ('%#SLModified#' .. (text_to_color or '')) end
 
 -- work in progress status line
 function GetGitRelativeDir()
@@ -60,17 +60,26 @@ end
 
 function GetBranch()
     if Vim.fn.FugitiveIsGitDir() == 1 then
-        return sl_item("⤤" .. Vim.fn.FugitiveHead() .. bracket(" " .. te) )
+        return sl_item("⤤ " .. Vim.fn.FugitiveHead() .. bracket(" " .. te) )
+    else
+        return ''
+    end
+end
+
+function AddSymbolIfSet(option, symbol_to_use)
+    if (Vim.api.nvim_get_option_value(option, {}) == true) then
+        return symbol_to_use
     else
         return ''
     end
 end
 
 function MakeStatusLine()
-    local sl = GetGitRelativeDir()
+    local sl = header'  ' .. GetGitRelativeDir()
+    sl = sl .. mod(AddSymbolIfSet('modified', '+')) -- modified status
     sl = sl .. "%<%=" -- where to truncate and where the statusline splits
     sl = sl .. GetBranch()
-    sl = sl .. sl_item" buf %n ⏎    " -- buffer id
+    sl = sl .. sl_item" buf %n ⏎  " -- buffer id
     SetWinLocal.statusline = sl
 end
 
@@ -78,3 +87,4 @@ AutoCmd:new{event = 'WinEnter', cmd = 'lua MakeStatusLine()'}:add()
 AutoCmd:new{event = 'BufWinEnter', cmd = 'lua MakeStatusLine()'}:add()
 AutoCmd:new{event = 'VimEnter', cmd = 'lua MakeStatusLine()'}:add()
 AutoCmd:new{event = 'WinNew', cmd = 'lua MakeStatusLine()'}:add()
+AutoCmd:new{event = 'BufModifiedSet', cmd = 'lua MakeStatusLine()'}:add()
