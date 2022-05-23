@@ -3,7 +3,9 @@ require 'AutoCmdClass'
 
 -- status line modifications
 local bl, br = '«', '»' -- so i don't need to remember shortcuts
-local te = '⋯'
+local te = '->'
+local enter_sym = '⏎'
+-- local te = '⋯'
 
 -- some custom color groups for the status line
 local hl = Vim.api.nvim_set_hl
@@ -13,6 +15,7 @@ hl(0, 'SLDir', { underline = 1, italic = 1, ctermfg = 3, sp = Colors.h_split_und
 hl(0, 'SLFilePath', { italic = 1, underline = 1, ctermfg = 7, sp = Colors.h_split_underline })
 hl(0, 'SLFileHeader', { italic = 0, underline = 1, ctermfg = 11, sp = Colors.h_split_underline })
 hl(0, 'SLModified', { italic = 0, underline = 1, ctermfg = 9, sp = Colors.h_split_underline })
+-- hl(0, 'SLMatchUL', { underline = 1, ctermfg = Colors.h_split_underline, sp = Colors.h_split_underline })
 
 -- functions for easily changing colors in statusline
 local function bracket(text_to_color) return ('%#SLBracket#' .. (text_to_color or '')) end
@@ -60,7 +63,7 @@ end
 
 function GetBranch()
     if Vim.fn.FugitiveIsGitDir() == 1 then
-        return sl_item("⤤ " .. Vim.fn.FugitiveHead() .. bracket(" " .. te) )
+        return sl_item("⤤ " .. Vim.fn.FugitiveHead()) .. bracket(" " .. te) .. ' '
     else
         return ''
     end
@@ -75,11 +78,20 @@ function AddSymbolIfSet(option, symbol_to_use)
 end
 
 function MakeStatusLine()
-    local sl = header'  ' .. GetGitRelativeDir()
-    sl = sl .. mod(AddSymbolIfSet('modified', '+')) -- modified status
-    sl = sl .. "%<%=" -- where to truncate and where the statusline splits
+    -- lhs padding, also declaration for easier adjusting
+    local sl = header'  '
+
+    -- lhs
     sl = sl .. GetBranch()
-    sl = sl .. sl_item" buf %n ⏎  " -- buffer id
+    sl = sl .. sl_item"buf %n" -- buffer id
+
+    -- where to truncate and where the statusline splits
+    sl = sl .. "%<%="
+
+    -- rhs
+    sl = sl .. GetGitRelativeDir()
+    sl = sl .. mod(AddSymbolIfSet('modified', '+')) -- modified status
+    sl = sl .. header'  ' -- rhs padding
     SetWinLocal.statusline = sl
 end
 
