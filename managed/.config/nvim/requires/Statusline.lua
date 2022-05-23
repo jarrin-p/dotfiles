@@ -15,13 +15,21 @@ hl(0, 'SLFileHeader', { italic = 0, underline = 1, ctermfg = 11, sp = Colors.h_s
 
 -- functions for easily changing colors in statusline
 local function bracket(text_to_color) return ('%#SLBracket#' .. text_to_color) end
-local function header(text_to_color) return ('%#SLFileHeader#' .. text_to_color) end
+local function header(text_to_color) return
+    ('%#SLFileHeader#' .. (text_to_color or ''))
+end
 local function directory(text_to_color) return ('%#SLDir#' .. text_to_color) end
 local function sl_item(text_to_color) return ('%#SLItem#' .. text_to_color) end
 
 -- work in progress status line
 function GetGitRelativeDir()
-    if (Vim.fn.FugitiveIsGitDir()) == 1 then
+    if Vim.api.nvim_get_option_value('filetype', {}) == 'help' then
+        return header'Help'
+
+    elseif Vim.api.nvim_get_option_value('filetype', {}) == 'qf' then
+        return header'Quick Fix || Location List'
+
+    elseif Vim.fn.FugitiveIsGitDir() == 1 then
         -- use fugitive function FugitiveWorkTree() to get directory of git repo
         local abs_file_path = {}
         for match in Vim.fn.expand('%:p'):sub(1):gmatch('/[^/]*') do table.insert(abs_file_path, (match:gsub('/', ''))) end
@@ -30,7 +38,7 @@ function GetGitRelativeDir()
         local _, last_index = Vim.fn.FugitiveWorkTree():find('.*/')
         working_tree = (Vim.fn.FugitiveWorkTree():sub(last_index):gsub('/', ''))
 
-        local index_of_dir
+        local index_of_dir = 1
         for i, item in ipairs(abs_file_path) do if item == working_tree then index_of_dir = i end end
 
         local git_root_rel_path = {}
@@ -50,13 +58,19 @@ function GetGitRelativeDir()
     end
 end
 
-function GetBranch() return sl_item("⤤" .. Vim.fn.FugitiveHead() .. " ") end
+function GetBranch()
+    if Vim.fn.FugitiveIsGitDir() == 1 then
+        return sl_item("⤤" .. Vim.fn.FugitiveHead() .. bracket(" " .. te) )
+    else
+        return ''
+    end
+end
 
 function MakeStatusLine()
     local sl = GetGitRelativeDir()
     sl = sl .. "%<%=" -- where to truncate and where the statusline splits
     sl = sl .. GetBranch()
-    sl = sl .. bracket(te) .. sl_item" buf %n" -- buffer id
+    sl = sl .. sl_item" buf %n ⏎    " -- buffer id
     SetWinLocal.statusline = sl
 end
 
