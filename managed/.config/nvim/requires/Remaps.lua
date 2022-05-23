@@ -52,7 +52,12 @@ nnoremap('<leader>T', ':NERDTreeToggleVCS<enter>:set rnu<enter>')  -- at vcs top
 nnoremap('<leader>g', ':tab G<enter>')
 
 -- fuzzy finding
-nnoremap('<leader>f', ':FZF<enter>')
+nnoremap('<leader>ff', "lua require('telescope.builtin').find_files()")
+nnoremap('<leader>fg', "lua require('telescope.builtin').live_grep()")
+-- nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+-- nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+-- nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+-- nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 -- fold method changes
 nnoremap('<leader>zfi', ':set foldmethod=indent<enter>')
