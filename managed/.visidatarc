@@ -1,0 +1,9 @@
+# colors
+options.color_default = '11 0'
+options.color_keystrokes = '11 0'
+options.color_status = '11 0'
+options.color_active_status = '11 0'
+options.color_inactive_status = '0 11'
+options.color_menu = 'bold 11 0'
+
+# vim: ft=python
