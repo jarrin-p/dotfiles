@@ -8,7 +8,7 @@ Set.title = true
 Set.titlestring = '%t'
 
 -- Buffer Settings
-Set.hidden = true
+Set.hidden = false     -- seeing if this will reduce the number of buffers that open
 Set.tabstop = 4        -- autocmd for java to be 2
 Set.shiftwidth = 0     -- 0 means use tabstop value
 Set.expandtab = true   -- use spaces instead of tabs
@@ -29,8 +29,8 @@ Set.textwidth = 120
 Set.showmode = true  -- changed to false because of lightline plugin
 Set.splitright = true -- splits new window to the right
 Set.splitbelow = true -- splits new window down
-Set.switchbuf = 'newtab' -- new tabs for some commands
---Set.sessionoptions = 'localoptions,folds,options,tabpages,winsizes,sesdir'
+-- Set.switchbuf = '' -- new tabs for some commands
+-- Set.sessionoptions = 'localoptions,folds,options,tabpages,winsizes,sesdir'
 
 -- Editing Settings
 Set.backspace = 'indent,eol,start'

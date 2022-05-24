@@ -65,4 +65,9 @@ antigen bundle rupa/z
 # necessary after adding bundles
 antigen apply
 
+function query {
+    QUERY=$1
+    dvs -c "\copy ($QUERY) TO STDOUT CSV HEADER" | vd -f csv
+}
+
 # vim: fdm=marker

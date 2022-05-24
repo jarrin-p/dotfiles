@@ -19,5 +19,9 @@ Colors = {
       dark_blue = 8,
       red = 9,
       none = 'none',
+      cursorline = '#f0aa8a', -- dark wood
+      -- cursorline = '#a9dd9d', -- bright green
+      -- cursorline = '#fd8489', -- red
+      -- cursorline = '#ffebc3', -- foreground, light wood
       h_split_underline = '#7f8f9f',
 }

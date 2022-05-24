@@ -8,7 +8,7 @@ local hl = Vim.api.nvim_set_hl
 hl(0, 'CocInfoHighlight', { })
 hl(0, 'CocUnusedHighlight', { ctermfg = 3 })
 hl(0, 'CocWarningHighlight', { })
-hl(0, 'CursorLine', { ctermbg = Colors.none })
+hl(0, 'CursorLine', { underline = 1, sp = Colors.h_split_underline, ctermbg = Colors.none })
 hl(0, 'CursorLineNr', { ctermbg = Colors.none })
 hl(0, 'DiffAdd', { ctermfg = 6, bold = 1 })
 hl(0, 'DiffChange', { ctermfg = 12, italic = 1 })
