@@ -33,7 +33,13 @@ function GetGitRelativeDir()
         return header'Quick Fix || Location List'
 
     elseif Vim.api.nvim_get_option_value('filetype', {}) == 'fugitive' then
-        return header'Git -> Fugitive'
+        return header'Fugitive <- Git'
+
+    elseif Vim.api.nvim_get_option_value('filetype', {}) == 'gitcommit' then
+        return header'Commit <- Fugitive <- Git'
+
+    elseif Vim.api.nvim_get_option_value('filetype', {}) == 'nerdtree' then
+        return header'↟NERDTree'
 
     elseif Vim.fn.FugitiveIsGitDir() == 1 then
         -- use fugitive function FugitiveWorkTree() to get directory of git repo
@@ -54,10 +60,13 @@ function GetGitRelativeDir()
 
         local status = ''
         while (#git_root_rel_path > 1) do
-            status = status .. directory(table.remove(git_root_rel_path))
-            status = status .. ' ' .. bracket(br) .. ' '
+            status = directory(table.remove(git_root_rel_path)) .. status
+            status =  ' ' .. bracket(bl) .. ' ' .. status
+
+            -- set the point where truncation occurs on the list
+            if #git_root_rel_path == 7 then status = ' ' .. bracket(bl) .. directory' ...%< ' .. status end
         end
-        status = status .. header(table.remove(git_root_rel_path))
+        status = header(table.remove(git_root_rel_path)) .. mod(AddSymbolIfSet('modified', '+')) .. status
         return status
     else
         return header(Vim.fn.expand("%:p"))
@@ -85,16 +94,20 @@ function MakeStatusLine()
     local sl = header'  '
 
     -- lhs
-    sl = sl .. GetBranch()
-    sl = sl .. sl_item"buf %n" -- buffer id
+    sl = sl .. GetGitRelativeDir()
 
     -- where to truncate and where the statusline splits
-    sl = sl .. "%<%="
+    sl = sl .. "%="
 
     -- rhs
-    sl = sl .. GetGitRelativeDir()
-    sl = sl .. mod(AddSymbolIfSet('modified', '+')) -- modified status
+    sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long
+    sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long
+    sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long
+    sl = sl .. GetBranch()
+    sl = sl .. sl_item"buf %n" -- buffer id
     sl = sl .. header'  ' -- rhs padding
+
+    -- set based on the string
     SetWinLocal.statusline = sl
 end
 

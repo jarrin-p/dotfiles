@@ -3,6 +3,7 @@ require 'Global'
 local function map (lhs, rhs) Vim.api.nvim_set_keymap('', lhs, rhs, {noremap = false, silent = true}) end
 local function nnoremap (lhs, rhs) Vim.api.nvim_set_keymap('n', lhs, rhs, {noremap = true, silent = true}) end
 local function tnoremap (lhs, rhs) Vim.api.nvim_set_keymap('t', lhs, rhs, {noremap = true, silent = true}) end
+-- unused, but will be better to have if needed
 local function t (str) return Vim.api.nvim_replace_termcodes(str, true, true, true) end
 
 -- simple changes
@@ -31,7 +32,6 @@ nnoremap('<c-b>', ':b#<enter>')        -- most recent buffer, ctrl-b for 'back'
 nnoremap('<c-j>', ':bprev<enter>')     -- previous buffer, ctrl-j for going down in the stack
 nnoremap('<c-k>', ':bnext<enter>')     -- next buffer, ctrl-k for going up in the stack
 nnoremap('<c-t>', ':tabedit %')        -- duplicate window to new tab
-nnoremap('<leader>b', ':BufExplorer<enter>')
 
 -- coc
 nnoremap('<leader>d', ':call CocAction("definitionHover")<enter>')
@@ -48,19 +48,15 @@ nnoremap('<leader>DD', ':call CocAction("diagnosticToggle")<enter>')
 nnoremap('<leader>t', ':NERDTreeFind<enter>:set rnu<enter>')       -- at current working directory
 nnoremap('<leader>T', ':NERDTreeToggleVCS<enter>:set rnu<enter>')  -- at vcs toplevel
 
--- git
+-- git, figutive
 nnoremap('<leader>g', ':tab G<enter>')
+nnoremap('<leader>b', ':G branch<enter>')
 
 -- fuzzy finding
 nnoremap('<leader>ff', ":Telescope find_files<enter>") -- uses default settings
 nnoremap('<leader>fg', ":Telescope live_grep<enter>") -- uses default settings
 nnoremap('<leader>fhf', ":Telescope find_files find_command=rg,--hidden,--files<enter>") -- uses default settings
 -- nnoremap('<leader>fhg', ":Telescope live_grep grep_command=rg,--hidden<enter>") -- uses default settings
-
--- nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
--- nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
--- nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
--- nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 -- fold method changes
 nnoremap('<leader>zfi', ':set foldmethod=indent<enter>')
