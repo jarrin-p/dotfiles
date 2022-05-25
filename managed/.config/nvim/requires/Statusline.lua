@@ -32,6 +32,9 @@ function GetGitRelativeDir()
     elseif Vim.api.nvim_get_option_value('filetype', {}) == 'qf' then
         return header'Quick Fix || Location List'
 
+    elseif Vim.api.nvim_get_option_value('filetype', {}) == 'fugitive' then
+        return header'Git -> Fugitive'
+
     elseif Vim.fn.FugitiveIsGitDir() == 1 then
         -- use fugitive function FugitiveWorkTree() to get directory of git repo
         local abs_file_path = {}
