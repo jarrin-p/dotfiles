@@ -33,10 +33,13 @@ function GetGitRelativeDir()
         return header'Quick Fix || Location List'
 
     elseif Vim.api.nvim_get_option_value('filetype', {}) == 'fugitive' then
-        return header'Fugitive <- Git'
+        return header'Fugitive ' .. bracket(bl) .. directory' Git'
 
     elseif Vim.api.nvim_get_option_value('filetype', {}) == 'gitcommit' then
-        return header'Commit <- Fugitive <- Git'
+        return header'Commit ' .. bracket(bl) .. directory' Fugitive ' .. bracket(bl) .. directory' Git'
+
+    elseif Vim.api.nvim_get_option_value('filetype', {}) == 'git' then
+        return header'Branch ' .. bracket(bl) .. directory' Fugitive ' .. bracket(bl) .. directory' Git'
 
     elseif Vim.api.nvim_get_option_value('filetype', {}) == 'nerdtree' then
         return header'↟NERDTree'
