@@ -110,14 +110,30 @@ function MakePath()
             status =  ' ' .. bracket:set(bl) .. ' ' .. status
 
             -- set the point where truncation occurs on the list
-            if #git_root_rel_path == 7 then status = ' ' .. bracket:set(bl) .. directory:set' ...%< ' .. status end
+            if #git_root_rel_path == 5 then status = ' ' .. bracket:set(bl) .. directory:set' ...%< ' .. status end
         end
 
         -- the `open` file itself is the last item in the table to be popped.
         status = header:set(table.remove(git_root_rel_path)) .. mod:set(AddSymbolIfSet('modified', '+')) .. status
         return status
     else
-        return header:set(Vim.fn.expand("%:p"))
+        -- while there's more than one entry left to add to the path that will be displayed
+        local status, abs_file_path = '', GetFullPathAsTable()
+        local reverse_path = {}
+        for i = #abs_file_path, 1, -1 do table.insert(reverse_path, abs_file_path[i]) end
+        while (#reverse_path > 1) do
+            -- pop the next item to be displayed in the path from the stack and add a bracket
+            status = directory:set(table.remove(reverse_path)) .. status
+            status =  ' ' .. bracket:set(bl) .. ' ' .. status
+
+            -- set the point where truncation occurs on the list
+            if #abs_file_path == 5 then status = ' ' .. bracket:set(bl) .. directory:set' ...%< ' .. status end
+        end
+
+        -- the `open` file itself is the last item in the table to be popped.
+        status = header:set(table.remove(abs_file_path)) .. mod:set(AddSymbolIfSet('modified', '+')) .. status
+
+        return status
     end
 end
 
