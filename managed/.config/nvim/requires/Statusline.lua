@@ -70,6 +70,7 @@ function LinearSearch(table_to_search, item_to_find)
     for i, item in ipairs(table_to_search) do
         if item == item_to_find then return i end
     end
+    return 1
 end
 
 function MakePath()
