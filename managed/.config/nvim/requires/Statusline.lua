@@ -55,7 +55,7 @@ SLColorgroup = {
 local bracket = SLColorgroup:new{ name = 'SLBracket', options = { bold = 0, ctermfg = 8 } }
 local sl_item = SLColorgroup:new{ name = 'SLItem', options = { ctermfg = 121 } }
 local directory = SLColorgroup:new{ name = 'SLDir', options = { italic = 1, ctermfg = 3 } }
-local header = SLColorgroup:new{ name = 'SLFileHeader', options = { italic = 0, ctermfg = 11 } }
+local header = SLColorgroup:new{ name = 'SLFileHeader', options = { bold = 1, italic = 0, ctermfg = 11 } }
 local mod = SLColorgroup:new{ name = 'SLModified', options = { italic = 0, ctermfg = 9 } }
 
 function GetFullPathAsTable()

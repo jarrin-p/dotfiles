@@ -9,7 +9,6 @@ elseif Vim.fn.has('mac') == 1 then
 end
 
 -- import plugins
-Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-fugitive'
 Plug 'preservim/nerdtree'
 Plug 'psliwka/vim-smoothie'
