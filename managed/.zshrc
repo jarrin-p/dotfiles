@@ -19,6 +19,7 @@ alias dcu="docker compose up"
 alias dcub="docker compose up --build"
 function dcrun { docker compose run $1 } # Parameter is for the service name
 alias set_intel="clear ; arch -x86_64 /bin/zsh ; echo $(arch)"
+alias vscode="open '/Applications/Visual Studio Code.app' ."
 
 # git/vcs status info
 setopt prompt_subst

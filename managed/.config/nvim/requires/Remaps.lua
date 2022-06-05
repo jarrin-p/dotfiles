@@ -33,9 +33,21 @@ nnoremap('<c-j>', ':bprev<enter>')     -- previous buffer, ctrl-j for going down
 nnoremap('<c-k>', ':bnext<enter>')     -- next buffer, ctrl-k for going up in the stack
 nnoremap('<c-t>', ':tabedit %')        -- duplicate window to new tab
 
--- coc
-nnoremap('<leader>d', ':call CocAction("definitionHover")<enter>')
-nnoremap('gd', ':call CocAction("jumpDefinition")<enter>')
+-- -- coc
+-- nnoremap('<leader>d', ':call CocAction("definitionHover")<enter>')
+-- nnoremap('gd', ':call CocAction("jumpDefinition")<enter>')
+-- --nnoremap('<leader>r', ':call CocAction("rename")<enter>')     -- not sure why these aren't working
+-- --nnoremap('<leader>R', ':call CocAction("refactor")<enter>')   -- not sure why these aren't working
+-- nnoremap('<leader>c', ':call CocAction("codeAction")<enter>')
+-- nnoremap('<leader>C', ':call CocAction("codeActions")<enter>')
+-- nnoremap('<leader>o', ':call CocAction("showOutline")<enter>:vert res 50<Enter>')
+-- nnoremap('<leader>j', ':call CocAction("jumpReferences")<enter>:copen<enter>')
+-- nnoremap('<leader>DD', ':call CocAction("diagnosticToggle")<enter>')
+
+-- ale
+-- Exec 'let g:ale_floating_preview=1' -- nvim specific for the preview
+nnoremap('<leader>d', ':ALEHover<enter>')
+nnoremap('gd', ':ALEGoToDefinition<enter>')
 --nnoremap('<leader>r', ':call CocAction("rename")<enter>')     -- not sure why these aren't working
 --nnoremap('<leader>R', ':call CocAction("refactor")<enter>')   -- not sure why these aren't working
 nnoremap('<leader>c', ':call CocAction("codeAction")<enter>')

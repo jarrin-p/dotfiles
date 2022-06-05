@@ -5,16 +5,18 @@ require 'Global'
 local hl = Vim.api.nvim_set_hl
 
 -- color scheme
-hl(0, 'CocInfoHighlight', { })
-hl(0, 'CocUnusedHighlight', { ctermfg = 3 })
-hl(0, 'CocWarningHighlight', { })
+-- hl(0, 'CocInfoHighlight', { })
+-- hl(0, 'CocUnusedHighlight', { ctermfg = 3 })
+-- hl(0, 'CocWarningHighlight', { })
+-- hl(0, 'FgCocHintFloatBgCocFloating', { ctermbg = 242 })
 hl(0, 'CursorLine', { underline = 1, sp = Colors.h_split_underline, ctermbg = Colors.none })
 hl(0, 'CursorLineNr', { ctermbg = Colors.none })
 hl(0, 'DiffAdd', { ctermfg = 6, bold = 1 })
 hl(0, 'DiffChange', { ctermfg = 12, italic = 1 })
 hl(0, 'DiffDelete', { ctermfg = 1, bold = 1 })
 hl(0, 'DiffText', { ctermfg = 11, bold = 1 })
-hl(0, 'FgCocHintFloatBgCocFloating', { ctermbg = 242 })
+hl(0, 'Error', { underline = 1, sp = 'red' })
+hl(0, 'SpellBad', { underline = 1, sp = 'red' })
 hl(0, 'FoldColumn', { ctermfg = Colors.dark_blue })
 hl(0, 'Folded', { ctermfg = Colors.dark_blue, italic = 1 })
 hl(0, 'MatchParen', { bold = 1, italic = 1 })

@@ -91,7 +91,7 @@ function MakePath()
         return header:set'Branch ' .. bracket:set(bl) .. directory:set' Fugitive ' .. bracket:set(bl) .. directory:set' Git'
 
     elseif file_type == 'nerdtree' then
-        return header:set'↟NERDTree'
+        return (sl_item:set'↟' .. header:set'NERDTree')
 
     elseif Vim.fn.FugitiveIsGitDir() == 1 then
         local abs_file_path = GetFullPathAsTable()
@@ -124,11 +124,12 @@ function MakePath()
         for i = #abs_file_path, 1, -1 do table.insert(reverse_path, abs_file_path[i]) end
         while (#reverse_path > 1) do
             -- pop the next item to be displayed in the path from the stack and add a bracket
-            status = directory:set(table.remove(reverse_path)) .. status
-            status =  ' ' .. bracket:set(bl) .. ' ' .. status
-
+            pop = directory:set(table.remove(reverse_path))
+            if #reverse_path < 5 then
+                status = pop .. status
+                status =  ' ' .. bracket:set(bl) .. ' ' .. status
             -- set the point where truncation occurs on the list
-            if #abs_file_path == 5 then status = ' ' .. bracket:set(bl) .. directory:set' ...%< ' .. status end
+            elseif #abs_file_path == 5 then status = ' ' .. bracket:set(bl) .. directory:set' ...%< ' .. status end
         end
 
         -- the `open` file itself is the last item in the table to be popped.
