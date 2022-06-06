@@ -31,30 +31,17 @@ nnoremap('<c-enter>', ':vsp<enter>')
 nnoremap('<c-b>', ':b#<enter>')        -- most recent buffer, ctrl-b for 'back'
 nnoremap('<c-j>', ':bprev<enter>')     -- previous buffer, ctrl-j for going down in the stack
 nnoremap('<c-k>', ':bnext<enter>')     -- next buffer, ctrl-k for going up in the stack
-nnoremap('<c-t>', ':tabedit %')        -- duplicate window to new tab
+nnoremap('<c-t>', ':tabedit %<enter>') -- duplicate buffer to new tab
+nnoremap('<c-f>', ':lcd %:p:h<enter>') -- cd to current file and show pwd
+nnoremap('<c-g>', ':GT<enter>')        -- cd to git dir
 
--- -- coc
--- nnoremap('<leader>d', ':call CocAction("definitionHover")<enter>')
--- nnoremap('gd', ':call CocAction("jumpDefinition")<enter>')
--- --nnoremap('<leader>r', ':call CocAction("rename")<enter>')     -- not sure why these aren't working
--- --nnoremap('<leader>R', ':call CocAction("refactor")<enter>')   -- not sure why these aren't working
--- nnoremap('<leader>c', ':call CocAction("codeAction")<enter>')
--- nnoremap('<leader>C', ':call CocAction("codeActions")<enter>')
--- nnoremap('<leader>o', ':call CocAction("showOutline")<enter>:vert res 50<Enter>')
--- nnoremap('<leader>j', ':call CocAction("jumpReferences")<enter>:copen<enter>')
--- nnoremap('<leader>DD', ':call CocAction("diagnosticToggle")<enter>')
-
--- ale
--- Exec 'let g:ale_floating_preview=1' -- nvim specific for the preview
-nnoremap('<leader>d', ':ALEHover<enter>')
-nnoremap('gd', ':ALEGoToDefinition<enter>')
---nnoremap('<leader>r', ':call CocAction("rename")<enter>')     -- not sure why these aren't working
---nnoremap('<leader>R', ':call CocAction("refactor")<enter>')   -- not sure why these aren't working
-nnoremap('<leader>c', ':call CocAction("codeAction")<enter>')
-nnoremap('<leader>C', ':call CocAction("codeActions")<enter>')
-nnoremap('<leader>o', ':call CocAction("showOutline")<enter>:vert res 50<Enter>')
-nnoremap('<leader>j', ':call CocAction("jumpReferences")<enter>:copen<enter>')
-nnoremap('<leader>DD', ':call CocAction("diagnosticToggle")<enter>')
+nnoremap('gD', ':lua Vim.lsp.buf.declaration()<enter>')
+nnoremap('gd', ':lua Vim.lsp.buf.definition()<enter>')
+nnoremap('<leader>d', ':lua Vim.lsp.buf.hover()<enter>')
+nnoremap('gi', ':lua Vim.lsp.buf.implementation()<enter>')
+nnoremap('<leader>rn', ':lua Vim.lsp.buf.rename()<enter>')
+nnoremap('gc', ':lua Vim.lsp.buf.code_action()<enter>')
+nnoremap('g=', ':lua Vim.lsp.buf.formatting()<enter>')
 
 -- nerdtree
 nnoremap('<leader>t', ':NERDTreeFind<enter>:set rnu<enter>')       -- at current working directory
