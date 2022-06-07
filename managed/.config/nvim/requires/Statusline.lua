@@ -1,5 +1,4 @@
 require 'Global'
-require 'AutoCmdClass'
 
 -- status line modifications
 local bl = '«'
@@ -58,7 +57,10 @@ local directory = SLColorgroup:new{ name = 'SLDir', options = { italic = 1, cter
 local header = SLColorgroup:new{ name = 'SLFileHeader', options = { bold = 1, italic = 0, ctermfg = 11 } }
 local mod = SLColorgroup:new{ name = 'SLModified', options = { italic = 0, ctermfg = 9 } }
 
-function GetFullPathAsTable()
+--- gets the absolute path of the currently worked on file using `expand`
+-- and splits it into a table.
+-- @returns abs_file_table an ordered table containing each directory for the path.
+function GetAbsolutePathAsTable()
     local abs_file_path = {}
     for match in vim.fn.expand('%:p'):sub(1):gmatch('/[^/]*') do
         table.insert(abs_file_path, (match:gsub('/', '')))
@@ -66,14 +68,18 @@ function GetFullPathAsTable()
     return abs_file_path
 end
 
+--- standard linear search function
+-- @param table_to_search the table to be searched.
+-- @param item_to_find object to be found in the table
+-- @returns int index of item. returns -1 if nothing is found
 function LinearSearch(table_to_search, item_to_find)
     for i, item in ipairs(table_to_search) do
         if item == item_to_find then return i end
     end
-    return 1
+    return -1
 end
 
---- build the path. this is the 'custom' behavior for my preferences.
+--- build the path itself.
 function MakePath()
     local file_type = vim.api.nvim_get_option_value('filetype', {})
     if file_type == 'help' then
@@ -95,7 +101,7 @@ function MakePath()
         return (sl_item:set'↟' .. header:set'NERDTree')
 
     elseif vim.fn.FugitiveIsGitDir() == 1 then
-        local abs_file_path = GetFullPathAsTable()
+        local abs_file_path = GetAbsolutePathAsTable()
 
         local _, last_index = vim.fn.FugitiveWorkTree():find('.*/')
         local index_of_dir = LinearSearch(abs_file_path, (vim.fn.FugitiveWorkTree():sub(last_index):gsub('/', '')) )
@@ -103,7 +109,7 @@ function MakePath()
         local status = ConvertTableToPathString(abs_file_path, 5, index_of_dir)
         return status
     else
-        local status = ConvertTableToPathString(GetFullPathAsTable(), 5)
+        local status = ConvertTableToPathString(GetAbsolutePathAsTable(), 5)
         return status
     end
 end
@@ -158,6 +164,7 @@ function AddSymbolIfSet(option, symbol_to_use)
     end
 end
 
+--- custom part of the statusline
 function MakeStatusLine()
     -- lhs padding, also declaration for easier adjusting
     local sl = header:set'  '
@@ -171,7 +178,6 @@ function MakeStatusLine()
     -- rhs
     sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long
     sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long
-    sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long
     sl = sl .. GetBranch()
     sl = sl .. sl_item:set"buf %n" -- buffer id
     sl = sl .. header:set'  ' -- rhs padding
@@ -180,8 +186,5 @@ function MakeStatusLine()
     SetWinLocal.statusline = sl
 end
 
-AutoCmd:new{event = 'WinEnter', cmd = 'lua MakeStatusLine()'}:add()
-AutoCmd:new{event = 'BufWinEnter', cmd = 'lua MakeStatusLine()'}:add()
-AutoCmd:new{event = 'VimEnter', cmd = 'lua MakeStatusLine()'}:add()
-AutoCmd:new{event = 'WinNew', cmd = 'lua MakeStatusLine()'}:add()
-AutoCmd:new{event = 'BufModifiedSet', cmd = 'lua MakeStatusLine()'}:add()
+vim.api.nvim_create_autocmd({'VimEnter', 'WinEnter', 'BufWinEnter', 'WinNew', 'BufModifiedSet'}, { callback = MakeStatusLine })
+vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'nerdtree'}, callback = MakeStatusLine })

@@ -1,25 +1,13 @@
 source ~/.zshrc.private
 
-# color ls
-alias ls="ls -G"
-
+alias ls="ls -G" # color ls
 function man { nvim -c "Man $1" -c "only" } # Use neovim's man command instead of gnu-man
-
-# Quick Access
-alias gittop='pushd $(git rev-parse --show-toplevel)'
-
-# requires (n)vim `fugitive` plugin
-alias g='nvim -c "wincmd l" -c "Git" -c "only"'
-
-# enhanced ssh functionality using kitty
-alias ssh='kitty +kitten ssh' 
-
-# shorthands
+alias gittop='pushd $(git rev-parse --show-toplevel)' # Quick Access
+alias g='nvim -c "wincmd l" -c "Git" -c "only"' # requires (n)vim `fugitive` plugin
+alias ssh='kitty +kitten ssh' # enhanced ssh functionality using kitty
 alias dcu="docker compose up"
 alias dcub="docker compose up --build"
 function dcrun { docker compose run $1 } # Parameter is for the service name
-alias set_intel="clear ; arch -x86_64 /bin/zsh ; echo $(arch)"
-alias vscode="open '/Applications/Visual Studio Code.app' ."
 
 # git/vcs status info
 setopt prompt_subst
@@ -56,19 +44,8 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --color=bg+:-1
 '
 
-# see `dotfiles/get_antigen.sh`
-source /usr/local/share/antigen.zsh
-
-# add bundles
-antigen bundle jeffreytse/zsh-vi-mode
-antigen bundle rupa/z
-
-# necessary after adding bundles
-antigen apply
-
+# pipe a standard `psql` query into `visidata` as a `csv` for better viewing.
 function query {
     QUERY=$1
     dvs -c "\copy ($QUERY) TO STDOUT CSV HEADER" | vd -f csv
 }
-
-# vim: fdm=marker

@@ -1,39 +1,25 @@
-require 'AutoCmdClass'
+-- nerdtree will always have relative number set
+vim.api.nvim_create_autocmd({'FileType'}, { pattern='nerdtree', command = "set number relativenumber" })
 
--- open nerdtree as soon as vim opens.
--- and turn relative number on. it makes navigating the tree even easier.
-AutoCmd:new{event = 'VimEnter', cmd = 'NERDTreeToggleVCS'}:add()
-AutoCmd:new{event = 'VimEnter', cmd = 'set relativenumber'}:add()
+function OpeningBehavior()
+    if vim.fn.line('$') == 1
+        and vim.fn.getline(1) == ''
+        and vim.api.nvim_get_option_value('filetype', {}) then
+            vim.api.nvim_command('NERDTreeToggleVCS')
+            vim.api.nvim_command('only')
+    else
+        vim.api.nvim_command('NERDTreeToggleVCS')
+        vim.api.nvim_command('wincmd p')
+    end
+end
 
--- wonky way of checking if nvim opened a buffer.
--- basically if the starting buffer isn't empty, stay to it, otherwise
--- full-size nerdtree.
-AutoCmd:new{event = 'VimEnter', cmd = 'wincmd w'}:add()
-AutoCmd:new{event = 'VimEnter', cmd = 'if line("$") == 1 && getline(1) == "" && &filetype == "" | wincmd p | only | endif'}:add()
+-- open nerdtree as soon as vim opens. make it full screen if no other buffer is open
+vim.api.nvim_create_autocmd({'VimEnter'}, { callback = OpeningBehavior })
 
--- match spotlessApply in main project.
-AutoCmd:new{event = 'FileType', pattern='java', cmd = 'set tabstop=2'}:add()
-
--- keep manual folds.
--- AutoCmd:new{event = 'BufWritePost', pattern='*.*', cmd = 'mkview'}:add()
--- AutoCmd:new{event = 'BufWinEnter', pattern='*', cmd = 'silent! loadview'}:add()
+-- match settings from other projects for these filetypes
+vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'java', 'terraform'}, command = 'set tabstop=2' })
 
 -- custom spotlessApply command (SA) that runs at top of git level.
 -- assumes java is using gradle with SA ipmlemented.
-AutoCmd:new{event = 'BufWritePost', pattern='*.java', cmd = 'silent SA'}:add()
-AutoCmd:new{event = 'FileType', pattern='*.tf', cmd = 'silent TFF'}:add()
-
--- groups not implemented yet, using standard vimscript for shada share.
--- local exec = function (str) vim.api.nvim_exec(str, false) end
-
--- share shada (registers, etc) between windows.
--- useful when using terminal splits or tiled windows.
--- note: no longer using after adding 'unnamed,unnamedplus' to clipboard setting
--- keeping code just in case
--- exec [[
--- augroup SHADA
---     autocmd!
---     autocmd CursorHold,TextYankPost,FocusGained,FocusLost *
---         \ if exists(':rshada') | rshada | wshada | endif
--- augroup END
--- ]]
+vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.java'}, command = 'silent SA' })
+vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.tf'}, command = 'silent TFF' })

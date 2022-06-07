@@ -14,7 +14,6 @@ end
 function JsonToTable(json)
     json = json:gsub('\\', '')
     json = json:gsub('"([%w%p]-)":', '%1 =')
-    --json = json:gsub('"([%w%p]-)":', '%1 =')
     json = json:gsub('-', '_')
     json = json:gsub('%[', '%{')
     json = json:gsub('%]', '%}')

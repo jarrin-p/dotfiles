@@ -29,13 +29,12 @@ Set.textwidth = 120
 Set.showmode = true  -- changed to false because of lightline plugin
 Set.splitright = true -- splits new window to the right
 Set.splitbelow = true -- splits new window down
--- Set.switchbuf = '' -- new tabs for some commands
--- Set.sessionoptions = 'localoptions,folds,options,tabpages,winsizes,sesdir'
 
 -- Editing Settings
 Set.backspace = 'indent,eol,start'
 Set.magic = true
 Set.inccommand = 'nosplit'
+Set.completeopt = 'menu,preview'
 
 -- plugin settings that come with vim
 GSet.netrw_liststyle = 3

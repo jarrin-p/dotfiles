@@ -37,8 +37,7 @@ require("nvim-lsp-installer").setup {
 local servers = { 'pyright', 'jdtls', 'sumneko_lua', 'terraformls' }
 for _, server in pairs(servers) do
     if server == 'sumneko_lua' then
-        require('lspconfig')[server].setup {
-            settings = { Lua = { version = 'LuaJIT', diagnostics = { globals = { 'vim' } } } } }
+        require('lspconfig')[server].setup { settings = { Lua = { version = 'LuaJIT', diagnostics = { globals = { 'vim' } } } } }
     else
         require('lspconfig')[server].setup {}
     end
