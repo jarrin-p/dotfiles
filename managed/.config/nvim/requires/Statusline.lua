@@ -73,6 +73,7 @@ function LinearSearch(table_to_search, item_to_find)
     return 1
 end
 
+--- build the path. this is the 'custom' behavior for my preferences.
 function MakePath()
     local file_type = vim.api.nvim_get_option_value('filetype', {})
     if file_type == 'help' then
@@ -99,44 +100,44 @@ function MakePath()
         local _, last_index = vim.fn.FugitiveWorkTree():find('.*/')
         local index_of_dir = LinearSearch(abs_file_path, (vim.fn.FugitiveWorkTree():sub(last_index):gsub('/', '')) )
 
-        -- iterate backwards to build the path to git dir
-        local git_root_rel_path = {}
-        for i = #abs_file_path, index_of_dir, -1 do table.insert(git_root_rel_path, abs_file_path[i]) end
-
-        -- while there's more than one entry left to add to the path that will be displayed
-        local status = ''
-        while (#git_root_rel_path > 1) do
-            -- pop the next item to be displayed in the path from the stack and add a bracket
-            status = directory:set(table.remove(git_root_rel_path)) .. status
-            status =  ' ' .. bracket:set(bl) .. ' ' .. status
-
-            -- set the point where truncation occurs on the list
-            if #git_root_rel_path == 5 then status = ' ' .. bracket:set(bl) .. directory:set' ...%< ' .. status end
-        end
-
-        -- the `open` file itself is the last item in the table to be popped.
-        status = header:set(table.remove(git_root_rel_path)) .. mod:set(AddSymbolIfSet('modified', '+')) .. status
+        local status = ConvertTableToPathString(abs_file_path, 5, index_of_dir)
         return status
     else
-        -- while there's more than one entry left to add to the path that will be displayed
-        local status, abs_file_path = '', GetFullPathAsTable()
-        local reverse_path = {}
-        for i = #abs_file_path, 1, -1 do table.insert(reverse_path, abs_file_path[i]) end
-        while (#reverse_path > 1) do
-            -- pop the next item to be displayed in the path from the stack and add a bracket
-            pop = directory:set(table.remove(reverse_path))
-            if #reverse_path < 5 then
-                status = pop .. status
-                status =  ' ' .. bracket:set(bl) .. ' ' .. status
-            -- set the point where truncation occurs on the list
-            elseif #abs_file_path == 5 then status = ' ' .. bracket:set(bl) .. directory:set' ...%< ' .. status end
-        end
-
-        -- the `open` file itself is the last item in the table to be popped.
-        status = header:set(table.remove(abs_file_path)) .. mod:set(AddSymbolIfSet('modified', '+')) .. status
-
+        local status = ConvertTableToPathString(GetFullPathAsTable(), 5)
         return status
     end
+end
+
+--- takes the path and converts it to a string that will be set on the statusline.
+-- @param path_table table to be converted to status.
+-- @param project_root_index directory of the project root
+-- @param truncate_point (optional) max number of entries on the status line.
+function ConvertTableToPathString(path_table, truncate_point, project_root_index)
+    if not path_table then return 'no path to convert' end
+    truncate_point = truncate_point or #path_table
+    project_root_index = project_root_index or 1
+
+    local status, reverse_path = '', {}
+    for i = #path_table, project_root_index, -1 do table.insert(reverse_path, path_table[i]) end
+
+    -- while there's more than one entry left to add to the path that will be displayed
+    while (#reverse_path > 1) do
+        -- pop the next item to be displayed in the path from the stack and add a bracket
+        local pop = directory:set(table.remove(reverse_path))
+        if #reverse_path < truncate_point then
+            status = pop .. status
+            status =  ' ' .. bracket:set(bl) .. ' ' .. status
+
+        -- set the point where truncation occurs on the list
+        elseif #path_table == truncate_point then
+            status = ' ' .. bracket:set(bl) .. directory:set' %< '
+        end
+    end
+
+    --- the `open` file itself is the last item in the table to be popped.
+    -- additionally, adds a modified symbol if ... the file has been modified ...
+    status = header:set(table.remove(path_table)) .. mod:set(AddSymbolIfSet('modified', '+')) .. status
+    return status
 end
 
 --- uses fugitive to check if in a git directory, and if it is, return the head.

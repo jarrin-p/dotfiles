@@ -35,13 +35,13 @@ nnoremap('<c-t>', ':tabedit %<enter>') -- duplicate buffer to new tab
 nnoremap('<c-f>', ':lcd %:p:h<enter>') -- cd to current file and show pwd
 nnoremap('<c-g>', ':GT<enter>')        -- cd to git dir
 
-nnoremap('gD', ':lua Vim.lsp.buf.declaration()<enter>')
-nnoremap('gd', ':lua Vim.lsp.buf.definition()<enter>')
-nnoremap('<leader>d', ':lua Vim.lsp.buf.hover()<enter>')
-nnoremap('gi', ':lua Vim.lsp.buf.implementation()<enter>')
-nnoremap('<leader>rn', ':lua Vim.lsp.buf.rename()<enter>')
-nnoremap('gc', ':lua Vim.lsp.buf.code_action()<enter>')
-nnoremap('g=', ':lua Vim.lsp.buf.formatting()<enter>')
+nnoremap('gD', ':lua vim.lsp.buf.declaration()<enter>')
+nnoremap('gd', ':lua vim.lsp.buf.definition()<enter>')
+nnoremap('<leader>d', ':lua vim.lsp.buf.hover()<enter>')
+nnoremap('gi', ':lua vim.lsp.buf.implementation()<enter>')
+nnoremap('<leader>rn', ':lua vim.lsp.buf.rename()<enter>')
+nnoremap('gc', ':lua vim.lsp.buf.code_action()<enter>')
+nnoremap('g=', ':lua vim.lsp.buf.formatting()<enter>')
 
 -- nerdtree
 nnoremap('<leader>t', ':NERDTreeFind<enter>:set rnu<enter>')       -- at current working directory
