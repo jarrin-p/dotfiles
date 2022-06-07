@@ -49,8 +49,7 @@ SLColorgroup = {
 }
 
 -- create custom color groups for the status line. assigning them to variables
--- allows use of a `set` helper function so a redundant helper doesn't need to be
--- manually declared.
+-- allows the color groups to have a `set` helper function that uses defaults.
 local bracket = SLColorgroup:new{ name = 'SLBracket', options = { bold = 0, ctermfg = 8 } }
 local sl_item = SLColorgroup:new{ name = 'SLItem', options = { ctermfg = 121 } }
 local directory = SLColorgroup:new{ name = 'SLDir', options = { italic = 1, ctermfg = 3 } }
@@ -164,27 +163,28 @@ function AddSymbolIfSet(option, symbol_to_use)
     end
 end
 
---- custom part of the statusline
+--- finally, customize the statusline using the components we made.
 function MakeStatusLine()
-    -- lhs padding, also declaration for easier adjusting
+    -- left hand side padding, also declaration for easier adjusting.
     local sl = header:set'  '
 
-    -- lhs
+    -- left hand side.
     sl = sl .. MakePath()
 
-    -- where to truncate and where the statusline splits
+    -- where to truncate and where the statusline splits.
     sl = sl .. "%="
 
-    -- rhs
-    sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long
-    sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long
+    -- right hand side
+    sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long.
+    sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long.
     sl = sl .. GetBranch()
-    sl = sl .. sl_item:set"buf %n" -- buffer id
-    sl = sl .. header:set'  ' -- rhs padding
+    sl = sl .. sl_item:set"buf %n" -- buffer id.
+    sl = sl .. header:set'  ' -- rhs padding.
 
-    -- set based on the string
+    -- updates the window being worked in only.
     SetWinLocal.statusline = sl
 end
 
+-- add autocommands for the statusline to update.
 vim.api.nvim_create_autocmd({'VimEnter', 'WinEnter', 'BufWinEnter', 'WinNew', 'BufModifiedSet'}, { callback = MakeStatusLine })
 vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'nerdtree'}, callback = MakeStatusLine })

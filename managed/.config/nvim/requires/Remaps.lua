@@ -1,10 +1,6 @@
-require 'Global'
-
 local function map (lhs, rhs) vim.api.nvim_set_keymap('', lhs, rhs, {noremap = false, silent = true}) end
 local function nnoremap (lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, {noremap = true, silent = true}) end
 local function tnoremap (lhs, rhs) vim.api.nvim_set_keymap('t', lhs, rhs, {noremap = true, silent = true}) end
--- unused, but will be better to have if needed
-local function t (str) return vim.api.nvim_replace_termcodes(str, true, true, true) end
 
 -- simple changes
 map('<space>', '<leader>') -- Remap leader to spacebar, obviously

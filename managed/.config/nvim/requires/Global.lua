@@ -1,5 +1,3 @@
-vim = vim -- keeps language server from freaking out
-
 --- shorthand defaults to false when no bool passed
 Exec = function (str, bool)
     bool = bool or false
