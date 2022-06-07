@@ -22,9 +22,17 @@ vim.call('plug#end')
 
 -- setup plugins
 require("scrollbar").setup()
-require("nvim-lsp-installer").setup {
-  automatic_installation = true
+require 'nvim-treesitter.configs'.setup {
+	ensure_installed = "all", -- One of "all", "maintained" (parsers with maintainers), or a list of languages
+	sync_install = true, -- install languages synchronously (only applied to `ensure_installed`)
+	-- ignore_install = { "javascript" }, -- list of parsers to ignore installing
+	highlight = {
+		enable = true, -- `false` will disable the whole extension
+		--disable = { "c", "rust" }, -- list of language that will be disabled
+		additional_vim_regex_highlighting = true,
+	},
 }
+require("nvim-lsp-installer").setup{ automatic_installation = true }
 -- lsp server setups. defaults are fine for most.
 local servers = { 'pyright', 'jdtls', 'sumneko_lua', 'terraformls' }
 for _, server in pairs(servers) do
@@ -35,6 +43,6 @@ for _, server in pairs(servers) do
     end
 end
 
--- some additional settings
+-- some additional plugin settings that need to be set through globals.
 GSet.NERDTreeWinSize = 50
 GSet.NERDTreeShowBookmarks = 1
