@@ -1,15 +1,15 @@
-Vim = vim -- keeps language server from freaking out
+vim = vim -- keeps language server from freaking out
 
 --- shorthand defaults to false when no bool passed
 Exec = function (str, bool)
     bool = bool or false
-    Vim.api.nvim_exec(str, bool)
+    vim.api.nvim_exec(str, bool)
 end
 
 --- more intuitive shorthand for setting, use `.` syntax on setting
-Set = Vim.o
-GSet = Vim.g
-SetWinLocal = Vim.wo
+Set = vim.o
+GSet = vim.g
+SetWinLocal = vim.wo
 
 -- TODO look into `set termguicolors=...`
 -- specifying colors manually. makes tweaking easier

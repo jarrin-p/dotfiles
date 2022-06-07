@@ -2,7 +2,7 @@ require 'Global'
 
 --- alias for setting highlight
 -- @see `:h nvim_set_hl`
-local hl = Vim.api.nvim_set_hl
+local hl = vim.api.nvim_set_hl
 
 -- color scheme
 -- hl(0, 'CocInfoHighlight', { })

@@ -1,7 +1,7 @@
 require 'Global'
 
 -- TODO api native commands using `vim.api.nvim_add_user_command(...)`
-Vim.g.sil_is_toggled = 0
+vim.g.sil_is_toggled = 0
 Exec([[
 function ToggleSil()
     if g:sil_is_toggled == 0

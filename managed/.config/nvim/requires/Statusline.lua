@@ -37,7 +37,7 @@ SLColorgroup = {
                 obj[key] = val
             end
         end
-        Vim.api.nvim_set_hl(obj.scope, obj.name, obj.options)
+        vim.api.nvim_set_hl(obj.scope, obj.name, obj.options)
         return obj
     end,
 
@@ -60,7 +60,7 @@ local mod = SLColorgroup:new{ name = 'SLModified', options = { italic = 0, cterm
 
 function GetFullPathAsTable()
     local abs_file_path = {}
-    for match in Vim.fn.expand('%:p'):sub(1):gmatch('/[^/]*') do
+    for match in vim.fn.expand('%:p'):sub(1):gmatch('/[^/]*') do
         table.insert(abs_file_path, (match:gsub('/', '')))
     end
     return abs_file_path
@@ -74,7 +74,7 @@ function LinearSearch(table_to_search, item_to_find)
 end
 
 function MakePath()
-    local file_type = Vim.api.nvim_get_option_value('filetype', {})
+    local file_type = vim.api.nvim_get_option_value('filetype', {})
     if file_type == 'help' then
         return header:set'Help'
 
@@ -93,11 +93,11 @@ function MakePath()
     elseif file_type == 'nerdtree' then
         return (sl_item:set'↟' .. header:set'NERDTree')
 
-    elseif Vim.fn.FugitiveIsGitDir() == 1 then
+    elseif vim.fn.FugitiveIsGitDir() == 1 then
         local abs_file_path = GetFullPathAsTable()
 
-        local _, last_index = Vim.fn.FugitiveWorkTree():find('.*/')
-        local index_of_dir = LinearSearch(abs_file_path, (Vim.fn.FugitiveWorkTree():sub(last_index):gsub('/', '')) )
+        local _, last_index = vim.fn.FugitiveWorkTree():find('.*/')
+        local index_of_dir = LinearSearch(abs_file_path, (vim.fn.FugitiveWorkTree():sub(last_index):gsub('/', '')) )
 
         -- iterate backwards to build the path to git dir
         local git_root_rel_path = {}
@@ -141,8 +141,8 @@ end
 
 --- uses fugitive to check if in a git directory, and if it is, return the head.
 function GetBranch()
-    if Vim.fn.FugitiveIsGitDir() == 1 then
-        return sl_item:set("⤤ " .. Vim.fn.FugitiveHead()) .. bracket:set(" " .. te) .. ' '
+    if vim.fn.FugitiveIsGitDir() == 1 then
+        return sl_item:set("⤤ " .. vim.fn.FugitiveHead()) .. bracket:set(" " .. te) .. ' '
     else
         return ''
     end
@@ -150,7 +150,7 @@ end
 
 --- checks if a boolean option is true, then adds a user defined symbol if it is.
 function AddSymbolIfSet(option, symbol_to_use)
-    if (Vim.api.nvim_get_option_value(option, {}) == true) then
+    if (vim.api.nvim_get_option_value(option, {}) == true) then
         return symbol_to_use
     else
         return ''

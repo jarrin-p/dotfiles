@@ -1,11 +1,11 @@
 require 'Global'
 
 -- vim-plug initialization
-local Plug = Vim.fn['plug#']
-if Vim.fn.has('unix') == 1 then
-	Vim.call('plug#begin', '~/.config/nvim/autoload/plugged')
-elseif Vim.fn.has('mac') == 1 then
-	Vim.call('plug#begin', '~/.config/nvim/autoload/plugged')
+local Plug = vim.fn['plug#']
+if vim.fn.has('unix') == 1 then
+	vim.call('plug#begin', '~/.config/nvim/autoload/plugged')
+elseif vim.fn.has('mac') == 1 then
+	vim.call('plug#begin', '~/.config/nvim/autoload/plugged')
 end
 
 -- import plugins
@@ -26,7 +26,7 @@ Plug 'tpope/vim-surround'
 -- Plug 'dense-analysis/ale'
 
 -- end of plugin defining
-Vim.call('plug#end')
+vim.call('plug#end')
 
 -- setup plugins
 require("scrollbar").setup()
@@ -36,7 +36,12 @@ require("nvim-lsp-installer").setup {
 }
 local servers = { 'pyright', 'jdtls', 'sumneko_lua', 'terraformls' }
 for _, server in pairs(servers) do
-    require('lspconfig')[server].setup {}
+    if server == 'sumneko_lua' then
+        require('lspconfig')[server].setup {
+            settings = { Lua = { version = 'LuaJIT', diagnostics = { globals = { 'vim' } } } } }
+    else
+        require('lspconfig')[server].setup {}
+    end
 end
 
 -- plugin settings

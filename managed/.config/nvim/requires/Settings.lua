@@ -1,6 +1,6 @@
 require 'Global'
 
-Set = Vim.o     -- shorthand
+Set = vim.o     -- shorthand
 Set.compatible = false
 
 -- Terminal Settings
