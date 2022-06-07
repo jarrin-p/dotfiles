@@ -10,8 +10,8 @@ Plug 'petertriho/nvim-scrollbar'
 Plug 'tpope/vim-fugitive'
 Exec "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }"
 Exec "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}"
-Plug "williamboman/nvim-lsp-installer"
-Plug "neovim/nvim-lspconfig"
+Plug 'williamboman/nvim-lsp-installer'
+Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim' -- depends on `plenary.vim`
 Plug 'preservim/nerdtree'
@@ -21,25 +21,34 @@ Plug 'tpope/vim-surround'
 vim.call('plug#end')
 
 -- setup plugins
-require("scrollbar").setup()
+require('scrollbar').setup()
 require 'nvim-treesitter.configs'.setup {
-	ensure_installed = "all", -- One of "all", "maintained" (parsers with maintainers), or a list of languages
-	sync_install = true, -- install languages synchronously (only applied to `ensure_installed`)
-	-- ignore_install = { "javascript" }, -- list of parsers to ignore installing
+	ensure_installed = 'all',             -- 'all', 'maintained', or a table of languages
+	sync_install = true,                  -- install languages synchronously (only applied to `ensure_installed`)
+	-- ignore_install = { 'javascript' }, -- list of parsers to ignore installing
 	highlight = {
-		enable = true, -- `false` will disable the whole extension
-		--disable = { "c", "rust" }, -- list of language that will be disabled
+		enable = true,                    -- `false` will disable the whole extension
+		--disable = { 'c', 'rust' },      -- list of languages that will be disabled
 		additional_vim_regex_highlighting = true,
 	},
 }
-require("nvim-lsp-installer").setup{ automatic_installation = true }
+require('nvim-lsp-installer').setup{ automatic_installation = true }
 -- lsp server setups. defaults are fine for most.
-local servers = { 'pyright', 'jdtls', 'sumneko_lua', 'terraformls' }
-for _, server in pairs(servers) do
-    if server == 'sumneko_lua' then
-        require('lspconfig')[server].setup { settings = { Lua = { version = 'LuaJIT', diagnostics = { globals = { 'vim' } } } } }
+local servers = {
+    'pyright',
+    'jdtls',
+    'sumneko_lua',
+    'terraformls',
+    'bashls'
+}
+local r = require('lspconfig')
+for _, s in pairs(servers) do
+    if s == 'sumneko_lua' then
+        r[s].setup { settings = { Lua = { version = 'LuaJIT', diagnostics = { globals = { 'vim' } } } } }
+    elseif s == 'bashls' then
+        r[s].setup { filetypes = { "sh", "bash", "zsh" } }
     else
-        require('lspconfig')[server].setup {}
+        r[s].setup {}
     end
 end
 

@@ -43,9 +43,13 @@ export FZF_DEFAULT_COMMAND='rg --hidden --glob "!*.git" --glob "!*.class" --glob
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --color=bg+:-1
 '
-if [ -d ~/.nix-profile ]; then
-    source ~/.nix-profile/share/zsh-z/zsh-z.plugin.zsh
-    source ~/.nix-profile/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+if [ -d ~/.nix-profile/share ]; then
+    {
+        pushd ${HOME}/.nix-profile/share
+        if [ -d zsh-z ]; then source ./zsh-z/zsh-z.plugin.zsh; fi
+        if [ -d zsh-vi-mode ]; then source ./zsh-vi-mode/zsh-vi-mode.plugin.zsh; fi
+        popd
+    } &> /dev/null
 fi
 
 # pipe a standard `psql` query into `visidata` as a `csv` for better viewing.
