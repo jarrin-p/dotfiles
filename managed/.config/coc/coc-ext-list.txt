@@ -1,8 +1,0 @@
-coc-pyright
-coc-html
-coc-docker
-coc-lua
-coc-sh
-coc-json
-coc-clangd
-coc-java
