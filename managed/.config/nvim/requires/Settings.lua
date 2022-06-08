@@ -20,19 +20,21 @@ Set.foldmethod = 'indent'
 Set.path = Set.path .. '**'
 Set.signcolumn = 'yes'
 Set.updatetime = 100
-Set.foldlevelstart = 2
+Set.foldlevelstart = 5
 Set.scrolloff = 2         -- a little padding for the top and bottom of screen.
 Set.cursorline = true
 Set.textwidth = 120       -- limit the width before it starts wrapping.
 Set.showmode = true       -- specifically defining as true for whatever reason.
 Set.splitright = true     -- splits new window to the right.
 Set.splitbelow = true     -- splits new window down.
+Set.list = true
+Set.listchars = 'tab:-->,lead:·,trail:-'
 
 -- editing settings
 Set.backspace = 'indent,eol,start'
 Set.magic = true
 Set.inccommand = 'nosplit'
-Set.completeopt = 'menu,preview'
+Set.completeopt = 'menu,menuone,noselect'
 Set.ignorecase = true
 Set.smartcase = true
 

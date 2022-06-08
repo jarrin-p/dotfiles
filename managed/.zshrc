@@ -1,6 +1,6 @@
 source ~/.zshrc.private
 
-alias ls="ls -G" # color ls
+alias ls="ls --color" # color ls
 function man { nvim -c "Man $1" -c "only" } # Use neovim's man command instead of gnu-man
 alias gittop='pushd $(git rev-parse --show-toplevel)' # Quick Access
 alias g='nvim -c "wincmd l" -c "Git" -c "only"' # requires (n)vim `fugitive` plugin
@@ -51,6 +51,9 @@ if [ -d ~/.nix-profile/share ]; then
         popd
     } &> /dev/null
 fi
+
+# open scrollback buffer in less
+#alias sb='kitty @ launch --stdin-source=@screen_scrollback --stdin-add-formatting --type=overlay less +G -R'
 
 # pipe a standard `psql` query into `visidata` as a `csv` for better viewing.
 function query {

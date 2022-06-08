@@ -23,7 +23,7 @@ nnoremap('<c-b>', ':b#<enter>')        -- most recent buffer, ctrl-b for 'back'
 nnoremap('<c-j>', ':bprev<enter>')     -- previous buffer, ctrl-j for going down in the stack
 nnoremap('<c-k>', ':bnext<enter>')     -- next buffer, ctrl-k for going up in the stack
 nnoremap('<c-t>', ':tabedit %<enter>') -- duplicate buffer to new tab
-nnoremap('<c-f>', ':lcd %:p:h<enter>') -- cd to current file and show pwd
+nnoremap('<c-f>', ':cd %:p:h<enter>')  -- cd to current file and show pwd
 nnoremap('<c-g>', ':GT<enter>')        -- cd to git dir
 
 nnoremap('gD', ':lua vim.lsp.buf.declaration()<enter>')
