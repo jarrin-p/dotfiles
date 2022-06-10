@@ -23,8 +23,8 @@ nnoremap('<c-b>', ':b#<enter>')        -- most recent buffer, ctrl-b for 'back'
 nnoremap('<c-j>', ':bprev<enter>')     -- previous buffer, ctrl-j for going down in the stack
 nnoremap('<c-k>', ':bnext<enter>')     -- next buffer, ctrl-k for going up in the stack
 nnoremap('<c-t>', ':tabedit %<enter>') -- duplicate buffer to new tab
-nnoremap('<c-f>', ':cd %:p:h<enter>')  -- cd to current file and show pwd
-nnoremap('<c-g>', ':GT<enter>')        -- cd to git dir
+nnoremap('<c-f>', ':cd %:p:h<enter>:pwd<enter>')  -- cd to current file and show pwd
+nnoremap('<c-g>', ':GT<enter>:pwd<enter>')        -- cd to git dir
 
 nnoremap('gD', ':lua vim.lsp.buf.declaration()<enter>')
 nnoremap('gd', ':lua vim.lsp.buf.definition()<enter>')
@@ -33,6 +33,9 @@ nnoremap('gi', ':lua vim.lsp.buf.implementation()<enter>')
 nnoremap('<leader>rn', ':lua vim.lsp.buf.rename()<enter>')
 nnoremap('gc', ':lua vim.lsp.buf.code_action()<enter>')
 nnoremap('g=', ':lua vim.lsp.buf.formatting()<enter>')
+nnoremap('go', ':lua vim.lsp.buf.document_symbol()<enter>')
+nnoremap('gw', ':lua vim.lsp.buf.workspace_symbol()<enter>')
+nnoremap('gs', ':lua vim.lsp.buf.signature_help()<enter>')
 
 -- nerdtree
 nnoremap('<leader>t', ':NERDTreeFind<enter>:set rnu<enter>')       -- at current working directory
