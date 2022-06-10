@@ -20,7 +20,7 @@ Set.foldmethod = 'indent'
 Set.path = Set.path .. '**'
 Set.signcolumn = 'yes'
 Set.updatetime = 100
-Set.foldlevelstart = 5
+Set.foldlevelstart = 10
 Set.scrolloff = 2         -- a little padding for the top and bottom of screen.
 Set.cursorline = true
 Set.textwidth = 120       -- limit the width before it starts wrapping.
@@ -34,7 +34,7 @@ Set.listchars = 'tab:-->,lead:·,trail:-'
 Set.backspace = 'indent,eol,start'
 Set.magic = true
 Set.inccommand = 'nosplit'
-Set.completeopt = 'menu,menuone,noselect'
+Set.completeopt = 'menu,menuone,preview,noselect'
 Set.ignorecase = true
 Set.smartcase = true
 

@@ -60,3 +60,8 @@ function query {
     QUERY=$1
     dvs -c "\copy ($QUERY) TO STDOUT CSV HEADER" | vd -f csv
 }
+
+function lquery {
+    QUERY=$1
+    lstack -c "\copy ($QUERY) TO STDOUT CSV HEADER" | vd -f csv
+}

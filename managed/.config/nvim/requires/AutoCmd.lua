@@ -3,12 +3,12 @@ vim.api.nvim_create_autocmd({'FileType'}, { pattern='nerdtree', command = "set n
 
 -- open nerdtree as soon as vim opens. make it full screen if no other buffer is open
 function OpeningBehavior()
-    vim.api.nvim_command('NERDTreeToggleVCS')
     if vim.fn.line('$') == 1
         and vim.fn.getline(1) == ''
-        and vim.api.nvim_get_option_value('filetype', {}) then
-            vim.api.nvim_command('only')
+        and vim.api.nvim_get_option_value('filetype', {}) == '' then
+            vim.api.nvim_command('NERDTreeToggleVCS | only')
     else
+        vim.api.nvim_command('NERDTreeToggleVCS')
         vim.api.nvim_command('wincmd p')
     end
 end
