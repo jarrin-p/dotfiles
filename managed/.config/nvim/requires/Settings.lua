@@ -29,11 +29,27 @@ Set.splitright = true     -- splits new window to the right.
 Set.splitbelow = true     -- splits new window down.
 Set.list = true
 Set.listchars = 'tab:-->,lead:·,trail:-'
+function QuickFixTextFunc()
+    local quickfixtextfunc = {}
+    for _, val in pairs(vim.fn.getqflist()) do
+        table.insert(quickfixtextfunc, val.text )
+    end
+    RecursivePrint(quickfixtextfunc)
+    -- print(quickfixtextfunc)
+    GSet.ttt = quickfixtextfunc
+    -- return quickfixtextfunc
+end
+Exec [[function! QFTextFunc(info)
+    lua QuickFixTextFunc()
+    return g:ttt
+endfunc]]
+Set.quickfixtextfunc = 'QFTextFunc'
+--RecursivePrint(QuickFixTextFunc())
 
 -- editing settings
 Set.backspace = 'indent,eol,start'
 Set.magic = true
-Set.inccommand = 'nosplit'
+Set.inccommand = 'split'
 Set.completeopt = 'menu,menuone,preview,noselect'
 Set.ignorecase = true
 Set.smartcase = true
