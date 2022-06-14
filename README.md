@@ -1,6 +1,10 @@
 # description
 dotfiles used in my current setup. updated regularly.
+
 # todo
+## zsh
+- mnu - : fuzzy window selector for setting things.
+
 ## vim
 - [priority] session manager (reinvent the wheel or find a plugin?).
     - store 'last closed session'.

@@ -38,14 +38,20 @@ require 'nvim-treesitter.configs'.setup {
         additional_vim_regex_highlighting = true,
     },
 }
+
+-- global setting of values for plugins for when they load
+GSet.NERDTreeWinSize = 50
+GSet.NERDTreeShowBookmarks = 1
+
+--- language server settings
 require('nvim-lsp-installer').setup{ automatic_installation = true }
--- lsp server setups. defaults are fine for most.
 local servers = {
     'pyright',
     'jdtls',
     'sumneko_lua',
     'terraformls',
-    'bashls'
+    'bashls',
+    'remark_ls',
 }
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local r = require('lspconfig')
@@ -67,6 +73,7 @@ for _, s in pairs(servers) do
     end
 end
 
+--- auto complete settings. works with nvim-lsp
 -- luasnip setup
 local luasnip = require 'luasnip'
 
@@ -111,6 +118,3 @@ cmp.setup {
   },
 }
 
--- some additional plugin settings that need to be set through globals.
-GSet.NERDTreeWinSize = 50
-GSet.NERDTreeShowBookmarks = 1
