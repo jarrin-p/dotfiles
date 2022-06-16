@@ -44,7 +44,7 @@ GSet.NERDTreeWinSize = 50
 GSet.NERDTreeShowBookmarks = 1
 
 --- language server settings
-require('nvim-lsp-installer').setup{ automatic_installation = true }
+require('nvim-lsp-installer').setup{}
 local servers = {
     'pyright',
     'jdtls',

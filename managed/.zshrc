@@ -2,7 +2,7 @@ source ~/.zshrc.private
 
 alias ls="ls --color" # color ls
 function man { nvim -c "Man $1" -c "only" } # Use neovim's man command instead of gnu-man
-alias gittop='pushd $(git rev-parse --show-toplevel)' # Quick Access
+function GT { pushd $(git rev-parse --show-toplevel) } # Quick Access
 alias g='nvim -c "wincmd l" -c "Git" -c "only"' # requires (n)vim `fugitive` plugin
 alias ssh='kitty +kitten ssh' # enhanced ssh functionality using kitty
 alias dcu="docker compose up"
@@ -26,8 +26,8 @@ zstyle ':vcs_info:*' formats       \
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r
 '
 # add new line after each command
-precmd () { 
-    vcs_info 
+precmd () {
+    vcs_info
     echo ""
 }
 PS1='${vcs_info_msg_0_}%f%n %2~ %F{4}> %f'
@@ -43,6 +43,8 @@ export FZF_DEFAULT_COMMAND='rg --hidden --glob "!*.git" --glob "!*.class" --glob
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --color=bg+:-1
 '
+
+# only load in installations that exist
 if [ -d ~/.nix-profile/share ]; then
     {
         pushd ${HOME}/.nix-profile/share
@@ -52,8 +54,16 @@ if [ -d ~/.nix-profile/share ]; then
     } &> /dev/null
 fi
 
-# open scrollback buffer in less
-#alias sb='kitty @ launch --stdin-source=@screen_scrollback --stdin-add-formatting --type=overlay less +G -R'
+# gradle alias to use specific java home for build step.
+# it's a work around until i can find where to pass java home to the language server.
+function gr {
+    gradle "$@" -Dorg.gradle.java.home=${HOME}/.jabba/jdk/openjdk@1.11.0/Contents/Home
+}
+
+# open scrollback buffer in `less`. needs some cleanup
+function sb {
+    kitty @ launch --stdin-source=@screen_scrollback --stdin-add-formatting --type=overlay less +G -R
+}
 
 # pipe a standard `psql` query into `visidata` as a `csv` for better viewing.
 function query {
@@ -65,3 +75,5 @@ function lquery {
     QUERY=$1
     lstack -c "\copy ($QUERY) TO STDOUT CSV HEADER" | vd -f csv
 }
+
+# vim: ft=bash
