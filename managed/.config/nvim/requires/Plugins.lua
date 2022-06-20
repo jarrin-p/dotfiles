@@ -1,11 +1,11 @@
--- vim-plug initialization
+--- vim-plug initialization {{{
 local Plug = vim.fn['plug#']
 if vim.fn.has('unix') == 1 then vim.call('plug#begin', '~/.config/nvim/autoload/plugged')
 elseif vim.fn.has('mac') == 1 then vim.call('plug#begin', '~/.config/nvim/autoload/plugged')
 end
 
 -- import plugins
-Plug 'psliwka/vim-smoothie'
+-- Plug 'psliwka/vim-smoothie' -- messes up with folds.
 Plug 'petertriho/nvim-scrollbar'
 Plug 'tpope/vim-fugitive'
 Exec "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }"
@@ -15,7 +15,7 @@ Plug 'williamboman/nvim-lsp-installer'
 Plug 'hrsh7th/nvim-cmp' -- autocompletion plugin
 Plug 'hrsh7th/cmp-nvim-lsp' -- lsp source for nvim-cmp
 Plug 'saadparwaiz1/cmp_luasnip' -- snippets source for nvim-cmp
-Plug 'L3MOn4d3/luasnip' -- snippets plugin
+Plug 'L3MOn4d3/LuaSnip' -- snippets plugin
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
@@ -25,9 +25,13 @@ Plug 'tpope/vim-surround'
 
 -- end of plugin defining
 vim.call('plug#end')
+-- end vim-plug setup }}}
 
--- setup plugins
+--- simple nvim specific setups {{{
 require('scrollbar').setup()
+-- end simple setups }}}
+
+--- treesitter setup {{{
 require 'nvim-treesitter.configs'.setup {
     ensure_installed = 'all',             -- 'all', 'maintained', or a table of languages
     sync_install = true,                  -- install languages synchronously (only applied to `ensure_installed`)
@@ -38,12 +42,15 @@ require 'nvim-treesitter.configs'.setup {
         additional_vim_regex_highlighting = true,
     },
 }
+-- end treesitter setup }}}
 
--- global setting of values for plugins for when they load
+--- nerd tree {{{
 GSet.NERDTreeWinSize = 50
 GSet.NERDTreeShowBookmarks = 1
 
---- language server settings
+-- end nerdtree config }}}
+
+--- server configs {{{
 require('nvim-lsp-installer').setup{}
 local servers = {
     'pyright',
@@ -81,8 +88,9 @@ for _, s in pairs(servers) do
         }
     end
 end
+-- end server configs }}}
 
---- auto complete settings. works with nvim-lsp
+--- auto complete settings. works with nvim-lsp {{{
 -- luasnip setup
 local luasnip = require 'luasnip'
 
@@ -126,4 +134,6 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
+-- end autocomplete config }}}
 
+-- vim: fdm=marker foldlevel=0
