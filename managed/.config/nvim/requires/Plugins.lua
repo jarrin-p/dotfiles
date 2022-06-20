@@ -12,10 +12,10 @@ Exec "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }"
 Exec "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}"
 Plug 'williamboman/nvim-lsp-installer'
 
-Plug 'hrsh7th/nvim-cmp' -- Autocompletion plugin
-Plug 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
-Plug 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
-Plug 'L3MON4D3/LuaSnip' -- Snippets plugin
+Plug 'hrsh7th/nvim-cmp' -- autocompletion plugin
+Plug 'hrsh7th/cmp-nvim-lsp' -- lsp source for nvim-cmp
+Plug 'saadparwaiz1/cmp_luasnip' -- snippets source for nvim-cmp
+Plug 'L3MOn4d3/luasnip' -- snippets plugin
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
