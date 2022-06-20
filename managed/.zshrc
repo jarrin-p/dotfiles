@@ -63,6 +63,14 @@ function lquery {
     QUERY=$1
     lstack -c "\copy ($QUERY) TO STDOUT CSV HEADER" | vd -f csv
 }
+
+# finds filename at current directory.
+function fd {
+    FNAME=$1
+    find . -name "${FNAME}"
+}
+
+
 # end functions }}}
 
 # prompt config {{{

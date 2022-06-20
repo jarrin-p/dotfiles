@@ -135,7 +135,7 @@ function ConvertTableToPathString(path_table, truncate_point, project_root_index
 
         -- set the point where truncation occurs on the list
         elseif #path_table == truncate_point then
-            status = ' ' .. bracket:set(bl) .. directory:set' %< '
+            status = ' ' .. bracket:set(bl) .. directory:set' <% '
         end
     end
 
