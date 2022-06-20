@@ -53,8 +53,10 @@ local servers = {
     'bashls',
     'remark_ls',
     'rnix',
+    'vimls',
 }
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 local r = require('lspconfig')
 for _, s in pairs(servers) do
     if s == 'sumneko_lua' then
