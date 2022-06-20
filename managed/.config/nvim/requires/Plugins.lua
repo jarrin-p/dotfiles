@@ -48,6 +48,42 @@ require 'nvim-treesitter.configs'.setup {
 GSet.NERDTreeWinSize = 50
 GSet.NERDTreeShowBookmarks = 1
 
+--- opens new kitty tab at specified path or `current` directory.
+-- @tparam path (string) path to the location of the new tab.
+function NewKittyTab(path)
+    vim.fn.system('kitty @ launch --cwd=' .. (path or 'current') .. ' --type=tab')
+end
+
+--- opens kitty tab at directory of current node.
+-- setting it globally to vim allows it to be used as a callback.
+-- (it's registered as a global vim function this way)
+GSet.NERDTreeOpenKittyTabHere = function()
+    local node_path_table = vim.api.nvim_eval('g:NERDTreeFileNode.GetSelected()').path
+    local file_name
+
+    -- pop last entry in path segments if it's not a directory. stores file_name.
+    if node_path_table.isDirectory == 0 then
+        file_name = table.remove(node_path_table.pathSegments)
+    end
+
+    local path_str = table.concat(node_path_table.pathSegments, '/')
+    NewKittyTab('/' .. path_str) -- need to enforce absolute path.
+end
+
+--- create the menu items after everything has been loaded using an autocmd.{{{
+vim.api.nvim_create_autocmd(
+    {'VimEnter'},
+    { callback =
+        function()
+            vim.fn.NERDTreeAddMenuItem{
+                text = 'New kitty (t)erminal tab from this directory.',
+                shortcut = 't',
+                callback = 'g:NERDTreeOpenKittyTabHere',
+            }
+        end,
+    }
+) -- end of autocmd }}}
+
 -- end nerdtree config }}}
 
 --- server configs {{{
