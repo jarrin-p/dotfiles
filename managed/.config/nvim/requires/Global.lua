@@ -36,7 +36,9 @@ function RecursivePrint(element, indent)
                 RecursivePrint(val, indent .. '  ')
             else
                 key = (type(key) == 'boolean' and (key and 'true' or 'false') or key)
-                print(indent .. key .. ': ' .. (type(val) == 'boolean' and (val and 'true' or 'false') or val))
+                val = (type(val) == 'boolean' and (val and 'true' or 'false') or val)
+                val = (type(val) == 'function' and 'function' or val)
+                print(indent .. key .. ': ' .. val)
             end
         end
     end

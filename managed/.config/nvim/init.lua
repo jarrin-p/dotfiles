@@ -15,6 +15,7 @@ require 'Settings'
 require 'Remaps'
 require 'ColorScheme'
 require 'Snippets'
+require 'Menus'
 
 -- specific files
 require 'Statusline'
