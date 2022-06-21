@@ -14,6 +14,7 @@ require 'AutoCmd'
 require 'Settings'
 require 'Remaps'
 require 'ColorScheme'
+require 'Snippets'
 
 -- specific files
 require 'Statusline'

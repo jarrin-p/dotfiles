@@ -126,16 +126,17 @@ for _, s in pairs(servers) do
 end
 -- end server configs }}}
 
---- auto complete settings. works with nvim-lsp {{{
--- luasnip setup
-local luasnip = require 'luasnip'
+-- luasnip setup {{{
+LS = require 'luasnip'
+-- end luasnip setup }}}
 
+--- auto complete settings. depends on luasnip {{{
 -- nvim-cmp setup
 local cmp = require 'cmp'
 cmp.setup {
   snippet = {
     expand = function(args)
-      luasnip.lsp_expand(args.body)
+      LS.lsp_expand(args.body)
     end,
   },
   mapping = cmp.mapping.preset.insert({
@@ -147,27 +148,27 @@ cmp.setup {
       select = true,
     },
     ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
+      if LS.expand_or_jumpable() then
+        LS.expand_or_jump()
+      elseif cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
       else
         fallback()
       end
     end, { 'i', 's' }),
     ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
+      if LS.jumpable(-1) then
+        LS.jump(-1)
+      elseif cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
       else
         fallback()
       end
     end, { 'i', 's' }),
   }),
   sources = {
-    { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'nvim_lsp' },
   },
 }
 -- end autocomplete config }}}
