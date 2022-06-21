@@ -1,4 +1,5 @@
 require 'Global'
+require 'Snippets'
 
 -- status line modifications
 local bl = '«'
@@ -169,7 +170,23 @@ function MakeStatusLine()
     local sl = header:set'  '
 
     -- left hand side.
-    sl = sl .. MakePath()
+    if LS.in_snippet() then
+        sl = sl .. 'in snippet'
+        if LS.expand_or_jumpable() then
+            if LS.expandable() then sl = sl .. bracket:set' ->' .. sl_item:set' [expandable]' .. directory:set' <tab>' end
+            if LS.jumpable() then sl = sl .. bracket:set' ->' .. sl_item:set' [jumpable]' .. directory:set' <tab>' end
+        end
+        if LS.choice_active() then
+            local choices = LS.get_current_choices()
+            for i, choice in ipairs(choices) do
+                if choice == "" then choices[i] = "[empty]" end
+                choices[i] = sl_item:set(choices[i])
+            end
+            sl = sl .. bracket:set' ->' .. sl_item:set' choice node ' .. directory:set'<c-j>' .. bracket:set' || ' .. directory:set'<c-k>' .. bracket:set': ' .. table.concat(choices, directory:set' | ')
+        end
+    else
+        sl = sl .. MakePath()
+    end
 
     -- where to truncate and where the statusline splits.
     sl = sl .. "%="

@@ -1,23 +1,24 @@
 LS = require 'luasnip'
+select_choice = require 'luasnip.extras.select_choice'
 LS.cleanup() -- clears all snippets
 
 --- insert mode remaps {{{
 vim.api.nvim_set_keymap(
     'i',
-    '<Tab>',
-    '<c-o>:lua LS.expand_or_jump()<enter>',
+    '<tab>',
+    '<c-o>:lua LS.expand_or_jump()<enter><c-o>:lua MakeStatusLine()<enter>',
     {noremap = true, silent = true}
 )
 vim.api.nvim_set_keymap(
     'i',
     '<c-j>',
-    '<c-o>:lua LS.change_choice(1)<enter>',
+    '<c-o>:lua LS.change_choice(1)<enter><c-o>:lua MakeStatusLine()<enter>',
     {noremap = true, silent = true}
 )
 vim.api.nvim_set_keymap(
     'i',
     '<c-k>',
-    '<c-o>:lua LS.change_choice(-1)<enter>',
+    '<c-o>:lua LS.change_choice(-1)<enter><c-o>:lua MakeStatusLine()<enter>',
     {noremap = true, silent = true}
 )
 -- end insert mode remaps }}}
