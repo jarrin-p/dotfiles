@@ -1,5 +1,5 @@
 LS = require 'luasnip'
-select_choice = require 'luasnip.extras.select_choice'
+SelectChoice = require 'luasnip.extras.select_choice'
 LS.cleanup() -- clears all snippets
 
 --- insert mode remaps {{{
