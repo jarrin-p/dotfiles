@@ -70,4 +70,34 @@ function RecursivePrint(element, indent)
 end
 -- end pretty print function }}}
 
+--- make session wrapper. {{{
+--- makes sessions in the git root directory if in one.
+-- @param args.path (string) path to put the session_name.
+-- @param args.session_name (string) name to store. automatically appends .vim.
+function MakeGitSession(args)
+    args = args or {}
+    args.session_name = args.session_name or "Session.vim"
+    if vim.fn.FugitiveIsGitDir() == 1 then
+        args.path = args.path or vim.fn.FugitiveWorkTree()
+    end
+    if not args.path then return end -- don't litter sessions.
+    vim.cmd(table.concat({"mksession!", args.path .. '/' .. args.session_name}, " "))
+end
+-- end make session wrapper }}}
+
+--- load session wrapper. {{{
+--- makes sessions in the git root directory if in one.
+-- @param args.path (string) path to put the session_name.
+-- @param args.session_name (string) name to store. automatically appends .vim.
+function LoadGitSession(args)
+    args = args or {}
+    args.session_name = args.session_name or "Session.vim"
+    if vim.fn.FugitiveIsGitDir() == 1 then
+        args.path = args.path or vim.fn.FugitiveWorkTree()
+    else
+        args.path = args.path .. " " or ""
+    end
+    vim.cmd(table.concat({"source", args.path .. '/' .. args.session_name}, " "))
+end
+-- end make session wrapper }}}
 -- vim: fdm=marker foldlevel=0

@@ -17,4 +17,7 @@ Exec([[ command TFF !terraform fmt % ]], false)
 -- changes current directory to the root of the git repository.
 Exec([[ command GT execute 'cd' fnameescape(FugitiveWorkTree())]], false)
 
+-- changes current directory to the root of the git repository.
+Exec([[ command LG lua LoadGitSession()]], false)
+
 -- vim: fdm=marker foldlevel=0
