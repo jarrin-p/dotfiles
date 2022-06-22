@@ -11,6 +11,18 @@ nnoremap('`', "'") -- swap mapping of "jump to mark's col,line" with "jump to ma
 nnoremap("'", '`') -- swap mapping of "jump to mark's line" with "jump to mark's col,line"
 -- end simple changes }}}
 
+--- insert mode maps {{{
+-- NOTE: this `inoremap` prepends `<c-o>` for a single action.
+inoremap('<c-h>', 'b')
+inoremap('<c-l>', 'e<c-o>l')
+inoremap('<c-w>', 'W')
+inoremap('<c-e>', 'E<c-o>l')
+inoremap('<c-d>', 'd')
+inoremap('<c-f>', 'f')
+inoremap('<c-t>', 't')
+inoremap('<c-_>', '/') -- maps ctrl-/
+-- end insert mode maps }}}
+
 --- window management {{{
 -- (need to finish rest of mapping os before GoPrev() and GoNext() are actually useful)
 -- nnoremap('<c-h>', ':lua GoPrev()<enter>') -- previous window (above, left)
