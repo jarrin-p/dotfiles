@@ -1,19 +1,24 @@
---- shorthand defaults to false when no bool passed
+--- @author jarrin-p {{{
+--- @file `Global.lua` }}}
+
 --- remap functions {{{
 function map (lhs, rhs) vim.api.nvim_set_keymap('', lhs, rhs, {noremap = false, silent = true}) end
 function nnoremap (lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, {noremap = true, silent = true}) end
 function tnoremap (lhs, rhs) vim.api.nvim_set_keymap('t', lhs, rhs, {noremap = true, silent = true}) end
 -- end remap functions }}}
+
+--- shorthands {{{
 Exec = function (str, bool)
     bool = bool or false
     vim.api.nvim_exec(str, bool)
 end
 
---- more intuitive shorthand for setting, use `.` syntax on setting
 Set = vim.o
 GSet = vim.g
 SetWinLocal = vim.wo
+-- end shorthands }}}
 
+--- colors {{{
 -- TODO look into `set termguicolors=...`
 -- specifying colors manually. makes tweaking easier
 -- these are basically manually defined to line up with current color scheme config
@@ -28,7 +33,9 @@ Colors = {
       -- cursorline = '#ffebc3', -- foreground, light wood
       h_split_underline = '#7f8f9f',
 }
+-- end colors }}}
 
+--- pretty print function {{{
 --- recursively prints a table that has nested tables in a manner that isn't awful
 -- @param element the array or table to be printed
 -- @param indent (optional) spaces that will be added in each level of recursion
@@ -48,4 +55,6 @@ function RecursivePrint(element, indent)
         end
     end
 end
+-- end pretty print function }}}
 
+-- vim: fdm=marker foldlevel=0

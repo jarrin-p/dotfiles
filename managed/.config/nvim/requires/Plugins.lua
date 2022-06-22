@@ -1,3 +1,6 @@
+--- @author jarrin-p
+--- @file `Plugins.lua`
+
 --- vim-plug initialization {{{
 local Plug = vim.fn['plug#']
 if vim.fn.has('unix') == 1 then vim.call('plug#begin', '~/.config/nvim/autoload/plugged')
@@ -125,6 +128,8 @@ end
 nnoremap('<leader>f', ':FZF<enter>')
 nnoremap('<leader>g', ':lua LiveFuzzyGrep()<enter>')
 -- end fzf }}}
+
+--- lsp server configs {{{
 require('nvim-lsp-installer').setup{}
 local servers = {
     'pyright',

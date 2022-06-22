@@ -1,6 +1,11 @@
+--- @author jarrin-p
+--- @file `Plugins.lua`
+
+--- setup {{{
 LS = require 'luasnip'
 SelectChoice = require 'luasnip.extras.select_choice'
 LS.cleanup() -- clears all snippets
+-- end setup }}}
 
 --- insert mode remaps {{{
 vim.api.nvim_set_keymap(

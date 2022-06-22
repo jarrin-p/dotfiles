@@ -1,8 +1,15 @@
+--- @author jarrin-p {{{
+--- @description colorschemes are set in here. }}}
+
 require 'Global'
 
 -- color scheme
 vim.api.nvim_set_hl(0, 'CursorLine', { underline = 1, sp = Colors.h_split_underline, ctermbg = Colors.none })
 vim.api.nvim_set_hl(0, 'CursorLineNr', { ctermbg = Colors.none })
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { undercurl = 1, sp = 'red' })
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineHint', { undercurl = 1, sp = 'lightgrey' })
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineInfo', { undercurl = 1, sp = 'lightblue' })
+vim.api.nvim_set_hl(0, 'DiagnosticUnderlineWarn', { undercurl = 1, sp = 'orange' })
 vim.api.nvim_set_hl(0, 'DiffAdd', { ctermfg = 6, bold = 1 })
 vim.api.nvim_set_hl(0, 'DiffChange', { ctermfg = 12, italic = 1 })
 vim.api.nvim_set_hl(0, 'DiffDelete', { ctermfg = 1, bold = 1 })
@@ -12,7 +19,6 @@ vim.api.nvim_set_hl(0, 'FoldColumn', { ctermfg = Colors.dark_blue })
 vim.api.nvim_set_hl(0, 'Folded', { ctermfg = Colors.dark_blue, italic = 1 })
 vim.api.nvim_set_hl(0, 'MatchParen', { bold = 1, italic = 1 })
 vim.api.nvim_set_hl(0, 'NonText', { ctermfg = Colors.dark_blue })
-vim.api.nvim_set_hl(0, 'Whitespace', { ctermfg = Colors.dark_blue })
 vim.api.nvim_set_hl(0, 'Pmenu', { ctermbg = 242 })
 vim.api.nvim_set_hl(0, 'Search', { bold = 1, italic = 1, ctermfg = Colors.cyan })
 vim.api.nvim_set_hl(0, 'SignColumn', { })
@@ -25,9 +31,5 @@ vim.api.nvim_set_hl(0, 'TabLineFill', { ctermbg = 0 })
 vim.api.nvim_set_hl(0, 'Todo', { bold = 1 })
 vim.api.nvim_set_hl(0, 'Type', { italic = 1, ctermfg=121 })
 vim.api.nvim_set_hl(0, 'VertSplit', { ctermfg = 0 })
+vim.api.nvim_set_hl(0, 'Whitespace', { ctermfg = Colors.dark_blue })
 vim.api.nvim_set_hl(0, 'javaLangObject', { ctermfg = Colors.dark_blue, bold = 1 })
-
-vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { undercurl = 1, sp = 'red' })
-vim.api.nvim_set_hl(0, 'DiagnosticUnderlineWarn', { undercurl = 1, sp = 'orange' })
-vim.api.nvim_set_hl(0, 'DiagnosticUnderlineInfo', { undercurl = 1, sp = 'lightblue' })
-vim.api.nvim_set_hl(0, 'DiagnosticUnderlineHint', { undercurl = 1, sp = 'lightgrey' })
