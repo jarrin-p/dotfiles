@@ -3,9 +3,10 @@
 require 'Global'
 Set.compatible = false
 
--- window title
+-- window settings
 Set.title = true
 Set.titlestring = '%t'
+Set.showtabline = 2       -- always show the tabline
 
 -- buffer settings
 Set.hidden = false        -- seeing if this will reduce the number of buffers that open.
