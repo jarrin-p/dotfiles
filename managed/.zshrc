@@ -70,7 +70,9 @@ function fd {
     find . -name "${FNAME}"
 }
 
-
+function clean_jdtls {
+    find . -name ".project" -or -name ".settings" | xargs rm -rf
+}
 # end functions }}}
 
 # prompt config {{{
