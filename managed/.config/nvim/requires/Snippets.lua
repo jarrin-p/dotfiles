@@ -118,6 +118,7 @@ LS.add_snippets("java", {
             LS.insert_node(0),
             LS.text_node({'");'}),
         }),
+        --- TODO make logs choice nodes.
         LS.snippet("log.i", -- log.info
         {
             LS.text_node({'log.info("'}),
@@ -145,9 +146,9 @@ LS.add_snippets("java", {
                 LS.text_node({"public "}),
                 LS.text_node({""}),
             }),
-            LS.text_node({"class "}), -- linebreaks are ""
+            LS.text_node({"class "}), -- each entry starts on a newline.
             LS.insert_node(2, "className"),
-            LS.text_node({" {", "" }), -- linebreaks are ""
+            LS.text_node({" {", "\t" }),
             LS.insert_node(0),
             LS.text_node({"", "}"}),
         }),
