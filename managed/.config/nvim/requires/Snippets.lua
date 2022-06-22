@@ -19,23 +19,41 @@ function ChooseSnipOrFallback(direction, fallback)
     end
 end
 
+function JumpOrFallback(direction, fallback)
+    if LS.jumpable(direction) then
+        LS.jump(direction)
+        MakeStatusLine()
+    elseif LS.expandable() then
+        LS.expand()
+        MakeStatusLine()
+    else
+        fallback()
+    end
+end
+
 vim.api.nvim_set_keymap(
     'i',
     '<tab>',
-    '<c-o>:lua LS.expand_or_jump()<enter><c-o>:lua MakeStatusLine()<enter>',
+    '<c-o>:lua JumpOrFallback(1, function() vim.cmd("normal >>") end )<enter>',
     {noremap = true, silent = true}
 )
--- '<c-o>:lua ChooseSnipOrFallback(1, function() vim.cmd("norm j"))<enter>',
+vim.api.nvim_set_keymap(
+    'i',
+    '<s-tab>',
+    '<c-o>:lua JumpOrFallback(-1, function() vim.cmd("normal <<") end )<enter>',
+    {noremap = true, silent = true}
+)
+
 vim.api.nvim_set_keymap(
     'i',
     '<c-j>',
-    '<c-o>:lua ChooseSnipOrFallback(1, function() vim.cmd("norm j") end)<enter>',
+    '<c-o>:lua ChooseSnipOrFallback(1, function() vim.cmd("normal j") end)<enter>',
     {noremap = true, silent = true}
 )
 vim.api.nvim_set_keymap(
     'i',
     '<c-k>',
-    '<c-o>:lua ChooseSnipOrFallback(-1, function() vim.cmd("norm k") end)<enter>',
+    '<c-o>:lua ChooseSnipOrFallback(-1, function() vim.cmd("normal k") end)<enter>',
     {noremap = true, silent = true}
 )
 -- end insert mode remaps }}}
