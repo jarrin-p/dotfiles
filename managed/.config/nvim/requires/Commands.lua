@@ -1,7 +1,7 @@
 --- @author jarrin-p {{{
 --- @description commands are set here. }}}
 
-require 'Global'
+require 'Util'
 
 -- adds a filter list to NERDTree.
 -- TODO view the filter api instead.

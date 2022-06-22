@@ -1,4 +1,4 @@
-require 'Global'
+require 'Util'
 require 'Snippets'
 
 -- status line modifications

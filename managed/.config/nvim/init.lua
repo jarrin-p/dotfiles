@@ -7,7 +7,7 @@ if rc_path:match('.lua') then suffix = '.lua' else suffix = '.vim' end
 package.path = string.gsub(rc_path, 'init' .. suffix, '') .. 'requires/?.lua;' .. package.path
 
 -- general settings
-require 'Global'
+require 'Util'
 require 'Plugins'
 require 'Commands'
 require 'AutoCmd'

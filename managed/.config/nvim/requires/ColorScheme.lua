@@ -1,7 +1,7 @@
 --- @author jarrin-p {{{
 --- @description colorschemes are set in here. }}}
 
-require 'Global'
+require 'Util'
 
 -- color scheme
 vim.api.nvim_set_hl(0, 'CursorLine', { underline = 1, sp = Colors.h_split_underline, ctermbg = Colors.none })

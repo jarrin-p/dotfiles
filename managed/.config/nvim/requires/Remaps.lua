@@ -1,6 +1,6 @@
 --- @author jarrin-p {{{
 --- @file `Remaps.lua` }}}
-require 'Global'
+require 'Util'
 
 --- simple changes {{{
 map('<space>', '<leader>') -- Remap leader to spacebar, obviously

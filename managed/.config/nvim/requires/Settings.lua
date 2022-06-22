@@ -1,6 +1,6 @@
 --- @author jarrin-p
 --- @file `Settings.lua`
-require 'Global'
+require 'Util'
 Set.compatible = false
 
 -- window title
