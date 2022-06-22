@@ -4,6 +4,8 @@ require 'Snippets'
 -- status line modifications
 local bl = '«'
 local te = '->'
+local lt = '◢'
+local rt = '◣'
 -- local br = '»'
 -- local enter_sym = '⏎'
 -- local te = '⋯'
@@ -17,6 +19,8 @@ SLColorgroup = {
         underline = 1, -- underline needs to be enabled for custom underline color.
         sp = Colors.h_split_underline -- default for the underline color.
     },
+    pretext = '',
+    posttext = '',
 
     --- create new statusline colorgroup object. attempting to manage statusline color groups
     -- so its behavior can be more easily updated.
@@ -45,7 +49,7 @@ SLColorgroup = {
     -- @param text_to_color [optional] for code readability, to "pseudo" wrap the group of characters to be colored.
     set = function(self, text_to_color)
         text_to_color = text_to_color or ''
-        return '%#' .. self.name .. '#' .. text_to_color
+        return '%#' .. self.name .. '#' .. self.pretext .. text_to_color .. self.posttext
     end,
 }
 
@@ -54,7 +58,10 @@ SLColorgroup = {
 local bracket = SLColorgroup:new{ name = 'SLBracket', options = { bold = 0, ctermfg = 8 } }
 local sl_item = SLColorgroup:new{ name = 'SLItem', options = { ctermfg = 121 } }
 local directory = SLColorgroup:new{ name = 'SLDir', options = { italic = 1, ctermfg = 3 } }
-local header = SLColorgroup:new{ name = 'SLFileHeader', options = { bold = 1, italic = 0, ctermfg = 11 } }
+local header = SLColorgroup:new{
+    name = 'SLFileHeader',
+    options = { bold = 1, italic = 0, ctermfg = 11 },
+}
 local mod = SLColorgroup:new{ name = 'SLModified', options = { italic = 0, ctermfg = 9 } }
 
 --- gets the absolute path of the currently worked on file using `expand`
@@ -71,7 +78,7 @@ end
 --- standard linear search function
 -- @param table_to_search the table to be searched.
 -- @param item_to_find object to be found in the table
--- @returns int index of item. returns -1 if nothing is found
+-- @returns int index of item. returns `-1` if nothing is found
 function LinearSearch(table_to_search, item_to_find)
     for i, item in ipairs(table_to_search) do
         if item == item_to_find then return i end

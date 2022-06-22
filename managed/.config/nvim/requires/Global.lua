@@ -2,9 +2,22 @@
 --- @file `Global.lua` }}}
 
 --- remap functions {{{
-function map (lhs, rhs) vim.api.nvim_set_keymap('', lhs, rhs, {noremap = false, silent = true}) end
-function nnoremap (lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, {noremap = true, silent = true}) end
-function tnoremap (lhs, rhs) vim.api.nvim_set_keymap('t', lhs, rhs, {noremap = true, silent = true}) end
+function map (lhs, rhs)
+    vim.api.nvim_set_keymap('', lhs, rhs, {noremap = false, silent = true})
+end
+
+function nnoremap (lhs, rhs)
+    vim.api.nvim_set_keymap('n', lhs, rhs, {noremap = true, silent = true})
+end
+
+--- assumes remap to normal mode.
+function inoremap (lhs, rhs)
+    vim.api.nvim_set_keymap('i', lhs, '<c-o>' .. rhs, {noremap = true, silent = true})
+end
+
+function tnoremap (lhs, rhs)
+    vim.api.nvim_set_keymap('t', lhs, rhs, {noremap = true, silent = true})
+end
 -- end remap functions }}}
 
 --- shorthands {{{
