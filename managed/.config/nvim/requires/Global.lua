@@ -1,4 +1,9 @@
 --- shorthand defaults to false when no bool passed
+--- remap functions {{{
+function map (lhs, rhs) vim.api.nvim_set_keymap('', lhs, rhs, {noremap = false, silent = true}) end
+function nnoremap (lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, {noremap = true, silent = true}) end
+function tnoremap (lhs, rhs) vim.api.nvim_set_keymap('t', lhs, rhs, {noremap = true, silent = true}) end
+-- end remap functions }}}
 Exec = function (str, bool)
     bool = bool or false
     vim.api.nvim_exec(str, bool)

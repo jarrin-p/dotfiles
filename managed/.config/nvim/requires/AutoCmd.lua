@@ -7,7 +7,7 @@ function OpeningBehavior()
         and vim.fn.getline(1) == ''
         and vim.api.nvim_get_option_value('filetype', {}) == '' then
             vim.api.nvim_command('NERDTreeToggleVCS | only')
-            vim.api.nvim_command('Telescope find_files')
+            vim.api.nvim_command('FZF')
     else
         vim.api.nvim_command('NERDTreeToggleVCS')
         vim.api.nvim_command('wincmd p')

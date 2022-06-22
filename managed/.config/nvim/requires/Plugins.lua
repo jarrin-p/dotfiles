@@ -18,8 +18,6 @@ Plug 'saadparwaiz1/cmp_luasnip' -- snippets source for nvim-cmp
 Plug 'L3MOn4d3/LuaSnip' -- snippets plugin
 
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim' -- depends on `plenary.vim`
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-surround'
 
@@ -44,7 +42,14 @@ require 'nvim-treesitter.configs'.setup {
 }
 -- end treesitter setup }}}
 
+--- fugitive::git {{{
+nnoremap('<leader>G', ':tab G<enter>')
+nnoremap('<leader>b', ':G branch<enter>')
+-- end fugitive}}}
+
 --- nerd tree {{{
+nnoremap('<leader>t', ':NERDTreeFind<enter>:set rnu<enter>')       -- at current working directory
+nnoremap('<leader>T', ':NERDTreeToggleVCS<enter>:set rnu<enter>')  -- at vcs toplevel
 GSet.NERDTreeWinSize = 50
 GSet.NERDTreeShowBookmarks = 1
 
@@ -86,7 +91,40 @@ vim.api.nvim_create_autocmd(
 
 -- end nerdtree config }}}
 
---- server configs {{{
+--- fzf::fuzzy finder {{{
+local patterns = { '!*.class', '!*.jar', '!*.java.html', '!*.git*' }
+local pattern_string
+for _, pattern in ipairs(patterns) do
+    if pattern_string then pattern_string = pattern_string .. " --glob='" .. pattern .. "'"
+    else pattern_string = " --glob='" .. pattern .. "'" end
+end
+local rg_string = 'rg --hidden --column --line-number --with-filename --no-heading'
+local grep_full = rg_string .. pattern_string .. ' ""'
+
+--- uses fzf for a live fuzzy grep
+-- @param args (table)
+function LiveFuzzyGrep()
+    vim.fn['fzf#run'](vim.fn['fzf#wrap']({
+        source = grep_full, sink = GSet.GoToGrepResult
+    }))
+end
+
+--- opens file from grep result and goes to line, col.
+GSet.GoToGrepResult = function(grep_result)
+    if not grep_result then return end
+
+    grep_result = grep_result .. ':'
+    local grep_table = {}
+    for match in string.gmatch(grep_result, '([%w%.%-%_%/]+):') do
+        table.insert(grep_table, match)
+    end
+    vim.cmd('e ' .. grep_table[1]) -- 1 is the file path.
+    vim.fn.cursor(grep_table[2], grep_table[3]) -- 2 is the row, 3 is column.
+end
+
+nnoremap('<leader>f', ':FZF<enter>')
+nnoremap('<leader>g', ':lua LiveFuzzyGrep()<enter>')
+-- end fzf }}}
 require('nvim-lsp-installer').setup{}
 local servers = {
     'pyright',

@@ -65,4 +65,5 @@ for _, pattern in ipairs(patterns) do
     if pattern_string then pattern_string = pattern_string .. " --glob='" .. pattern .. "'"
     else pattern_string = " --glob='" .. pattern .. "'" end
 end
-Set.grepprg = "rg --line-number --with-filename" .. pattern_string
+local rg_string = "rg --line-number --with-filename"
+Set.grepprg = rg_string .. pattern_string
