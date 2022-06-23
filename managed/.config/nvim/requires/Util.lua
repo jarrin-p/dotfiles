@@ -48,7 +48,7 @@ Colors = {
 }
 -- end colors }}}
 
---- pretty print function {{{
+--- lua table recursive print function {{{
 --- recursively prints a table that has nested tables in a manner that isn't awful
 -- @param element the array or table to be printed
 -- @param indent (optional) spaces that will be added in each level of recursion

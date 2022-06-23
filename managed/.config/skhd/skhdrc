@@ -1,8 +1,7 @@
 # default is now interact mode accessed with "i"
 :: default
 
-# MODAL HOTKEYS
-# {{{
+# modal hotkeys {{{
 :: navigate @
 
 # mode switches
@@ -13,10 +12,9 @@ navigate < i ; default
 navigate < q ; navigate
 
 navigate < cmd - return : skhd -k "i" ; kitty --single-instance
-# }}}
+# end }}}
 
-# GLOBAL HOTKEYS
-# {{{
+# global hotkeys {{{
 default < alt - h : yabai -m window --focus prev
 default < alt - l : yabai -m window --focus next
 default < alt - j : yabai -m window --focus stack.prev
@@ -51,6 +49,6 @@ default < alt - r : yabai -m window --toggle split
 # left bracket - send to next display
 # rearrange < shift - 0x1E : yabai -m window --display next #; skhd -k "cmd - l"
 
-# }}}
+# end global hotkeys }}}
 
 # vim:fdm=marker:foldlevel=0
