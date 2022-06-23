@@ -9,6 +9,9 @@ end
 
 -- import plugins
 -- Plug 'psliwka/vim-smoothie' -- messes up with folds.
+
+Plug 'sainnhe/vim-color-forest-night'
+
 Plug 'petertriho/nvim-scrollbar'
 Plug 'tpope/vim-fugitive'
 Exec "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }"
@@ -27,6 +30,8 @@ Plug 'tpope/vim-surround'
 -- end of plugin defining
 vim.call('plug#end')
 -- end vim-plug setup }}}
+
+vim.cmd("colorscheme everforest")
 
 --- simple nvim specific setups {{{
 require('scrollbar').setup()
