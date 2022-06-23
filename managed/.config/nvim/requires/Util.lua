@@ -100,4 +100,15 @@ function LoadGitSession(args)
     vim.cmd(table.concat({"source", args.path .. '/' .. args.session_name}, " "))
 end
 -- end make session wrapper }}}
+
+--- clean postspace {{{
+--- cleans trailing whitespace in a file. win view is saved to keep cursor from jumping around from the substitute command.
+function CleanFileTrailingWhitespace()
+    local view = vim.fn.winsaveview()
+    vim.cmd('silent %smagic/ *$//')
+    vim.fn.winrestview(view)
+end
+
+-- }}} end clean postspace
+
 -- vim: fdm=marker foldlevel=0

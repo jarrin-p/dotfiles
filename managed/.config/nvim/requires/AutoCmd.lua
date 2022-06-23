@@ -27,3 +27,4 @@ vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.tf'}, command = 's
 
 --- TODO fix this writing twice. maybe try just `.*` instead?
 vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.*', '*'}, callback = MakeGitSession })
+vim.api.nvim_create_autocmd({'BufWritePre'}, { pattern = {'*.*', '*'}, callback = CleanFileTrailingWhitespace })
