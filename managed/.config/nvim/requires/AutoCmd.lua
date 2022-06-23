@@ -7,7 +7,7 @@ function OpeningBehavior()
         and vim.fn.getline(1) == ''
         and vim.api.nvim_get_option_value('filetype', {}) == '' then
             vim.api.nvim_command('NERDTreeToggleVCS | only')
-            vim.api.nvim_command('FZF')
+            -- vim.api.nvim_command('FZF') -- I don't think I actually like this.
     else
         vim.api.nvim_command('NERDTreeToggleVCS')
         vim.api.nvim_command('wincmd p')
@@ -16,6 +16,7 @@ end
 vim.api.nvim_create_autocmd({'VimEnter'}, { callback = OpeningBehavior })
 
 -- match settings from other projects for these filetypes
+-- TODO add filetype specific loads (e.g. make a `.../nvim/after/plugin/...` directory)
 vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'java', 'terraform'}, command = 'set tabstop=2' })
 vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'qf'}, command = 'wincmd L | vert res 80' })
 
@@ -23,4 +24,6 @@ vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'qf'}, command = 'wincmd 
 -- assumes java is using gradle with SA ipmlemented.
 vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.java'}, command = 'silent SA' })
 vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.tf'}, command = 'silent TFF' })
-vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.*', '*'}, command = 'lua MakeGitSession()' })
+
+--- TODO fix this writing twice. maybe try just `.*` instead?
+vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.*', '*'}, callback = MakeGitSession })
