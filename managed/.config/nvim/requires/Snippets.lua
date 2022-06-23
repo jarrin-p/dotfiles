@@ -62,7 +62,7 @@ vim.api.nvim_set_keymap(
 LS.add_snippets("lua",
     {
         -- function snippet.
-        LS.snippet("fn",
+        LS.snippet("function",
         {
             LS.choice_node(1, {
                 LS.text_node({""}),
@@ -152,7 +152,7 @@ LS.add_snippets("java", {
             LS.insert_node(0),
             LS.text_node({"", "}"}),
         }),
-        LS.snippet('fn', -- function
+        LS.snippet('function', -- function
         {
             LS.choice_node(1, {
                 LS.text_node({"private "}),
