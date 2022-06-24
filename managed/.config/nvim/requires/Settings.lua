@@ -1,14 +1,17 @@
 --- @author jarrin-p
 --- @file `Settings.lua`
+
 require 'Util'
 Set.compatible = false
 
--- window title
+--- gui settings {{{
+Set.guifont = 'Fira Code'
+Set.linespace = 12
+-- end gui settings }}}
+
+--- window settings {{{
 Set.title = true
 Set.titlestring = '%t'
-Set.guifont = 'Fira Code'
-
--- buffer settings
 Set.hidden = false        -- seeing if this will reduce the number of buffers that open.
 Set.tabstop = 4
 Set.shiftwidth = 0        -- 0 means use tabstop value.
@@ -32,6 +35,9 @@ Set.splitright = true     -- splits new window to the right.
 Set.splitbelow = true     -- splits new window down.
 Set.list = true
 Set.listchars = 'tab:-->,lead:·,trail:-'
+-- end window settings }}}
+
+--- quicktext function {{{
 function QuickFixTextFunc()
     local quickfixtextfunc = {}
     for _, val in pairs(vim.fn.getqflist()) do
@@ -44,21 +50,23 @@ Exec [[function! QFTextFunc(info)
     return g:ttt
 endfunc]]
 Set.quickfixtextfunc = 'QFTextFunc'
-Set.linespace = 12
+-- end quicktext function }}}
 
--- editing settings
+--- editing settings {{{
 Set.backspace = 'indent,eol,start'
 Set.magic = true
 Set.inccommand = 'split'
 Set.completeopt = 'menu,menuone,preview,noselect'
 Set.ignorecase = true
 Set.smartcase = true
+-- end editing settings }}}
 
--- plugin settings that come with vim
+--- builtin plugin settings {{{
 GSet.netrw_liststyle = 3
 GSet.csv_nomap_cr = 1
+-- end builtin plugin settings }}}
 
--- sets the grep program as ripgrep
+--- grep pattern setup {{{
 local patterns = { '!*.class', '!*.jar', '!*.java.html', '!*.git*' }
 local pattern_string
 for _, pattern in ipairs(patterns) do
@@ -67,3 +75,6 @@ for _, pattern in ipairs(patterns) do
 end
 local rg_string = "rg --line-number --with-filename"
 Set.grepprg = rg_string .. pattern_string
+-- end grep pattern setup }}}
+
+-- vim: fdm=marker foldlevel=0
