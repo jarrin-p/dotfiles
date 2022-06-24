@@ -43,6 +43,7 @@ Exec [[function! QFTextFunc(info)
     return g:ttt
 endfunc]]
 Set.quickfixtextfunc = 'QFTextFunc'
+Set.linespace = 12
 
 -- editing settings
 Set.backspace = 'indent,eol,start'

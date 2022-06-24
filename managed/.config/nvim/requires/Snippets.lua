@@ -133,9 +133,9 @@ LS.add_snippets("java", {
         }),
         LS.snippet('@Mapping', -- mapping
         {
-            LS.text_node({'@Mapping(source = "'}),
+            LS.text_node({'@Mapping(target = "'}),
             LS.insert_node(1, 'sourceName'),
-            LS.text_node({'", target = "'}),
+            LS.text_node({'", source = "'}),
             LS.insert_node(2, 'targetName'),
             LS.text_node({'")'}),
         }),
