@@ -4,7 +4,7 @@ source ~/.zshrc.private
 alias ls='ls --color' # color ls
 function man { nvim -c "Man $1" -c "only" } # Use neovim's man command instead of gnu-man
 function GT { pushd $(git rev-parse --show-toplevel) } # Quick Access
-alias g='nvim -c "wincmd l" -c "Git" -c "only"' # requires (n)vim `fugitive` plugin
+alias g='nvim -c "Git" -c "only"' # requires (n)vim `fugitive` plugin
 # alias todo="nvim ${HOME}/Documents/todo.md -c 'cd %:h'"
 function todo() {
     # if the directory doesn't exist clone the repo
@@ -42,18 +42,13 @@ source_if_exists "${HOME}/.fzf.zsh"
 
 if [ -f "/Applications/Neovide.app/Contents/MacOS/neovide" ]; then
     export PATH="/Applications/Neovide.app/Contents/MacOS:${PATH}"
-    alias nvim="neovide --multigrid"
+    alias nvim="neovide --multigrid --"
 fi
 # end conditional loading }}}
 
 # functions {{{
-# gradle alias to use specific java home for build step.
-# it's a work around until i can find where to pass java home to the language server.
-function gr {
-    gradle "$@" -Dorg.gradle.java.home=${HOME}/.jabba/jdk/openjdk@1.11.0/Contents/Home
-}
 
-# open scrollback buffer in `less`. needs some cleanup
+# open scrollback buffer in `less`. needs some cleanup.
 function sb {
     kitty @ launch --stdin-source=@screen_scrollback --stdin-add-formatting --type=overlay less +G -R
 }
@@ -63,7 +58,6 @@ function query {
     QUERY=$1
     dvs -c "\copy ($QUERY) TO STDOUT CSV HEADER" | vd -f csv
 }
-
 function lquery {
     QUERY=$1
     lstack -c "\copy ($QUERY) TO STDOUT CSV HEADER" | vd -f csv
