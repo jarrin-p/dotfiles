@@ -31,7 +31,7 @@ Plug 'tpope/vim-surround'
 vim.call('plug#end')
 -- end vim-plug setup }}}
 
--- vim.cmd("colorscheme everforest")
+vim.cmd("colorscheme everforest")
 
 --- simple nvim specific setups {{{
 require('scrollbar').setup()

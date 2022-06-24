@@ -89,7 +89,12 @@ end
 --- build the path itself.
 function MakePath()
     local file_type = vim.api.nvim_get_option_value('filetype', {})
-    if file_type == 'help' then
+    local buf_type = vim.api.nvim_get_option_value('buftype', {})
+
+    if buf_type == 'terminal' then
+        return header:set'Terminal'
+
+    elseif file_type == 'help' then
         return header:set'Help'
 
     elseif file_type == 'qf' then

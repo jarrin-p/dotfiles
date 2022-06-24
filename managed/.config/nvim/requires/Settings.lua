@@ -6,6 +6,7 @@ Set.compatible = false
 -- window title
 Set.title = true
 Set.titlestring = '%t'
+Set.guifont = 'Fira Code'
 
 -- buffer settings
 Set.hidden = false        -- seeing if this will reduce the number of buffers that open.
