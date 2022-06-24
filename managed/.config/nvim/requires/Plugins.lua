@@ -25,6 +25,7 @@ Plug 'L3MOn4d3/LuaSnip' -- snippets plugin
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'preservim/nerdtree'
+-- TODO Plug 'put luatree here'
 Plug 'tpope/vim-surround'
 
 -- end of plugin defining
