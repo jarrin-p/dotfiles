@@ -25,8 +25,51 @@ Colors = {
 }
 -- end colors }}}
 
+--- helper functions {{{
+-- @see `:h synID()` and its relatives for details.
+--- TODO add color scheme inspector for concealed items.
+local what_table = {
+    'name', 'fg', 'bg', 'font', 'sp',
+    'fg#', 'bg#', 'sp#', 'bold', 'italic',
+    'reverse', 'inverse', 'standout', 'underline', 'underlineline',
+    'undercurl', 'underdot', 'underdash', 'strikethrough',
+}
 
--- color scheme
+--- gets the `what` from synID(). will also follow links to return the real value of the field.
+-- @tparam args.line, args.col (integer) line and col number of what is to be inspected, respectively.
+-- @tparam args.trans (float) the transparency of the item
+-- @tparam args.mode (string) 'gui', 'cterm', or 'term' for specifying which type of field you want.
+function GetColorschemeField(args)
+    if not args or not args.what then
+        print('need to provide keyword argument `what = ...`')
+        return
+    end
+    args.line = args.line or vim.fn.line('.')
+    args.col = args.col or vim.fn.col('.')
+    args.trans = args.trans or 1
+    args.mode = args.mode or nil
+
+    local synID = vim.fn.synID(args.line, args.col, args.trans)
+    local synTrans = vim.fn.synIDtrans(synID)
+    local synIDattr = vim.fn.synIDattr(synTrans, args.what)
+    if args.toOut then print(synIDattr) end
+    return synIDattr
+end
+
+function InspectColorscheme(what)
+    what = what or what_table
+    if type(what) ~= 'table' then
+        print('argument is not a table. exiting function.')
+        return
+    end
+
+    for _, value in ipairs(what) do
+        print(value .. ': ' .. GetColorschemeField{ what = value })
+    end
+end
+-- end helper functions }}}
+
+-- color scheme changes
 vim.api.nvim_set_hl(0, 'CursorLine', { underline = 1, sp = Colors.gui.gray })
 vim.api.nvim_set_hl(0, 'CursorLineNr', { ctermbg = Colors.none })
 vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { undercurl = 1, sp = Colors.gui.red })
