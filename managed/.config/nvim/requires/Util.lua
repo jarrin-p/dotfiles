@@ -25,10 +25,6 @@ Exec = function (str, bool)
     bool = bool or false
     vim.api.nvim_exec(str, bool)
 end
-
-Set = vim.o
-GSet = vim.g
-SetWinLocal = vim.wo
 -- end shorthands }}}
 
 --- colors {{{

@@ -177,7 +177,8 @@ function AddSymbolIfSet(option, symbol_to_use)
 end
 
 --- finally, customize the statusline using the components we made.
-function MakeStatusLine()
+-- function MakeStatusLine()
+vim.g.MakeStatusLine = function()
     -- left hand side padding, also declaration for easier adjusting.
     local sl = header:set'  '
 
@@ -211,9 +212,9 @@ function MakeStatusLine()
     sl = sl .. header:set'  ' -- rhs padding.
 
     -- updates the window being worked in only.
-    SetWinLocal.statusline = sl
+    vim.wo.statusline = sl
 end
 
 -- add autocommands for the statusline to update.
-vim.api.nvim_create_autocmd({'VimEnter', 'WinEnter', 'BufWinEnter', 'WinNew', 'BufModifiedSet'}, { callback = MakeStatusLine })
-vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'nerdtree'}, callback = MakeStatusLine })
+vim.api.nvim_create_autocmd({'VimEnter', 'WinEnter', 'BufWinEnter', 'WinNew', 'BufModifiedSet'}, { callback = vim.g.MakeStatusLine })
+vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'nerdtree'}, callback = vim.g.MakeStatusLine })

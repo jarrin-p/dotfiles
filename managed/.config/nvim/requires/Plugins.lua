@@ -58,8 +58,8 @@ nnoremap('<leader>b', ':G branch<enter>')
 --- nerd tree {{{
 nnoremap('<leader>t', ':NERDTreeFind<enter>:set rnu<enter>')       -- at current working directory
 nnoremap('<leader>T', ':NERDTreeToggleVCS<enter>:set rnu<enter>')  -- at vcs toplevel
-GSet.NERDTreeWinSize = 50
-GSet.NERDTreeShowBookmarks = 1
+vim.g.NERDTreeWinSize = 50
+vim.g.NERDTreeShowBookmarks = 1
 
 --- opens new kitty tab at specified path or `current` directory.
 -- @tparam path (string) path to the location of the new tab.
@@ -70,7 +70,7 @@ end
 --- opens kitty tab at directory of current node.
 -- setting it globally to vim allows it to be used as a callback.
 -- (it's registered as a global vim function this way)
-GSet.NERDTreeOpenKittyTabHere = function()
+vim.g.NERDTreeOpenKittyTabHere = function()
     local node_path_table = vim.api.nvim_eval('g:NERDTreeFileNode.GetSelected()').path
     local file_name
 
@@ -113,12 +113,12 @@ local grep_full = rg_string .. pattern_string .. ' ""'
 -- @param args (table)
 function LiveFuzzyGrep()
     vim.fn['fzf#run'](vim.fn['fzf#wrap']({
-        source = grep_full, sink = GSet.GoToGrepResult
+        source = grep_full, sink = vim.g.GoToGrepResult
     }))
 end
 
 --- opens file from grep result and goes to line, col.
-GSet.GoToGrepResult = function(grep_result)
+vim.g.GoToGrepResult = function(grep_result)
     if not grep_result then return end
 
     grep_result = grep_result .. ':'
