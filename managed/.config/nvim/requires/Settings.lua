@@ -5,13 +5,14 @@ require 'Util'
 vim.o.compatible = false
 
 --- gui settings {{{
-vim.o.guifont = 'Fira Code'
+vim.o.guifont = 'Fira Code, Menlo Italic'
 vim.o.linespace = 12
 -- end gui settings }}}
 
 --- window settings {{{
 vim.o.title = true
 vim.o.titlestring = '%t'
+vim.o.showtabline = 2       -- always show the tabline
 vim.o.hidden = false        -- seeing if this will reduce the number of buffers that open.
 vim.o.tabstop = 4
 vim.o.shiftwidth = 0        -- 0 means use tabstop value.

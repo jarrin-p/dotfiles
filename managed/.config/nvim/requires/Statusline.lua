@@ -1,15 +1,20 @@
 require 'Util'
 require 'Snippets'
 
--- status line modifications
-local bl = '«'
-local te = '->'
-local lt = '◢'
-local rt = '◣'
--- local br = '»'
+--- symbols {{{
+local symbols = {
+    bl = '«',  -- bracket left
+    br = '»',  -- bracket right
+    ra = '->', -- right ..arrow
+    left_tr = '◢',
+    right_tr = '◣',
+}
+--
 -- local enter_sym = '⏎'
 -- local te = '⋯'
+-- end symbols }}}
 
+--- highlight group wrapper {{{
 --- nvim highlight group wrapper that allows easier inline status text formatting.
 -- additionally, has defaults specified to keep the status line uniform
 SLColorgroup = {
@@ -17,7 +22,7 @@ SLColorgroup = {
     scope = 0,
     options = {
         underline = 1, -- underline needs to be enabled for custom underline color.
-        sp = Colors.h_split_underline -- default for the underline color.
+        sp = Colors.gui.gray -- default for the underline color.
     },
     pretext = '',
     posttext = '',
@@ -52,7 +57,9 @@ SLColorgroup = {
         return '%#' .. self.name .. '#' .. self.pretext .. text_to_color .. self.posttext
     end,
 }
+-- end highlight group wrapper }}}
 
+--- color groups {{{
 -- create custom color groups for the status line. assigning them to variables
 -- allows the color groups to have a `set` helper function that uses defaults.
 local bracket = SLColorgroup:new{ name = 'SLBracket', options = { bold = 0, ctermfg = 8 } }
@@ -63,6 +70,7 @@ local header = SLColorgroup:new{
     options = { bold = 1, italic = 0, ctermfg = 11 },
 }
 local mod = SLColorgroup:new{ name = 'SLModified', options = { italic = 0, ctermfg = 9 } }
+-- end custom color groups }}}
 
 --- gets the absolute path of the currently worked on file using `expand`
 -- and splits it into a table.
@@ -101,13 +109,13 @@ function MakePath()
         return header:set'Quick Fix || Location List'
 
     elseif file_type == 'fugitive' then
-        return header:set'Fugitive ' .. bracket:set(bl) .. directory:set' Git'
+        return header:set'Fugitive ' .. bracket:set(symbols.bl) .. directory:set' Git'
 
     elseif file_type == 'gitcommit' then
-        return header:set'Commit ' .. bracket:set(bl) .. directory:set' Fugitive ' .. bracket:set(bl) .. directory:set' Git'
+        return header:set'Commit ' .. bracket:set(symbols.bl) .. directory:set' Fugitive ' .. bracket:set(symbols.bl) .. directory:set' Git'
 
     elseif file_type == 'git' then
-        return header:set'Branch ' .. bracket:set(bl) .. directory:set' Fugitive ' .. bracket:set(bl) .. directory:set' Git'
+        return header:set'Branch ' .. bracket:set(symbols.bl) .. directory:set' Fugitive ' .. bracket:set(symbols.bl) .. directory:set' Git'
 
     elseif file_type == 'nerdtree' then
         return (sl_item:set'↟' .. header:set'NERDTree')
@@ -144,11 +152,11 @@ function ConvertTableToPathString(path_table, truncate_point, project_root_index
         local pop = directory:set(table.remove(reverse_path))
         if #reverse_path < truncate_point then
             status = pop .. status
-            status =  ' ' .. bracket:set(bl) .. ' ' .. status
+            status =  ' ' .. bracket:set(symbols.bl) .. ' ' .. status
 
         -- set the point where truncation occurs on the list
         elseif #path_table == truncate_point then
-            status = ' ' .. bracket:set(bl) .. directory:set' <% '
+            status = ' ' .. bracket:set(symbols.bl) .. directory:set' <% '
         end
     end
 
@@ -161,19 +169,17 @@ end
 --- uses fugitive to check if in a git directory, and if it is, return the head.
 function GetBranch()
     if vim.fn.FugitiveIsGitDir() == 1 then
-        return sl_item:set("⤤ " .. vim.fn.FugitiveHead()) .. bracket:set(" " .. te) .. ' '
-    else
-        return ''
+        return sl_item:set("⤤ " .. vim.fn.FugitiveHead()) .. bracket:set(" " .. symbols.ra) .. ' '
     end
+    return ''
 end
 
 --- checks if a boolean option is true, then adds a user defined symbol if it is.
 function AddSymbolIfSet(option, symbol_to_use)
     if (vim.api.nvim_get_option_value(option, {}) == true) then
         return symbol_to_use
-    else
-        return ''
     end
+    return ''
 end
 
 --- finally, customize the statusline using the components we made.
@@ -213,8 +219,11 @@ vim.g.MakeStatusLine = function()
 
     -- updates the window being worked in only.
     vim.wo.statusline = sl
+    return sl
 end
 
--- add autocommands for the statusline to update.
+vim.o.statusline = '%{%g:MakeStatusLine()%}'
+
+-- add autocommands for the statusline to update more frequently.
 vim.api.nvim_create_autocmd({'VimEnter', 'WinEnter', 'BufWinEnter', 'WinNew', 'BufModifiedSet'}, { callback = vim.g.MakeStatusLine })
 vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'nerdtree'}, callback = vim.g.MakeStatusLine })

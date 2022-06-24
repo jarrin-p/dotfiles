@@ -13,22 +13,21 @@ LS.cleanup() -- clears all snippets
 function ChooseSnipOrFallback(direction, fallback)
     if LS.choice_active() then
         LS.change_choice(direction)
-        MakeStatusLine()
     else
         fallback()
     end
+    vim.g.MakeStatusLine()
 end
 
 function JumpOrFallback(direction, fallback)
     if LS.jumpable(direction) then
         LS.jump(direction)
-        MakeStatusLine()
     elseif LS.expandable() then
         LS.expand()
-        MakeStatusLine()
     else
         fallback()
     end
+    vim.g.MakeStatusLine()
 end
 
 vim.api.nvim_set_keymap(

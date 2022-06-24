@@ -39,7 +39,11 @@ source_if_exists "${HOME}/.nix-profile/share/zsh-z/zsh-z.plugin.zsh"
 source_if_exists "${HOME}/.nix-profile/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
 source_if_exists "${HOME}/.jabba/jabba.sh"
 source_if_exists "${HOME}/.fzf.zsh"
-[ -f "/Applications/Neovide.app/Contents/MacOS/neovide" ] && export PATH="/Applications/Neovide.app/Contents/MacOS:${PATH}"
+
+if [ -f "/Applications/Neovide.app/Contents/MacOS/neovide" ]; then
+    export PATH="/Applications/Neovide.app/Contents/MacOS:${PATH}"
+    alias nvim="neovide --multigrid"
+fi
 # end conditional loading }}}
 
 # functions {{{
