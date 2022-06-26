@@ -89,7 +89,7 @@ vim.api.nvim_set_hl(0, 'NonText', { fg = Colors.gui.gray, ctermfg = Colors.term.
 -- vim.api.nvim_set_hl(0, 'Pmenu', { ctermbg = 242 })
 vim.api.nvim_set_hl(0, 'Search', { bold = 1, italic = 1, ctermfg = Colors.cyan, fg = Colors.gui.wood_light })
 vim.api.nvim_set_hl(0, 'SignColumn', { })
-vim.api.nvim_set_hl(0, 'SpecialKey', { italic = 1, fg = Colors.gui.gray })
+vim.api.nvim_set_hl(0, 'SpecialKey', { italic = 1, fg = Colors.gui.red })
 vim.api.nvim_set_hl(0, 'SpellBad', { undercurl = 1, sp = Colors.gui.red })
 vim.api.nvim_set_hl(0, 'SpellCap', { ctermbg = Colors.term.blue_dark, undercurl = 1, sp = Colors.gui.gray })
 -- vim.api.nvim_set_hl(0, 'StatusLine', { bold = 1, ctermfg = 0 })

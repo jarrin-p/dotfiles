@@ -10,7 +10,10 @@ LS.cleanup() -- clears all snippets
 --- insert mode remaps {{{
 --- for use with `luasnip`, when in a choice node this function will change,
 -- otherwise it will use the fallback function.
+-- @param direction (integer) 1 for changing choice forward, -1 for backward.
+-- @param fallback (function) function to be used for fallback. defaults to doing nothing.
 function ChooseSnipOrFallback(direction, fallback)
+    fallback = fallback or function() end
     if LS.choice_active() then
         LS.change_choice(direction)
     else
@@ -19,7 +22,12 @@ function ChooseSnipOrFallback(direction, fallback)
     vim.g.MakeStatusLine()
 end
 
+--- for use with `luasnip`, when in a choice node this function will change,
+-- otherwise it will use the fallback function.
+-- @param direction (integer) 1 for jumping forward, -1 for backward.
+-- @param fallback (function) function to be used for fallback. defaults to doing nothing.
 function JumpOrFallback(direction, fallback)
+    fallback = fallback or function() end
     if LS.jumpable(direction) then
         LS.jump(direction)
     elseif LS.expandable() then
@@ -33,49 +41,75 @@ end
 vim.api.nvim_set_keymap(
     'i',
     '<tab>',
-    '<c-o>:lua JumpOrFallback(1, function() vim.cmd("normal >>") end )<enter>',
+    '<c-o>:lua JumpOrFallback(1)<enter>',
     {noremap = true, silent = true}
 )
 vim.api.nvim_set_keymap(
     'i',
     '<s-tab>',
-    '<c-o>:lua JumpOrFallback(-1, function() vim.cmd("normal <<") end )<enter>',
+    '<c-o>:lua JumpOrFallback(-1)<enter>',
     {noremap = true, silent = true}
 )
-
 vim.api.nvim_set_keymap(
     'i',
     '<c-j>',
-    '<c-o>:lua ChooseSnipOrFallback(1, function() vim.cmd("normal j") end)<enter>',
+    '<c-o>:lua ChooseSnipOrFallback(1)<enter>',
     {noremap = true, silent = true}
 )
 vim.api.nvim_set_keymap(
     'i',
     '<c-k>',
-    '<c-o>:lua ChooseSnipOrFallback(-1, function() vim.cmd("normal k") end)<enter>',
+    '<c-o>:lua ChooseSnipOrFallback(-1)<enter>',
     {noremap = true, silent = true}
 )
 -- end insert mode remaps }}}
 
+--- snippet_nodes {{{
+
+-- end snippet_nodes }}}
+
+--- snippets {{{
+
+--- function snippet maker. makes local have higher priority choice
+-- when local is the trigger.
+local function functionSnippetLua(trigger)
+    if not trigger then return end
+
+    local scope_choice_node
+    if trigger == 'local' then
+        scope_choice_node = LS.choice_node(1, {
+            LS.text_node({"local "}),
+            LS.text_node({""}),
+        })
+    else
+        scope_choice_node = LS.choice_node(1, {
+            LS.text_node({""}),
+            LS.text_node({"local "}),
+        })
+    end
+
+    return LS.snippet(trigger, {
+        LS.text_node("--- "),
+        LS.insert_node(0, 'description...'),
+        LS.text_node({"", ""}),
+        scope_choice_node,
+        LS.text_node("function "),
+        LS.insert_node(2, "functionName"),
+        LS.text_node({"("}),
+        LS.insert_node(3),
+        LS.text_node({")", "\t"}),
+        LS.insert_node(4, "-- body..."),
+        LS.text_node({"", "\treturn"}),
+        LS.text_node({"", "end"}),
+    })
+end
+-- end lua snippets }}}
+
 --- lua snippets {{{
 LS.add_snippets("lua",
     {
-        -- function snippet.
-        LS.snippet("function",
-        {
-            LS.choice_node(1, {
-                LS.text_node({""}),
-                LS.text_node({"local "})
-            }),
-            LS.text_node("function "),
-            LS.insert_node(2, "functionName"),
-            LS.text_node({"("}), -- linebreaks are ""
-            LS.insert_node(3),
-            LS.text_node({")", "" }), -- linebreaks are ""
-            LS.text_node({"\t"}),
-            LS.insert_node(0, "-- body..."),
-            LS.text_node({"", "end"}),
-        }),
+        functionSnippetLua("function"),
+        functionSnippetLua("local"),
 
         -- `if` statement with `elseif` and `else` choices.
         LS.snippet("if",
