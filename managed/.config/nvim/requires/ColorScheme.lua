@@ -17,6 +17,7 @@ Colors = {
 
     gui = {
         gray = '#859289',
+        green = '#a7c080',
         green_bright = '#a9dd9d',
         red = '#fd8489',
         wood_dark = '#f0aa8a',

@@ -1,5 +1,6 @@
 require 'Util'
 require 'Snippets'
+require 'ColorScheme'
 
 --- symbols {{{
 local symbols = {
@@ -62,16 +63,29 @@ SLColorgroup = {
 --- color groups {{{
 -- create custom color groups for the status line. assigning them to variables
 -- allows the color groups to have a `set` helper function that uses defaults.
-local bracket = SLColorgroup:new{ name = 'SLBracket', options = { bold = 0, ctermfg = 8 } }
-local sl_item = SLColorgroup:new{ name = 'SLItem', options = { ctermfg = 121 } }
-local directory = SLColorgroup:new{ name = 'SLDir', options = { italic = 1, ctermfg = 3 } }
+local bracket = SLColorgroup:new{
+    name = 'SLBracket',
+    options = { bold = 0, ctermfg = 8, fg = Colors.gui.gray }
+}
+local sl_item = SLColorgroup:new{
+    name = 'SLItem',
+    options = { ctermfg = 121, fg = Colors.gui.green_bright }
+}
+local directory = SLColorgroup:new{
+    name = 'SLDir',
+    options = { italic = 1, ctermfg = 3, fg = Colors.gui.wood_dark }
+}
 local header = SLColorgroup:new{
     name = 'SLFileHeader',
-    options = { bold = 1, italic = 0, ctermfg = 11 },
+    options = { bold = 0, italic = 0, ctermfg = 11, fg = Colors.gui.green },
 }
-local mod = SLColorgroup:new{ name = 'SLModified', options = { italic = 0, ctermfg = 9 } }
+local mod = SLColorgroup:new{
+    name = 'SLModified',
+    options = { italic = 0, ctermfg = 9, fg = Colors.gui.red }
+}
 -- end custom color groups }}}
 
+--- functions {{{
 --- gets the absolute path of the currently worked on file using `expand`
 -- and splits it into a table.
 -- @returns abs_file_table an ordered table containing each directory for the path.
@@ -221,9 +235,12 @@ vim.g.MakeStatusLine = function()
     vim.wo.statusline = sl
     return sl
 end
+-- end functions }}}
 
 vim.o.statusline = '%{%g:MakeStatusLine()%}'
 
 -- add autocommands for the statusline to update more frequently.
 vim.api.nvim_create_autocmd({'VimEnter', 'WinEnter', 'BufWinEnter', 'WinNew', 'BufModifiedSet'}, { callback = vim.g.MakeStatusLine })
 vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'nerdtree'}, callback = vim.g.MakeStatusLine })
+
+-- vim: fdm=marker foldlevel=0

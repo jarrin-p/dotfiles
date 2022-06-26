@@ -51,6 +51,7 @@ end
 
 --- make session wrapper. {{{
 --- makes sessions in the git root directory if in one.
+-- @param args (table) argument table.
 -- @param args.path (string) path to put the session_name.
 -- @param args.session_name (string) name to store. automatically appends .vim.
 function MakeGitSession(args)
