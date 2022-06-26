@@ -61,13 +61,25 @@ nnoremap('<leader>T', ':NERDTreeToggleVCS<enter>:set rnu<enter>')  -- at vcs top
 vim.g.NERDTreeWinSize = 50
 vim.g.NERDTreeShowBookmarks = 1
 
---- opens new kitty tab at specified path or `current` directory.
+-- open nerdtree as soon as vim opens. make it full screen if no other buffer is open
+function NERDTreeStartupBehavior()
+    vim.api.nvim_command('NERDTreeToggleVCS') -- open nerdtree
+    vim.api.nvim_command('wincmd p')
+    if CurrentBufIsEmpty() then vim.api.nvim_command('q') end
+end
+vim.api.nvim_create_autocmd({'VimEnter'}, { callback = NERDTreeStartupBehavior })
+
+-- adds a filter list to NERDTree. {{{
+-- TODO view the filter api instead.
+Exec([[ command -nargs=1 NTI let NERDTreeIgnore=<args> ]], false) -- takes an array }}}
+
+--- opens new kitty tab at specified path or `current` directory. {{{
 -- @tparam path (string) path to the location of the new tab.
 function NewKittyTab(path)
     vim.fn.system('kitty @ launch --cwd=' .. (path or 'current') .. ' --type=tab')
-end
+end -- }}}
 
---- opens kitty tab at directory of current node.
+--- opens kitty tab at directory of current node. {{{
 -- setting it globally to vim allows it to be used as a callback.
 -- (it's registered as a global vim function this way)
 vim.g.NERDTreeOpenKittyTabHere = function()
@@ -81,7 +93,7 @@ vim.g.NERDTreeOpenKittyTabHere = function()
 
     local path_str = table.concat(node_path_table.pathSegments, '/')
     NewKittyTab('/' .. path_str) -- need to enforce absolute path.
-end
+end -- }}}
 
 --- create the menu items after everything has been loaded using an autocmd.{{{
 vim.api.nvim_create_autocmd(

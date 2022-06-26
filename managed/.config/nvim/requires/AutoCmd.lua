@@ -1,19 +1,6 @@
 -- nerdtree will always have relative number set
 vim.api.nvim_create_autocmd({'FileType'}, { pattern='nerdtree', command = "set number relativenumber" })
 
--- open nerdtree as soon as vim opens. make it full screen if no other buffer is open
-function OpeningBehavior()
-    if vim.fn.line('$') == 1
-        and vim.fn.getline(1) == ''
-        and vim.api.nvim_get_option_value('filetype', {}) == '' then
-            vim.api.nvim_command('NERDTreeToggleVCS | only')
-            -- vim.api.nvim_command('FZF') -- I don't think I actually like this.
-    else
-        vim.api.nvim_command('NERDTreeToggleVCS')
-        vim.api.nvim_command('wincmd p')
-    end
-end
-vim.api.nvim_create_autocmd({'VimEnter'}, { callback = OpeningBehavior })
 
 -- match settings from other projects for these filetypes
 -- TODO add filetype specific loads (e.g. make a `.../nvim/after/plugin/...` directory)

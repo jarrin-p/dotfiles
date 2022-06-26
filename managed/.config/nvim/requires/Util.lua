@@ -90,4 +90,15 @@ end
 
 -- }}} end clean postspace
 
+--- check if buffer is empty {{{
+function IsBufEmpty()
+    if vim.fn.line('$') == 1
+        and vim.fn.getline(1) == ''
+        and vim.api.nvim_get_option_value('filetype', {}) == '' then
+        return true
+    end
+    return false
+end
+-- end IsBufEmpty() }}}
+
 -- vim: fdm=marker foldlevel=0

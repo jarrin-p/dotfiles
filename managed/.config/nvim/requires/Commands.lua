@@ -3,9 +3,6 @@
 
 require 'Util'
 
--- adds a filter list to NERDTree.
--- TODO view the filter api instead.
-Exec([[ command -nargs=1 NTI let NERDTreeIgnore=<args> ]], false) -- takes an array
 
 -- runs `spotlessApply` at the top level of the git repository.
 -- TODO install `spotlessApply` as a standalone.
