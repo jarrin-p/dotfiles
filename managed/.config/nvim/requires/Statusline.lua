@@ -77,7 +77,7 @@ local directory = SLColorgroup:new{
 }
 local header = SLColorgroup:new{
     name = 'SLFileHeader',
-    options = { bold = 0, italic = 0, ctermfg = 11, fg = Colors.gui.green },
+    options = { bold = 0, italic = 0, ctermfg = 11, fg = Colors.gui.green_bright },
 }
 local mod = SLColorgroup:new{
     name = 'SLModified',
