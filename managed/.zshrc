@@ -1,5 +1,20 @@
 source ~/.zshrc.private
 
+# conditional loading (should happen first) {{{
+function source_if_exists () {
+    [ -f "${1}" ] && source "${1}"
+}
+source_if_exists "${HOME}/.nix-profile/share/zsh-z/zsh-z.plugin.zsh"
+source_if_exists "${HOME}/.nix-profile/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+source_if_exists "${HOME}/.jabba/jabba.sh"
+source_if_exists "${HOME}/.fzf.zsh"
+
+if [ -f "/Applications/Neovide.app/Contents/MacOS/neovide" ]; then
+    export PATH="/Applications/Neovide.app/Contents/MacOS:${PATH}"
+    alias nvim="neovide --multigrid --"
+fi
+# end conditional loading }}}
+
 # shorthands, alias, etc {{{
 alias ls='ls --color' # color ls
 function man { nvim -c "Man $1" -c "only" } # Use neovim's man command instead of gnu-man
@@ -30,21 +45,6 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --color=bg+:-1
 '
 # end environment variables }}}
-
-# conditional loading {{{
-function source_if_exists () {
-    [ -f "${1}" ] && source "${1}"
-}
-source_if_exists "${HOME}/.nix-profile/share/zsh-z/zsh-z.plugin.zsh"
-source_if_exists "${HOME}/.nix-profile/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
-source_if_exists "${HOME}/.jabba/jabba.sh"
-source_if_exists "${HOME}/.fzf.zsh"
-
-if [ -f "/Applications/Neovide.app/Contents/MacOS/neovide" ]; then
-    export PATH="/Applications/Neovide.app/Contents/MacOS:${PATH}"
-    alias nvim="neovide --multigrid --"
-fi
-# end conditional loading }}}
 
 # functions {{{
 
