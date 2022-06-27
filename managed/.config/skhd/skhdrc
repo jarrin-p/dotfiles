@@ -14,7 +14,7 @@ navigate < q ; navigate
 navigate < cmd - return : skhd -k "i" ; kitty --single-instance
 # end }}}
 
-# global hotkeys {{{
+# chords {{{
 default < alt - h : yabai -m window --focus prev
 default < alt - l : yabai -m window --focus next
 default < alt - j : yabai -m window --focus stack.prev
@@ -38,16 +38,16 @@ default < alt - 0x2F : yabai -m window --ratio rel:0.05 # '.' keycode
 default < alt - 0x2B : yabai -m window --ratio rel:-.05 # ',' keycode
 
 # change split direction
-default < alt - r : yabai -m window --toggle split
 
 # rotate space, also unstacks windows
-# rearrange < r : yabai -m space --rotate 90
-# rearrange < shift - r : yabai -m space --rotate 270
+default < alt - r : yabai -m space --rotate 90
+default < alt + shift - r : yabai -m window --toggle split
+# default < shift - r : yabai -m space --rotate 270
 
 # right bracket - send to prev display
-# rearrange < shift - 0x21 : yabai -m window --display prev #; skhd -k "cmd - h"
+default < alt + shift - 0x21 : yabai -m window --display prev
 # left bracket - send to next display
-# rearrange < shift - 0x1E : yabai -m window --display next #; skhd -k "cmd - l"
+default < alt + shift - 0x1E : yabai -m window --display next
 
 # end global hotkeys }}}
 
