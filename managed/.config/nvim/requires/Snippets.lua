@@ -64,85 +64,137 @@ vim.api.nvim_set_keymap(
 )
 -- end insert mode remaps }}}
 
---- snippet_nodes {{{
-
--- end snippet_nodes }}}
-
 --- snippets {{{
 
---- function snippet maker. makes local have higher priority choice
--- when local is the trigger.
-local function functionSnippetLua(trigger)
+--- postfix `function` snippet maker function. {{{
+-- makes local have higher priority choice when local is the trigger.
+-- @param trigger (string) the string for activating the snippet.
+local function postfixFunctionSnipLua(trigger)
+
+    --- hack to fix the spacing weirdness from multiline postfix.
+    -- issue is more likely that postfix snippets shouldn't be multi-line.
+    -- @param parent gets passed in by postfix node.
+    local fixPostfixSpacingFn = function(_, parent)
+        local p = parent.snippet.env.POSTFIX_MATCH
+        p = p:sub(p:find('^%s*')) -- lua patterns to find the max spaces from beginning of statment
+        return p
+    end
+
+    if not trigger then return end
+    local postfix = require('luasnip.extras.postfix').postfix
+
+    -- returns the snippet node with different config
+    return postfix({trig = trigger, match_pattern = '.*$'}, {
+
+        -- adds the description before the line that was 'matched'.
+        LS.function_node(fixPostfixSpacingFn, {}),
+        LS.text_node({'--- description', ''}),
+
+        -- inserts what was matched from the line (everything up until this postfix trigger).
+        LS.function_node(function(_, parent) return parent.snippet.env.POSTFIX_MATCH end, {}),
+
+        -- creates the `function()` and places jump position inside parenthesis for defining variables.
+        LS.text_node({'function('}),
+        LS.insert_node(1),
+        LS.text_node({')', ''}),
+
+        -- final jump is to the body of the function.
+        LS.function_node(fixPostfixSpacingFn, {}),
+        LS.text_node({'\t'}),
+        LS.insert_node(0, '-- body...'),
+
+        LS.text_node({'', ''}),
+        LS.function_node(fixPostfixSpacingFn, {}),
+        LS.text_node({'end'}),
+    })
+end -- }}}
+
+--- `function` snippet maker function. {{{
+--- basically just a way to prevent redundantly defining the same snippet just
+-- to have two nodes rearranged based on the context.
+-- @param trigger (string) the string for activating the snippet.
+local function functionSnipLua(trigger)
     if not trigger then return end
 
+    -- start choice node on 'local' if that's the trigger used.
     local scope_choice_node
     if trigger == 'local' then
-        scope_choice_node = LS.choice_node(1, {
-            LS.text_node({"local "}),
-            LS.text_node({""}),
-        })
+        scope_choice_node = function(position) -- passing the position makes it easier to define
+            return LS.choice_node(position, { LS.text_node({'local '}), LS.text_node({''}), })
+        end
     else
-        scope_choice_node = LS.choice_node(1, {
-            LS.text_node({""}),
-            LS.text_node({"local "}),
+        scope_choice_node = function(position)
+            return LS.choice_node(position, { LS.text_node({''}), LS.text_node({'local '}), })
+        end
+    end
+
+    -- returns the snippet node with different config
+    return LS.snippet(trigger, {
+        LS.text_node({'--- description', ''}),
+        scope_choice_node(1),
+        LS.text_node({'function '}),
+        LS.insert_node(2, 'functionName'),
+        LS.text_node({'('}),
+        LS.insert_node(3),
+        LS.text_node({')', '\t'}),
+        LS.insert_node(0, '-- body...'),
+        LS.text_node({'', '\treturn', 'end'}),
+    })
+end -- }}}
+
+--- makes the snippet for `if` statements. {{{
+local function makeIfSnippetLua()
+    local makeIfSnippetNode = function(position)
+        return LS.snippet_node(position, {
+            LS.text_node('if '),
+            LS.insert_node(1, 'condition'),
+            LS.text_node({" then", "\t"}),
         })
     end
 
-    return LS.snippet(trigger, {
-        LS.text_node("--- "),
-        LS.insert_node(0, 'description...'),
-        LS.text_node({"", ""}),
-        scope_choice_node,
-        LS.text_node("function "),
-        LS.insert_node(2, "functionName"),
-        LS.text_node({"("}),
-        LS.insert_node(3),
-        LS.text_node({")", "\t"}),
-        LS.insert_node(4, "-- body..."),
-        LS.text_node({"", "\treturn"}),
-        LS.text_node({"", "end"}),
-    })
-end
--- end lua snippets }}}
+    local makeElseIfSnippetNode = function(position) end
 
---- lua snippets {{{
-LS.add_snippets("lua",
-    {
-        functionSnippetLua("function"),
-        functionSnippetLua("local"),
-
-        -- `if` statement with `elseif` and `else` choices.
-        LS.snippet("if",
-        {
-            LS.text_node({"if "}),
-            LS.insert_node(1, "condition"),
-            LS.text_node({" then", "\t"}),
-            LS.insert_node(2, "-- body..."),
-            LS.choice_node(3, {
-                LS.text_node({""}),
-                LS.snippet_node(nil, {
-                    LS.text_node({"", "elseif "}),
-                    LS.insert_node(1, "condition"),
-                    LS.text_node({" then", "\t"}),
-                    LS.insert_node(2, "-- body..."),
-                    LS.snippet_node(nil, {
-                        LS.text_node({"", "else"}),
-                        LS.text_node({"", "\t"}),
-                        LS.insert_node(1, "-- body..."),
-                    }),
-                }),
+    return LS.snippet("if", {
+        LS.text_node({"if "}),
+        LS.insert_node(1, "condition"),
+        LS.text_node({" then", "\t"}),
+        LS.insert_node(2, "-- body..."),
+        LS.choice_node(3, {
+            LS.text_node({""}),
+            LS.snippet_node(nil, {
+                LS.text_node({"", "elseif "}),
+                LS.insert_node(1, "condition"),
+                LS.text_node({" then", "\t"}),
+                LS.insert_node(2, "-- body..."),
                 LS.snippet_node(nil, {
                     LS.text_node({"", "else"}),
                     LS.text_node({"", "\t"}),
                     LS.insert_node(1, "-- body..."),
-                })
+                }),
             }),
-            LS.text_node({"", "end"})
+            LS.snippet_node(nil, {
+                LS.text_node({"", "else"}),
+                LS.text_node({"", "\t"}),
+                LS.insert_node(1, "-- body..."),
+            })
         }),
+        LS.text_node({"", "end"})
+    })
+end -- }}}
+-- end lua snippets }}}
+
+--- lua snippets {{{
+LS.add_snippets('lua',
+    {
+        functionSnipLua('function'),
+        functionSnipLua('local'),
+        postfixFunctionSnipLua('function()'),
+
+        -- `if` statement with `elseif` and `else` choices.
+        makeIfSnippetLua(),
     }
 )
 --- end lua snippets }}}
-
 --- java snippets {{{
 LS.add_snippets("java", {
         LS.snippet("pr", -- System.out.println()
