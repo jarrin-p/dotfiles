@@ -115,8 +115,7 @@ end -- }}}
 -- @param trigger (string) the string for activating the snippet.
 local function functionSnipLua(trigger)
     if not trigger then return end
-
-    -- start choice node on 'local' if that's the trigger used.
+    -- start choice node on 'local' if that's the trigger used. {{{
     local scope_choice_node
     if trigger == 'local' then
         scope_choice_node = function(position) -- passing the position makes it easier to define
@@ -126,11 +125,51 @@ local function functionSnipLua(trigger)
         scope_choice_node = function(position)
             return LS.choice_node(position, { LS.text_node({''}), LS.text_node({'local '}), })
         end
+    end -- }}}
+
+    --- the default function that will be passed to the dosctring function.
+    -- @param args (table) a table corresponding to the lines passed in from the `argnodes` argument.
+    -- @param parent (table) the parent of the function node, used for getting additional information.
+    -- @param user_args1 (string) clarify further...
+    local default_docstring_fn = function(args, parent, user_args1)
+
+        -- check if any arguments were added.
+        if args[1][1] ~= '' then
+            local return_args_table = {}
+            local arguments = args[1][1]:gsub('%s', '') -- strip whitespace.
+            arguments = arguments .. ',' -- add comma for simpler splitting.
+
+            -- split alpha-numeric characters based on commas (the most common method of argument passing).
+            for arg in arguments:gmatch('%w*,') do
+                table.insert(return_args_table, '-- @param ' .. arg .. ' (type) parameter description ...')
+            end
+            table.insert(return_args_table, '') -- append newline for better formatting.
+
+            -- each entry of a table is for a line.
+            return return_args_table
+        end
+
+        -- if no arguments were added then no docstring needs to be generated.
+        return ''
     end
 
-    -- returns the snippet node with different config
+    --- generates the template for dosctrings when creating a function by using a snippet.
+    -- TODO: currently works by the assigned defaults. goal is to generalize further.
+    -- @args (table) arguments to pass in.
+    -- @args.fn (function) function used to generate the docstring.
+    -- @args.argnodes (table) nodes that should have their text used.
+    -- @args.opts (table) additional opts to be passed through to nodes.
+    local fn_node_dosctring = function(args)
+        args = args or {}
+        args.fn = args.fn or default_docstring_fn
+        args.argnodes = args.argnodes or {3}
+        args.opts = args.opts or {}
+        return LS.function_node(args.fn, args.argnodes, args.opts)
+    end
+    -- returns the snippet based on the context of the `trigger`.
     return LS.snippet(trigger, {
         LS.text_node({'--- description', ''}),
+        fn_node_dosctring(),
         scope_choice_node(1),
         LS.text_node({'function '}),
         LS.insert_node(2, 'functionName'),
