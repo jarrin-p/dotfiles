@@ -14,13 +14,7 @@ nnoremap("'", '`') -- swap mapping of "jump to mark's line" with "jump to mark's
 --- insert mode maps {{{
 -- NOTE: this `inoremap` prepends `<c-o>` for a single action.
 inoremap('<c-h>', 'b')
-inoremap('<c-l>', 'e<c-o>l')
-inoremap('<c-w>', 'W')
-inoremap('<c-e>', 'E<c-o>l')
-inoremap('<c-d>', 'd')
-inoremap('<c-f>', 'f')
-inoremap('<c-t>', 't')
-inoremap('<c-_>', '/') -- maps ctrl-/
+inoremap('<c-l>', 'E<c-o>l')
 -- end insert mode maps }}}
 
 --- window management {{{
