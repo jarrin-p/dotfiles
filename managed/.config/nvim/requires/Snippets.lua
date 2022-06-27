@@ -64,7 +64,7 @@ vim.api.nvim_set_keymap(
 )
 -- end insert mode remaps }}}
 
---- snippets {{{
+--- lua snippets {{{
 
 --- postfix `function` snippet maker function. {{{
 -- makes local have higher priority choice when local is the trigger.
@@ -133,6 +133,7 @@ local function functionSnipLua(trigger)
     -- @param user_args1 (string) clarify further...
     local default_docstring_fn = function(args, parent, user_args1)
 
+        -- TODO: fix not splitting properly on `_` names.
         -- check if any arguments were added.
         if args[1][1] ~= '' then
             local return_args_table = {}
@@ -220,9 +221,7 @@ local function makeIfSnippetLua()
         LS.text_node({"", "end"})
     })
 end -- }}}
--- end lua snippets }}}
-
---- lua snippets {{{
+--- lua add snippets {{{
 LS.add_snippets('lua',
     {
         functionSnipLua('function'),
@@ -234,7 +233,21 @@ LS.add_snippets('lua',
     }
 )
 --- end lua snippets }}}
+
+-- end lua snippets }}}
+
 --- java snippets {{{
+--- generic template for creating simple substitution snippets.
+-- @param trigger, (string) word to trigger the snippet
+-- @param output_statement, (string) the function to call without parenthesis. i.e. System.out.println would be passed in for output_statement, and the output would be `System.out.println();` when calling the trigger.
+local function makeSimpleOutputSnippet(trigger, output_statement)
+    return LS.snippet(trigger, {
+        LS.text_node({output_statement .. '('}),
+        LS.insert_node(0),
+        LS.text_node({');'}),
+    })
+end
+
 LS.add_snippets("java", {
         LS.snippet("pr", -- System.out.println()
         {
