@@ -4,6 +4,19 @@
 require 'Util'
 vim.o.compatible = false
 
+--- shada settings {{{
+-- @see 'h sd' or 'h shada'
+local shada_settings = {
+    '!',   -- restores global variables.
+    '%5',  -- restore # buffers.
+    "'10", -- reduce number of history files.
+    '<50',
+    's10',
+    'h',   -- disable hlsearch when loading shada file.
+}
+vim.o.shada = table.concat(shada_settings, ',')
+-- }}}
+
 --- gui settings {{{
 vim.o.guifont = 'Fira Code, Menlo Italic'
 vim.o.linespace = 12
