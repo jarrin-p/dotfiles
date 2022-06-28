@@ -15,6 +15,8 @@ Plug 'sainnhe/vim-color-forest-night'
 
 Plug 'tpope/vim-fugitive'
 Exec "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }"
+Plug 'vimwiki/vimwiki'
+
 Exec "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}"
 Plug 'williamboman/nvim-lsp-installer'
 
