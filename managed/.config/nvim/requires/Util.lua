@@ -85,7 +85,7 @@ end
 --- cleans trailing whitespace in a file. win view is saved to keep cursor from jumping around from the substitute command.
 function CleanFileTrailingWhitespace()
     local view = vim.fn.winsaveview()
-    vim.cmd('silent %smagic/ *$//')
+    vim.cmd('keepjumps silent %smagic/ *$//')
     vim.fn.winrestview(view)
 end
 
