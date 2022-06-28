@@ -1,5 +1,5 @@
---- @author jarrin-p {{{
---- @file `Util.lua` }}}
+--- @author jarrin-p
+--- @file `Util.lua`
 
 --- remap functions {{{
 function map (lhs, rhs)
@@ -101,5 +101,15 @@ function CurrentBufIsEmpty()
     return false
 end
 -- end IsBufEmpty() }}}
+
+--- get list of buffers {{{
+function GetBufNamesAsString()
+    local bufnames = {}
+    for _, buffer in ipairs(vim.fn.getbufinfo()) do
+        table.insert(bufnames, buffer.name)
+    end
+    return table.concat(bufnames, '\n')
+end
+-- end get list of buffers }}}
 
 -- vim: fdm=marker foldlevel=0

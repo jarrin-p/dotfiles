@@ -120,31 +120,54 @@ for _, pattern in ipairs(patterns) do
     else pattern_string = " --glob='" .. pattern .. "'" end
 end
 local rg_string = 'rg --hidden --column --line-number --with-filename --no-heading'
-local grep_full = rg_string .. pattern_string .. ' ""'
+local fuzzy_grep_cmd_from_cwd = rg_string .. pattern_string .. ' ""'
 
---- uses fzf for a live fuzzy grep
--- @param args (table)
-function LiveFuzzyGrep()
-    vim.fn['fzf#run'](vim.fn['fzf#wrap']({
-        source = grep_full, sink = vim.g.GoToGrepResult
-    }))
-end
-
---- opens file from grep result and goes to line, col.
-vim.g.GoToGrepResult = function(grep_result)
+--- function used by fzf's sink key. goes to line of file. {{{
+-- TODO unjankify this (particularly fix the way grep is handled).
+-- @param grep_result (string) the string selected by the user from fzf.
+vim.g.HandleResultLiveGrep = function(grep_result)
     if not grep_result then return end
 
-    grep_result = grep_result .. ':'
-    local grep_table = {}
+    grep_result = grep_result .. ':' -- append to make splitting easier.
+    local grep_result_as_table = {}
     for match in string.gmatch(grep_result, '([%w%.%-%_%/]+):') do
-        table.insert(grep_table, match)
+        table.insert(grep_result_as_table, match)
     end
-    vim.cmd('e ' .. grep_table[1]) -- 1 is the file path.
-    vim.fn.cursor(grep_table[2], grep_table[3]) -- 2 is the row, 3 is column.
-end
+    vim.cmd('e ' .. grep_result_as_table[1]) -- 1 is the file path.
+    vim.fn.cursor(grep_result_as_table[2], grep_result_as_table[3]) -- 2 is the row, 3 is column.
+end -- }}}
+--- live fuzzy grep {{{
+function LiveFuzzyGrep()
+    vim.fn['fzf#run'](vim.fn['fzf#wrap']({
+        source = fuzzy_grep_cmd_from_cwd, sink = vim.g.HandleResultLiveGrep
+    }))
+end -- }}}
+
+--- function used by fzf's sink key. goes to line of file. {{{
+-- TODO unjankify this (particularly fix the way grep is handled).
+-- @param grep_result (string) the string selected by the user from fzf.
+vim.g.HandleResultBufName = function(grep_result)
+    if not grep_result then return end
+    vim.cmd('e ' .. grep_result)
+end -- }}}
+--- live buf select {{{
+function LiveBufSelect()
+    local grep_cmd = {
+        'echo',
+        '"' .. GetBufNamesAsString() .. '"',
+        '|',
+        'rg ""',
+    }
+    vim.fn['fzf#run'](vim.fn['fzf#wrap']({
+        source = table.concat(grep_cmd, " "),
+        sink = vim.g.HandleResultBufName
+    }))
+end -- }}}
+
 
 nnoremap('<leader>f', ':FZF<enter>')
 nnoremap('<leader>g', ':lua LiveFuzzyGrep()<enter>')
+nnoremap('<leader>b', ':lua LiveBufSelect()<enter>')
 -- end fzf }}}
 
 --- lsp server configs {{{
