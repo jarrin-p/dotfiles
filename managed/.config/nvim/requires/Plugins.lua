@@ -10,11 +10,9 @@ elseif vim.fn.has('mac') == 1 then vim.call('plug#begin', '~/.config/nvim/autolo
 end
 
 -- import plugins
--- Plug 'psliwka/vim-smoothie' -- messes up with folds.
 
 Plug 'sainnhe/vim-color-forest-night'
 
-Plug 'petertriho/nvim-scrollbar'
 Plug 'tpope/vim-fugitive'
 Exec "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }"
 Exec "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}"
@@ -36,7 +34,6 @@ vim.call('plug#end')
 
 --- simple nvim specific setups {{{
 vim.cmd("colorscheme everforest")
-require('scrollbar').setup()
 -- end simple setups }}}
 
 --- treesitter setup {{{
