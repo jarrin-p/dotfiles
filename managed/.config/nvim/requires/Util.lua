@@ -106,7 +106,7 @@ end
 function GetBufNamesAsString()
     local bufnames = {}
     for _, buffer in ipairs(vim.fn.getbufinfo()) do
-        table.insert(bufnames, buffer.name)
+        if buffer.listed == 1 then table.insert(bufnames, buffer.name) end
     end
     return table.concat(bufnames, '\n')
 end
