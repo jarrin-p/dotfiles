@@ -5,6 +5,7 @@
       paths = [
         bear
         cargo
+        cmake
         curl
         ffmpeg
         fzf
