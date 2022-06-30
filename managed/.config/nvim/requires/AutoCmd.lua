@@ -11,6 +11,7 @@ vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'qf'}, command = 'wincmd 
 -- assumes java is using gradle with SA ipmlemented.
 vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.java'}, command = 'silent SA' })
 vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.tf'}, command = 'silent TFF' })
+vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.py'}, command = 'silent BLACK' })
 
 --- TODO fix this writing twice. maybe try just `.*` instead?
 vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.*', '*'}, callback = MakeGitSession })

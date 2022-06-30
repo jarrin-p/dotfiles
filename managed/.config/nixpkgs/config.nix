@@ -4,6 +4,7 @@
       name = "my-packages";
       paths = [
         bear
+        black
         cargo
         cmake
         curl

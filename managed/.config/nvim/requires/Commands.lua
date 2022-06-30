@@ -11,6 +11,9 @@ Exec([[ command SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]]
 -- runs `terraform fmt` on the current file.
 Exec([[ command TFF !terraform fmt % ]], false)
 
+-- runs `terraform fmt` on the current file.
+Exec([[ command BLACK !black % ]], false)
+
 -- changes current directory to the root of the git repository.
 Exec([[ command GT execute 'cd' fnameescape(FugitiveWorkTree())]], false)
 
