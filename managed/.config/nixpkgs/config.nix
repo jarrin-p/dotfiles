@@ -14,6 +14,7 @@
         git
         gradle
         jq
+        lua
         luarocks
         rename
         pkcs11helper
