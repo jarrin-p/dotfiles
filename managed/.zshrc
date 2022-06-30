@@ -11,7 +11,19 @@ source_if_exists "${HOME}/.fzf.zsh"
 
 if [ -f "/Applications/Neovide.app/Contents/MacOS/neovide" ]; then
     export PATH="/Applications/Neovide.app/Contents/MacOS:${PATH}"
-    alias nvim="neovide --multigrid --"
+
+    # neovide runs as a login shell. this re-sources /etc/zprofile, which re-adds duplicate `/usr/bin ... etc` to the front of
+    # $PATH and removing duplicates, which changes the order of priority in the PATH variable I defined.
+    # this is mostly a mac issue, it always runs `/etc/libexec/path_helper` or something.
+    # note that there is a `.zprofile` to handle `PRESERVE_PATH` since interactive shells
+    # do not source the `.zshrc` (and it wouldn't matter anyway...)
+    # this is just a hack to get it working, e.g. pyright is looking at the wrong python executable in neovide-nvim.
+    function nvim () {
+        (
+            export PRESERVE_PATH=$PATH
+            neovide --multigrid -- $@
+        )
+    }
 fi
 # end conditional loading }}}
 
