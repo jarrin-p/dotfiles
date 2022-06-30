@@ -42,6 +42,7 @@ function todo() {
     ) fi
     nvim ${HOME}/Info/todo.md -c 'lcd %:h'
 }
+function nix-zsh () { nix-shell --command "zsh" $@ }
 alias ssh='kitty +kitten ssh' # enhanced ssh functionality using kitty
 alias dcu='docker compose up'
 alias dcub='docker compose up --build'
@@ -106,6 +107,7 @@ zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r
 precmd () {
     vcs_info
     echo ""
+    [ ! -z $IN_NIX_SHELL ] && echo '[nix-shell]'
 }
 PS1='${vcs_info_msg_0_}%f%n %2~ %F{4}> %f'
 
