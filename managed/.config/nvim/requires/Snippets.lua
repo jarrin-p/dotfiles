@@ -268,12 +268,12 @@ LS.add_snippets("java", {
             LS.insert_node(0),
             LS.text_node({'");'}),
         }),
-        LS.snippet('@Mapping', -- mapping
+        LS.snippet('@Mapping', -- mapstruct mapping
         {
             LS.text_node({'@Mapping(target = "'}),
             LS.insert_node(1, 'sourceName'),
             LS.text_node({'", source = "'}),
-            LS.insert_node(2, 'targetName'),
+            LS.insert_node(0, 'targetName'),
             LS.text_node({'")'}),
         }),
         LS.snippet('class', -- class

@@ -72,7 +72,7 @@ vim.api.nvim_create_autocmd({'VimEnter'}, { callback = NERDTreeStartupBehavior }
 
 -- adds a filter list to NERDTree. {{{
 -- TODO view the filter api instead.
-Exec([[ command -nargs=1 NTI let NERDTreeIgnore=<args> ]], false) -- takes an array }}}
+Exec([[ command! -nargs=1 NTI let NERDTreeIgnore=<args> ]], false) -- takes an array }}}
 
 --- opens new kitty tab at specified path or `current` directory. {{{
 -- @tparam path (string) path to the location of the new tab.
