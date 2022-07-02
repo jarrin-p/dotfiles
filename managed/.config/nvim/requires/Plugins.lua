@@ -113,13 +113,53 @@ vim.api.nvim_create_autocmd(
 -- end nerdtree config }}}
 
 --- fzf::fuzzy finder {{{
+
+
+--- wraps the api call into something more friendly to `lua`.
+-- @param source_cmd (string) the string grep command whose result will be used for input.
+-- @param sink_fn (function) the callback that will be used for handling the result.
+function FzfSearchWrapper(source_cmd, sink_fn)
+    vim.fn['fzf#run'](vim.fn['fzf#wrap']({
+        source = source_cmd, sink = sink_fn
+    }))
+end
+
+--- uses fzf to search a lua table and executes a callback function on the result.
+-- @param table_to_search, (table) table that will be searched.
+-- @param result_handler_fn (vim.g.function) function that will be executed on the selected entry.
+function FzfSearchTable(table_to_search, result_handler_fn)
+    FzfSearchWrapper(BuildRipGrepCommand { pipe = table_to_search }, result_handler_fn)
+end
+
+--- description
+-- @param commands, (type) parameter description ...
+-- @param fn, (type) parameter description ...
+-- @param filter (string) [optional] @see rg docs. defaults to no filter.
+function FzfSearchExternal(commands, result_handler_fn, filter)
+    FzfSearchWrapper(BuildRipGrepCommand {
+        rg_args = commands, rg_filter = filter
+    }, result_handler_fn)
+end
+
+--- function used by fzf's sink key. goes to line of file. {{{
+-- TODO unjankify this (particularly fix the way grep is handled).
+-- @param grep_result (string) the string selected by the user from fzf.
+vim.g.HandleResultBufName = function(grep_result)
+    if not grep_result then return end
+    vim.cmd('e ' .. grep_result)
+end
+-- FzfSearchTable(GetListedBufNames('\n', true), vim.g.HandleResultBufName) -- }}}
+
+local rg_string = 'rg --hidden --column --line-number --with-filename --no-heading'
 local patterns = { '!*.class', '!*.jar', '!*.java.html', '!*.git*' }
 local pattern_string
 for _, pattern in ipairs(patterns) do
-    if pattern_string then pattern_string = pattern_string .. " --glob='" .. pattern .. "'"
-    else pattern_string = " --glob='" .. pattern .. "'" end
+    if pattern_string
+        then pattern_string = pattern_string .. " --glob='" .. pattern .. "'"
+    else
+        pattern_string = " --glob='" .. pattern .. "'"
+    end
 end
-local rg_string = 'rg --hidden --column --line-number --with-filename --no-heading'
 local fuzzy_grep_cmd_from_cwd = rg_string .. pattern_string .. ' ""'
 
 --- function used by fzf's sink key. goes to line of file. {{{
@@ -136,6 +176,8 @@ vim.g.HandleResultLiveGrep = function(grep_result)
     vim.cmd('e ' .. grep_result_as_table[1]) -- 1 is the file path.
     vim.fn.cursor(grep_result_as_table[2], grep_result_as_table[3]) -- 2 is the row, 3 is column.
 end -- }}}
+-- FzfSearchTable( {}, vim.g.HandleResultBufName) -- }}}
+
 --- live fuzzy grep {{{
 function LiveFuzzyGrep()
     vim.fn['fzf#run'](vim.fn['fzf#wrap']({
@@ -143,18 +185,11 @@ function LiveFuzzyGrep()
     }))
 end -- }}}
 
---- function used by fzf's sink key. goes to line of file. {{{
--- TODO unjankify this (particularly fix the way grep is handled).
--- @param grep_result (string) the string selected by the user from fzf.
-vim.g.HandleResultBufName = function(grep_result)
-    if not grep_result then return end
-    vim.cmd('e ' .. grep_result)
-end -- }}}
 --- live buf select {{{
 function LiveBufSelect()
     local grep_cmd = {
         'echo',
-        '"' .. GetBufNamesAsString() .. '"',
+        '"' .. GetListedBufNames() .. '"',
         '|',
         'rg ""',
     }
@@ -163,7 +198,6 @@ function LiveBufSelect()
         sink = vim.g.HandleResultBufName
     }))
 end -- }}}
-
 
 nnoremap('<leader>f', ':FZF<enter>')
 nnoremap('<leader>g', ':lua LiveFuzzyGrep()<enter>')
