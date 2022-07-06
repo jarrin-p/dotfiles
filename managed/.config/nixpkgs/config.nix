@@ -7,6 +7,7 @@
                 requests
                 psycopg2
                 boto3
+                virtualenv
         ]);
 
         myPackages = pkgs.buildEnv {
