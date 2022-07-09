@@ -112,96 +112,78 @@ vim.api.nvim_create_autocmd(
 
 -- end nerdtree config }}}
 
---- fzf::fuzzy finder {{{
-
+-- fzf enhancements {{{
 
 --- wraps the api call into something more friendly to `lua`.
--- @param source_cmd (string) the string grep command whose result will be used for input.
--- @param sink_fn (function) the callback that will be used for handling the result.
-function FzfSearchWrapper(source_cmd, sink_fn)
-    vim.fn['fzf#run'](vim.fn['fzf#wrap']({
-        source = source_cmd, sink = sink_fn
-    }))
+--- @param source_cmd string the string grep command whose result will be used for input.
+--- @param sink_fn function the callback that will be used for handling the result.
+function FzfWrapper(source_cmd, sink_fn)
+    vim.fn['fzf#run'](vim.fn['fzf#wrap']({ source = source_cmd, sink = sink_fn }))
 end
 
---- uses fzf to search a lua table and executes a callback function on the result.
--- @param table_to_search, (table) table that will be searched.
--- @param result_handler_fn (vim.g.function) function that will be executed on the selected entry.
-function FzfSearchTable(table_to_search, result_handler_fn)
-    FzfSearchWrapper(BuildRipGrepCommand { pipe = table_to_search }, result_handler_fn)
+--- fuzzy find internal or external things.
+--- @param build_cmd_opts rg_cmd_opts options to be used for the BuildRipGrepCommand function.
+--- @param result_handler_fn function vim.g.function takes a string, will be executed on the selected entry.
+function FzfSearch(build_cmd_opts, result_handler_fn)
+    vim.g.FzfSearchFn = result_handler_fn -- the fzf sink needs to be wrapped into a global function to be accessed.
+    FzfWrapper(BuildRipGrepCommand(build_cmd_opts), vim.g.FzfSearchFn)
 end
-
---- description
--- @param commands, (type) parameter description ...
--- @param fn, (type) parameter description ...
--- @param filter (string) [optional] @see rg docs. defaults to no filter.
-function FzfSearchExternal(commands, result_handler_fn, filter)
-    FzfSearchWrapper(BuildRipGrepCommand {
-        rg_args = commands, rg_filter = filter
-    }, result_handler_fn)
-end
-
-
--- local pattern_string
--- for _, pattern in ipairs(patterns) do
---     if pattern_string
---         then pattern_string = pattern_string .. " --glob='" .. pattern .. "'"
---     else
---         pattern_string = " --glob='" .. pattern .. "'"
---     end
--- end
-
---- prepends to the front of each string in a table.
--- @param t (table -> [str]) table of strings that will have each text have prepended.
--- @param text_to_prepend (str) what will be prepended.
--- @returns new table.
-function PrependToEachTableEntry(t, text_to_prepend)
-    local returned_table = {}
-    for _, value in ipairs(t) do
-        if type(value) ~= 'string' then
-            print('table contains non-string value. returning from function')
-            return
+-- end fzf search }}}
+--- grep {{{
+function LiveFuzzyGrep()
+    FzfSearch({
+        grep_args = function()
+            local all_flags = { '--hidden', '--column', '--line-number', '--with-filename', '--no-heading' }
+            local exclude_globs = PrependToEachTableEntry({ '"!*.class"', '"!*.jar"', '"!*.java.html"', '"!*.git*"' }, "--glob=")
+            for _, flag in ipairs(exclude_globs) do table.insert(all_flags, flag) end
+            return all_flags
         end
-        table.insert(returned_table, text_to_prepend .. value)
-    end
-    return returned_table
+    },
+        function(grep_result)
+            local grep_result_as_table = SplitStringToTable(grep_result, ':')
+            vim.cmd('e ' .. grep_result_as_table[1]) -- 1 is the file path.
+            vim.fn.cursor(grep_result_as_table[2], grep_result_as_table[3]) -- 2 is the row, 3 is column.
+        end
+    )
 end
-
---- function used by fzf's sink key. goes to line of file. {{{
--- TODO unjankify this (particularly fix the way grep is handled).
--- @param grep_result (string) the string selected by the user from fzf.
-vim.g.HandleResultLiveGrep = function(grep_result)
-    if not grep_result then return end
-
-    grep_result = grep_result .. ':' -- append to make splitting easier.
-    local grep_result_as_table = {}
-    for match in string.gmatch(grep_result, '([%w%.%-%_%/]+):') do
-        table.insert(grep_result_as_table, match)
+-- end live fuzzy grep }}}
+--- buffer selection {{{
+function LiveBufSelect()
+    FzfSearch({
+        t = GetListedBufNames,
+    },
+        function(grep_result)
+            vim.cmd('e ' .. grep_result)
+        end
+    )
+end
+-- end fzf live buffer select }}}
+--- git branch selection {{{
+function LiveGitBranchSelection()
+    FzfSearch({
+        t = function()
+            -- runs a system command to get all git branches then splits them into a table based on newlines.
+            local branches = SplitStringToTable(vim.fn.system('git branch --no-color'), '\n')
+            for i, branch in ipairs(branches) do branches[i] = string.gsub(branch, ' ', '') end
+            return branches
+        end,
+    },
+    function(grep_result)
+        if (grep_result:find('*')) == 1 then
+            print('already on this branch!')
+        else
+            vim.cmd('G branch ' .. grep_result)
+        end
     end
-    vim.cmd('e ' .. grep_result_as_table[1]) -- 1 is the file path.
-    vim.fn.cursor(grep_result_as_table[2], grep_result_as_table[3]) -- 2 is the row, 3 is column.
-end -- }}}
--- FzfSearchTable( {}, vim.g.HandleResultBufName) -- }}}
-
-local grep_cmd = 'rg'
-local grep_args = {
-    '--hidden', '--column', '--line-number', '--with-filename', '--no-heading'
-}
-
-local patterns = { '!*.class', '!*.jar', '!*.java.html', '!*.git*' }
-LiveFuzzyGrep = function() return FzfSearchExternal(GetListedBufNames('\n', true), vim.g.HandleResultBufName) end
-nnoremap('<leader>f', ':FZF<enter>')
+    )
+end
+-- end git branch selection }}}
+--- remaps {{{
 nnoremap('<leader>g', ':lua LiveFuzzyGrep()<enter>')
-
---- function used by fzf's sink key. goes to line of file. {{{
--- @param grep_result (string) the string selected by the user from fzf.
-vim.g.HandleResultBufName = function(grep_result)
-    if not grep_result then return end
-    vim.cmd('e ' .. grep_result)
-end
-LiveBufSelect = function() return FzfSearchTable(GetListedBufNames('\n', true), vim.g.HandleResultBufName) end
 nnoremap('<leader>b', ':lua LiveBufSelect()<enter>')
--- end fzf }}}
+nnoremap('<leader>B', ':lua LiveGitBranchSelection()<enter>')
+nnoremap('<leader>f', ':FZF<enter>')
+-- }}}
 
 --- lsp server configs {{{
 require('nvim-lsp-installer').setup{}
