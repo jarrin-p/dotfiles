@@ -159,11 +159,15 @@ function LiveBufSelect()
 end
 -- end fzf live buffer select }}}
 --- git branch selection {{{
-function LiveGitBranchSelection()
+--- @param all boolean whether or not to pass `-a` flag to git call.
+function LiveGitBranchSelection(all)
+    if all == true then all = ' -a' else all = '' end
     FzfSearch({
         t = function()
             -- runs a system command to get all git branches then splits them into a table based on newlines.
-            local branches = SplitStringToTable(vim.fn.system('git branch --no-color'), '\n')
+            local branches = SplitStringToTable(vim.fn.system('git branch --no-color' .. all), '\n')
+
+            -- cleans out whitespaces
             for i, branch in ipairs(branches) do branches[i] = string.gsub(branch, ' ', '') end
             return branches
         end,
@@ -172,7 +176,7 @@ function LiveGitBranchSelection()
         if (grep_result:find('*')) == 1 then
             print('already on this branch!')
         else
-            vim.cmd('G branch ' .. grep_result)
+            vim.cmd('G checkout ' .. grep_result)
         end
     end
     )
