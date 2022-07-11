@@ -71,9 +71,8 @@ vim.api.nvim_set_keymap(
 -- @param trigger (string) the string for activating the snippet.
 local function postfixFunctionSnipLua(trigger)
 
-    --- hack to fix the spacing weirdness from multiline postfix.
-    -- issue is more likely that postfix snippets shouldn't be multi-line.
-    -- @param parent gets passed in by postfix node.
+    --- hack to fix the spacing weirdness from multiline postfix. issue is more likely that postfix snippets shouldn't be multi-line.
+    --- @param parent LS.snippet gets passed in by postfix node.
     local fixPostfixSpacingFn = function(_, parent)
         local p = parent.snippet.env.POSTFIX_MATCH
         p = p:sub(p:find('^%s*')) -- lua patterns to find the max spaces from beginning of statment
@@ -128,9 +127,9 @@ local function functionSnipLua(trigger)
     end -- }}}
 
     --- the default function that will be passed to the dosctring function.
-    -- @param args (table) a table corresponding to the lines passed in from the `argnodes` argument.
-    -- @param parent (table) the parent of the function node, used for getting additional information.
-    -- @param user_args1 (string) clarify further...
+    --- @param args (table) a table corresponding to the lines passed in from the `argnodes` argument.
+    --- @param parent (table) the parent of the function node, used for getting additional information.
+    --- @param user_args1 (string) clarify further...
     local default_docstring_fn = function(args, parent, user_args1)
 
         -- TODO: fix not splitting properly on `_` names.
@@ -141,8 +140,8 @@ local function functionSnipLua(trigger)
             arguments = arguments .. ',' -- add comma for simpler splitting.
 
             -- split alpha-numeric characters based on commas (the most common method of argument passing).
-            for arg in arguments:gmatch('%w*,') do
-                table.insert(return_args_table, '-- @param ' .. arg .. ' (type) parameter description ...')
+            for arg in arguments:gmatch('([^,])+,') do
+                table.insert(return_args_table, '-- @param ' .. arg .. ' TYPE description ...')
             end
             table.insert(return_args_table, '') -- append newline for better formatting.
 
