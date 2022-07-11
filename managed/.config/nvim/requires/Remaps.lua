@@ -37,19 +37,6 @@ nnoremap('<c-f>', ':cd %:p:h<enter>:pwd<enter>')  -- cd to current file and show
 nnoremap('<c-g>', ':GT<enter>:pwd<enter>')        -- cd to git dir
 -- end buffer navigating }}}
 
---- lsp {{{
-nnoremap('gD', ':lua vim.lsp.buf.declaration()<enter>')
-nnoremap('gd', ':lua vim.lsp.buf.definition()<enter>')
-nnoremap('<leader>d', ':lua vim.lsp.buf.hover()<enter>')
-nnoremap('gi', ':lua vim.lsp.buf.implementation()<enter>')
-nnoremap('<leader>rn', ':lua vim.lsp.buf.rename()<enter>')
-nnoremap('gc', ':lua vim.lsp.buf.code_action()<enter>')
-nnoremap('g=', ':lua vim.lsp.buf.formatting()<enter>')
-nnoremap('go', ':lua vim.lsp.buf.document_symbol()<enter>')
-nnoremap('gw', ':lua vim.lsp.buf.workspace_symbol()<enter>')
-nnoremap('gs', ':lua vim.lsp.buf.signature_help()<enter>')
--- end lsp }}}
-
 --- fold method changing {{{
 nnoremap('<leader>zfi', ':set foldmethod=indent<enter>')
 nnoremap('<leader>zfm', ':set foldmethod=manual<enter>')

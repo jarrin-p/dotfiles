@@ -8,7 +8,7 @@ vim.o.compatible = false
 -- @see 'h sd' or 'h shada'
 local shada_settings = {
     '!',   -- restores global variables.
-    '%5',  -- restore # buffers.
+    -- '%5',  -- restore # buffers.
     "'10", -- reduce number of history files.
     '<50',
     's10',
@@ -50,21 +50,6 @@ vim.o.splitbelow = true     -- splits new window down.
 vim.o.list = true
 vim.o.listchars = 'tab:-->,lead:·,trail:-'
 -- end window settings }}}
-
---- quicktext function {{{
-function QuickFixTextFunc()
-    local quickfixtextfunc = {}
-    for _, val in pairs(vim.fn.getqflist()) do
-        table.insert(quickfixtextfunc, val.text )
-    end
-    vim.g.ttt = quickfixtextfunc
-end
-Exec [[function! QFTextFunc(info)
-    lua QuickFixTextFunc()
-    return g:ttt
-endfunc]]
-vim.o.quickfixtextfunc = 'QFTextFunc'
--- end quicktext function }}}
 
 --- editing settings {{{
 vim.o.backspace = 'indent,eol,start'
