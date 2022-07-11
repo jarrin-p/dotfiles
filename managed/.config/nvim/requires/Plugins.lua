@@ -182,11 +182,76 @@ function LiveGitBranchSelection(all)
     )
 end
 -- end git branch selection }}}
+--- doc symbol finder {{{
+--- @see https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol
+function LiveDocSymbolFinder()
+    FzfSearch({
+        t = function()
+            -- TODO add check for if the server has loaded yet.
+            -- sync response since we're waiting for specific functionality and need the list to populate rg.
+            local params = { textDocument = vim.lsp.util.make_text_document_params() }
+            local response = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', params)
+
+            -- returned table to be searched by fzf.
+            local symbols = {}
+
+            -- TODO generalize this as an argument into the FzfSearch function.
+            -- clear the hashtable used for getting extra details.
+            Fzf_hash_table_store = {}
+
+            -- response is a table with a new index each time. using pairs grabs this response.
+            for _, response_table in pairs(response) do
+
+
+                -- iterate through everything the response has given us.
+                for _, r in ipairs(response_table.result) do
+                    -- name, range, selectionRange, detail, children, kind
+                    local line_to_search = table.concat({
+                        '[' .. GetLSPKind(r.kind) .. ']',
+                        r.name,
+                    }, ' ')
+
+                    -- store the originally found table in a hash table where the key is
+                    -- is the line that will show up in the fzf search.
+                    Fzf_hash_table_store[line_to_search] = r
+                    table.insert(symbols, line_to_search)
+                end
+
+            end
+            return symbols
+        end,
+    },
+    function(grep_result)
+        local details = Fzf_hash_table_store[grep_result]
+
+        -- need plus one since LSP result is indexed starting at 0.
+        vim.fn.cursor(details.range.start.line + 1, details.range.start.character + 1)
+    end
+    )
+end
+--- end doc symbol finder }}}
 --- remaps {{{
 nnoremap('<leader>g', ':lua LiveFuzzyGrep()<enter>')
 nnoremap('<leader>b', ':lua LiveBufSelect()<enter>')
 nnoremap('<leader>B', ':lua LiveGitBranchSelection()<enter>')
+
+-- replaces with interactive find. didn't like that document_symbol
+-- sends to quickfix list because it force opens and is hard to view.
+nnoremap('go', ':lua LiveDocSymbolFinder()<enter>')
+-- nnoremap('go', ':lua vim.lsp.buf.document_symbol()<enter>')
 nnoremap('<leader>f', ':FZF<enter>')
+
+nnoremap('gD', ':lua vim.lsp.buf.declaration()<enter>')
+nnoremap('gd', ':lua vim.lsp.buf.definition()<enter>')
+nnoremap('<leader>d', ':lua vim.lsp.buf.hover()<enter>')
+nnoremap('gi', ':lua vim.lsp.buf.implementation()<enter>')
+nnoremap('<leader>rn', ':lua vim.lsp.buf.rename()<enter>')
+nnoremap('gc', ':lua vim.lsp.buf.code_action()<enter>')
+nnoremap('g=', ':lua vim.lsp.buf.formatting()<enter>')
+nnoremap('gw', ':lua vim.lsp.buf.workspace_symbol()<enter>')
+nnoremap('gs', ':lua vim.lsp.buf.signature_help()<enter>')
+
+
 -- }}}
 
 --- lsp server configs {{{
