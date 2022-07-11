@@ -8,12 +8,22 @@ LS.cleanup() -- clears all snippets
 -- end setup }}}
 
 --- insert mode remaps {{{
+
+--- TODO this is terrible fix this.
+function SendTabAsSpaces()
+    local tab_stop = vim.api.nvim_get_option_value('tabstop', {})
+    local spaces = ''
+    for _ = 1, tab_stop do spaces = spaces .. ' ' end
+
+    vim.cmd("normal!a" .. spaces)
+end
+
 --- for use with `luasnip`, when in a choice node this function will change,
--- otherwise it will use the fallback function.
--- @param direction (integer) 1 for changing choice forward, -1 for backward.
--- @param fallback (function) function to be used for fallback. defaults to doing nothing.
+--- otherwise it will use the fallback function.
+--- @param direction (integer) 1 for changing choice forward, -1 for backward.
+--- @param fallback (function) function to be used for fallback. defaults to doing nothing.
 function ChooseSnipOrFallback(direction, fallback)
-    fallback = fallback or function() end
+    fallback = fallback or function() SendTabAsSpaces() end
     if LS.choice_active() then
         LS.change_choice(direction)
     else
@@ -23,11 +33,11 @@ function ChooseSnipOrFallback(direction, fallback)
 end
 
 --- for use with `luasnip`, when in a choice node this function will change,
--- otherwise it will use the fallback function.
--- @param direction (integer) 1 for jumping forward, -1 for backward.
--- @param fallback (function) function to be used for fallback. defaults to doing nothing.
+--- otherwise it will use the fallback function.
+--- @param direction (integer) 1 for jumping forward, -1 for backward.
+--- @param fallback (function) function to be used for fallback. defaults to doing nothing.
 function JumpOrFallback(direction, fallback)
-    fallback = fallback or function() end
+    fallback = fallback or function() SendTabAsSpaces() end
     if LS.jumpable(direction) then
         LS.jump(direction)
     elseif LS.expandable() then
