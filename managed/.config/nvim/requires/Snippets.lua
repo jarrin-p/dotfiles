@@ -2,12 +2,29 @@
 --- @file `Plugins.lua`
 
 --- setup {{{
-LS = require 'luasnip'
-SelectChoice = require 'luasnip.extras.select_choice'
-LS.cleanup() -- clears all snippets
+-- uses the format for node naming defined in `:h luasnip assumptions`
+local ls = require 'luasnip'
+local s = ls.snippet
+local sn = ls.snippet_node
+local isn = ls.indent_snippet_node
+local t = ls.text_node
+local i = ls.insert_node
+local f = ls.function_node
+local c = s.choice_node
+local d = ls.dynamic_node
+local r = ls.restore_node
+local events = require("luasnip.util.events")
+local ai = require("luasnip.nodes.absolute_indexer")
+local fmt = require("luasnip.extras.fmt").fmt
+local m = require("luasnip.extras").m
+local lambda = require("luasnip.extras").l
+local postfix = require("luasnip.extras.postfix").postfix
+local select_choice = require 'luasnip.extras.select_choice'
+ls.cleanup() -- clears all snippets
+
 -- end setup }}}
 
---- insert mode remaps {{{
+-- insert mode remaps {{{
 
 --- changes tab to be more shiftwidth-y.
 --- we'll see if i like this. will probably continue to enhance.
@@ -43,8 +60,8 @@ end
 --- @param fallback (function) function to be used for fallback. defaults to doing nothing.
 function ChooseSnipOrFallback(direction, fallback)
     fallback = fallback or function() Tabbb(direction) end
-    if LS.choice_active() then
-        LS.change_choice(direction)
+    if ls.choice_active() then
+        ls.change_choice(direction)
     else
         fallback()
     end
@@ -57,10 +74,10 @@ end
 --- @param fallback (function) function to be used for fallback. defaults to doing nothing.
 function JumpOrFallback(direction, fallback)
     fallback = fallback or function() Tabbb(direction) end
-    if LS.jumpable(direction) then
-        LS.jump(direction)
-    elseif LS.expandable() then
-        LS.expand()
+    if ls.jumpable(direction) then
+        ls.jump(direction)
+    elseif ls.expandable() then
+        ls.expand()
     else
         fallback()
     end
@@ -94,15 +111,15 @@ vim.api.nvim_set_keymap(
 )
 -- end insert mode remaps }}}
 
---- lua snippets {{{
+-- lua snippets {{{
 
 --- postfix `function` snippet maker function. {{{
--- makes local have higher priority choice when local is the trigger.
--- @param trigger (string) the string for activating the snippet.
+--- makes local have higher priority choice when local is the trigger.
+--- @param trigger (string) the string for activating the snippet.
 local function postfixFunctionSnipLua(trigger)
 
     --- hack to fix the spacing weirdness from multiline postfix. issue is more likely that postfix snippets shouldn't be multi-line.
-    --- @param parent LS.snippet gets passed in by postfix node.
+    --- @param parent s gets passed in by postfix node.
     local fixPostfixSpacingFn = function(_, parent)
         local p = parent.snippet.env.POSTFIX_MATCH
         p = p:sub(p:find('^%s*')) -- lua patterns to find the max spaces from beginning of statment
@@ -110,49 +127,48 @@ local function postfixFunctionSnipLua(trigger)
     end
 
     if not trigger then return end
-    local postfix = require('luasnip.extras.postfix').postfix
 
     -- returns the snippet node with different config
     return postfix({trig = trigger, match_pattern = '.*$'}, {
 
         -- adds the description before the line that was 'matched'.
-        LS.function_node(fixPostfixSpacingFn, {}),
-        LS.text_node({'--- description', ''}),
+        f(fixPostfixSpacingFn, {}),
+        t({'--- description', ''}),
 
         -- inserts what was matched from the line (everything up until this postfix trigger).
-        LS.function_node(function(_, parent) return parent.snippet.env.POSTFIX_MATCH end, {}),
+        f(function(_, parent) return parent.snippet.env.POSTFIX_MATCH end, {}),
 
         -- creates the `function()` and places jump position inside parenthesis for defining variables.
-        LS.text_node({'function('}),
-        LS.insert_node(1),
-        LS.text_node({')', ''}),
+        t({'function('}),
+        i(1),
+        t({')', ''}),
 
         -- final jump is to the body of the function.
-        LS.function_node(fixPostfixSpacingFn, {}),
-        LS.text_node({'\t'}),
-        LS.insert_node(0, '-- body...'),
+        f(fixPostfixSpacingFn, {}),
+        t({'\t'}),
+        i(0, '-- body...'),
 
-        LS.text_node({'', ''}),
-        LS.function_node(fixPostfixSpacingFn, {}),
-        LS.text_node({'end'}),
+        t({'', ''}),
+        f(fixPostfixSpacingFn, {}),
+        t({'end'}),
     })
 end -- }}}
 
 --- `function` snippet maker function. {{{
 --- basically just a way to prevent redundantly defining the same snippet just
--- to have two nodes rearranged based on the context.
--- @param trigger (string) the string for activating the snippet.
+--- to have two nodes rearranged based on the context.
+--- @param trigger string the string for activating the snippet.
 local function functionSnipLua(trigger)
     if not trigger then return end
     -- start choice node on 'local' if that's the trigger used. {{{
     local scope_choice_node
     if trigger == 'local' then
         scope_choice_node = function(position) -- passing the position makes it easier to define
-            return LS.choice_node(position, { LS.text_node({'local '}), LS.text_node({''}), })
+            return c(position, { t({'local '}), t({''}), })
         end
     else
         scope_choice_node = function(position)
-            return LS.choice_node(position, { LS.text_node({''}), LS.text_node({'local '}), })
+            return c(position, { t({''}), t({'local '}), })
         end
     end -- }}}
 
@@ -184,74 +200,70 @@ local function functionSnipLua(trigger)
     end
 
     --- generates the template for dosctrings when creating a function by using a snippet.
-    -- TODO: currently works by the assigned defaults. goal is to generalize further.
-    -- @args (table) arguments to pass in.
-    -- @args.fn (function) function used to generate the docstring.
-    -- @args.argnodes (table) nodes that should have their text used.
-    -- @args.opts (table) additional opts to be passed through to nodes.
+    --- TODO: currently works by the assigned defaults. goal is to generalize further.
+    --- @args table arguments to pass in.
+    --- @args.fn function function used to generate the docstring.
+    --- @args.argnodes table nodes that should have their text used.
+    --- @args.opts table additional opts to be passed through to nodes.
     local fn_node_dosctring = function(args)
         args = args or {}
         args.fn = args.fn or default_docstring_fn
         args.argnodes = args.argnodes or {3}
         args.opts = args.opts or {}
-        return LS.function_node(args.fn, args.argnodes, args.opts)
+        return f(args.fn, args.argnodes, args.opts)
     end
     -- returns the snippet based on the context of the `trigger`.
-    return LS.snippet(trigger, {
-        LS.text_node({'--- description', ''}),
+    return s(trigger, {
+        t({'--- description', ''}),
         fn_node_dosctring(),
         scope_choice_node(1),
-        LS.text_node({'function '}),
-        LS.insert_node(2, 'functionName'),
-        LS.text_node({'('}),
-        LS.insert_node(3),
-        LS.text_node({')', '\t'}),
-        LS.insert_node(0, '-- body...'),
-        LS.text_node({'', '\treturn', 'end'}),
+        t({'function '}),
+        i(2, 'functionName'),
+        t({'('}),
+        i(3),
+        t({')', '\t'}),
+        i(0, '-- body...'),
+        t({'', '\treturn', 'end'}),
     })
 end -- }}}
 
 --- makes the snippet for `if` statements. {{{
+--- work in progress.
 local function makeIfSnippetLua()
     local makeIfSnippetNode = function(position)
-        return LS.snippet_node(position, {
-            LS.text_node('if '),
-            LS.insert_node(1, 'condition'),
-            LS.text_node({" then", "\t"}),
+        return sn(position, {
+            t('if '),
+            i(1, 'condition'),
+            t({" then", "\t"}),
         })
     end
 
     local makeElseIfSnippetNode = function(position) end
 
-    return LS.snippet("if", {
-        LS.text_node({"if "}),
-        LS.insert_node(1, "condition"),
-        LS.text_node({" then", "\t"}),
-        LS.insert_node(2, "-- body..."),
-        LS.choice_node(3, {
-            LS.text_node({""}),
-            LS.snippet_node(nil, {
-                LS.text_node({"", "elseif "}),
-                LS.insert_node(1, "condition"),
-                LS.text_node({" then", "\t"}),
-                LS.insert_node(2, "-- body..."),
-                LS.snippet_node(nil, {
-                    LS.text_node({"", "else"}),
-                    LS.text_node({"", "\t"}),
-                    LS.insert_node(1, "-- body..."),
+    return s("if", {
+        t({"if "}), i(1, "condition"), t({" then", "\t"}),
+        i(2, "-- body..."),
+        c(3, {  -- choice
+            t({""}),
+            sn(nil, {
+                t({"", "elseif "}), i(1, "condition"), t({" then", "\t"}),
+                i(2, "-- body..."),
+                sn(nil, {
+                    t({"", "else"}),
+                    t({"", "\t"}), i(1, "-- body..."),
                 }),
             }),
-            LS.snippet_node(nil, {
-                LS.text_node({"", "else"}),
-                LS.text_node({"", "\t"}),
-                LS.insert_node(1, "-- body..."),
+            sn(nil, {
+                t({"", "else"}),
+                t({"", "\t"}), i(1, "-- body..."),
             })
         }),
-        LS.text_node({"", "end"})
+        t({"", "end"})
     })
 end -- }}}
+
 --- lua add snippets {{{
-LS.add_snippets('lua',
+ls.add_snippets('lua',
     {
         functionSnipLua('function'),
         functionSnipLua('local'),
@@ -261,79 +273,38 @@ LS.add_snippets('lua',
         makeIfSnippetLua(),
     }
 )
---- end lua snippets }}}
 
--- end lua snippets }}}
+-- end lua snippets }}} }}}
 
---- java snippets {{{
+-- java snippets {{{
 --- generic template for creating simple substitution snippets.
--- @param trigger, (string) word to trigger the snippet
--- @param output_statement, (string) the function to call without parenthesis. i.e. System.out.println would be passed in for output_statement, and the output would be `System.out.println();` when calling the trigger.
+--- @param trigger string word to trigger the snippet
+--- @param output_statement string the function to call without parenthesis. i.e. System.out.println would be passed in for output_statement, and the output would be `System.out.println();` when calling the trigger.
 local function makeSimpleOutputSnippet(trigger, output_statement)
-    return LS.snippet(trigger, {
-        LS.text_node({output_statement .. '('}),
-        LS.insert_node(0),
-        LS.text_node({');'}),
+    return s(trigger, {
+        t({output_statement .. '('}),
+        i(0),
+        t({');'}),
     })
 end
 
-LS.add_snippets("java", {
-        LS.snippet("pr", -- System.out.println()
+ls.add_snippets("java", {
+        s("print", -- System.out.println()
         {
-            LS.text_node({'System.out.println("'}),
-            LS.insert_node(0),
-            LS.text_node({'");'}),
+            t({'System.out.println('}), i(0), t({');'}),
         }),
         --- TODO make logs choice nodes.
-        LS.snippet("log.i", -- log.info
+        s("log.i", -- log.info
         {
-            LS.text_node({'log.info("'}),
-            LS.insert_node(0),
-            LS.text_node({'");'}),
+            t({'log.info("'}), i(0), t({'");'}),
         }),
-        LS.snippet('log.e', -- log.error
+        s('log.e', -- log.error
         {
-            LS.text_node({'log.error("'}),
-            LS.insert_node(0),
-            LS.text_node({'");'}),
+            t({'log.error("'}), i(0), t({'");'}),
         }),
-        LS.snippet('@Mapping', -- mapstruct mapping
+        s('@Mapping', -- mapstruct mapping
         {
-            LS.text_node({'@Mapping(target = "'}),
-            LS.insert_node(1, 'sourceName'),
-            LS.text_node({'", source = "'}),
-            LS.insert_node(0, 'targetName'),
-            LS.text_node({'")'}),
-        }),
-        LS.snippet('class', -- class
-        {
-            LS.choice_node(1, {
-                LS.text_node({"private "}),
-                LS.text_node({"public "}),
-                LS.text_node({""}),
-            }),
-            LS.text_node({"class "}), -- each entry starts on a newline.
-            LS.insert_node(2, "className"),
-            LS.text_node({" {", "\t" }),
-            LS.insert_node(0),
-            LS.text_node({"", "}"}),
-        }),
-        LS.snippet('function', -- function
-        {
-            LS.choice_node(1, {
-                LS.text_node({"private "}),
-                LS.text_node({"public "}),
-                LS.text_node({""}),
-            }),
-            LS.choice_node(2, {
-                LS.text_node({""}),
-                LS.text_node({"static "}),
-            }),
-            LS.insert_node(3, "returnType"),
-            LS.text_node({" {", "" }), -- linebreaks are ""
-            LS.text_node({"\t"}),
-            LS.insert_node(0),
-            LS.text_node({"", "}"}),
+            t({'@Mapping(target = "'}), i(1, 'targetName'), t({'", source = "'}), i(0, 'sourceName'), t({'")'}),
         }),
 })
 --- end java snippets }}}
