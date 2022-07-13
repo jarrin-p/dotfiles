@@ -30,7 +30,6 @@
         fzf
         gh
         git
-        gradle
         jq
         rename
         pkcs11helper

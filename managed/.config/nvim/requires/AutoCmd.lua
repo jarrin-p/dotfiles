@@ -5,7 +5,6 @@ vim.api.nvim_create_autocmd({'FileType'}, { pattern='nerdtree', command = "set n
 -- match settings from other projects for these filetypes
 -- TODO add filetype specific loads (e.g. make a `.../nvim/after/plugin/...` directory)
 vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'java', 'terraform'}, command = 'set tabstop=2' })
-vim.api.nvim_create_autocmd({'FileType'}, { pattern = {'qf'}, command = 'wincmd L | vert res 80' })
 
 -- custom spotlessApply command (SA) that runs at top of git level.
 -- assumes java is using gradle with SA ipmlemented.

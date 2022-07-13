@@ -57,7 +57,8 @@ vim.o.magic = true
 vim.o.inccommand = 'split'
 vim.o.completeopt = 'menu,menuone,preview,noselect'
 vim.o.ignorecase = true
-vim.o.smartcase = true
+vim.o.smartcase = false -- interferes too much to searches.
+vim.o.clipboard = 'unnamed,unnamedplus'
 -- end editing settings }}}
 
 --- builtin plugin settings {{{
@@ -66,6 +67,7 @@ vim.g.csv_nomap_cr = 1
 -- end builtin plugin settings }}}
 
 --- grep pattern setup {{{
+--- use plugins util.
 local patterns = { '!*.class', '!*.jar', '!*.java.html', '!*.git*' }
 local pattern_string
 for _, pattern in ipairs(patterns) do

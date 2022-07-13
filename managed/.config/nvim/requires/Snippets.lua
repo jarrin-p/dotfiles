@@ -9,13 +9,32 @@ LS.cleanup() -- clears all snippets
 
 --- insert mode remaps {{{
 
---- TODO this is terrible fix this.
-function SendTabAsSpaces()
-    local tab_stop = vim.api.nvim_get_option_value('tabstop', {})
-    local spaces = ''
-    for _ = 1, tab_stop do spaces = spaces .. ' ' end
+--- changes tab to be more shiftwidth-y.
+--- we'll see if i like this. will probably continue to enhance.
+function Tabbb(direction)
+    direction = direction or -1
+    local shift_direction = {[-1] = '<<', [1] = '>>'}
 
-    vim.cmd("normal!a" .. spaces)
+    -- mirror behavior of shiftwidth where tabstop is used when it equals zero.
+    local shift_width = vim.api.nvim_get_option_value('shiftwidth', {})
+    if shift_width == 0 then shift_width = vim.api.nvim_get_option_value('tabstop', {}) end
+
+    -- handle forwards and backwards.
+    if direction == -1 then
+        shift_width = shift_width * (-1)
+    end
+
+    -- index is 3 for character position. @see `:h getcursorcharpos()`
+    -- TODO look into neovim lua version updates, table.unpack doesn't exist.
+    local _, row, col, _, _ = unpack(vim.fn.getcursorcharpos())
+    local new_pos = col + shift_width
+
+    -- local tab_stop = vim.api.nvim_get_option_value('tabstop', {})
+    -- local spaces = ''
+    -- for _ = 1, tab_stop do spaces = spaces .. ' ' end
+
+    vim.cmd("normal!" .. shift_direction[direction])
+    vim.fn.cursor(row, new_pos)
 end
 
 --- for use with `luasnip`, when in a choice node this function will change,
@@ -23,7 +42,7 @@ end
 --- @param direction (integer) 1 for changing choice forward, -1 for backward.
 --- @param fallback (function) function to be used for fallback. defaults to doing nothing.
 function ChooseSnipOrFallback(direction, fallback)
-    fallback = fallback or function() SendTabAsSpaces() end
+    fallback = fallback or function() Tabbb(direction) end
     if LS.choice_active() then
         LS.change_choice(direction)
     else
@@ -37,7 +56,7 @@ end
 --- @param direction (integer) 1 for jumping forward, -1 for backward.
 --- @param fallback (function) function to be used for fallback. defaults to doing nothing.
 function JumpOrFallback(direction, fallback)
-    fallback = fallback or function() SendTabAsSpaces() end
+    fallback = fallback or function() Tabbb(direction) end
     if LS.jumpable(direction) then
         LS.jump(direction)
     elseif LS.expandable() then
@@ -54,6 +73,7 @@ vim.api.nvim_set_keymap(
     '<c-o>:lua JumpOrFallback(1)<enter>',
     {noremap = true, silent = true}
 )
+
 vim.api.nvim_set_keymap(
     'i',
     '<s-tab>',
