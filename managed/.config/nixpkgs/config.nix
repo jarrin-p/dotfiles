@@ -11,10 +11,11 @@
     luaEnv = lua5_3.withPackages (ps: with ps; [ luacheck ]);
 
     py38 = pkgs.python38.withPackages (ps: with ps; [
-      pandas
-      requests
-      psycopg2
       boto3
+      pandas
+      psycopg2
+      pytest
+      requests
       virtualenv
     ]);
 
