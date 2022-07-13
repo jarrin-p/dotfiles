@@ -1,9 +1,9 @@
 # these settings do not require scripting add on
-yabai -m config layout	float
-yabai -m config window_gap	10
-yabai -m config mouse_follows_focus	on
-yabai -m config right_padding	10
-yabai -m config left_padding	10
-yabai -m config bottom_padding	10
-yabai -m config top_padding	10
-yabai -m config window_placement 	second_child
+yabai -m config layout float
+yabai -m config window_gap 10
+yabai -m config mouse_follows_focus false
+yabai -m config right_padding 10
+yabai -m config left_padding 10
+yabai -m config bottom_padding 10
+yabai -m config top_padding 10
+yabai -m config window_placement second_child
