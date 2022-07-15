@@ -306,6 +306,10 @@ ls.add_snippets("java", {
         {
             t({'@Mapping(target = "'}), i(1, 'targetName'), t({'", source = "'}), i(0, 'sourceName'), t({'")'}),
         }),
+        s('.ase', -- assert equals
+        {
+            t({'Assert.assertEquals('}), i(1, 'expected'), t({', '}), i(0, 'valueToCheck'), t({')'}),
+        }),
 })
 --- end java snippets }}}
 
