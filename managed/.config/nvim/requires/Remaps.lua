@@ -48,7 +48,7 @@ nnoremap('<leader>N', ':cprev<enter>')
 -- end finding navigation }}}
 
 -- terminal remaps {{{
-tnoremap('<esc><esc>', '<C-\\><C-n>') -- esc esc takes you to normal mode.
+tnoremap('<leader><esc>', '<C-\\><C-n>') -- esc esc takes you to normal mode.
 -- end terminal remaps }}}
 
 -- vim: fdm=marker foldlevel=0

@@ -66,6 +66,10 @@ vim.g.netrw_liststyle = 3
 vim.g.csv_nomap_cr = 1
 -- end builtin plugin settings }}}
 
+--- term settings {{{
+vim.o.ttimeoutlen = 0
+-- end term settinsg.
+
 --- grep pattern setup {{{
 --- use plugins util.
 local patterns = { '!*.class', '!*.jar', '!*.java.html', '!*.git*' }
