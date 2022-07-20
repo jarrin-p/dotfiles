@@ -26,6 +26,7 @@
         black
         cargo
         cmake
+        coreutils-full
         curl
         ffmpeg
         fzf
