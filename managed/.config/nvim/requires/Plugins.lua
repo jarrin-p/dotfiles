@@ -214,14 +214,30 @@ function LiveDocSymbolFinder()
             -- response is a table with a new index each time. using pairs grabs this response.
             for _, response_table in pairs(response) do
 
-
                 -- iterate through everything the response has given us.
                 for _, r in ipairs(response_table.result) do
                     -- name, range, selectionRange, detail, children, kind
+                    RecursivePrint(r)
                     local line_to_search = table.concat({
                         '[' .. GetLSPKind(r.kind) .. ']',
                         r.name,
                     }, ' ')
+
+                    --- @param t table should be `r` in here.
+                    local function extract(t)
+                        if t.children then
+                            for _, child in ipairs(r.children) do
+
+                                local line_to_search_x = table.concat({
+                                    '[' .. GetLSPKind(t.kind) .. ']',
+                                    t.name,
+                                }, ' ')
+
+                                Fzf_hash_table_store[line_to_search_x] = t
+                                table.insert(symbols, line_to_search_x)
+                            end
+                        end
+                    end
 
                     -- store the originally found table in a hash table where the key is
                     -- is the line that will show up in the fzf search.
