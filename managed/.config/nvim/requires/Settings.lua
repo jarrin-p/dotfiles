@@ -18,8 +18,24 @@ vim.o.shada = table.concat(shada_settings, ',')
 -- }}}
 
 --- gui settings {{{
-vim.o.guifont = 'Fira Code, Menlo Italic'
+vim.g.font_size = 15
+vim.o.guifont = 'Fira Code:h' .. vim.g.font_size ..', Courier New:h' .. vim.g.font_size .. ''
 vim.o.linespace = 12
+
+--- sets the font size using a controlled global variable. allows easy remapping for increasing and decreasing
+--- font size, something very much appreciated by others when screen sharing.
+--- @param amt number the amount to change the font size by. must be an integer. can be negative or positive.
+function SetFontSize(amt)
+    if vim.g.font_size + amt > 0 then
+        vim.g.font_size = vim.g.font_size + amt
+        vim.o.guifont = 'Fira Code:h' .. vim.g.font_size ..', Courier New:h' .. vim.g.font_size .. ''
+    end
+end
+
+--- increase or decrease respectively the font size via mapping.
+nnoremap('<leader>+', ':lua SetFontSize(1)<enter>')
+nnoremap('<leader>-', ':lua SetFontSize(-1)<enter>')
+
 -- end gui settings }}}
 
 --- window settings {{{
