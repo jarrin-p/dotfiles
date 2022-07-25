@@ -114,7 +114,7 @@ vim.api.nvim_create_autocmd(
 
 -- end nerdtree config }}}
 
--- nvim metals
+-- nvim metals {{{
 local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
     pattern = { "scala", "sbt"},
@@ -123,6 +123,7 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
     group = nvim_metals_group,
 })
+-- }}}
 
 -- fzf enhancements {{{
 
@@ -211,38 +212,60 @@ function LiveDocSymbolFinder()
             -- clear the hashtable used for getting extra details.
             Fzf_hash_table_store = {}
 
+            local symbol_definition_hashset = {}
+
             -- response is a table with a new index each time. using pairs grabs this response.
             for _, response_table in pairs(response) do
 
                 -- iterate through everything the response has given us.
                 for _, r in ipairs(response_table.result) do
                     -- name, range, selectionRange, detail, children, kind
-                    RecursivePrint(r)
+                    -- RecursivePrint(r)
                     local line_to_search = table.concat({
                         '[' .. GetLSPKind(r.kind) .. ']',
                         r.name,
                     }, ' ')
-
-                    --- @param t table should be `r` in here.
-                    local function extract(t)
-                        if t.children then
-                            for _, child in ipairs(r.children) do
-
-                                local line_to_search_x = table.concat({
-                                    '[' .. GetLSPKind(t.kind) .. ']',
-                                    t.name,
-                                }, ' ')
-
-                                Fzf_hash_table_store[line_to_search_x] = t
-                                table.insert(symbols, line_to_search_x)
-                            end
-                        end
-                    end
+                    symbol_definition_hashset[r.name] = true
 
                     -- store the originally found table in a hash table where the key is
                     -- is the line that will show up in the fzf search.
                     Fzf_hash_table_store[line_to_search] = r
                     table.insert(symbols, line_to_search)
+
+                    -- table input -> get all fields
+                    --   table input has children?
+                    --      yes -> repeat function inside child.
+
+                    --- @param table_to_recurse table should be `r` in here.
+                    local function extract(table_to_recurse)
+
+                        -- if it has children we want to get them as well.
+                        if table_to_recurse.children then
+                            for _, child in ipairs(table_to_recurse.children) do
+
+                                -- if the child hasn't been seen before.
+                                if not symbol_definition_hashset[table_to_recurse.name] then
+
+                                    -- keep track of what's been seen.
+                                    symbol_definition_hashset[table_to_recurse.name] = true
+
+                                    -- add to our result.
+                                    local line_to_search_x = table.concat({
+                                        '[' .. GetLSPKind(table_to_recurse.kind) .. ']',
+                                        table_to_recurse.name,
+                                    }, ' ')
+                                    Fzf_hash_table_store[line_to_search_x] = table_to_recurse
+                                    table.insert(symbols, line_to_search_x)
+                                end
+
+                                -- check if there are more children to investigate.
+                                if child.children then extract(child) end
+
+                            end
+                        end
+                    end
+
+                    extract(r)
                 end
 
             end
