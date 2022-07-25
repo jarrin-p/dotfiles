@@ -17,9 +17,11 @@ Plug 'tpope/vim-fugitive'
 Exec "Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }"
 Plug 'vimwiki/vimwiki'
 
+Plug 'nvim-lua/plenary.nvim'
+
 Exec "Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}"
 Plug 'williamboman/nvim-lsp-installer'
-
+Plug 'scalameta/nvim-metals'
 Plug 'hrsh7th/nvim-cmp' -- autocompletion plugin
 Plug 'hrsh7th/cmp-nvim-lsp' -- lsp source for nvim-cmp
 Plug 'saadparwaiz1/cmp_luasnip' -- snippets source for nvim-cmp
@@ -27,7 +29,7 @@ Plug 'L3MOn4d3/LuaSnip' -- snippets plugin
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'preservim/nerdtree'
--- TODO Plug 'put luatree here'
+
 Plug 'tpope/vim-surround'
 
 -- end of plugin defining
@@ -111,6 +113,16 @@ vim.api.nvim_create_autocmd(
 ) -- end of autocmd }}}
 
 -- end nerdtree config }}}
+
+-- nvim metals
+local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "scala", "sbt"},
+    callback = function()
+      require("metals").initialize_or_attach({})
+    end,
+    group = nvim_metals_group,
+})
 
 -- fzf enhancements {{{
 

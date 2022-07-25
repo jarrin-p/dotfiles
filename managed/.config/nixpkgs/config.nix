@@ -27,14 +27,16 @@
         cargo
         cmake
         coreutils-full
+        coursier
         curl
         ffmpeg
         fzf
         gh
         git
         jq
-        rename
+        neovim
         pkcs11helper
+        rename
         rtorrent
         ranger
         ripgrep
