@@ -41,12 +41,12 @@ nnoremap('<leader>-', ':lua SetFontSize(-1)<enter>')
 --- window settings {{{
 vim.o.title = true
 vim.o.titlestring = '%t'
-vim.o.showtabline = 2       -- always show the tabline
-vim.o.hidden = false        -- seeing if this will reduce the number of buffers that open.
+vim.o.showtabline = 2 -- always show the tabline
+vim.o.hidden = false -- seeing if this will reduce the number of buffers that open.
 vim.o.tabstop = 4
-vim.o.shiftwidth = 0        -- 0 means use tabstop value.
-vim.o.expandtab = true      -- use spaces instead of tabs.
-vim.o.smartindent = false   -- trying out only autoindent.
+vim.o.shiftwidth = 0 -- 0 means use tabstop value.
+vim.o.expandtab = true -- use spaces instead of tabs.
+vim.o.smartindent = false -- trying out only autoindent.
 vim.o.wrap = false
 vim.o.number = true
 vim.o.relativenumber = true -- show how many lines away instead of exact line number.
@@ -57,12 +57,12 @@ vim.o.path = vim.o.path .. '**'
 vim.o.signcolumn = 'yes'
 vim.o.updatetime = 50
 vim.o.foldlevelstart = 99
-vim.o.scrolloff = 2         -- a little padding for the top and bottom of screen.
+vim.o.scrolloff = 2 -- a little padding for the top and bottom of screen.
 vim.o.cursorline = true
 vim.o.textwidth = 0
-vim.o.showmode = true       -- specifically defining as true for whatever reason.
-vim.o.splitright = true     -- splits new window to the right.
-vim.o.splitbelow = true     -- splits new window down.
+vim.o.showmode = true -- specifically defining as true for whatever reason.
+vim.o.splitright = true -- splits new window to the right.
+vim.o.splitbelow = true -- splits new window down.
 vim.o.list = true
 vim.o.listchars = 'tab:-->,lead:·,trail:-'
 vim.opt_global.shortmess:remove("F") -- used for `nvim metals`
