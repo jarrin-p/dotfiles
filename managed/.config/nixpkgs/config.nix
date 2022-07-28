@@ -1,16 +1,16 @@
 {
-  packageOverrides = pkgs: with pkgs; {
+  packageOverrides = pkgs: {
     # don't need this on every computer.
-    transmission = pkgs.buildEnv {
+    transmission = with pkgs; pkgs.buildEnv {
       name = "transmission";
       paths = [
         transmission
       ];
     };
 
-    luaEnv = lua5_3.withPackages (ps: with ps; [ luacheck ]);
+    luaEnv = with pkgs; lua5_3.withPackages (ps: with ps; [ luacheck ]);
 
-    py39 = pkgs.python39.withPackages (ps: with ps; [
+    py39 = with pkgs; python39.withPackages (ps: with ps; [
       boto3
       pandas
       psycopg2
@@ -19,7 +19,21 @@
       virtualenv
     ]);
 
-    mainEnv = pkgs.buildEnv {
+    j11 = with pkgs; pkgs.buildEnv {
+        name = "j11";
+        paths = [
+            (gradle_7.override{ java = jdk11; })
+        ];
+    };
+
+    j17 = with pkgs; pkgs.buildEnv {
+        name = "j17";
+        paths = [
+            (gradle_7.override{ java = jdk17; })
+        ];
+    };
+
+    mainEnv = with pkgs; pkgs.buildEnv {
       name = "mainEnv";
       paths = [
         bear
