@@ -27,10 +27,9 @@ Exec = function (str, bool)
 end
 -- end shorthands }}}
 
---- lua table recursive print function {{{
---- recursively prints a table that has nested tables in a manner that isn't awful
--- @param element the array or table to be printed
--- @param indent (optional) spaces that will be added in each level of recursion
+--- recursively prints a table that has nested tables in a manner that isn't awful {{{
+--- @param element table the array or table to be printed
+--- @param indent? string spaces that will be added in each level of recursion
 function RecursivePrint(element, indent)
     indent = indent or ''
     if type(element) == 'table' then
@@ -49,41 +48,45 @@ function RecursivePrint(element, indent)
 end
 -- end pretty print function }}}
 
---- make session wrapper. {{{
+--- make project session {{{
+--- @class make_git_session_opts
+--- @field file_path? string
+--- @field session_name? string
+
 --- makes sessions in the git root directory if in one.
--- @param args (table) argument table.
--- @param args.path (string) path to put the session_name.
--- @param args.session_name (string) name to store. automatically appends .vim.
-function MakeGitSession(args)
-    args = args or {}
-    args.session_name = args.session_name or "Session.vim"
+--- @param opts? make_git_session_opts
+function MakeGitSession(opts)
+    opts = opts or {}
+    opts.session_name = opts.session_name or "Session.vim"
     if vim.fn.FugitiveIsGitDir() == 1 then
-        args.path = args.path or vim.fn.FugitiveWorkTree()
+        opts.file_path = opts.file_path or vim.fn.FugitiveWorkTree()
     end
-    if not args.path then return end -- don't litter sessions.
-    vim.cmd(table.concat({"mksession!", args.path .. '/' .. args.session_name}, " "))
+    if not opts.file_path then return end -- don't litter sessions.
+    vim.cmd(table.concat({"mksession!", opts.file_path .. '/' .. opts.session_name}, " "))
 end
 -- end make session wrapper }}}
 
---- load session wrapper. {{{
+--- load project session. {{{
+--- @class load_git_session_opts
+--- @field file_path? string
+--- @field session_name? string
+
 --- makes sessions in the git root directory if in one.
--- @param args.path (string) path to put the session_name.
--- @param args.session_name (string) name to store. automatically appends .vim.
-function LoadGitSession(args)
-    args = args or {}
-    args.session_name = args.session_name or "Session.vim"
+--- @param opts? load_git_session_opts
+function LoadGitSession(opts)
+    opts = opts or {}
+    opts.session_name = opts.session_name or "Session.vim"
     if vim.fn.FugitiveIsGitDir() == 1 then
-        args.path = args.path or vim.fn.FugitiveWorkTree()
+        opts.file_path = opts.file_path or vim.fn.FugitiveWorkTree()
     else
-        args.path = args.path .. " " or ""
+        opts.file_path = opts.file_path .. " " or ""
     end
-    vim.cmd(table.concat({"source", args.path .. '/' .. args.session_name}, " "))
+    vim.cmd(table.concat({"source", opts.file_path .. '/' .. opts.session_name}, " "))
 end
 -- end make session wrapper }}}
 
---- clean postspace {{{
---- cleans trailing whitespace in a file. win view is saved to keep cursor from jumping around from the substitute command.
-function CleanFileTrailingWhitespace()
+--- cleans trailing whitespace in a file. win view is saved to keep cursor from jumping around from the substitute command.{{{
+function CleanBufferPostSpace()
     local view = vim.fn.winsaveview()
     vim.cmd('keepjumps silent %smagic/ *$//')
     vim.fn.winrestview(view)
@@ -92,6 +95,7 @@ end
 -- }}} end clean postspace
 
 --- check if buffer is empty {{{
+--- @return boolean
 function CurrentBufIsEmpty()
     if vim.fn.line('$') == 1
         and vim.fn.getline(1) == ''
@@ -117,7 +121,7 @@ function GetListedBufNames(delimiter)
 end
 -- end get list of buffers }}}
 
--- build rg command. anything that also accepts a function requires a return value of the expected type. {{{
+--- build rg command. anything that also accepts a function requires a return value of the expected type. {{{
 --- @class rg_cmd_opts
 --- @field t? string[]|function lua table to be piped into grep.
 --- @field t_delim? string when `t` exists, the delimiter for concatenation.
@@ -189,12 +193,12 @@ function PrependToEachTableEntry(t, text_to_prepend)
         table.insert(returned_table, text_to_prepend .. value)
     end
     return returned_table
-end
--- end prepend function. }}}
+end --}}}
 
---- split string into table. {{{
+--- split string into table. a quick implementation of the inverse of `table.concat`. {{{
 --- @param str string string to be broken apart.
 --- @param delim string delimiter that determines where to break apart string.
+--- @return table result_as_table the table of strings that were split.
 function SplitStringToTable(str, delim)
     str = str .. delim -- append to make splitting easier.
     local result_as_table = {}
@@ -203,10 +207,9 @@ function SplitStringToTable(str, delim)
     end
 
     return result_as_table
-end
--- end split string }}}
+end --}}}
 
---- 'enum' for converting the kind response from the LSP
+--- kind of like an enum for converting the kind response from the LSP {{{
 --- into a physical name. sets it if it hasn't been made yet.
 --- @param kind number kind to convert.
 function GetLSPKind(kind)
@@ -241,6 +244,6 @@ function GetLSPKind(kind)
         }
     end
     return LSPKindEnum[kind]
-end
+end --}}}
 
 -- vim: fdm=marker foldlevel=0

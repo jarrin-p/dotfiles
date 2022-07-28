@@ -14,7 +14,7 @@ vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'*.py'}, command = 's
 
 --- TODO fix this writing twice. maybe try just `.*` instead?
 vim.api.nvim_create_autocmd({'BufWritePost'}, { pattern = {'.*', '*'}, callback = MakeGitSession })
-vim.api.nvim_create_autocmd({'BufWritePre'}, { pattern = {'.*', '*'}, callback = CleanFileTrailingWhitespace })
+vim.api.nvim_create_autocmd({'BufWritePre'}, { pattern = {'.*', '*'}, callback = CleanBufferPostSpace })
 
 vim.api.nvim_create_autocmd({'BufWinLeave'}, { pattern = {'.*', '*'}, command = 'if expand("%") != "" | silent! mkview | endif' })
 vim.api.nvim_create_autocmd({'BufWinEnter'}, { pattern = {'.*', '*'}, command = 'if expand("%") != "" | silent! loadview | endif' })

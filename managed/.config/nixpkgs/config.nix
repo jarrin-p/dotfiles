@@ -42,6 +42,7 @@
         git
         jdk17
         jq
+        luaformatter
         neovim
         nmap
         pkcs11helper
