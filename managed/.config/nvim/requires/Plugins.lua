@@ -335,10 +335,6 @@ for _, s in pairs(servers) do
     elseif s == 'jdtls' then
         r[s].setup {
             capabilities = capabilities,
-            java_home = (vim.env.HOME .. "/.jabba/jdk/openjdk@1.17.0/Contents/Home"),
-            -- cmd_env = { -- doesn't actually seem to work
-            --     JAVA_HOME = (vim.env.HOME .. "/.jabba/jdk/openjdk@1.17.0/Contents/Home")
-            -- },
             use_lombok_agent = true
         }
     else
