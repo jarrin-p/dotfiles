@@ -4,8 +4,8 @@ local v_sys = vim.fn.system -- create alias for system eval (captures shell comm
 --- `jq` wrapper for terminal json parser
 -- @depends_on `jq`
 -- @see https://stedolan.github.io/jq/
-function JQ (json_string, filter)
-    return v_sys("echo '" .. json_string .. "'" .. ' | jq "' .. filter .. '"')
+function JQ(json_string, filter)
+    return v_sys('echo \'' .. json_string .. '\'' .. ' | jq "' .. filter .. '"')
 end
 
 --- json parse. converts character such that they will end up in a lua table structure
@@ -24,14 +24,12 @@ function JsonToTable(json)
 end
 
 --- table that holds initial query. additionally, functions are defined on this table that operate on the list.
-Kitty = {
-    ls = nil,
-}
+Kitty = { ls = nil }
 
 --- alias for running the `kitty @ ls` command, which shows current session info such as tabs, windows, pids, etc.
 -- @returns lua table containing `kitty @ ls` results
 function Kitty:LS()
-    return JsonToTable(JQ(v_sys('kitty @ ls'), "."))
+    return JsonToTable(JQ(v_sys('kitty @ ls'), '.'))
 end
 
 --- gets all the tabs, based on `kitty @ ls` formatting
@@ -42,7 +40,9 @@ end
 --- gets the windows in the focused tab kitty has open by looping through all tabs
 function Kitty:GetFocusedTabWindows()
     for i, val in ipairs(self:GetTabs()) do
-        if val.is_focused == true then self.windows = self:GetTabs()[i].windows end
+        if val.is_focused == true then
+            self.windows = self:GetTabs()[i].windows
+        end
     end
 
     return self.windows
@@ -50,7 +50,9 @@ end
 
 --- counts the number of windows from the active tab kitty has open
 -- @returns number of windows found in the tab
-function Kitty:GetNumberOfWindows() return #Kitty:GetFocusedTabWindows() end
+function Kitty:GetNumberOfWindows()
+    return #Kitty:GetFocusedTabWindows()
+end
 
 --- gets the position index (ascending from 1) of the window that's focused
 -- `--match num` uses a counted position (index) left to right, starting from 0
@@ -58,7 +60,9 @@ function Kitty:GetNumberOfWindows() return #Kitty:GetFocusedTabWindows() end
 -- @returns position index of focused window
 function Kitty:GetFocusedWindowPosition()
     for i, window in ipairs(Kitty:GetFocusedTabWindows()) do
-        if window.is_focused == true then return i-1 end
+        if window.is_focused == true then
+            return i - 1
+        end
     end
 end
 
@@ -75,33 +79,20 @@ function Kitty:PreviousWindow()
     v_sys('kitty @ focus-window --match num:' .. window_id - 1)
 end
 
-Yabai = {
-    windows = nil,
-    spaces = nil,
-    displays = nil,
-}
+Yabai = { windows = nil, spaces = nil, displays = nil }
 
-TYPES = {
-    window = 'window',
-    space = 'space',
-    display = 'display'
-}
+TYPES = { window = 'window', space = 'space', display = 'display' }
 
-QUERIES = {
-    windows = 'windows',
-    spaces = 'spaces',
-    displays = 'displays',
-}
+QUERIES = { windows = 'windows', spaces = 'spaces', displays = 'displays' }
 
-FOCUS = {
-    next = 'next',
-    prev = 'prev',
-}
+FOCUS = { next = 'next', prev = 'prev' }
 
 --- runs a yabai query
 -- @param `type` the type of query to run. can be `windows`, `spaces`, or `displays`
 -- @returns `table` a table converted from the json message received from the query to yabai
-function Yabai:Query(type) return JsonToTable(JQ(v_sys('yabai -m query --' .. type), ".")) end
+function Yabai:Query(type)
+    return JsonToTable(JQ(v_sys('yabai -m query --' .. type), '.'))
+end
 
 --- finds the window id of the current focused window
 function Yabai:GetFocusedWindow()
@@ -111,7 +102,9 @@ function Yabai:GetFocusedWindow()
 
     -- loop through windows to find the focused one
     for _, window in pairs(self.windows) do
-        if window.focused == 1 then self.focused_window = window end
+        if window.focused == 1 then
+            self.focused_window = window
+        end
     end
 
     return self.focused_window
@@ -125,7 +118,9 @@ function Yabai:GetFocusedSpace()
 
     -- loop through spaces to find the focused one
     for _, space in pairs(self.spaces) do
-        if space.focused == 1 then self.focused_space = space end
+        if space.focused == 1 then
+            self.focused_space = space
+        end
     end
 
     return self.focused_space
@@ -141,7 +136,9 @@ function Yabai:GetFocusedDisplay()
     -- loop through displays to find the focused one
     for _, display in pairs(self.displays) do
         for _, space_index in ipairs(display.spaces) do
-            if space_index == self.focused_space then self.focused_display = display end
+            if space_index == self.focused_space then
+                self.focused_display = display
+            end
         end
     end
 
@@ -149,10 +146,14 @@ function Yabai:GetFocusedDisplay()
 end
 
 --- @see `man yabai` for more details about focus options
-function Yabai:FocusWindow(message) v_sys('yabai -m window --focus ' .. message) end
+function Yabai:FocusWindow(message)
+    v_sys('yabai -m window --focus ' .. message)
+end
 
 --- @see `man yabai` for more details about focus options
-function Yabai:FocusDisplay(message) v_sys('yabai -m display --focus ' .. message) end
+function Yabai:FocusDisplay(message)
+    v_sys('yabai -m display --focus ' .. message)
+end
 
 --- goes to the next (neo)vim split, kitty split, mac space window, or display
 -- in that priority order. used for allowing a single mapped key to have more
@@ -163,14 +164,16 @@ function GoNext()
     if winnr() == winnr('$') then
 
         -- get the active window id to switch to if it exists
-        if Kitty:GetFocusedWindowPosition() < Kitty:GetNumberOfWindows()-1 then Kitty:NextWindow()
+        if Kitty:GetFocusedWindowPosition() < Kitty:GetNumberOfWindows() - 1 then
+            Kitty:NextWindow()
 
-        -- check if the current window is the last window. if it is, go to the next window
+            -- check if the current window is the last window. if it is, go to the next window
         elseif Yabai:GetFocusedWindow().id ~= Yabai:GetFocusedSpace().last_window then
             Yabai:FocusWindow(FOCUS.next)
 
-        -- since displays are the last case, yabai will try to go to the next display.
-        else Yabai:FocusDisplay(FOCUS.next)
+            -- since displays are the last case, yabai will try to go to the next display.
+        else
+            Yabai:FocusDisplay(FOCUS.next)
         end
     else
         -- move to next vim split
@@ -187,14 +190,17 @@ function GoPrev()
     if winnr() == 1 then
 
         -- get the active window id to switch to if it exists
-        if Kitty:GetFocusedWindowPosition() > 0 then Kitty:PreviousWindow()
+        if Kitty:GetFocusedWindowPosition() > 0 then
+            Kitty:PreviousWindow()
 
-        -- check if the current window is the last window. if it is, go to the next window
-        elseif Yabai:GetFocusedWindow().id ~= Yabai:GetFocusedSpace().first_window then
+            -- check if the current window is the last window. if it is, go to the next window
+        elseif Yabai:GetFocusedWindow().id
+            ~= Yabai:GetFocusedSpace().first_window then
             Yabai:FocusWindow(FOCUS.prev)
 
-        -- since displays are the last case, yabai will try to go to the next display.
-        else Yabai:FocusDisplay(FOCUS.prev)
+            -- since displays are the last case, yabai will try to go to the next display.
+        else
+            Yabai:FocusDisplay(FOCUS.prev)
         end
     else
         -- move to next vim split

@@ -1,25 +1,23 @@
 --- @author jarrin-p
 --- @file `Settings.lua`
-
 require 'Util'
 vim.o.compatible = false
 
 --- shada settings {{{
 -- @see 'h sd' or 'h shada'
 local shada_settings = {
-    '!',   -- restores global variables.
+    '!', -- restores global variables.
     -- '%5',  -- restore # buffers.
-    "'10", -- reduce number of history files.
-    '<50',
-    's10',
-    'h',   -- disable hlsearch when loading shada file.
+    '\'10', -- reduce number of history files.
+    '<50', 's10', 'h', -- disable hlsearch when loading shada file.
 }
 vim.o.shada = table.concat(shada_settings, ',')
 -- }}}
 
 --- gui settings {{{
 vim.g.font_size = 15
-vim.o.guifont = 'Fira Code:h' .. vim.g.font_size ..', Courier New:h' .. vim.g.font_size .. ''
+vim.o.guifont = 'Fira Code:h' .. vim.g.font_size .. ', Courier New:h'
+                    .. vim.g.font_size .. ''
 vim.o.linespace = 12
 
 --- sets the font size using a controlled global variable. allows easy remapping for increasing and decreasing
@@ -28,7 +26,8 @@ vim.o.linespace = 12
 function SetFontSize(amt)
     if vim.g.font_size + amt > 0 then
         vim.g.font_size = vim.g.font_size + amt
-        vim.o.guifont = 'Fira Code:h' .. vim.g.font_size ..', Courier New:h' .. vim.g.font_size .. ''
+        vim.o.guifont = 'Fira Code:h' .. vim.g.font_size .. ', Courier New:h'
+                            .. vim.g.font_size .. ''
     end
 end
 
@@ -65,7 +64,7 @@ vim.o.splitright = true -- splits new window to the right.
 vim.o.splitbelow = true -- splits new window down.
 vim.o.list = true
 vim.o.listchars = 'tab:-->,lead:·,trail:-'
-vim.opt_global.shortmess:remove("F") -- used for `nvim metals`
+vim.opt_global.shortmess:remove('F') -- used for `nvim metals`
 -- end window settings }}}
 
 --- editing settings {{{
@@ -92,10 +91,13 @@ vim.o.ttimeoutlen = 0
 local patterns = { '!*.class', '!*.jar', '!*.java.html', '!*.git*' }
 local pattern_string
 for _, pattern in ipairs(patterns) do
-    if pattern_string then pattern_string = pattern_string .. " --glob='" .. pattern .. "'"
-    else pattern_string = " --glob='" .. pattern .. "'" end
+    if pattern_string then
+        pattern_string = pattern_string .. ' --glob=\'' .. pattern .. '\''
+    else
+        pattern_string = ' --glob=\'' .. pattern .. '\''
+    end
 end
-local rg_string = "rg --line-number --with-filename"
+local rg_string = 'rg --line-number --with-filename'
 vim.o.grepprg = rg_string .. pattern_string
 -- end grep pattern setup }}}
 

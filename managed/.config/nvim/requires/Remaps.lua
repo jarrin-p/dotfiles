@@ -6,11 +6,11 @@ local init = os.getenv('MYVIMRC')
 
 --- simple changes {{{
 map('<space>', '<leader>') -- Remap leader to spacebar, obviously
-nnoremap('Y', 'y$')        -- Change back to vanilla default
-nnoremap('U', '<c-r>')     -- change U to redo because I'm simple and U confuses me.
+nnoremap('Y', 'y$') -- Change back to vanilla default
+nnoremap('U', '<c-r>') -- change U to redo because I'm simple and U confuses me.
 nnoremap('<leader>V', ':tabe ' .. init .. '<enter>:lcd %:p:h<enter>') -- edit init.lua
-nnoremap('`', "'") -- swap mapping of "jump to mark's col,line" with "jump to mark's line"
-nnoremap("'", '`') -- swap mapping of "jump to mark's line" with "jump to mark's col,line"
+nnoremap('`', '\'') -- swap mapping of "jump to mark's col,line" with "jump to mark's line"
+nnoremap('\'', '`') -- swap mapping of "jump to mark's line" with "jump to mark's col,line"
 -- end simple changes }}}
 
 --- insert mode maps {{{
@@ -29,12 +29,12 @@ nnoremap('<c-l>', '<c-w>w') -- next window (below, right)
 -- end window management }}}
 
 --- buffer navigating {{{
-nnoremap('<c-b>', ':b#<enter>')        -- most recent buffer, ctrl-b for 'back'
-nnoremap('<c-j>', ':bprev<enter>')     -- previous buffer, ctrl-j for going down in the stack
-nnoremap('<c-k>', ':bnext<enter>')     -- next buffer, ctrl-k for going up in the stack
+nnoremap('<c-b>', ':b#<enter>') -- most recent buffer, ctrl-b for 'back'
+nnoremap('<c-j>', ':bprev<enter>') -- previous buffer, ctrl-j for going down in the stack
+nnoremap('<c-k>', ':bnext<enter>') -- next buffer, ctrl-k for going up in the stack
 nnoremap('<c-t>', ':tabedit %<enter>') -- duplicate buffer to new tab
-nnoremap('<c-f>', ':cd %:p:h<enter>:pwd<enter>')  -- cd to current file and show pwd
-nnoremap('<c-g>', ':GT<enter>:pwd<enter>')        -- cd to git dir
+nnoremap('<c-f>', ':cd %:p:h<enter>:pwd<enter>') -- cd to current file and show pwd
+nnoremap('<c-g>', ':GT<enter>:pwd<enter>') -- cd to git dir
 -- end buffer navigating }}}
 
 --- fold method changing {{{

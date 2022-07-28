@@ -1,6 +1,5 @@
 --- @author jarrin-p
 --- @file `Plugins.lua`
-
 --- setup {{{
 -- uses the format for node naming defined in `:h luasnip assumptions`
 local ls = require 'luasnip'
@@ -13,12 +12,12 @@ local f = ls.function_node
 local c = ls.choice_node
 local d = ls.dynamic_node
 local r = ls.restore_node
-local events = require("luasnip.util.events")
-local ai = require("luasnip.nodes.absolute_indexer")
-local fmt = require("luasnip.extras.fmt").fmt
-local m = require("luasnip.extras").m
-local lambda = require("luasnip.extras").l
-local postfix = require("luasnip.extras.postfix").postfix
+local events = require('luasnip.util.events')
+local ai = require('luasnip.nodes.absolute_indexer')
+local fmt = require('luasnip.extras.fmt').fmt
+local m = require('luasnip.extras').m
+local lambda = require('luasnip.extras').l
+local postfix = require('luasnip.extras.postfix').postfix
 local select_choice = require 'luasnip.extras.select_choice'
 ls.cleanup() -- clears all snippets
 
@@ -30,11 +29,13 @@ ls.cleanup() -- clears all snippets
 --- we'll see if i like this. will probably continue to enhance.
 function Tabbb(direction)
     direction = direction or -1
-    local shift_direction = {[-1] = '<<', [1] = '>>'}
+    local shift_direction = { [-1] = '<<', [1] = '>>' }
 
     -- mirror behavior of shiftwidth where tabstop is used when it equals zero.
     local shift_width = vim.api.nvim_get_option_value('shiftwidth', {})
-    if shift_width == 0 then shift_width = vim.api.nvim_get_option_value('tabstop', {}) end
+    if shift_width == 0 then
+        shift_width = vim.api.nvim_get_option_value('tabstop', {})
+    end
 
     -- handle forwards and backwards.
     if direction == -1 then
@@ -50,7 +51,7 @@ function Tabbb(direction)
     -- local spaces = ''
     -- for _ = 1, tab_stop do spaces = spaces .. ' ' end
 
-    vim.cmd("normal!" .. shift_direction[direction])
+    vim.cmd('normal!' .. shift_direction[direction])
     vim.fn.cursor(row, new_pos)
 end
 
@@ -59,7 +60,9 @@ end
 --- @param direction (integer) 1 for changing choice forward, -1 for backward.
 --- @param fallback (function) function to be used for fallback. defaults to doing nothing.
 function ChooseSnipOrFallback(direction, fallback)
-    fallback = fallback or function() Tabbb(direction) end
+    fallback = fallback or function()
+        Tabbb(direction)
+    end
     if ls.choice_active() then
         ls.change_choice(direction)
     else
@@ -73,7 +76,9 @@ end
 --- @param direction (integer) 1 for jumping forward, -1 for backward.
 --- @param fallback (function) function to be used for fallback. defaults to doing nothing.
 function JumpOrFallback(direction, fallback)
-    fallback = fallback or function() Tabbb(direction) end
+    fallback = fallback or function()
+        Tabbb(direction)
+    end
     if ls.jumpable(direction) then
         ls.jump(direction)
     elseif ls.expandable() then
@@ -85,29 +90,21 @@ function JumpOrFallback(direction, fallback)
 end
 
 vim.api.nvim_set_keymap(
-    'i',
-    '<tab>',
-    '<c-o>:lua JumpOrFallback(1)<enter>',
-    {noremap = true, silent = true}
+    'i', '<tab>', '<c-o>:lua JumpOrFallback(1)<enter>',
+        { noremap = true, silent = true }
 )
 
 vim.api.nvim_set_keymap(
-    'i',
-    '<s-tab>',
-    '<c-o>:lua JumpOrFallback(-1)<enter>',
-    {noremap = true, silent = true}
+    'i', '<s-tab>', '<c-o>:lua JumpOrFallback(-1)<enter>',
+        { noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap(
-    'i',
-    '<c-j>',
-    '<c-o>:lua ChooseSnipOrFallback(1)<enter>',
-    {noremap = true, silent = true}
+    'i', '<c-j>', '<c-o>:lua ChooseSnipOrFallback(1)<enter>',
+        { noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap(
-    'i',
-    '<c-k>',
-    '<c-o>:lua ChooseSnipOrFallback(-1)<enter>',
-    {noremap = true, silent = true}
+    'i', '<c-k>', '<c-o>:lua ChooseSnipOrFallback(-1)<enter>',
+        { noremap = true, silent = true }
 )
 -- end insert mode remaps }}}
 
@@ -126,32 +123,30 @@ local function postfixFunctionSnipLua(trigger)
         return p
     end
 
-    if not trigger then return end
+    if not trigger then
+        return
+    end
 
     -- returns the snippet node with different config
-    return postfix({trig = trigger, match_pattern = '.*$'}, {
+    return postfix(
+        { trig = trigger, match_pattern = '.*$' }, {
 
-        -- adds the description before the line that was 'matched'.
-        f(fixPostfixSpacingFn, {}),
-        t({'--- description', ''}),
+            -- adds the description before the line that was 'matched'.
+            f(fixPostfixSpacingFn, {}), t({ '--- description', '' }),
 
-        -- inserts what was matched from the line (everything up until this postfix trigger).
-        f(function(_, parent) return parent.snippet.env.POSTFIX_MATCH end, {}),
+            -- inserts what was matched from the line (everything up until this postfix trigger).
+            f(
+                function(_, parent)
+                    return parent.snippet.env.POSTFIX_MATCH
+                end, {}
+            ),
 
-        -- creates the `function()` and places jump position inside parenthesis for defining variables.
-        t({'function('}),
-        i(1),
-        t({')', ''}),
-
-        -- final jump is to the body of the function.
-        f(fixPostfixSpacingFn, {}),
-        t({'\t'}),
-        i(0, '-- body...'),
-
-        t({'', ''}),
-        f(fixPostfixSpacingFn, {}),
-        t({'end'}),
-    })
+            -- creates the `function()` and places jump position inside parenthesis for defining variables.
+            t({ 'function(' }), i(1), t({ ')', '' }), -- final jump is to the body of the function.
+            f(fixPostfixSpacingFn, {}), t({ '\t' }), i(0, '-- body...'),
+            t({ '', '' }), f(fixPostfixSpacingFn, {}), t({ 'end' }),
+        }
+    )
 end -- }}}
 
 --- `function` snippet maker function. {{{
@@ -159,16 +154,19 @@ end -- }}}
 --- to have two nodes rearranged based on the context.
 --- @param trigger string the string for activating the snippet.
 local function functionSnipLua(trigger)
-    if not trigger then return end
+    if not trigger then
+        return
+    end
     -- start choice node on 'local' if that's the trigger used. {{{
     local scope_choice_node
     if trigger == 'local' then
-        scope_choice_node = function(position) -- passing the position makes it easier to define
-            return c(position, { t({'local '}), t({''}), })
-        end
+        scope_choice_node =
+            function(position) -- passing the position makes it easier to define
+                return c(position, { t({ 'local ' }), t({ '' }) })
+            end
     else
         scope_choice_node = function(position)
-            return c(position, { t({''}), t({'local '}), })
+            return c(position, { t({ '' }), t({ 'local ' }) })
         end
     end -- }}}
 
@@ -187,7 +185,10 @@ local function functionSnipLua(trigger)
 
             -- split alpha-numeric characters based on commas (the most common method of argument passing).
             for arg in arguments:gmatch('([^,])+,') do
-                table.insert(return_args_table, '-- @param ' .. arg .. ' TYPE description ...')
+                table.insert(
+                    return_args_table,
+                        '-- @param ' .. arg .. ' TYPE description ...'
+                )
             end
             table.insert(return_args_table, '') -- append newline for better formatting.
 
@@ -208,65 +209,66 @@ local function functionSnipLua(trigger)
     local fn_node_dosctring = function(args)
         args = args or {}
         args.fn = args.fn or default_docstring_fn
-        args.argnodes = args.argnodes or {3}
+        args.argnodes = args.argnodes or { 3 }
         args.opts = args.opts or {}
         return f(args.fn, args.argnodes, args.opts)
     end
     -- returns the snippet based on the context of the `trigger`.
-    return s(trigger, {
-        t({'--- description', ''}),
-        fn_node_dosctring(),
-        scope_choice_node(1),
-        t({'function '}),
-        i(2, 'functionName'),
-        t({'('}),
-        i(3),
-        t({')', '\t'}),
-        i(0, '-- body...'),
-        t({'', '\treturn', 'end'}),
-    })
+    return s(
+        trigger, {
+            t({ '--- description', '' }), fn_node_dosctring(),
+            scope_choice_node(1), t({ 'function ' }), i(2, 'functionName'),
+            t({ '(' }), i(3), t({ ')', '\t' }), i(0, '-- body...'),
+            t({ '', '\treturn', 'end' }),
+        }
+    )
 end -- }}}
 
 --- makes the snippet for `if` statements. {{{
 --- work in progress.
 local function makeIfSnippetLua()
     local makeIfSnippetNode = function(position)
-        return sn(position, {
-            t('if '),
-            i(1, 'condition'),
-            t({" then", "\t"}),
-        })
+        return sn(
+            position, { t('if '), i(1, 'condition'), t({ ' then', '\t' }) }
+        )
     end
 
-    local makeElseIfSnippetNode = function(position) end
+    local makeElseIfSnippetNode = function(position)
+    end
 
-    return s("if", {
-        t({"if "}), i(1, "condition"), t({" then", "\t"}),
-        i(2, "-- body..."),
-        c(3, {  -- choice
-            t({""}),
-            sn(nil, {
-                t({"", "elseif "}), i(1, "condition"), t({" then", "\t"}),
-                i(2, "-- body..."),
-                sn(nil, {
-                    t({"", "else"}),
-                    t({"", "\t"}), i(1, "-- body..."),
-                }),
-            }),
-            sn(nil, {
-                t({"", "else"}),
-                t({"", "\t"}), i(1, "-- body..."),
-            })
-        }),
-        t({"", "end"})
-    })
+    return s(
+        'if', {
+            t({ 'if ' }), i(1, 'condition'), t({ ' then', '\t' }),
+            i(2, '-- body...'), c(
+                3, { -- choice
+                    t({ '' }), sn(
+                        nil, {
+                            t({ '', 'elseif ' }), i(1, 'condition'),
+                            t({ ' then', '\t' }), i(2, '-- body...'),
+                            sn(
+                                nil, {
+                                    t({ '', 'else' }), t({ '', '\t' }),
+                                    i(1, '-- body...'),
+                                }
+                            ),
+                        }
+                    ),
+                    sn(
+                        nil, {
+                            t({ '', 'else' }), t({ '', '\t' }),
+                            i(1, '-- body...'),
+                        }
+                    ),
+                }
+            ), t({ '', 'end' }),
+        }
+    )
 end -- }}}
 
 --- lua add snippets {{{
-ls.add_snippets('lua',
-    {
-        functionSnipLua('function'),
-        functionSnipLua('local'),
+ls.add_snippets(
+    'lua', {
+        functionSnipLua('function'), functionSnipLua('local'),
         postfixFunctionSnipLua('function()'),
 
         -- `if` statement with `elseif` and `else` choices.
@@ -281,36 +283,36 @@ ls.add_snippets('lua',
 --- @param trigger string word to trigger the snippet
 --- @param output_statement string the function to call without parenthesis. i.e. System.out.println would be passed in for output_statement, and the output would be `System.out.println();` when calling the trigger.
 local function makeSimpleOutputSnippet(trigger, output_statement)
-    return s(trigger, {
-        t({output_statement .. '('}),
-        i(0),
-        t({');'}),
-    })
+    return s(trigger, { t({ output_statement .. '(' }), i(0), t({ ');' }) })
 end
 
-ls.add_snippets("java", {
-        s("print", -- System.out.println()
-        {
-            t({'System.out.println('}), i(0), t({');'}),
-        }),
-        --- TODO make logs choice nodes.
-        s("log.i", -- log.info
-        {
-            t({'log.info("'}), i(0), t({'");'}),
-        }),
-        s('log.e', -- log.error
-        {
-            t({'log.error("'}), i(0), t({'");'}),
-        }),
-        s('@Mapping', -- mapstruct mapping
-        {
-            t({'@Mapping(target = "'}), i(1, 'targetName'), t({'", source = "'}), i(0, 'sourceName'), t({'")'}),
-        }),
-        s('.ase', -- assert equals
-        {
-            t({'Assert.assertEquals('}), i(1, 'expected'), t({', '}), i(0, 'valueToCheck'), t({')'}),
-        }),
-})
+ls.add_snippets(
+    'java', {
+        s(
+            'print', -- System.out.println()
+            { t({ 'System.out.println(' }), i(0), t({ ');' }) }
+        ), --- TODO make logs choice nodes.
+        s(
+            'log.i', -- log.info
+            { t({ 'log.info("' }), i(0), t({ '");' }) }
+        ), s(
+            'log.e', -- log.error
+            { t({ 'log.error("' }), i(0), t({ '");' }) }
+        ), s(
+            '@Mapping', -- mapstruct mapping
+            {
+                t({ '@Mapping(target = "' }), i(1, 'targetName'),
+                t({ '", source = "' }), i(0, 'sourceName'), t({ '")' }),
+            }
+        ), s(
+            '.ase', -- assert equals
+            {
+                t({ 'Assert.assertEquals(' }), i(1, 'expected'), t({ ', ' }),
+                i(0, 'valueToCheck'), t({ ')' }),
+            }
+        ),
+    }
+)
 --- end java snippets }}}
 
 -- vim: fdm=marker foldlevel=0

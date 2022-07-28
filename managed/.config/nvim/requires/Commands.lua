@@ -1,12 +1,13 @@
 --- @author jarrin-p {{{
 --- @description commands are set here. }}}
-
 require 'Util'
-
 
 -- runs `spotlessApply` at the top level of the git repository.
 -- TODO install `spotlessApply` as a standalone.
-Exec([[ command SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]], false)
+Exec(
+    [[ command SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]],
+        false
+)
 
 -- runs `terraform fmt` on the current file.
 Exec([[ command TFF !terraform fmt % ]], false)
