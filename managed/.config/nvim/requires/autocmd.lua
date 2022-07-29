@@ -1,7 +1,14 @@
+--- @author jarrin-p
+--- @file `autocmd.lua`
 -- nerdtree will always have relative number set
 vim.api.nvim_create_autocmd(
     { 'FileType' },
         { pattern = 'nerdtree', command = 'set number relativenumber' }
+)
+
+-- run auto format before saving using formatprg if it's been set.
+vim.api.nvim_create_autocmd(
+    { 'BufWritePre' }, { pattern = { '.*', '*' }, callback = FF }
 )
 
 -- match settings from other projects for these filetypes
@@ -22,10 +29,6 @@ vim.api.nvim_create_autocmd(
         },
     }
 )
--- holding until confirmation format works.
--- vim.api.nvim_create_autocmd(
---     { 'BufWritePost' }, { pattern = { '*.java' }, command = 'silent SA' }
--- )
 
 -- terraform format.
 vim.api.nvim_create_autocmd(
@@ -33,9 +36,6 @@ vim.api.nvim_create_autocmd(
         pattern = { 'terraform' },
         command = MakeFormatPrgText { 'terraform', 'fmt', '-' },
     }
-)
-vim.api.nvim_create_autocmd(
-    { 'BufWritePost' }, { pattern = { '.*', '*' }, callback = FF }
 )
 
 -- python format.
@@ -65,6 +65,7 @@ vim.api.nvim_create_autocmd(
         { pattern = { '.*', '*' }, callback = CleanBufferPostSpace }
 )
 
+-- create a view on save.
 vim.api.nvim_create_autocmd(
     { 'BufWinLeave' }, {
         pattern = { '.*', '*' },
@@ -72,6 +73,7 @@ vim.api.nvim_create_autocmd(
     }
 )
 
+-- load view on entering the buffer.
 vim.api.nvim_create_autocmd(
     { 'BufWinEnter' }, {
         pattern = { '.*', '*' },

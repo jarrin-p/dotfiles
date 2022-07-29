@@ -1,5 +1,5 @@
---- @author jarrin-p {{{
---- @file `Remaps.lua` }}}
+--- @author jarrin-p
+--- @file `remaps.lua`
 require 'util'
 
 local init = os.getenv('MYVIMRC')

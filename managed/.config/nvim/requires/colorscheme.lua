@@ -1,6 +1,5 @@
 --- @author jarrin-p
 --- @file `colorscheme.lua`
-
 --- colors {{{
 --- specifying colors manually. makes tweaking easier
 --- these are basically manually defined to line up with current color scheme config
@@ -18,7 +17,7 @@ Colors = {
         wood_dark = '#f0aa8a',
         wood_light = '#ffebc3',
     },
-} --}}}
+} -- }}}
 
 --- helper functions {{{
 
@@ -63,7 +62,7 @@ function InspectColorscheme(what)
     for _, value in ipairs(what) do
         print(value .. ': ' .. GetColorschemeField { what = value })
     end
-end --}}}
+end -- }}}
 
 -- color scheme changes {{{
 vim.api.nvim_set_hl(0, 'CursorLine', { underline = 1, sp = Colors.gui.gray })

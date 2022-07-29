@@ -1,5 +1,5 @@
---- @author jarrin-p {{{
---- @description commands are set here. }}}
+--- @author jarrin-p
+--- @file `commands.lua`
 require 'util'
 
 -- runs `spotlessApply` at the top level of the git repository.

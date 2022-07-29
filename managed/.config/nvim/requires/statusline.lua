@@ -1,3 +1,5 @@
+--- @author jarrin-p
+--- @file `snippets.lua`
 require 'util'
 require 'snippets'
 require 'colorscheme'
@@ -164,7 +166,9 @@ end
 --- @param path_table table to be converted to status.
 --- @param truncate_point? number on the status line.
 --- @param project_root_index? number directory of the project root
-function ConvertTableToPathString(path_table, truncate_point, project_root_index)
+function ConvertTableToPathString(
+    path_table, truncate_point, project_root_index
+)
     if not path_table then
         return 'no path to convert'
     end

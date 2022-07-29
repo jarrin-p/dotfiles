@@ -1,5 +1,5 @@
 --- @author jarrin-p
---- @file `Settings.lua`
+--- @file `settings.lua`
 require 'util'
 vim.o.compatible = false
 

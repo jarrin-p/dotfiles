@@ -1,3 +1,5 @@
+--- @author jarrin-p
+--- @file `lesschords.lua`
 local winnr = vim.fn.winnr -- create alias for getting winnr() (window number)
 local v_sys = vim.fn.system -- create alias for system eval (captures shell command)
 
