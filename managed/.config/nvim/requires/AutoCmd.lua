@@ -11,14 +11,18 @@ vim.api.nvim_create_autocmd(
         { pattern = { 'java', 'terraform' }, command = 'set tabstop=2' }
 )
 
--- custom spotlessApply command (SA) that runs at top of git level.
--- assumes java is using gradle with SA ipmlemented.
+-- java format.
+-- assumes java is using gradle with SA implemented.
 vim.api.nvim_create_autocmd(
     { 'BufWritePost' }, { pattern = { '*.java' }, command = 'silent SA' }
 )
+
+-- terraform format.
 vim.api.nvim_create_autocmd(
     { 'BufWritePost' }, { pattern = { '*.tf' }, command = 'silent TFF' }
 )
+
+-- python format.
 vim.api.nvim_create_autocmd(
     { 'BufWritePost' }, { pattern = { '*.py' }, command = 'silent BLACK' }
 )
@@ -27,6 +31,7 @@ vim.api.nvim_create_autocmd(
 vim.api.nvim_create_autocmd(
     { 'BufWritePost' }, { pattern = { '.*', '*' }, callback = MakeGitSession }
 )
+
 vim.api.nvim_create_autocmd(
     { 'BufWritePre' },
         { pattern = { '.*', '*' }, callback = CleanBufferPostSpace }
@@ -38,6 +43,7 @@ vim.api.nvim_create_autocmd(
         command = 'if expand("%") != "" | silent! mkview | endif',
     }
 )
+
 vim.api.nvim_create_autocmd(
     { 'BufWinEnter' }, {
         pattern = { '.*', '*' },

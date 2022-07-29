@@ -1,5 +1,5 @@
 --- @author jarrin-p
---- @file `Plugins.lua`
+--- @file `plugins.lua`
 require 'Util'
 
 --- vim-plug initialization {{{
@@ -11,35 +11,26 @@ elseif vim.fn.has('mac') == 1 then
 end
 
 -- import plugins
-
-Plug 'sainnhe/vim-color-forest-night'
-
-Plug 'tpope/vim-fugitive'
 Exec 'Plug \'junegunn/fzf\', { \'do\': { -> fzf#install() } }'
-Plug 'vimwiki/vimwiki'
-
-Plug 'nvim-lua/plenary.nvim'
-
 Exec 'Plug \'nvim-treesitter/nvim-treesitter\', {\'do\': \':TSUpdate\'}'
-Plug 'williamboman/nvim-lsp-installer'
-Plug 'scalameta/nvim-metals'
-Plug 'hrsh7th/nvim-cmp' -- autocompletion plugin
-Plug 'hrsh7th/cmp-nvim-lsp' -- lsp source for nvim-cmp
-Plug 'saadparwaiz1/cmp_luasnip' -- snippets source for nvim-cmp
 Plug 'L3MOn4d3/LuaSnip' -- snippets plugin
-
+Plug 'hrsh7th/cmp-nvim-lsp' -- lsp source for nvim-cmp
+Plug 'hrsh7th/nvim-cmp' -- autocompletion plugin
 Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/plenary.nvim'
 Plug 'preservim/nerdtree'
-
+Plug 'saadparwaiz1/cmp_luasnip' -- snippets source for nvim-cmp
+Plug 'sainnhe/vim-color-forest-night'
+Plug 'scalameta/nvim-metals'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
+Plug 'vimwiki/vimwiki'
+Plug 'williamboman/nvim-lsp-installer'
 
--- end of plugin defining
-vim.call('plug#end')
--- end vim-plug setup }}}
+vim.call('plug#end') -- }}}
 
 --- simple nvim specific setups {{{
-vim.cmd('colorscheme everforest')
--- end simple setups }}}
+vim.cmd('colorscheme everforest') -- }}}
 
 --- treesitter setup {{{
 require'nvim-treesitter.configs'.setup {
@@ -51,21 +42,21 @@ require'nvim-treesitter.configs'.setup {
         -- disable = { 'c', 'rust' },      -- list of languages that will be disabled
         additional_vim_regex_highlighting = true,
     },
-}
--- end treesitter setup }}}
+} -- }}}
 
---- fugitive::git {{{
+--- fugitive (git) {{{
 nnoremap('<leader>G', ':tab G<enter>')
-nnoremap('<leader>b', ':G branch<enter>')
--- end fugitive}}}
+nnoremap('<leader>b', ':G branch<enter>') -- }}}
 
 --- nerd tree {{{
+
+-- settings {{{
 nnoremap('<leader>t', ':NERDTreeFind<enter>:set rnu<enter>') -- at current working directory
 nnoremap('<leader>T', ':NERDTreeToggleVCS<enter>:set rnu<enter>') -- at vcs toplevel
 vim.g.NERDTreeWinSize = 50
-vim.g.NERDTreeShowBookmarks = 1
+vim.g.NERDTreeShowBookmarks = 1 -- }}}
 
--- open nerdtree as soon as vim opens. make it full screen if no other buffer is open
+-- open nerdtree as soon as vim opens. make it full screen if no other buffer is open {{{
 function NERDTreeStartupBehavior()
     vim.api.nvim_command('NERDTreeToggleVCS') -- open nerdtree
     vim.api.nvim_command('wincmd p')
@@ -75,14 +66,14 @@ function NERDTreeStartupBehavior()
 end
 vim.api.nvim_create_autocmd(
     { 'VimEnter' }, { callback = NERDTreeStartupBehavior }
-)
+) -- }}}
 
 -- adds a filter list to NERDTree. {{{
 -- TODO view the filter api instead.
 Exec([[ command! -nargs=1 NTI let NERDTreeIgnore=<args> ]], false) -- takes an array }}}
 
 --- opens new kitty tab at specified path or `current` directory. {{{
--- @tparam path (string) path to the location of the new tab.
+--- @param path string path to the location of the new tab.
 function NewKittyTab(path)
     vim.fn.system(
         'kitty @ launch --cwd=' .. (path or 'current') .. ' --type=tab'
@@ -90,8 +81,8 @@ function NewKittyTab(path)
 end -- }}}
 
 --- opens kitty tab at directory of current node. {{{
--- setting it globally to vim allows it to be used as a callback.
--- (it's registered as a global vim function this way)
+--- setting it globally to vim allows it to be used as a callback.
+--- (it's registered as a global vim function this way)
 vim.g.NERDTreeOpenKittyTabHere = function()
     local node_path_table = vim.api
                                 .nvim_eval('g:NERDTreeFileNode.GetSelected()')
@@ -118,7 +109,7 @@ vim.api.nvim_create_autocmd(
             }
         end,
     }
-) -- end of autocmd }}}
+) -- }}}
 
 -- end nerdtree config }}}
 
@@ -134,11 +125,11 @@ vim.api.nvim_create_autocmd(
         end,
         group = nvim_metals_group,
     }
-)
--- }}}
+) -- }}}
 
--- fzf enhancements {{{
+-- fzf {{{
 
+-- wrappers {{{
 --- wraps the api call into something more friendly to `lua`.
 --- @param source_cmd string the string grep command whose result will be used for input.
 --- @param sink_fn function the callback that will be used for handling the result.
@@ -346,12 +337,15 @@ nnoremap('gs', ':lua vim.lsp.buf.signature_help()<enter>')
 
 -- }}}
 
+-- }}}
+
 --- lsp server configs {{{
 require('nvim-lsp-installer').setup {}
 local servers = {
     'pyright', 'jdtls', 'sumneko_lua', 'terraformls', 'bashls', 'remark_ls',
     'rnix', 'vimls', 'tsserver',
 }
+
 local capabilities = require('cmp_nvim_lsp').update_capabilities(
     vim.lsp.protocol.make_client_capabilities()
 )
@@ -378,12 +372,10 @@ for _, s in pairs(servers) do
     else
         r[s].setup { capabilities = capabilities }
     end
-end
--- end server configs }}}
+end -- }}}
 
 -- luasnip setup {{{
-LS = require 'luasnip'
--- end luasnip setup }}}
+LS = require 'luasnip' -- }}}
 
 --- auto complete settings. depends on luasnip {{{
 -- nvim-cmp setup
@@ -424,7 +416,6 @@ cmp.setup {
         }
     ),
     sources = { { name = 'luasnip' }, { name = 'nvim_lsp' } },
-}
--- end autocomplete config }}}
+} -- }}}
 
 -- vim: fdm=marker foldlevel=0

@@ -1,5 +1,6 @@
 --- @author jarrin-p
 --- @file `Util.lua`
+
 --- remap functions {{{
 function map(lhs, rhs)
     vim.api.nvim_set_keymap('', lhs, rhs, { noremap = false, silent = true })
@@ -18,17 +19,16 @@ end
 
 function tnoremap(lhs, rhs)
     vim.api.nvim_set_keymap('t', lhs, rhs, { noremap = true, silent = true })
-end
--- end remap functions }}}
+end -- }}}
 
---- shorthands {{{
+--- alias {{{
 Exec = function(str, bool)
     bool = bool or false
     vim.api.nvim_exec(str, bool)
-end
--- end shorthands }}}
+end -- }}}
 
---- recursively prints a table that has nested tables in a manner that isn't awful {{{
+--- RecurisvePrint(element, indent) {{{
+--- recursively prints a table that has nested tables in a manner that isn't awful
 --- @param element table the array or table to be printed
 --- @param indent? string spaces that will be added in each level of recursion
 function RecursivePrint(element, indent)
@@ -48,10 +48,9 @@ function RecursivePrint(element, indent)
             end
         end
     end
-end
--- end pretty print function }}}
+end -- }}}
 
---- make project session {{{
+--- MakeGitSession(opts) {{{
 --- @class make_git_session_opts
 --- @field file_path? string
 --- @field session_name? string
@@ -59,6 +58,7 @@ end
 --- makes sessions in the git root directory if in one.
 --- @param opts? make_git_session_opts
 function MakeGitSession(opts)
+    print('printed makegitsession')
     opts = opts or {}
     opts.session_name = opts.session_name or 'Session.vim'
     if vim.fn.FugitiveIsGitDir() == 1 then
@@ -72,10 +72,9 @@ function MakeGitSession(opts)
             { 'mksession!', opts.file_path .. '/' .. opts.session_name }, ' '
         )
     )
-end
--- end make session wrapper }}}
+end -- }}}
 
---- load project session. {{{
+--- LoadGitSession(opts) {{{
 --- @class load_git_session_opts
 --- @field file_path? string
 --- @field session_name? string
@@ -95,19 +94,18 @@ function LoadGitSession(opts)
             { 'source', opts.file_path .. '/' .. opts.session_name }, ' '
         )
     )
-end
--- end make session wrapper }}}
+end -- }}}
 
---- cleans trailing whitespace in a file. win view is saved to keep cursor from jumping around from the substitute command.{{{
+--- CleanBufferPostSpace() {{{
+--- cleans trailing whitespace in a file. win view is saved to keep cursor from jumping around from the substitute command.
 function CleanBufferPostSpace()
     local view = vim.fn.winsaveview()
     vim.cmd('keepjumps silent %smagic/ *$//')
     vim.fn.winrestview(view)
-end
+end -- }}}
 
--- }}} end clean postspace
-
---- check if buffer is empty {{{
+--- CurrentBufIsEmpty() {{{
+--- check if buffer is empty
 --- @return boolean
 function CurrentBufIsEmpty()
     if vim.fn.line('$') == 1 and vim.fn.getline(1) == ''
@@ -115,10 +113,10 @@ function CurrentBufIsEmpty()
         return true
     end
     return false
-end
--- end IsBufEmpty() }}}
+end -- }}}
 
---- get list of buffers delimited using newlines by default. {{{
+--- GetListedBufNames {{{
+--- get list of buffers delimited using newlines by default.
 --- @param delimiter? string (default '\\n') delimiter to use for returned table.
 --- @return table bufnames the buffers as a table.
 function GetListedBufNames(delimiter)
@@ -132,10 +130,10 @@ function GetListedBufNames(delimiter)
     end
 
     return bufnames
-end
--- end get list of buffers }}}
+end -- }}}
 
---- build rg command. anything that also accepts a function requires a return value of the expected type. {{{
+--- BuildRipGrepCommand(opts) {{{
+--- build rg command. anything that also accepts a function requires a return value of the expected type.
 --- @class rg_cmd_opts
 --- @field t? string[]|function lua table to be piped into grep.
 --- @field t_delim? string when `t` exists, the delimiter for concatenation.
@@ -200,10 +198,10 @@ function BuildRipGrepCommand(opts)
 
     -- returns the full command.
     return table.concat(cmd, space_char)
-end
--- end build rg command }}}
+end -- }}}
 
---- prepends to the front of each string in a table. does not update in place. {{{
+--- PrepentToEachTableEntry(t, text_to_prepend) {{{
+--- prepends to the front of each string in a table. does not update in place.
 --- @param t table table of strings that will have each text have prepended.
 --- @param text_to_prepend string what will be prepended.
 --- @return table new table with text prepended.
@@ -219,7 +217,8 @@ function PrependToEachTableEntry(t, text_to_prepend)
     return returned_table
 end -- }}}
 
---- split string into table. a quick implementation of the inverse of `table.concat`. {{{
+--- SplitStringToTable(str, delim) {{{
+--- split string into table. a quick implementation of the inverse of `table.concat`.
 --- @param str string string to be broken apart.
 --- @param delim string delimiter that determines where to break apart string.
 --- @return table result_as_table the table of strings that were split.
@@ -233,7 +232,8 @@ function SplitStringToTable(str, delim)
     return result_as_table
 end -- }}}
 
---- kind of like an enum for converting the kind response from the LSP {{{
+--- GetLSPKind(kind) {{{
+--- kind of like an enum for converting the kind response from the LSP
 --- into a physical name. sets it if it hasn't been made yet.
 --- @param kind number kind to convert.
 function GetLSPKind(kind)

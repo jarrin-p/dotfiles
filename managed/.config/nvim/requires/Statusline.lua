@@ -89,8 +89,8 @@ local mod = SLColorgroup:new{
 
 --- functions {{{
 --- gets the absolute path of the currently worked on file using `expand`
--- and splits it into a table.
--- @returns abs_file_table an ordered table containing each directory for the path.
+--- and splits it into a table.
+--- @return table abs_file_table an ordered table containing each directory for the path.
 function GetAbsolutePathAsTable()
     local abs_file_path = {}
     for match in vim.fn.expand('%:p'):sub(1):gmatch('/[^/]*') do
@@ -99,10 +99,10 @@ function GetAbsolutePathAsTable()
     return abs_file_path
 end
 
---- standard linear search function
--- @param table_to_search the table to be searched.
--- @param item_to_find object to be found in the table
--- @returns int index of item. returns `-1` if nothing is found
+--- standard linear search function.
+--- @param table_to_search table the table to be searched.
+--- @param item_to_find any item to be found in the table.
+--- @return number index of item. returns `-1` if nothing is found.
 function LinearSearch(table_to_search, item_to_find)
     for i, item in ipairs(table_to_search) do
         if item == item_to_find then
@@ -161,12 +161,10 @@ function MakePath()
 end
 
 --- takes the path and converts it to a string that will be set on the statusline.
--- @param path_table table to be converted to status.
--- @param project_root_index directory of the project root
--- @param truncate_point (optional) max number of entries on the status line.
-function ConvertTableToPathString(
-    path_table, truncate_point, project_root_index
-)
+--- @param path_table table to be converted to status.
+--- @param truncate_point? number on the status line.
+--- @param project_root_index? number directory of the project root
+function ConvertTableToPathString(path_table, truncate_point, project_root_index)
     if not path_table then
         return 'no path to convert'
     end
@@ -217,7 +215,7 @@ function AddSymbolIfSet(option, symbol_to_use)
 end
 
 --- finally, customize the statusline using the components we made.
--- function MakeStatusLine()
+--- function MakeStatusLine()
 vim.g.MakeStatusLine = function()
     -- left hand side padding, also declaration for easier adjusting.
     local sl = header:set '  '

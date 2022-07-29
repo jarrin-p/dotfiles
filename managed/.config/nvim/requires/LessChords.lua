@@ -2,15 +2,15 @@ local winnr = vim.fn.winnr -- create alias for getting winnr() (window number)
 local v_sys = vim.fn.system -- create alias for system eval (captures shell command)
 
 --- `jq` wrapper for terminal json parser
--- @depends_on `jq`
--- @see https://stedolan.github.io/jq/
+--- @depends_on `jq`
+--- @see https://stedolan.github.io/jq/
 function JQ(json_string, filter)
     return v_sys('echo \'' .. json_string .. '\'' .. ' | jq "' .. filter .. '"')
 end
 
---- json parse. converts character such that they will end up in a lua table structure
--- that can simply be loaded in with `load`
--- @param json string that will end up in a lua table
+--- json parse. converts characters such that they will end up in a lua table structure
+--- that can simply be loaded in with `load`
+--- @param json string that will end up in a lua table
 function JsonToTable(json)
     json = json:gsub('\\', '')
     json = json:gsub('"([%w%p]-)":', '%1 =')
@@ -27,17 +27,19 @@ end
 Kitty = { ls = nil }
 
 --- alias for running the `kitty @ ls` command, which shows current session info such as tabs, windows, pids, etc.
--- @returns lua table containing `kitty @ ls` results
+--- @return table lua table containing `kitty @ ls` results
 function Kitty:LS()
-    return JsonToTable(JQ(v_sys('kitty @ ls'), '.'))
+    return (JsonToTable(JQ(v_sys('kitty @ ls'), '.')))
 end
 
 --- gets all the tabs, based on `kitty @ ls` formatting
+--- @return table
 function Kitty:GetTabs()
     return self:LS()[1].tabs
 end
 
 --- gets the windows in the focused tab kitty has open by looping through all tabs
+--- @return table
 function Kitty:GetFocusedTabWindows()
     for i, val in ipairs(self:GetTabs()) do
         if val.is_focused == true then
@@ -49,21 +51,22 @@ function Kitty:GetFocusedTabWindows()
 end
 
 --- counts the number of windows from the active tab kitty has open
--- @returns number of windows found in the tab
+--- @return number@ number of windows found in the tab
 function Kitty:GetNumberOfWindows()
     return #Kitty:GetFocusedTabWindows()
 end
 
 --- gets the position index (ascending from 1) of the window that's focused
--- `--match num` uses a counted position (index) left to right, starting from 0
--- @see https://sw.kovidgoyal.net/kitty/remote-control/#kitty-focus-window
--- @returns position index of focused window
+--- `--match num` uses a counted position (index) left to right, starting from 0
+--- @see https://sw.kovidgoyal.net/kitty/remote-control/#kitty-focus-window
+--- @return number|nil@ position index of focused window
 function Kitty:GetFocusedWindowPosition()
     for i, window in ipairs(Kitty:GetFocusedTabWindows()) do
         if window.is_focused == true then
             return i - 1
         end
     end
+    return nil
 end
 
 --- goes to the next kitty window
@@ -73,7 +76,7 @@ function Kitty:NextWindow()
 end
 
 --- goes to the next kitty window
--- @see https://sw.kovidgoyal.net/kitty/remote-control/#kitty-focus-window
+--- @see https://sw.kovidgoyal.net/kitty/remote-control/#kitty-focus-window
 function Kitty:PreviousWindow()
     local window_id = Kitty:GetFocusedWindowPosition()
     v_sys('kitty @ focus-window --match num:' .. window_id - 1)
@@ -88,10 +91,10 @@ QUERIES = { windows = 'windows', spaces = 'spaces', displays = 'displays' }
 FOCUS = { next = 'next', prev = 'prev' }
 
 --- runs a yabai query
--- @param `type` the type of query to run. can be `windows`, `spaces`, or `displays`
--- @returns `table` a table converted from the json message received from the query to yabai
+--- @param type string type of query to run. can be `windows`, `spaces`, or `displays`
+--- @return table@ a table converted from the json message received from the query to yabai
 function Yabai:Query(type)
-    return JsonToTable(JQ(v_sys('yabai -m query --' .. type), '.'))
+    return (JsonToTable(JQ(v_sys('yabai -m query --' .. type), '.')))
 end
 
 --- finds the window id of the current focused window
@@ -156,8 +159,8 @@ function Yabai:FocusDisplay(message)
 end
 
 --- goes to the next (neo)vim split, kitty split, mac space window, or display
--- in that priority order. used for allowing a single mapped key to have more
--- versatile navigation.
+--- in that priority order. used for allowing a single mapped key to have more
+--- versatile navigation.
 function GoNext()
 
     -- if the current window number is equal to the last window number
@@ -182,8 +185,8 @@ function GoNext()
 end
 
 --- goes to the previous (neo)vim split, kitty split, mac space window, or display
--- in that priority order. used for allowing a single mapped key to have more
--- versatile navigation.
+--- in that priority order. used for allowing a single mapped key to have more
+--- versatile navigation.
 function GoPrev()
 
     -- if the current window number is equal to the last window number

@@ -1,5 +1,6 @@
 --- @author jarrin-p
---- @file `Plugins.lua`
+--- @file `snippets.lua`
+
 --- setup {{{
 -- uses the format for node naming defined in `:h luasnip assumptions`
 local ls = require 'luasnip'
@@ -20,8 +21,7 @@ local lambda = require('luasnip.extras').l
 local postfix = require('luasnip.extras.postfix').postfix
 local select_choice = require 'luasnip.extras.select_choice'
 ls.cleanup() -- clears all snippets
-
--- end setup }}}
+-- }}}
 
 -- insert mode remaps {{{
 
