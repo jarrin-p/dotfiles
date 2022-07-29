@@ -1,6 +1,6 @@
 --- @author jarrin-p {{{
 --- @description commands are set here. }}}
-require 'Util'
+require 'util'
 
 -- runs `spotlessApply` at the top level of the git repository.
 Exec(

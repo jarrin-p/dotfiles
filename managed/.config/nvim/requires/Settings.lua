@@ -1,6 +1,6 @@
 --- @author jarrin-p
 --- @file `Settings.lua`
-require 'Util'
+require 'util'
 vim.o.compatible = false
 
 --- shada settings {{{

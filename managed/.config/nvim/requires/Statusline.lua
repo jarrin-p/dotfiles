@@ -1,6 +1,6 @@
-require 'Util'
-require 'Snippets'
-require 'ColorScheme'
+require 'util'
+require 'snippets'
+require 'colorscheme'
 
 --- symbols {{{
 local symbols = {

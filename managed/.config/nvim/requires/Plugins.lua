@@ -1,6 +1,6 @@
 --- @author jarrin-p
 --- @file `plugins.lua`
-require 'Util'
+require 'util'
 
 --- vim-plug initialization {{{
 local Plug = vim.fn['plug#']

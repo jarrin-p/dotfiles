@@ -1,5 +1,5 @@
 --- @author jarrin-p
---- @file `Util.lua`
+--- @file `util.lua`
 
 --- remap functions {{{
 function map(lhs, rhs)
