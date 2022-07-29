@@ -1,6 +1,5 @@
 --- @author jarrin-p
 --- @file `util.lua`
-
 --- remap functions {{{
 function map(lhs, rhs)
     vim.api.nvim_set_keymap('', lhs, rhs, { noremap = false, silent = true })
@@ -267,6 +266,28 @@ function GetLSPKind(kind)
         }
     end
     return LSPKindEnum[kind]
+end -- }}}
+
+--- MakeFormatPrg() {{{
+--- creates the string for a `formatprg` expression with escaped backslack `\` characters.
+--- @param ext_command table
+--- @return string|nil command the exact command string that should be evaluated, or nil if a table was not passed.
+function MakeFormatPrgText(ext_command)
+    if type(ext_command) ~= 'table' then
+        return nil
+    end
+    local prefix = 'set silent formatprg='
+    local command = prefix .. table.concat(ext_command, '\\ ')
+    return command
+end -- }}}
+
+--- FF() (format file using formatprg) {{{
+function FF()
+    if vim.api.nvim_get_option_value('formatprg', {}) ~= '' then
+        local view = vim.fn.winsaveview()
+        vim.cmd('keepjumps silent norm gggqG')
+        vim.fn.winrestview(view)
+    end
 end -- }}}
 
 -- vim: fdm=marker foldlevel=0

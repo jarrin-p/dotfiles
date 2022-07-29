@@ -14,17 +14,43 @@ vim.api.nvim_create_autocmd(
 -- java format.
 -- assumes java is using gradle with SA implemented.
 vim.api.nvim_create_autocmd(
-    { 'BufWritePost' }, { pattern = { '*.java' }, command = 'silent SA' }
+    { 'FileType' }, {
+        pattern = { 'java' },
+        command = MakeFormatPrgText {
+            'gradle', 'spotlessApply', '-PspotlessIdeHookUseStdIn',
+            '-PspotlessIdeHookUseStdOut', '-PspotlessIdeHook=%',
+        },
+    }
 )
+-- holding until confirmation format works.
+-- vim.api.nvim_create_autocmd(
+--     { 'BufWritePost' }, { pattern = { '*.java' }, command = 'silent SA' }
+-- )
 
 -- terraform format.
 vim.api.nvim_create_autocmd(
-    { 'BufWritePost' }, { pattern = { '*.tf' }, command = 'silent TFF' }
+    { 'FileType' }, {
+        pattern = { 'terraform' },
+        command = MakeFormatPrgText { 'terraform', 'fmt', '-' },
+    }
+)
+vim.api.nvim_create_autocmd(
+    { 'BufWritePost' }, { pattern = { '.*', '*' }, callback = FF }
 )
 
 -- python format.
 vim.api.nvim_create_autocmd(
-    { 'BufWritePost' }, { pattern = { '*.py' }, command = 'silent BLACK' }
+    { 'FileType' },
+        { pattern = { 'py' },
+        command = MakeFormatPrgText { 'black', '-q', '-' } }
+)
+
+-- lua format.
+vim.api.nvim_create_autocmd(
+    { 'FileType' }, {
+        pattern = { 'lua' },
+        command = MakeFormatPrgText { 'lua-format', '-c', '$HOME/.luaformat' },
+    }
 )
 
 -- after writing to a buffer, a `Session.vim` will be created in the root of
