@@ -20,7 +20,6 @@ require 'settings'
 require 'remaps'
 require 'colorscheme'
 require 'snippets'
-require 'menus'
 
 -- specific files
 require 'statusline'
