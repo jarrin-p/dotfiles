@@ -58,7 +58,6 @@ end -- }}}
 --- makes sessions in the git root directory if in one.
 --- @param opts? make_git_session_opts
 function MakeGitSession(opts)
-    print('printed makegitsession')
     opts = opts or {}
     opts.session_name = opts.session_name or 'Session.vim'
     if vim.fn.FugitiveIsGitDir() == 1 then

@@ -27,11 +27,13 @@ vim.api.nvim_create_autocmd(
     { 'BufWritePost' }, { pattern = { '*.py' }, command = 'silent BLACK' }
 )
 
---- TODO fix this writing twice. maybe try just `.*` instead?
+-- after writing to a buffer, a `Session.vim` will be created in the root of
+-- a git repo if in one or in the current directory of the file.
 vim.api.nvim_create_autocmd(
     { 'BufWritePost' }, { pattern = { '.*', '*' }, callback = MakeGitSession }
 )
 
+-- before writing to a buffer postspace will be cleaned.
 vim.api.nvim_create_autocmd(
     { 'BufWritePre' },
         { pattern = { '.*', '*' }, callback = CleanBufferPostSpace }

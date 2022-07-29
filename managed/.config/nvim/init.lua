@@ -12,16 +12,16 @@ package.path = string.gsub(rc_path, 'init' .. suffix, '') .. 'requires/?.lua;'
                    .. package.path
 
 -- general settings
-require 'Util'
-require 'Plugins'
-require 'Commands'
-require 'AutoCmd'
-require 'Settings'
-require 'Remaps'
-require 'ColorScheme'
-require 'Snippets'
-require 'Menus'
+require 'util'
+require 'plugins'
+require 'commands'
+require 'autocmd'
+require 'settings'
+require 'remaps'
+require 'colorscheme'
+require 'snippets'
+require 'menus'
 
 -- specific files
-require 'Statusline'
-require 'LessChords'
+require 'statusline'
+require 'lesschords'
