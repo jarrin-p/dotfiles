@@ -6,6 +6,11 @@ vim.api.nvim_create_autocmd(
         { pattern = 'nerdtree', command = 'set number relativenumber' }
 )
 
+-- git commit flood prevention.
+vim.api.nvim_create_autocmd(
+    { 'FileType' }, { pattern = { 'gitcommit' }, command = '' }
+)
+
 -- run auto format before saving using formatprg if it's been set.
 vim.api.nvim_create_autocmd(
     { 'BufWritePre' }, { pattern = { '.*', '*' }, callback = FF }
