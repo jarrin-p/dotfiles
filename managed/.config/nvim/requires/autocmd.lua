@@ -23,17 +23,19 @@ vim.api.nvim_create_autocmd(
         { pattern = { 'java', 'terraform' }, command = 'set tabstop=2' }
 )
 
--- java format.
--- assumes java is using gradle with SA implemented.
+-- assumes spotlessApply is apart of gradle.build.
 vim.api.nvim_create_autocmd(
-    { 'FileType' }, {
-        pattern = { 'java' },
-        command = MakeFormatPrgText {
-            'gradle', 'spotlessApply', '-PspotlessIdeHookUseStdIn',
-            '-PspotlessIdeHookUseStdOut', '-PspotlessIdeHook=%',
-        },
-    }
+    { 'BufWritePost' }, { pattern = { '*.java' }, command = 'silent SA' }
 )
+-- vim.api.nvim_create_autocmd(
+--     { 'FileType' }, {
+--         pattern = { 'java' },
+--         command = MakeFormatPrgText {
+--             'gradle', 'spotlessApply', '--quiet', '-PspotlessIdeHookUseStdIn',
+--             '-PspotlessIdeHookUseStdOut',
+--         },
+--     }
+-- )
 
 -- terraform format.
 vim.api.nvim_create_autocmd(

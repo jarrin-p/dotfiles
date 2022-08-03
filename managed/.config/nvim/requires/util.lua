@@ -276,7 +276,7 @@ function MakeFormatPrgText(ext_command)
     if type(ext_command) ~= 'table' then
         return nil
     end
-    local prefix = 'silent set formatprg='
+    local prefix = 'silent setlocal formatprg='
     local command = prefix .. table.concat(ext_command, '\\ ')
     return command
 end -- }}}

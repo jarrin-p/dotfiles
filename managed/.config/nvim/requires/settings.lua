@@ -41,7 +41,7 @@ nnoremap('<leader>-', ':lua SetFontSize(-1)<enter>')
 vim.o.title = true
 vim.o.titlestring = '%t'
 vim.o.showtabline = 2 -- always show the tabline
-vim.o.hidden = false -- seeing if this will reduce the number of buffers that open.
+vim.o.hidden = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 0 -- 0 means use tabstop value.
 vim.o.expandtab = true -- use spaces instead of tabs.
