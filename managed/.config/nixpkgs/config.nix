@@ -52,6 +52,7 @@
         rtorrent
         stow
         terraform
+        wget
         youtube-dl
         zsh-vi-mode
         zsh-z
