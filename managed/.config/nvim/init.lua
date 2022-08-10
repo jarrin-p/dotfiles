@@ -1,7 +1,9 @@
--- Setup folder checking.
+--- @author jarrin-p
+--- @file `init.lua`
+-- add folders to be required.
 require 'os'
 local rc_path, suffix = os.getenv('MYVIMRC'), ''
-if rc_path:match('.lua') then
+if rc_path ~= nil and rc_path:match('.lua') then
     suffix = '.lua'
 else
     suffix = '.vim'
