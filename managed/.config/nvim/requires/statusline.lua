@@ -1,6 +1,5 @@
 --- @author jarrin-p
 --- @file `snippets.lua`
-require 'util'
 require 'snippets'
 require 'colorscheme'
 LS = require 'luasnip'

@@ -1,7 +1,5 @@
 --- @author jarrin-p
 --- @file `commands.lua`
-require 'util'
-
 -- runs `spotlessApply` at the top level of the git repository.
 Exec(
     [[ command SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]],

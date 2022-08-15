@@ -1,7 +1,5 @@
 --- @author jarrin-p
 --- @file `remaps.lua`
-require 'util'
-
 local init = os.getenv('MYVIMRC')
 
 --- simple changes {{{
