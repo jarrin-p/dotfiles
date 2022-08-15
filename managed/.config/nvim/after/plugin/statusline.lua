@@ -1,7 +1,5 @@
 --- @author jarrin-p
 --- @file `snippets.lua`
-require 'snippets'
-require 'colorscheme'
 LS = require 'luasnip'
 
 --- symbols {{{

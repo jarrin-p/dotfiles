@@ -10,8 +10,8 @@ else
 end
 
 -- add path so require function will find additional files in `requires` subfolder
-package.path = string.gsub(rc_path, 'init' .. suffix, '') .. 'requires/?.lua;' .. '?.lua;'
-                   .. package.path
+package.path = string.gsub(rc_path, 'init' .. suffix, '') .. 'requires/?.lua;'
+                   .. '?.lua;' .. package.path
 
 -- general settings
 require 'util'
@@ -33,5 +33,4 @@ require 'colorscheme'
 require 'snippets'
 
 -- specific files
-require 'statusline'
 require 'lesschords'
