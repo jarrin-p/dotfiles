@@ -15,7 +15,17 @@ package.path = string.gsub(rc_path, 'init' .. suffix, '') .. 'requires/?.lua;'
 
 -- general settings
 require 'util'
+
 require 'plugins'
+require 'p_fzf'
+require 'p_treesitter'
+require 'p_fugitive'
+require 'p_nerdtree'
+require 'p_metals'
+require 'p_lspconfig'
+require 'p_luasnip'
+require 'p_nvim_cmp'
+
 require 'commands'
 require 'autocmd'
 require 'settings'
