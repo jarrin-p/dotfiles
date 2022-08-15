@@ -3,6 +3,7 @@
 require 'util'
 require 'snippets'
 require 'colorscheme'
+LS = require 'luasnip'
 
 --- symbols {{{
 local symbols = {

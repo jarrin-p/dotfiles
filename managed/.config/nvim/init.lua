@@ -23,7 +23,6 @@ require 'p_fugitive'
 require 'p_nerdtree'
 require 'p_metals'
 require 'p_lspconfig'
-require 'p_luasnip'
 require 'p_nvim_cmp'
 
 require 'commands'
