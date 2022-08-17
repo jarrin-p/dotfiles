@@ -46,6 +46,9 @@ alias ssh='kitty +kitten ssh' # enhanced ssh functionality using kitty
 alias dcu='docker compose up'
 alias dcub='docker compose up --build'
 function dcrun { docker compose run $1 } # Parameter is for the service name
+
+alias gs='git stash'
+alias gsp='git stash pop'
 # end shorthands }}}
 
 # environment variables exports {{{

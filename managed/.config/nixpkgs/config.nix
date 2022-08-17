@@ -28,7 +28,7 @@
       paths = [
         (gradle_7.override{ java = jdk11; })
         (lua5_3.withPackages (ps: with ps; [ luacheck ]))
-        (python39.withPackages (ps: with ps; [ boto3 pandas psycopg2 pytest requests virtualenv XlsxWriter ]))
+        (python39.withPackages (ps: with ps; [ boto3 certifi charset-normalizer idna openpyxl urllib3 pandas psycopg2 pytest requests virtualenv XlsxWriter ]))
         bear
         black
         cargo
