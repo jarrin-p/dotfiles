@@ -15,6 +15,8 @@ local symbols = {
 -- local te = '⋯'
 -- end symbols }}}
 
+local statusline_background_default = '#374247'
+
 --- highlight group wrapper {{{
 --- nvim highlight group wrapper that allows easier inline status text formatting.
 --- additionally, has defaults specified to keep the status line uniform
@@ -22,10 +24,9 @@ SLColorgroup = {
     name = 'Not set',
     scope = 0,
     options = {
-        underline = 1, -- underline needs to be enabled for custom underline color.
+        underline = 0, -- underline needs to be enabled for custom underline color.
         sp = Colors.gui.gray, -- default for the underline color.
-        bg = '#374247',
-        -- vim.api.nvim_set_hl(0, 'TablineFill', { fg = '#859289', bg = '#374247' })
+        bg = statusline_background_default,
     },
     pretext = '',
     posttext = '',

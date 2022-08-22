@@ -65,7 +65,7 @@ function InspectColorscheme(what)
 end -- }}}
 
 -- color scheme changes {{{
-vim.api.nvim_set_hl(0, 'CursorLine', { underline = 1, sp = Colors.gui.gray })
+vim.api.nvim_set_hl(0, 'CursorLine', { underline = 0, sp = Colors.gui.gray })
 vim.api.nvim_set_hl(0, 'CursorLineNr', { ctermbg = Colors.none })
 vim.api.nvim_set_hl(
     0, 'DiagnosticUnderlineError', { undercurl = 1, sp = Colors.gui.red }
@@ -89,6 +89,7 @@ vim.api.nvim_set_hl(
     0, 'DiffDelete', { fg = Colors.gui.red, ctermfg = 1, bold = 1 }
 )
 vim.api.nvim_set_hl(0, 'DiffText', { fg = Colors.gui.wood_dark, ctermfg = 11 })
+vim.api.nvim_set_hl(0, 'EndOfBuffer', { fg = 'bg', ctermfg = 11 })
 vim.api.nvim_set_hl(0, 'Error', { undercurl = 1, sp = 'red' })
 vim.api.nvim_set_hl(
     0, 'Folded',
