@@ -17,18 +17,20 @@ local symbols = {
 
 --- highlight group wrapper {{{
 --- nvim highlight group wrapper that allows easier inline status text formatting.
--- additionally, has defaults specified to keep the status line uniform
+--- additionally, has defaults specified to keep the status line uniform
 SLColorgroup = {
     name = 'Not set',
     scope = 0,
     options = {
         underline = 1, -- underline needs to be enabled for custom underline color.
         sp = Colors.gui.gray, -- default for the underline color.
+        bg = '#374247',
+        -- vim.api.nvim_set_hl(0, 'TablineFill', { fg = '#859289', bg = '#374247' })
     },
     pretext = '',
     posttext = '',
 
-    --- create new statusline colorgroup object. attempting to manage statusline color groups
+    -- create new statusline colorgroup object. attempting to manage statusline color groups
     -- so its behavior can be more easily updated.
     new = function(self, arg_table)
         self.__index = self
@@ -52,7 +54,7 @@ SLColorgroup = {
     end,
 
     --- returns the string to use the color group in the status line.
-    -- @param text_to_color [optional] for code readability, to "pseudo" wrap the group of characters to be colored.
+    --- @param text_to_color [optional] for code readability, to "pseudo" wrap the group of characters to be colored.
     set = function(self, text_to_color)
         text_to_color = text_to_color or ''
         return '%#' .. self.name .. '#' .. self.pretext .. text_to_color
