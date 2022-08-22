@@ -39,7 +39,7 @@ function todo() {
         mkdir -p "${HOME}/Info"
         touch "${HOME}/Info/todo.md"
     ) fi
-    nvim ${HOME}/Info/todo.md -c 'lcd %:h'
+    nvim ${HOME}/Info/todo.md
 }
 function nix-zsh () { nix-shell --command "zsh" $@ }
 alias ssh='kitty +kitten ssh' # enhanced ssh functionality using kitty
