@@ -65,6 +65,7 @@
         rename
         ripgrep
         rtorrent
+        sbt
         stow
         terraform
         wget
