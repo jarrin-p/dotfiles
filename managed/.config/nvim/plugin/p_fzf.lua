@@ -1,4 +1,3 @@
--- wrappers {{{
 --- wraps the api call into something more friendly to `lua`.
 --- @param source_cmd string the string grep command whose result will be used for input.
 --- @param sink_fn function the callback that will be used for handling the result.
@@ -15,8 +14,7 @@ function FzfSearch(build_cmd_opts, result_handler_fn)
     vim.g.FzfSearchFn = result_handler_fn -- the fzf sink needs to be wrapped into a global function to be accessed.
     FzfWrapper(BuildRipGrepCommand(build_cmd_opts), vim.g.FzfSearchFn)
 end
--- end fzf search }}}
---- grep {{{
+
 function LiveFuzzyGrep()
     FzfSearch(
         {
@@ -41,8 +39,7 @@ function LiveFuzzyGrep()
         end
     )
 end
--- end live fuzzy grep }}}
---- buffer selection {{{
+
 function LiveBufSelect()
     FzfSearch(
         { t = GetListedBufNames }, function(grep_result)
@@ -50,11 +47,11 @@ function LiveBufSelect()
         end
     )
 end
--- end fzf live buffer select }}}
---- git branch selection {{{
---- @param all boolean whether or not to pass `-a` flag to git call.
-function LiveGitBranchSelection(all)
-    if all == true then
+
+--- @param all_flag boolean whether or not to pass `-a` flag to git call.
+function LiveGitBranchSelection(all_flag)
+    local all
+    if all_flag == true then
         all = ' -a'
     else
         all = ''
@@ -84,8 +81,23 @@ function LiveGitBranchSelection(all)
         end
     )
 end
--- end git branch selection }}}
---- doc symbol finder {{{
+
+function LiveChangesFromHeadFile()
+    FzfSearch(
+        {
+            t = function()
+                local files = SplitStringToTable(
+                    vim.fn.system(
+                        'git diff HEAD --name-only'
+                    ), '\n'
+                )
+                return files
+            end,
+        }, function(grep_result)
+            vim.cmd('e ' .. grep_result)
+        end
+    )
+end
 --- @see https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol
 function LiveDocSymbolFinder()
     FzfSearch(
@@ -182,11 +194,11 @@ function LiveDocSymbolFinder()
         end
     )
 end
---- end doc symbol finder }}}
---- remaps {{{
+
 nnoremap('<leader>g', ':lua LiveFuzzyGrep()<enter>')
 nnoremap('<leader>b', ':lua LiveBufSelect()<enter>')
 nnoremap('<leader>B', ':lua LiveGitBranchSelection()<enter>')
+nnoremap('<leader>h', ':lua LiveChangesFromHeadFile()<enter>')
 
 -- replaces with interactive find. didn't like that document_symbol
 -- sends to quickfix list because it force opens and is hard to view.
@@ -203,5 +215,3 @@ nnoremap('gc', ':lua vim.lsp.buf.code_action()<enter>')
 nnoremap('g=', ':lua vim.lsp.buf.formatting()<enter>')
 nnoremap('gw', ':lua vim.lsp.buf.workspace_symbol()<enter>')
 nnoremap('gs', ':lua vim.lsp.buf.signature_help()<enter>')
-
--- }}}
