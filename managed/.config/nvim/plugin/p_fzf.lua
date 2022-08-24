@@ -82,13 +82,13 @@ function LiveGitBranchSelection(all_flag)
     )
 end
 
-function LiveChangesFromHeadFile()
+function LiveChangesFromPrevCommit()
     FzfSearch(
         {
             t = function()
                 local files = SplitStringToTable(
                     vim.fn.system(
-                        'git diff HEAD --name-only'
+                        'git diff HEAD~1 --name-only'
                     ), '\n'
                 )
                 return files
@@ -198,7 +198,7 @@ end
 nnoremap('<leader>g', ':lua LiveFuzzyGrep()<enter>')
 nnoremap('<leader>b', ':lua LiveBufSelect()<enter>')
 nnoremap('<leader>B', ':lua LiveGitBranchSelection()<enter>')
-nnoremap('<leader>h', ':lua LiveChangesFromHeadFile()<enter>')
+nnoremap('<leader>h', ':lua LiveChangesFromPrevCommit()<enter>')
 
 -- replaces with interactive find. didn't like that document_symbol
 -- sends to quickfix list because it force opens and is hard to view.
