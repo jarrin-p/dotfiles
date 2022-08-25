@@ -28,7 +28,6 @@ fi
 
 # shorthands, alias, etc {{{
 alias ls='ls --color' # color ls
-function man { nvim -c "Man $1" -c "only" } # Use neovim's man command instead of gnu-man
 function GT { pushd $(git rev-parse --show-toplevel) } # Quick Access
 alias g='nvim -c "Git" -c "only"' # requires (n)vim `fugitive` plugin
 # alias todo="nvim ${HOME}/Documents/todo.md -c 'cd %:h'"
