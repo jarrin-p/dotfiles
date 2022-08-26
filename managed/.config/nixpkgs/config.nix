@@ -59,6 +59,8 @@
         jq
         luaformatter
         neovim
+        nodejs-slim-14_x
+        nodePackages.npm
         nmap
         pkcs11helper
         ranger
