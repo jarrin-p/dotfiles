@@ -1,5 +1,19 @@
 vim.bo.tabstop = 2
 
+-- runs `spotlessApply` at the top level of the git repository.
+Exec(
+    [[ command! SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]],
+        false
+)
+
+local group_id = vim.api.nvim_create_augroup('JavaGroup', { clear = true })
+
+-- assumes spotlessApply is apart of gradle.build.
+vim.api.nvim_create_autocmd(
+    { 'BufWritePost' },
+        { pattern = { '*.java' }, command = 'silent SA', group = group_id }
+)
+
 local ls = require 'luasnip'
 local s = ls.snippet
 local t = ls.text_node

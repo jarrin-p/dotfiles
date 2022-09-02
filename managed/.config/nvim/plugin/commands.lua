@@ -1,11 +1,5 @@
 --- @author jarrin-p
 --- @file `commands.lua`
--- runs `spotlessApply` at the top level of the git repository.
-Exec(
-    [[ command! SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]],
-        false
-)
-
 -- changes current directory to the root of the git repository.
 Exec([[ command! GT execute 'cd' fnameescape(FugitiveWorkTree())]], false)
 
