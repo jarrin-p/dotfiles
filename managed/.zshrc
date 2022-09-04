@@ -30,7 +30,6 @@ fi
 alias ls='ls --color' # color ls
 function GT { pushd $(git rev-parse --show-toplevel) } # Quick Access
 alias g='nvim -c "Git" -c "only"' # requires (n)vim `fugitive` plugin
-# alias todo="nvim ${HOME}/Documents/todo.md -c 'cd %:h'"
 function todo() {
     # if the directory doesn't exist clone the repo
     if [ ! -d "${HOME}/Info" ]; then (
@@ -48,6 +47,11 @@ function dcrun { docker compose run $1 } # Parameter is for the service name
 
 alias gs='git stash'
 alias gsp='git stash pop'
+
+# sets the open neovim session's current directory to the current directory of the shell.
+# @see `neovim-remote`
+function here () { nvr +"cd $PWD" }
+
 # end shorthands }}}
 
 # environment variables exports {{{
