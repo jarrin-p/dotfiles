@@ -72,16 +72,6 @@ function query {
     QUERY=$1
     dvs -c "\copy ($QUERY) TO STDOUT CSV HEADER" | vd -f csv
 }
-function lquery {
-    QUERY=$1
-    lstack -c "\copy ($QUERY) TO STDOUT CSV HEADER" | vd -f csv
-}
-
-# finds filename at current directory.
-function fd {
-    FNAME=$1
-    find . -name "${FNAME}"
-}
 
 function clean_jdtls {
     find . -name ".project" -or -name ".settings" | xargs rm -rf

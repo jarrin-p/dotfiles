@@ -59,6 +59,7 @@
         jq
         luaformatter
         neovim
+        neovim-remote
         nodejs-slim-14_x
         nodePackages.npm
         nmap
@@ -70,9 +71,10 @@
         sbt
         stow
         terraform
+        tmux
         wget
         youtube-dl
-        zsh-vi-mode
+        # zsh-vi-mode
         zsh-z
       ];
       pathsToLink = [ "/share" "/share/man" "/share/doc" "/bin" ];
