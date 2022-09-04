@@ -1,18 +1,25 @@
---- wraps the api call into something more friendly to `lua`.
---- @param source_cmd string the string grep command whose result will be used for input.
+--- wraps the api call into something more friendly to `lua`. uses `fzf#wrap` to use the system's default values if arguments aren't provided.
+--- @param source_cmd string|function the string grep command whose result will be used for input.
 --- @param sink_fn function the callback that will be used for handling the result.
-function FzfWrapper(source_cmd, sink_fn)
+--- @param fzf_opts? string options that will be passed to fzf.
+function FzfWrapper(source_cmd, sink_fn, fzf_opts)
     vim.fn['fzf#run'](
-        vim.fn['fzf#wrap']({ source = source_cmd, sink = sink_fn })
+        vim.fn['fzf#wrap'](
+            { source = source_cmd, sink = sink_fn, options = fzf_opts }
+        )
     )
 end
 
 --- fuzzy find internal or external things.
 --- @param build_cmd_opts rg_cmd_opts options to be used for the BuildRipGrepCommand function.
 --- @param result_handler_fn function vim.g.function takes a string, will be executed on the selected entry.
-function FzfSearch(build_cmd_opts, result_handler_fn)
+--- @param fzf_opts table options that will be passed to fzf.
+function FzfSearch(build_cmd_opts, result_handler_fn, fzf_opts)
     vim.g.FzfSearchFn = result_handler_fn -- the fzf sink needs to be wrapped into a global function to be accessed.
-    FzfWrapper(BuildRipGrepCommand(build_cmd_opts), vim.g.FzfSearchFn)
+    FzfWrapper(
+        BuildRipGrepCommand(build_cmd_opts), vim.g.FzfSearchFn,
+            table.concat(fzf_opts, ' ')
+    )
 end
 
 function LiveFuzzyGrep()
@@ -36,7 +43,7 @@ function LiveFuzzyGrep()
             local grep_result_as_table = SplitStringToTable(grep_result, ':')
             vim.cmd('e ' .. grep_result_as_table[1]) -- 1 is the file path.
             vim.fn.cursor(grep_result_as_table[2], grep_result_as_table[3]) -- 2 is the row, 3 is column.
-        end
+        end, { '--prompt "test"' }
     )
 end
 
