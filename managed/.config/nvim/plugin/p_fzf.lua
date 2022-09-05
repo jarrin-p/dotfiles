@@ -25,7 +25,7 @@ function LiveFuzzyGrep()
     -- )
     local rg_prefix = 'rg --column --line-number --no-heading --color=always --smart-case '
     fzf_wrap {
-        source = rg_prefix,
+        source = rg_prefix .. '""', -- searches everything on init.
         sink = as_global(function(result)
             local results_table = StringToTable(result, ':')
             vim.cmd('e ' .. results_table[1]) -- 1 is the file path.
@@ -61,7 +61,7 @@ function LiveGitBranchSelection(flags)
             return branches
         end)(),
         sink = as_global(function(result) if (result:find('*')) ~= 1 then vim.cmd('G checkout ' .. result) end end),
-        options = as_flags { '--prompt "branch name >"' },
+        options = as_flags { '--prompt "branch name > "' },
     }
 end
 
