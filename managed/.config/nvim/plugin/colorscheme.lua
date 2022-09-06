@@ -98,6 +98,13 @@ vim.api.nvim_set_hl(0, 'SignColumn', {})
 vim.api.nvim_set_hl(0, 'SpecialKey', { italic = 1, fg = Colors.gui.red })
 vim.api.nvim_set_hl(0, 'SpellBad', { undercurl = 1, sp = Colors.gui.red })
 vim.api.nvim_set_hl(0, 'SpellCap', { ctermbg = Colors.term.blue_dark, undercurl = 1, sp = Colors.gui.gray })
+vim.api.nvim_set_hl(0, 'StatusLine', {
+    ctermbg = Colors.term.blue_dark,
+    underline = 1,
+    sp = Colors.gui.statusline_bg,
+    bg = Colors.gui.statusline_bg,
+})
+vim.api.nvim_set_hl(0, 'StatusLineNC', { ctermbg = Colors.term.blue_dark, bg = Colors.gui.statusline_bg })
 vim.api.nvim_set_hl(0, 'Todo', { bold = 1, fg = Colors.gui.gray })
-vim.api.nvim_set_hl(0, 'VertSplit', { ctermfg = 0, fg = Colors.gui.gray })
+vim.api.nvim_set_hl(0, 'VertSplit', { ctermfg = 0, fg = Colors.gui.statusline_bg })
 vim.api.nvim_set_hl(0, 'Whitespace', { fg = Colors.gui.gray, ctermfg = Colors.term.blue_dark }) -- }}}
