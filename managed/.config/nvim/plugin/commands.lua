@@ -9,6 +9,6 @@ Exec([[ command! LG lua LoadGitSession()]], false)
 -- alias for opening quickfix list to a new tab.
 Exec([[ command! CO tabnew | copen | only]], false)
 
-Exec([[ command! T tabnew | term ]], false)
+Exec([[ command! T lua FloatingTerm() ]], false)
 
 -- vim: fdm=marker foldlevel=0
