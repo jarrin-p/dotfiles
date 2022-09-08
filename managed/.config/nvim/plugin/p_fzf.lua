@@ -23,7 +23,7 @@ function LiveFuzzyGrep()
     -- local exclude_globs = PrependToEachTableEntry(
     --     { '"!*.class"', '"!*.jar"', '"!*.java.html"', '"!*.git*"' }, '--glob='
     -- )
-    local rg_prefix = 'rg --column --line-number --no-heading --color=always --smart-case '
+    local rg_prefix = 'rg --hidden --column --line-number --no-heading --color=always --smart-case '
     fzf_wrap {
         source = rg_prefix .. '""', -- searches everything on init.
         sink = as_global(function(result)
@@ -54,12 +54,7 @@ end
 function LiveGitBranchSelection(flags)
     flags = flags or ''
     fzf_wrap {
-        -- note that whitespace (3 lines down) needs to be cleaned in order to properly select the branch.
-        source = (function()
-            local branches = StringToTable(vim.fn.system('git branch --no-color' .. flags), '\n')
-            for i, branch in ipairs(branches) do branches[i] = string.gsub(branch, ' ', '') end
-            return branches
-        end)(),
+        source = 'git branch --no-color | tr -d " "' .. flags,
         sink = as_global(function(result) if (result:find('*')) ~= 1 then vim.cmd('G checkout ' .. result) end end),
         options = as_flags { '--prompt "branch name > "' },
     }
@@ -67,8 +62,11 @@ end
 
 function LiveChangesFromPrevCommit()
     fzf_wrap {
-        source = (function() return StringToTable(vim.fn.system('git diff HEAD~1 --name-only'), '\n') end)(),
-        sink = as_global(function(result) vim.cmd('e ' .. result) end),
+        source = 'git diff HEAD~1 --name-only',
+        sink = as_global(function(result)
+            vim.cmd('GT') -- cds to the top of the git repo.
+            vim.cmd('e ' .. result) -- edits the file.
+        end),
         options = as_flags { '--prompt "changed file > "' },
     }
 end
