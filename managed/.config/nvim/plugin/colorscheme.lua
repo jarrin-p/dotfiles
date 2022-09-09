@@ -106,5 +106,9 @@ vim.api.nvim_set_hl(0, 'StatusLine', {
 })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { ctermbg = Colors.term.blue_dark, bg = Colors.gui.statusline_bg })
 vim.api.nvim_set_hl(0, 'Todo', { bold = 1, fg = Colors.gui.gray })
-vim.api.nvim_set_hl(0, 'VertSplit', { ctermfg = 0, fg = Colors.gui.statusline_bg })
+vim.api.nvim_set_hl(0, 'VertSplit', { ctermfg = 0, fg = '#515354' })
 vim.api.nvim_set_hl(0, 'Whitespace', { fg = Colors.gui.gray, ctermfg = Colors.term.blue_dark }) -- }}}
+
+vim.api.nvim_set_hl(0, 'NormalPopupTerm', {})
+vim.api.nvim_set_hl(0, 'BorderPopupTerm', { fg = '#515354' })
+-- vim.api.nvim_set_hl(0, guifg= guibg=#4a555b
