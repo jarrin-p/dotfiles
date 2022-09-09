@@ -1,3 +1,5 @@
+nnoremap('<leader>f', ':FZF<enter>')
+
 --- basically an alias. wraps the `fzf#wrap` function to be conveniently called from lua.
 --- @param opts table lua table equivalent to the table accepted by `fzf#wrap`.
 local function fzf_wrap(opts) vim.fn['fzf#run'](vim.fn['fzf#wrap'](opts)) end
@@ -17,13 +19,16 @@ end
 --- @return string #the table as a string with spaces in between.
 local function as_flags(t) return table.concat(t, ' ') end
 
---- live fuzzy grep
-function LiveFuzzyGrep()
-    -- local all_flags = { '--hidden', '--column', '--line-number', '--with-filename', '--no-heading', }
-    -- local exclude_globs = PrependToEachTableEntry(
-    --     { '"!*.class"', '"!*.jar"', '"!*.java.html"', '"!*.git*"' }, '--glob='
-    -- )
-    local rg_prefix = 'rg --hidden --column --line-number --no-heading --color=always --smart-case '
+function FuzzyGrep()
+    local rg_prefix = 'rg ' .. as_flags {
+        '--hidden',
+        '--column',
+        '--line-number',
+        '--no-heading',
+        '--color=always',
+        '--smart-case',
+        '--glob="!*.git*"',
+    } .. ' '
     fzf_wrap {
         source = rg_prefix .. '""', -- searches everything on init.
         sink = as_global(function(result)
@@ -41,17 +46,19 @@ function LiveFuzzyGrep()
         },
     }
 end
+nnoremap('<leader>g', ':lua FuzzyGrep()<enter>')
 
-function LiveBufSelect()
+function BufSelect()
     fzf_wrap {
         source = GetListedBufNames(),
         sink = as_global(function(result) vim.cmd('e ' .. result) end),
         options = as_flags { '--prompt "buffer name > "' },
     }
 end
+nnoremap('<leader>b', ':lua BufSelect()<enter>')
 
 --- @param flags string of flags to pass into git branch. mainly for if you want to use `--all` to show remote branches.
-function LiveGitBranchSelection(flags)
+function BranchSelect(flags)
     flags = flags or ''
     fzf_wrap {
         source = 'git branch --no-color | tr -d " "' .. flags,
@@ -59,103 +66,43 @@ function LiveGitBranchSelection(flags)
         options = as_flags { '--prompt "branch name > "' },
     }
 end
+nnoremap('<leader>B', ':lua BranchSelect()<enter>')
 
-function LiveChangesFromPrevCommit(num_commits)
-    num_commits = num_commits or 2
-    fzf_wrap {
-        source = 'git diff HEAD~' .. num_commits .. ' --name-only',
-        sink = as_global(function(result)
-            vim.cmd('GT') -- cds to the top of the git repo.
-            vim.cmd('e ' .. result) -- edits the file.
-        end),
-        options = as_flags { '--prompt "changed file > "' },
-    }
+function SetBranchToDiff() vim.g.BranchToDiff = vim.fn.input('enter branch to diff against: ') end
+function BranchFileDiff()
+    local source
+    if (pcall(function() source = 'git diff ' .. vim.g.BranchToDiff .. ' --name-only' end)) then
+        fzf_wrap {
+            source = source,
+            sink = as_global(function(result)
+                vim.cmd('GT') -- cds to the top of the git repo.
+                vim.cmd('e ' .. result) -- edits the file.
+            end),
+            options = as_flags { '--prompt "(' .. vim.g.BranchToDiff .. ') changed file > "' },
+        }
+    else
+        SetBranchToDiff()
+    end
 end
+nnoremap('<leader>h', ':lua BranchFileDiff()<enter>')
 
 --- @see https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol
 --- todo: fix this..
-function LiveDocSymbolFinder()
+function SymbolSelect()
     fzf_wrap {
-        source = (function()
+        source = as_global(function()
             -- sync response since we're waiting for specific functionality and need the list to populate rg.
-            local params = { textDocument = vim.lsp.util.make_text_document_params() }
-            local response = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', params)
-
-            -- returned table to be searched by fzf.
-            local symbols = {}
-
-            -- clear the hashtable used for getting extra details.
-            Fzf_hash_table_store = {}
-            local symbol_definition_hashset = {}
-
-            -- response is a table with a new index each time. using pairs grabs this response.
-            for _, response_table in pairs(response) do
-
-                -- iterate through everything the response has given us.
-                for _, r in ipairs(response_table.result) do
-                    -- name, range, selectionRange, detail, children, kind
-                    -- RecursivePrint(r)
-                    local line_to_search = table.concat({ '[' .. GetLSPKind(r.kind) .. ']', r.name }, ' ')
-                    symbol_definition_hashset[r.name] = true
-
-                    -- store the originally found table in a hash table where the key is
-                    -- is the line that will show up in the fzf search.
-                    Fzf_hash_table_store[line_to_search] = r
-                    table.insert(symbols, line_to_search)
-
-                    -- table input -> get all fields
-                    --   table input has children?
-                    --      yes -> repeat function inside child.
-
-                    --- @param table_to_recurse table should be `r` in here.
-                    local function extract(table_to_recurse)
-
-                        -- if it has children we want to get them as well.
-                        if table_to_recurse.children then
-                            for _, child in ipairs(table_to_recurse.children) do
-
-                                -- if the child hasn't been seen before.
-                                if not symbol_definition_hashset[table_to_recurse.name] then
-
-                                    -- keep track of what's been seen.
-                                    symbol_definition_hashset[table_to_recurse.name] = true
-
-                                    -- add to our result.
-                                    local line_to_search_x = table.concat({
-                                        '[' .. GetLSPKind(table_to_recurse.kind) .. ']',
-                                        table_to_recurse.name,
-                                    }, ' ')
-                                    Fzf_hash_table_store[line_to_search_x] = table_to_recurse
-                                    table.insert(symbols, line_to_search_x)
-                                end
-
-                                -- check if there are more children to investigate.
-                                if child.children then extract(child) end
-
-                            end
-                        end
-                    end
-
-                    extract(r)
-                end
-
-            end
-            return symbols
-        end)(),
+            -- local params = { textDocument = vim.lsp.util.make_text_document_params() }
+            -- local response = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', params)
+        end),
 
         sink = function(grep_result)
-            local details = Fzf_hash_table_store[grep_result]
+            -- local details = Fzf_hash_table_store[grep_result]
 
             -- need plus one since LSP result is indexed starting at 0.
-            vim.fn.cursor(details.range.start.line + 1, details.range.start.character + 1)
+            -- vim.fn.cursor(details.range.start.line + 1, details.range.start.character + 1)
         end,
         options = as_flags { '--prompt "symbol > "' },
     }
 end
-
-nnoremap('<leader>g', ':lua LiveFuzzyGrep()<enter>')
-nnoremap('<leader>b', ':lua LiveBufSelect()<enter>')
-nnoremap('<leader>B', ':lua LiveGitBranchSelection()<enter>')
-nnoremap('<leader>h', ':lua LiveChangesFromPrevCommit()<enter>')
-nnoremap('go', ':lua LiveDocSymbolFinder()<enter>')
-nnoremap('<leader>f', ':FZF<enter>')
+nnoremap('go', ':lua SymbolSelect()<enter>')
