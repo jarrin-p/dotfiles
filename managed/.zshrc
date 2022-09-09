@@ -5,7 +5,7 @@ function source_if_exists () {
     [ -f "${1}" ] && source "${1}"
 }
 source_if_exists "${HOME}/.nix-profile/share/zsh-z/zsh-z.plugin.zsh"
-source_if_exists "${HOME}/.nix-profile/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+# source_if_exists "${HOME}/.nix-profile/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
 source_if_exists "${HOME}/.fzf.zsh"
 
 if [ -f "/Applications/Neovide.app/Contents/MacOS/neovide" ]; then
