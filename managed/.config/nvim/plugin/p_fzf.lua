@@ -60,9 +60,10 @@ function LiveGitBranchSelection(flags)
     }
 end
 
-function LiveChangesFromPrevCommit()
+function LiveChangesFromPrevCommit(num_commits)
+    num_commits = num_commits or 2
     fzf_wrap {
-        source = 'git diff HEAD~1 --name-only',
+        source = 'git diff HEAD~' .. num_commits .. ' --name-only',
         sink = as_global(function(result)
             vim.cmd('GT') -- cds to the top of the git repo.
             vim.cmd('e ' .. result) -- edits the file.
