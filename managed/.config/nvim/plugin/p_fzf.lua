@@ -27,7 +27,7 @@ function FuzzyGrep()
         '--no-heading',
         '--color=always',
         '--smart-case',
-        '--glob="!*.git*"',
+        '--glob=\'!*.git\'',
     } .. ' '
     fzf_wrap {
         source = rg_prefix .. '""', -- searches everything on init.
