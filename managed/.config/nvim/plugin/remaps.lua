@@ -48,6 +48,8 @@ nnoremap('<leader>N', ':cprev<enter>')
 -- terminal remaps {{{
 -- default terminal mapping.
 tnoremap('<C-[>', '<C-\\><C-n>')
+tnoremap('<c-h>', '<C-\\><C-n><c-w>W') -- previous window (above, left)
+tnoremap('<c-l>', '<C-\\><C-n><c-w>w') -- next window (below, right)
 -- }}}
 
 -- vim: fdm=marker foldlevel=0

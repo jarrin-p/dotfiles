@@ -82,6 +82,7 @@ function BranchFileDiff()
         }
     else
         SetBranchToDiff()
+        BranchFileDiff()
     end
 end
 nnoremap('<leader>h', ':lua BranchFileDiff()<enter>')
