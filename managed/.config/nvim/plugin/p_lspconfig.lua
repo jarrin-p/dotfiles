@@ -5,6 +5,7 @@ local servers = {
     'sumneko_lua',
     'terraformls',
     'bashls',
+    'sqlls',
     'remark_ls',
     'rnix',
     'vimls',
