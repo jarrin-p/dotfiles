@@ -48,6 +48,7 @@
         black
         cargo
         cmake
+        code-minimap
         coreutils-full
         coursier
         curl
