@@ -1,16 +1,17 @@
 require('nvim-lsp-installer').setup {}
 local servers = {
-    'pyright',
-    'jdtls',
-    'sumneko_lua',
-    'terraformls',
     'bashls',
-    'sqlls',
+    'groovyls',
+    'jdtls',
+    'pyright',
     'remark_ls',
     'rnix',
-    'vimls',
+    'rust_analyzer',
+    'sqlls',
+    'sumneko_lua',
+    'terraformls',
     'tsserver',
-    'groovyls',
+    'vimls',
 }
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
