@@ -101,6 +101,9 @@ function MakePath()
     if buf_type == 'terminal' then
         return header:set 'Terminal'
 
+    elseif file_type == 'minimap' then
+        return header:set 'Minimap'
+
     elseif file_type == 'help' then
         return header:set 'Help'
 
