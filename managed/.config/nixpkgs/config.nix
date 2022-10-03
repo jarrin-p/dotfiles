@@ -74,6 +74,7 @@
         stow
         terraform
         tmux
+        visidata
         wget
         youtube-dl
         # zsh-vi-mode
