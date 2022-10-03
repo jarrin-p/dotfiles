@@ -1,22 +1,23 @@
 source ~/.zshrc.private
 
-# conditional loading (should happen first) {{{
 function source_if_exists () {
     [ -f "${1}" ] && source "${1}"
 }
-source_if_exists "${HOME}/.nix-profile/share/zsh-z/zsh-z.plugin.zsh"
 # source_if_exists "${HOME}/.nix-profile/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh"
+source_if_exists "${HOME}/.nix-profile/share/zsh-z/zsh-z.plugin.zsh"
 source_if_exists "${HOME}/.fzf.zsh"
 
+# if neovide is present, change the `nvim` command to open it instead.
 if [ -f "/Applications/Neovide.app/Contents/MacOS/neovide" ]; then
     export PATH="/Applications/Neovide.app/Contents/MacOS:${PATH}"
 
-    # neovide runs as a login shell. this re-sources /etc/zprofile, which re-adds duplicate `/usr/bin ... etc` to the front of
-    # $PATH and removing duplicates, which changes the order of priority in the PATH variable I defined.
-    # this is mostly a mac issue, it always runs `/etc/libexec/path_helper` or something.
-    # note that there is a `.zprofile` to handle `PRESERVE_PATH` since interactive shells
-    # do not source the `.zshrc` (and it wouldn't matter anyway...)
-    # this is just a hack to get it working, e.g. pyright is looking at the wrong python executable in neovide-nvim.
+    # neovide runs as a login shell. this re-sources /etc/zprofile, which prepends directories to the path (like `/usr/bin ... etc`)
+    # on a mac, `/etc/libexec/path_helper`  changes the order of priority by removing duplicates from the end of the path.
+    # example: (start) PATH=A:B -> (resource zprofile) PATH=B:A:B -> (path_helper runs because login shell) PATH=B:A.
+    # so if A/foo and B/foo, the resource now gives B/foo priority.
+
+    # note that there is a `.zprofile` to handle `PRESERVE_PATH` since interactive shells do not source the `.zshrc` (and it wouldn't matter anyway...).
+    # this is just a hack to get it working, e.g. pyright is looking at the wrong python executable in neovide-nvim for the lsp.
     function nvim () {
         (
             export PRESERVE_PATH=$PATH
@@ -24,14 +25,35 @@ if [ -f "/Applications/Neovide.app/Contents/MacOS/neovide" ]; then
         )
     }
 fi
-# end conditional loading }}}
 
-# shorthands, alias, etc {{{
-alias ls='ls --color' # color ls
-function GT { pushd $(git rev-parse --show-toplevel) } # Quick Access
-alias g='nvim -c "Git" -c "only"' # requires (n)vim `fugitive` plugin
+# general
+function ls () { $HOME/.nix-profile/bin/ls --color } # default to color ls.
+
+# nix
+function nix-zsh () { nix-shell --command "zsh" $@ } # start nix-shell using zsh instead.
+function mainEnv () { nix-env -iA nixpkgs.mainEnv } # (re)install main config.
+
+# kitty
+function ssh () { kitty +kitten ssh } # enhanced ssh functionality using kitty.
+
+# docker
+function dcu () { docker compose up }
+function dcub () { docker compose up --build }
+function dcrun () { docker compose run $@ }
+
+# git
+function g () { nvim -c "Git" -c "only" } # requires (n)vim `fugitive` plugin
+function gs () { git stash }
+function gsp () { git stash pop }
+function gt { pushd $(git rev-parse --show-toplevel) } # goto root of git directory.
+function GT { pushd $(git rev-parse --show-toplevel) }
+
+# sets the open neovim session's current directory to the current directory of the shell.
+# @see `neovim-remote`
+function here () { nvr +"cd $PWD" }
+
+# clones todo repo if file doesn't exist.
 function todo() {
-    # if the directory doesn't exist clone the repo
     if [ ! -d "${HOME}/Info" ]; then (
         cd ${HOME}
         mkdir -p "${HOME}/Info"
@@ -39,22 +61,7 @@ function todo() {
     ) fi
     nvim ${HOME}/Info/todo.md
 }
-function nix-zsh () { nix-shell --command "zsh" $@ }
-alias ssh='kitty +kitten ssh' # enhanced ssh functionality using kitty
-alias dcu='docker compose up'
-alias dcub='docker compose up --build'
-function dcrun { docker compose run $1 } # Parameter is for the service name
 
-alias gs='git stash'
-alias gsp='git stash pop'
-
-# sets the open neovim session's current directory to the current directory of the shell.
-# @see `neovim-remote`
-function here () { nvr +"cd $PWD" }
-
-# end shorthands }}}
-
-# environment variables exports {{{
 # change fzf default to use ripgrep
 export FZF_DEFAULT_COMMAND='rg --hidden --glob "!*.git" --glob "!*.class" --glob "!*.jar" --glob "!*.java.html" --no-ignore --files'
 
@@ -62,14 +69,6 @@ export FZF_DEFAULT_COMMAND='rg --hidden --glob "!*.git" --glob "!*.class" --glob
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --color=bg+:-1
 '
-# end environment variables }}}
-
-# functions {{{
-
-# open scrollback buffer in `less`. needs some cleanup.
-function sb {
-    kitty @ launch --stdin-source=@screen_scrollback --stdin-add-formatting --type=overlay less +G -R
-}
 
 # pipe a standard `psql` query into `visidata` as a `csv` for better viewing.
 function query {
@@ -77,12 +76,12 @@ function query {
     dvs -c "\copy ($QUERY) TO STDOUT CSV HEADER" | vd -f csv
 }
 
+# when switching branches sometimes jdtls gets confused, cleaning quickly remedies this.
 function clean_jdtls {
     find . -name ".project" -or -name ".settings" | xargs rm -rf
 }
-# end functions }}}
 
-# prompt config {{{
+# prompt config
 setopt prompt_subst
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git cvs svn
@@ -109,7 +108,8 @@ PS1='${vcs_info_msg_0_}%f%n %2~ %F{4}> %f'
 ZZ_DEFAULT_PROMPT=$PS1
 function sp_default { export PS1="$ZZ_DEFAULT_PROMPT" }
 function sp_level { export PS1="%n %${1}~ > " }
-# end prompt config }}}
+
+# easier to use emacs mode in vim emulated terminal.
 set -o emacs
 
-# vim: ft=bash fdm=marker foldlevel=0
+# vim: ft=bash fdm=manual foldlevel=0
