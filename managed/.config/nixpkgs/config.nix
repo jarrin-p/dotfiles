@@ -44,6 +44,7 @@
             urllib3
             virtualenv
         ]))
+        alacritty
         bear
         black
         cargo
