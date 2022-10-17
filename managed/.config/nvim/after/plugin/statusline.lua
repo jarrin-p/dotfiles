@@ -172,7 +172,13 @@ end
 
 --- uses fugitive to check if in a git directory, and if it is, return the head.
 function GetBranch()
-    if vim.fn.FugitiveIsGitDir() == 1 then return sl_item:set('⤤ ' .. vim.fn.FugitiveHead()) .. ' ' end
+    if vim.fn.FugitiveIsGitDir() == 1 then return sl_item:set('⤤ ' .. vim.fn.FugitiveHead()) end
+    return ''
+end
+
+--- returns the aws role from $AWS_ROLE.
+function GetAwsRole()
+    if os.getenv('AWS_ROLE') then return os.getenv('AWS_ROLE') end
     return ''
 end
 
@@ -217,7 +223,17 @@ vim.g.MakeStatusLine = function()
 
     -- right hand side
     sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long.
+
+    -- conditional separator (just want this real quick, todo: clean up).
+    local bottom_right = ''
+    if GetBranch() ~= "''" and GetAwsRole() ~= "''" then
+        bottom_right = ' | '
+    else
+        bottom_right = ''
+    end
     sl = sl .. GetBranch()
+    sl = sl .. bottom_right
+    sl = sl .. GetAwsRole()
     sl = sl .. header:set '  ' -- rhs padding.
 
     -- updates the window being worked in only.

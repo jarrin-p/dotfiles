@@ -71,8 +71,21 @@ ls.add_snippets(
             '.class',
                 {
                     t { 'public class ' }, i(1, 'className'),
-                    t { ' {', '\t', '}' },
+                    t { ' {' },
+                        t { '\t', }, i(0),
+                    t { '}' },
+                }
+        ),
+        s(
+            '.int',
+                {
+                    t { 'public interface ' }, i(1, 'interfaceName'),
+                    t { ' {' },
+                        t { '\t', }, i(0),
+                    t { '}' },
                 }
         ),
     }
 )
+
+-- vim: set formatprg=

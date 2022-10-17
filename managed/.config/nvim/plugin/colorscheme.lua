@@ -11,12 +11,15 @@ Colors = {
 
     gui = {
         gray = '#859289',
+        gray_lighter = '#515354',
         green = '#a7c080',
         green_bright = '#a9dd9d',
         red = '#fd8489',
         wood_dark = '#f0aa8a',
         wood_light = '#ffebc3',
         statusline_bg = '#374247',
+        green_dark = '#242b30',
+        -- green_dark = '#1d2226', -- good
     },
 } -- }}}
 
@@ -78,8 +81,9 @@ function InspectColorscheme(what)
 end -- }}}
 
 -- color scheme changes {{{
+-- vim.api.nvim_set_hl(0, 'CursorLine', { underline = 0, sp = Colors.gui.gray, bg = Colors.gui.green_dark })
 vim.api.nvim_set_hl(0, 'CursorLine', { underline = 0, sp = Colors.gui.gray })
-vim.api.nvim_set_hl(0, 'CursorLineNr', { ctermbg = Colors.none })
+vim.api.nvim_set_hl(0, 'CursorLineNr', { underline = 0, sp = Colors.gui.gray })
 vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { undercurl = 1, sp = Colors.gui.red })
 vim.api.nvim_set_hl(0, 'DiagnosticUnderlineHint', { undercurl = 1, sp = Colors.gui.gray })
 vim.api.nvim_set_hl(0, 'DiagnosticUnderlineInfo', { undercurl = 1, sp = Colors.gui.wood_dark })
@@ -106,9 +110,9 @@ vim.api.nvim_set_hl(0, 'StatusLine', {
 })
 vim.api.nvim_set_hl(0, 'StatusLineNC', { ctermbg = Colors.term.blue_dark, bg = Colors.gui.statusline_bg })
 vim.api.nvim_set_hl(0, 'Todo', { bold = 1, fg = Colors.gui.gray })
-vim.api.nvim_set_hl(0, 'VertSplit', { ctermfg = 0, fg = '#515354' })
+vim.api.nvim_set_hl(0, 'VertSplit', { ctermfg = 0, fg = Colors.gui.gray_lighter })
 vim.api.nvim_set_hl(0, 'Whitespace', { fg = Colors.gui.gray, ctermfg = Colors.term.blue_dark }) -- }}}
 
 vim.api.nvim_set_hl(0, 'NormalPopupTerm', {})
-vim.api.nvim_set_hl(0, 'BorderPopupTerm', { fg = '#515354' })
+vim.api.nvim_set_hl(0, 'BorderPopupTerm', { fg = Colors.gui.gray_lighter })
 -- vim.api.nvim_set_hl(0, guifg= guibg=#4a555b

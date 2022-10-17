@@ -27,7 +27,7 @@ if [ -f "/Applications/Neovide.app/Contents/MacOS/neovide" ]; then
 fi
 
 # general
-function ls () { $HOME/.nix-profile/bin/ls --color } # default to color ls.
+function ls () { $HOME/.nix-profile/bin/ls --color $@ } # default to color ls.
 
 # nix
 function nix-zsh () { nix-shell --command "zsh" $@ } # start nix-shell using zsh instead.
@@ -53,7 +53,7 @@ function GT { pushd $(git rev-parse --show-toplevel) }
 function here () { nvr +"cd $PWD" }
 
 # clones todo repo if file doesn't exist.
-function todo() {
+function todo () {
     if [ ! -d "${HOME}/Info" ]; then (
         cd ${HOME}
         mkdir -p "${HOME}/Info"
@@ -64,6 +64,9 @@ function todo() {
 
 # change fzf default to use ripgrep
 export FZF_DEFAULT_COMMAND='rg --hidden --glob "!*.git" --glob "!*.class" --glob "!*.jar" --glob "!*.java.html" --no-ignore --files'
+function fzfd () {
+    find . -type d | fzf
+}
 
 # fix a color scheme issue i hated
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
