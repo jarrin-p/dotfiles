@@ -43,3 +43,12 @@ nnoremap('gw', ':lua vim.lsp.buf.workspace_symbol()<enter>')
 nnoremap('gs', ':lua vim.lsp.buf.signature_help()<enter>')
 nnoremap('gj', ':lua vim.diagnostic.goto_next()<enter>')
 nnoremap('gk', ':lua vim.diagnostic.goto_prev()<enter>')
+
+-- vim.api.nvim_create_augroup("hover", {})
+-- vim.api.nvim_create_autocmd({ "CursorHoldI" }, { group = "hover", callback = vim.lsp.buf.signature_help })
+-- vim.api.nvim_create_autocmd({ "CursorHoldI" }, { group = "hover", callback = vim.lsp.buf.hover })
+
+-- vim.api.nvim_create_augroup("doc_highlight", {})
+-- vim.api.nvim_create_autocmd({ "CursorHold" }, { group = "doc_highlight", callback = vim.lsp.buf.document_highlight })
+-- vim.api.nvim_create_autocmd({ "CursorHoldI" }, { group = "doc_highlight", callback = vim.lsp.buf.document_highlight })
+-- vim.api.nvim_create_autocmd({ "CursorMoved" }, { group = "doc_highlight", callback = vim.lsp.buf.clear_references })
