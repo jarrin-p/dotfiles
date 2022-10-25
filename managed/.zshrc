@@ -8,8 +8,8 @@ source_if_exists "${HOME}/.nix-profile/share/zsh-z/zsh-z.plugin.zsh"
 source_if_exists "${HOME}/.fzf.zsh"
 
 # if neovide is present, change the `nvim` command to open it instead.
-if [ -f "/Applications/Neovide.app/Contents/MacOS/neovide" ]; then
-    export PATH="/Applications/Neovide.app/Contents/MacOS:${PATH}"
+if [ -f "/usr/local/bin/neovide" ]; then
+    export PATH="/usr/local/bin/neovide:${PATH}"
 
     # neovide runs as a login shell. this re-sources /etc/zprofile, which prepends directories to the path (like `/usr/bin ... etc`)
     # on a mac, `/etc/libexec/path_helper`  changes the order of priority by removing duplicates from the end of the path.

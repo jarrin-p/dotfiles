@@ -4,6 +4,7 @@
 function map(lhs, rhs) vim.api.nvim_set_keymap('', lhs, rhs, { noremap = false, silent = true }) end
 
 function nnoremap(lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, { noremap = true, silent = true }) end
+function buf_nnoremap(lhs, rhs) vim.api.nvim_buf_set_keymap(0, 'n', lhs, rhs, { noremap = true, silent = true }) end
 
 --- assumes remap to normal mode.
 function inoremap(lhs, rhs) vim.api.nvim_set_keymap('i', lhs, '<c-o>' .. rhs, { noremap = true, silent = true }) end

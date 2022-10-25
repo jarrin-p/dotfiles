@@ -8,15 +8,16 @@ local shada_settings = {
     '!', -- restores global variables.
     -- '%5',  -- restore # buffers.
     '\'10', -- reduce number of history files.
-    '<50', 's10', 'h', -- disable hlsearch when loading shada file.
+    '<50',
+    's10',
+    'h', -- disable hlsearch when loading shada file.
 }
 vim.o.shada = table.concat(shada_settings, ',')
 -- }}}
 
 --- gui settings {{{
 vim.g.font_size = 15
-vim.o.guifont = 'Fira Code:h' .. vim.g.font_size .. ', Courier New:h'
-                    .. vim.g.font_size .. ''
+vim.o.guifont = 'Fira Code:h' .. vim.g.font_size .. ', Courier New:h' .. vim.g.font_size .. ''
 vim.o.linespace = 12
 
 --- sets the font size using a controlled global variable. allows easy remapping for increasing and decreasing
@@ -25,8 +26,7 @@ vim.o.linespace = 12
 function SetFontSize(amt)
     if vim.g.font_size + amt > 0 then
         vim.g.font_size = vim.g.font_size + amt
-        vim.o.guifont = 'Fira Code:h' .. vim.g.font_size .. ', Courier New:h'
-                            .. vim.g.font_size .. ''
+        vim.o.guifont = 'Fira Code:h' .. vim.g.font_size .. ', Courier New:h' .. vim.g.font_size .. ''
     end
 end
 
@@ -64,6 +64,7 @@ vim.o.splitbelow = true -- splits new window down.
 vim.o.list = true
 vim.o.listchars = 'tab:-->,lead:·,trail:-'
 vim.opt_global.shortmess:remove('F') -- used for `nvim metals`
+vim.o.mouse = ''
 -- end window settings }}}
 
 --- editing settings {{{
@@ -72,21 +73,20 @@ vim.o.magic = true
 vim.o.inccommand = 'split'
 vim.o.completeopt = 'menu,menuone,preview,noselect'
 vim.o.ignorecase = false
-vim.o.smartcase = false -- interferes too much to searches.
+vim.o.smartcase = true
 vim.o.clipboard = 'unnamed,unnamedplus'
 -- end editing settings }}}
 
 --- builtin plugin settings {{{
 vim.g.netrw_liststyle = 3
 vim.g.csv_nomap_cr = 1
--- end builtin plugin settings }}}
+-- }}}
 
 --- term settings {{{
 vim.o.ttimeoutlen = 0
--- end term settinsg.
+-- }}}
 
 --- grep pattern setup {{{
---- use plugins util.
 local patterns = { '!*.class', '!*.jar', '!*.java.html', '!*.git*' }
 local pattern_string
 for _, pattern in ipairs(patterns) do
@@ -98,6 +98,6 @@ for _, pattern in ipairs(patterns) do
 end
 local rg_string = 'rg --line-number --with-filename'
 vim.o.grepprg = rg_string .. pattern_string
--- end grep pattern setup }}}
+-- }}}
 
 -- vim: fdm=marker foldlevel=0

@@ -4,6 +4,6 @@ require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
         additional_vim_regex_highlighting = true,
-        -- disable = { 'language' }, -- format for disabling languages.
+        disable = { 'vim' }, -- format for disabling languages.
     },
 }

@@ -15,7 +15,7 @@ Plug 'hrsh7th/cmp-nvim-lsp' -- lsp source for nvim-cmp
 Plug 'hrsh7th/nvim-cmp' -- autocompletion plugin
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'preservim/nerdtree'
+-- Plug 'preservim/nerdtree'
 Plug 'saadparwaiz1/cmp_luasnip' -- snippets source for nvim-cmp
 Plug 'sainnhe/vim-color-forest-night'
 Plug 'scalameta/nvim-metals'
