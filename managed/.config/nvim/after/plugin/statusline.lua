@@ -2,22 +2,18 @@
 --- @file `snippets.lua`
 LS = require 'luasnip'
 
---- symbols {{{
 local symbols = {
     bl = '«', -- bracket left
     br = '»', -- bracket right
     ra = '->', -- right ..arrow
     left_tr = '◢',
     right_tr = '◣',
+    -- local enter_sym = '⏎'
+    -- local te = '⋯'
 }
---
--- local enter_sym = '⏎'
--- local te = '⋯'
--- end symbols }}}
 
 local statusline_background_default = '#374247'
 
---- highlight group wrapper {{{
 --- nvim highlight group wrapper that allows easier inline status text formatting.
 --- additionally, has defaults specified to keep the status line uniform
 SLColorgroup = {
@@ -53,26 +49,23 @@ SLColorgroup = {
     end,
 
     --- returns the string to use the color group in the status line.
-    --- @param text_to_color [optional] for code readability, to "pseudo" wrap the group of characters to be colored.
+    --- @param text_to_color string for code readability, to "pseudo" wrap the group of characters to be colored.
     set = function(self, text_to_color)
         text_to_color = text_to_color or ''
         return '%#' .. self.name .. '#' .. self.pretext .. text_to_color .. self.posttext
     end,
 }
--- end highlight group wrapper }}}
 
---- color groups {{{
--- create custom color groups for the status line. assigning them to variables
--- allows the color groups to have a `set` helper function that uses defaults.
+--- create custom color groups for the status line. assigning them to variables
+--- allows the color groups to have a `set` helper function that uses defaults.
 local bracket = SLColorgroup:new{ name = 'SLBracket', options = { bold = 0, ctermfg = 8, fg = Colors.gui.gray } }
 local sl_item = SLColorgroup:new{ name = 'SLItem', options = { ctermfg = 121, fg = Colors.gui.green_bright } }
-local directory = SLColorgroup:new{ name = 'SLDir', options = { italic = 1, ctermfg = 3, fg = Colors.gui.wood_dark } }
+local directory = SLColorgroup:new{ name = 'SLDir', options = { italic = 1, ctermfg = 3, fg = Colors.gui.gray } }
 local header = SLColorgroup:new{
     name = 'SLFileHeader',
-    options = { bold = 0, italic = 0, ctermfg = 11, bg = statusline_background_default, fg = Colors.gui.green_bright },
+    options = { bold = 0, italic = 0, ctermfg = 11, bg = Colors.gui.sl_filename, fg = Colors.gui.green_dark },
 }
 local mod = SLColorgroup:new{ name = 'SLModified', options = { italic = 0, ctermfg = 9, fg = Colors.gui.red } }
--- end custom color groups }}}
 
 --- functions {{{
 --- gets the absolute path of the currently worked on file using `expand`
@@ -152,21 +145,25 @@ function ConvertTableToPathString(path_table, truncate_point, project_root_index
 
     -- while there's more than one entry left to add to the path that will be displayed
     while (#reverse_path > 1) do
+
         -- pop the next item to be displayed in the path from the stack and add a bracket
         local pop = directory:set(table.remove(reverse_path))
         if #reverse_path < truncate_point then
-            status = pop .. status
-            status = ' ' .. bracket:set(symbols.bl) .. ' ' .. status
+            status = ' ' .. pop .. status
 
-            -- set the point where truncation occurs on the list
+            -- only append on a specific.
+            if (#reverse_path > 1) then status = ' ' .. bracket:set(symbols.bl) .. status end
+
         elseif #path_table == truncate_point then
+            -- set the point where truncation occurs on the list
             status = ' ' .. bracket:set(symbols.bl) .. directory:set ' <% '
         end
     end
 
     --- the `open` file itself is the last item in the table to be popped.
     -- additionally, adds a modified symbol if ... the file has been modified ...
-    status = header:set(table.remove(path_table)) .. mod:set(AddSymbolIfSet('modified', '+')) .. status
+    status = header:set(table.remove(path_table)) .. mod:set(AddSymbolIfSet('modified', '+')) .. ' ' .. bracket:set ' '
+                 .. status
     return status
 end
 

@@ -19,6 +19,7 @@ Colors = {
         wood_light = '#ffebc3',
         statusline_bg = '#374247',
         green_dark = '#242b30',
+        sl_filename = '#a7c080',
         -- green_dark = '#1d2226', -- good
     },
 } -- }}}
