@@ -70,6 +70,7 @@
         rename
         ripgrep
         rtorrent
+        rustc
         sbt
         stow
         terraform
