@@ -25,6 +25,8 @@ Plug 'vimwiki/vimwiki'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'wfxr/minimap.vim'
 
+Plug 'nvim-treesitter/playground'
+
 vim.call('plug#end')
 
 --- simple nvim specific setups
