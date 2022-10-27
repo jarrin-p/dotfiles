@@ -92,26 +92,26 @@ function MakePath()
     local buf_type = vim.api.nvim_get_option_value('buftype', {})
 
     if buf_type == 'terminal' then
-        return header:set 'Terminal ' .. bracket:set ''
+        return header:set 'Terminal  ' .. bracket:set ''
 
     elseif file_type == 'minimap' then
-        return header:set 'Minimap ' .. bracket:set ''
+        return header:set 'Minimap  ' .. bracket:set ''
 
     elseif file_type == 'help' then
-        return header:set 'Help ' .. bracket:set ''
+        return header:set 'Help  ' .. bracket:set ''
 
     elseif file_type == 'qf' then
-        return header:set 'Quick Fix || Location List ' .. bracket:set ''
+        return header:set 'Quick Fix || Location List  ' .. bracket:set ''
 
     elseif file_type == 'fugitive' then
-        return header:set 'Fugitive ' .. bracket:set(symbols.bl) .. directory:set ' Git'
+        return header:set 'Fugitive  ' .. bracket:set(symbols.bl) .. directory:set ' Git'
 
     elseif file_type == 'gitcommit' then
-        return header:set 'Commit ' .. bracket:set(symbols.bl) .. directory:set ' Fugitive ' .. bracket:set(symbols.bl)
+        return header:set 'Commit  ' .. bracket:set(symbols.bl) .. directory:set ' Fugitive ' .. bracket:set(symbols.bl)
                    .. directory:set ' Git'
 
     elseif file_type == 'git' then
-        return header:set 'Branch ' .. bracket:set(symbols.bl) .. directory:set ' Fugitive ' .. bracket:set(symbols.bl)
+        return header:set 'Branch  ' .. bracket:set(symbols.bl) .. directory:set ' Fugitive ' .. bracket:set(symbols.bl)
                    .. directory:set ' Git'
 
     elseif file_type == 'nerdtree' then
