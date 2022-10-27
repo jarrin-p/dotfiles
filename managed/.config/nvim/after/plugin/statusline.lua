@@ -92,16 +92,16 @@ function MakePath()
     local buf_type = vim.api.nvim_get_option_value('buftype', {})
 
     if buf_type == 'terminal' then
-        return header:set 'Terminal'
+        return header:set 'Terminal ' .. bracket:set ''
 
     elseif file_type == 'minimap' then
-        return header:set 'Minimap'
+        return header:set 'Minimap ' .. bracket:set ''
 
     elseif file_type == 'help' then
-        return header:set 'Help'
+        return header:set 'Help ' .. bracket:set ''
 
     elseif file_type == 'qf' then
-        return header:set 'Quick Fix || Location List'
+        return header:set 'Quick Fix || Location List ' .. bracket:set ''
 
     elseif file_type == 'fugitive' then
         return header:set 'Fugitive ' .. bracket:set(symbols.bl) .. directory:set ' Git'
@@ -162,7 +162,7 @@ function ConvertTableToPathString(path_table, truncate_point, project_root_index
 
     --- the `open` file itself is the last item in the table to be popped.
     -- additionally, adds a modified symbol if ... the file has been modified ...
-    status = header:set(table.remove(path_table)) .. mod:set(AddSymbolIfSet('modified', '+')) .. ' ' .. bracket:set ' '
+    status = header:set(table.remove(path_table)) .. mod:set(AddSymbolIfSet('modified', '+')) .. '  ' .. bracket:set ' '
                  .. status
     return status
 end
@@ -175,7 +175,7 @@ end
 
 --- returns the aws role from $AWS_ROLE.
 function GetAwsRole()
-    if os.getenv('AWS_ROLE') then return os.getenv('AWS_ROLE') end
+    if os.getenv('AWS_ROLE') then return ' | ' .. os.getenv('AWS_ROLE') end
     return ''
 end
 
@@ -221,17 +221,9 @@ vim.g.MakeStatusLine = function()
     -- right hand side
     sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long.
 
-    -- conditional separator (just want this real quick, todo: clean up).
-    local bottom_right = ''
-    if GetBranch() ~= "''" and GetAwsRole() ~= "''" then
-        bottom_right = ' | '
-    else
-        bottom_right = ''
-    end
     sl = sl .. GetBranch()
-    sl = sl .. bottom_right
     sl = sl .. GetAwsRole()
-    sl = sl .. header:set '  ' -- rhs padding.
+    sl = sl .. bracket:set '  ' -- rhs padding.
 
     -- updates the window being worked in only.
     vim.wo.statusline = sl
