@@ -75,6 +75,7 @@
         stow
         terraform
         tmux
+        tree
         visidata
         wget
         youtube-dl

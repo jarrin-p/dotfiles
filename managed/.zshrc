@@ -48,6 +48,10 @@ function gsp () { git stash pop }
 function gt { pushd $(git rev-parse --show-toplevel) } # goto root of git directory.
 function GT { pushd $(git rev-parse --show-toplevel) }
 
+# tree
+function tree () { ${HOME}/.nix-profile/bin/tree -A -C $@ }
+function wtree () { ${HOME}/.nix-profile/bin/tree --prune -P "*.java" -I "build" -A -C $@ }
+
 # sets the open neovim session's current directory to the current directory of the shell.
 # @see `neovim-remote`
 function here () { nvr +"cd $PWD" }

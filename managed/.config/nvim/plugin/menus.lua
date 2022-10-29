@@ -21,6 +21,3 @@ local function AddMenuItem(opts)
     local cmd = table.concat({ mode .. noremap .. 'menu', opts.name, opts.map }, ' ')
     vim.cmd(cmd)
 end
-
-AddMenuItem { name = 'test.test', map = ':w<enter>' }
-AddMenuItem { name = 'test.anothertest', map = ':w<enter>' }
