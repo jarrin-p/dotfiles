@@ -62,24 +62,16 @@ ls.add_snippets(
                 i(1, 'interfaceName'), t { ' {', '\t', '}' },
             }
         ), s(
-            '.int', {
-                t { 'public interface ' }, i(1, 'interfaceName'),
-                t { ' {', '\t', '}' },
+            '.interface', {
+                t { 'public interface ' }, i(1, 'interfaceName'), t { ' {', },
+                    t { '\t',},
+                t { '}' },
             }
         ),
         s(
             '.class',
                 {
                     t { 'public class ' }, i(1, 'className'),
-                    t { ' {' },
-                        t { '\t', }, i(0),
-                    t { '}' },
-                }
-        ),
-        s(
-            '.int',
-                {
-                    t { 'public interface ' }, i(1, 'interfaceName'),
                     t { ' {' },
                         t { '\t', }, i(0),
                     t { '}' },

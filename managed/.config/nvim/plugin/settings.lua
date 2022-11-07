@@ -17,7 +17,9 @@ vim.o.shada = table.concat(shada_settings, ',')
 
 --- gui settings {{{
 vim.g.font_size = 15
-vim.o.guifont = 'Fira Code:h' .. vim.g.font_size .. ', Courier New:h' .. vim.g.font_size .. ''
+vim.g.FontKW = 'JetBrains Mono:h' .. vim.g.font_size .. ', Fira Code:h'
+-- vim.o.FontKW = 'Fira Code:h' .. vim.g.font_size .. ', Courier New:h'
+vim.o.guifont = vim.g.FontKW .. vim.g.font_size .. ''
 vim.o.linespace = 12
 
 --- sets the font size using a controlled global variable. allows easy remapping for increasing and decreasing
@@ -26,7 +28,7 @@ vim.o.linespace = 12
 function SetFontSize(amt)
     if vim.g.font_size + amt > 0 then
         vim.g.font_size = vim.g.font_size + amt
-        vim.o.guifont = 'Fira Code:h' .. vim.g.font_size .. ', Courier New:h' .. vim.g.font_size .. ''
+        vim.o.guifont = vim.g.FontKW .. vim.g.font_size .. ''
     end
 end
 
