@@ -60,7 +60,6 @@
         jq
         luaformatter
         neovim
-        neovide
         neovim-remote
         nodejs-slim-14_x
         nodePackages.npm

@@ -15,7 +15,6 @@ Plug 'hrsh7th/cmp-nvim-lsp' -- lsp source for nvim-cmp
 Plug 'hrsh7th/nvim-cmp' -- autocompletion plugin
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
--- Plug 'preservim/nerdtree'
 Plug 'saadparwaiz1/cmp_luasnip' -- snippets source for nvim-cmp
 Plug 'sainnhe/vim-color-forest-night'
 Plug 'scalameta/nvim-metals'
@@ -25,12 +24,12 @@ Plug 'vimwiki/vimwiki'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'wfxr/minimap.vim'
 Plug 'simrat39/rust-tools.nvim'
-
+Plug 'arcticicestudio/nord-vim'
 Plug 'nvim-treesitter/playground'
 
 vim.call('plug#end')
 
 --- simple nvim specific setups
-vim.cmd('colorscheme everforest')
+vim.cmd('colorscheme nord')
 
 -- vim: fdm=marker foldlevel=0
