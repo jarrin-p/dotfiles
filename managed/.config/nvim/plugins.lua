@@ -24,6 +24,7 @@ Plug 'tpope/vim-surround'
 Plug 'vimwiki/vimwiki'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'wfxr/minimap.vim'
+Plug 'simrat39/rust-tools.nvim'
 
 Plug 'nvim-treesitter/playground'
 

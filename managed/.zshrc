@@ -8,7 +8,7 @@ source_if_exists "${HOME}/.nix-profile/share/zsh-z/zsh-z.plugin.zsh"
 source_if_exists "${HOME}/.fzf.zsh"
 
 # if neovide is present, change the `nvim` command to open it instead.
-if [ -f "/usr/local/bin/neovide" ]; then
+if [ -f "${HOME}/.nix-profile/bin/neovide" ]; then
     export PATH="/usr/local/bin/neovide:${PATH}"
 
     # neovide runs as a login shell. this re-sources /etc/zprofile, which prepends directories to the path (like `/usr/bin ... etc`)

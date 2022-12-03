@@ -44,7 +44,6 @@
             urllib3
             virtualenv
         ]))
-        alacritty
         bear
         black
         cargo
@@ -61,6 +60,7 @@
         jq
         luaformatter
         neovim
+        neovide
         neovim-remote
         nodejs-slim-14_x
         nodePackages.npm
@@ -71,6 +71,7 @@
         ripgrep
         rtorrent
         rustc
+        rust-analyzer
         sbt
         stow
         terraform
