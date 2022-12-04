@@ -67,6 +67,7 @@ vim.o.list = true
 vim.o.listchars = 'tab:-->,lead:·,trail:-'
 vim.opt_global.shortmess:remove('F') -- used for `nvim metals`
 vim.o.mouse = ''
+vim.o.termguicolors = true
 -- end window settings }}}
 
 --- editing settings {{{
