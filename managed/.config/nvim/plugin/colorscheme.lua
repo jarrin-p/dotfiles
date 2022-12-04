@@ -1,5 +1,13 @@
 --- @author jarrin-p
 --- @file `colorscheme.lua`
+--
+--- @param colorgroup string the name of the color group to get back as a string.
+function GetColorschemeAsHex(colorgroup, colorgroup_field)
+    local getColorValueFromGroup = vim.api.nvim_get_hl_by_name(colorgroup, true)[colorgroup_field]
+    getColorValueFromGroup = string.format("%06x", getColorValueFromGroup)
+    return '#' .. getColorValueFromGroup
+end
+
 --- colors {{{
 --- specifying colors manually. makes tweaking easier
 --- these are basically manually defined to line up with current color scheme config
