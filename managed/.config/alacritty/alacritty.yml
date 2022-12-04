@@ -3,6 +3,18 @@ font:
   normal:
     family: JetBrains Mono
   size: 15.0
+shell:
+  program: /bin/zsh
+  args:
+    - --login
+mouse:
+  hide_when_typing: true
+window:
+  padding:
+    x: 10
+    y: 10
+draw_bold_text_with_bright_colors: false
+alt_send_esc: false
 
 # Copyright (c) 2017-present Arctic Ice Studio <development@arcticicestudio.com>
 # Copyright (c) 2017-present Sven Greb <code@svengreb.de>
@@ -63,29 +75,4 @@ colors:
     cyan: '#6d96a5'
     white: '#aeb3bb'
 
-# env:
-  #TERM: alacritty
-  # padding:
-  #   x: "5"
-  #   y: "5"
-
-# If `true`, bold text is drawn using the bright color variants.
-draw_bold_text_with_bright_colors: false
-#cursor:
-  # See `cursor.style` for available options.
-  #vi_mode_style: None
-  #thickness: 0.15
-
-shell:
-  program: /bin/zsh
-  args:
-    - --login
-
 # Send ESC (\x1b) before characters when alt is pressed.
-#alt_send_esc: true
-
-# Offer IPC using `alacritty msg` (unix only)
-#ipc_socket: true
-
-mouse:
-  hide_when_typing: true
