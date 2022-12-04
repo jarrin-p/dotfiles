@@ -7,34 +7,12 @@ function source_if_exists () {
 source_if_exists "${HOME}/.nix-profile/share/zsh-z/zsh-z.plugin.zsh"
 source_if_exists "${HOME}/.fzf.zsh"
 
-# if neovide is present, change the `nvim` command to open it instead.
-if [ -f "${HOME}/.nix-profile/bin/neovide" ]; then
-    export PATH="/usr/local/bin/neovide:${PATH}"
-
-    # neovide runs as a login shell. this re-sources /etc/zprofile, which prepends directories to the path (like `/usr/bin ... etc`)
-    # on a mac, `/etc/libexec/path_helper`  changes the order of priority by removing duplicates from the end of the path.
-    # example: (start) PATH=A:B -> (resource zprofile) PATH=B:A:B -> (path_helper runs because login shell) PATH=B:A.
-    # so if A/foo and B/foo, the resource now gives B/foo priority.
-
-    # note that there is a `.zprofile` to handle `PRESERVE_PATH` since interactive shells do not source the `.zshrc` (and it wouldn't matter anyway...).
-    # this is just a hack to get it working, e.g. pyright is looking at the wrong python executable in neovide-nvim for the lsp.
-    function nvim () {
-        (
-            export PRESERVE_PATH=$PATH
-            neovide --multigrid -- $@
-        )
-    }
-fi
-
 # general
 function ls () { $HOME/.nix-profile/bin/ls --color $@ } # default to color ls.
 
 # nix
 function nix-zsh () { nix-shell --command "zsh" $@ } # start nix-shell using zsh instead.
 function mainEnv () { nix-env -iA nixpkgs.mainEnv } # (re)install main config.
-
-# kitty
-function ssh () { kitty +kitten ssh } # enhanced ssh functionality using kitty.
 
 # docker
 function dcu () { docker compose up }
