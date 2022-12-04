@@ -46,9 +46,7 @@ function todo () {
 
 # change fzf default to use ripgrep
 export FZF_DEFAULT_COMMAND='rg --hidden --glob "!*.git" --glob "!*.class" --glob "!*.jar" --glob "!*.java.html" --no-ignore --files'
-function fzfd () {
-    find . -type d | fzf
-}
+function fzfd() dirname $(fzf $@)
 
 # fix a color scheme issue i hated
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
