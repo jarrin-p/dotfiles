@@ -11,8 +11,7 @@ local symbols = {
     -- local enter_sym = '⏎'
     -- local te = '⋯'
 }
-
-local statusline_background_default = '#374247'
+local statusline_background_default = GetColorschemeAsHex("Tabline", "background")
 
 --- nvim highlight group wrapper that allows easier inline status text formatting.
 --- additionally, has defaults specified to keep the status line uniform
@@ -21,7 +20,7 @@ SLColorgroup = {
     scope = 0,
     options = {
         underline = 0, -- underline needs to be enabled for custom underline color.
-        sp = Colors.gui.gray, -- default for the underline color.
+        sp = Colors.gui.comment_fg, -- default for the underline color.
         bg = statusline_background_default,
     },
     pretext = '',
@@ -45,6 +44,7 @@ SLColorgroup = {
             end
         end
         vim.api.nvim_set_hl(obj.scope, obj.name, obj.options)
+
         return obj
     end,
 
@@ -58,12 +58,12 @@ SLColorgroup = {
 
 --- create custom color groups for the status line. assigning them to variables
 --- allows the color groups to have a `set` helper function that uses defaults.
-local bracket = SLColorgroup:new{ name = 'SLBracket', options = { bold = 0, ctermfg = 8, fg = Colors.gui.gray } }
-local sl_item = SLColorgroup:new{ name = 'SLItem', options = { ctermfg = 121, fg = Colors.gui.green_bright } }
-local directory = SLColorgroup:new{ name = 'SLDir', options = { italic = 1, ctermfg = 3, fg = Colors.gui.gray } }
+local bracket = SLColorgroup:new{ name = 'SLBracket', options = { fg = Colors.gui.comment_fg } }
+local sl_item = SLColorgroup:new{ name = 'SLItem', options = { fg = Colors.gui.boolean_fg } }
+local directory = SLColorgroup:new{ name = 'SLDir', options = { italic = 1, ctermfg = 3, fg = Colors.gui.comment_fg } }
 local header = SLColorgroup:new{
     name = 'SLFileHeader',
-    options = { bold = 0, italic = 0, ctermfg = 11, bg = Colors.gui.sl_filename, fg = Colors.gui.green_dark },
+    options = { bold = 0, italic = 0, ctermfg = 11, bg = Colors.gui.boolean_fg, fg = Colors.gui.cursor_fg },
 }
 local mod = SLColorgroup:new{ name = 'SLModified', options = { italic = 0, ctermfg = 9, fg = Colors.gui.red } }
 
