@@ -32,3 +32,4 @@ Colors = {
 } -- }}}
 
 vim.api.nvim_set_hl(0, 'TablineSel', { fg = Colors.gui.cursor_fg, bg = Colors.gui.boolean_fg })
+vim.api.nvim_set_hl(0, 'CursorLine', {})
