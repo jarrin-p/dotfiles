@@ -7,6 +7,11 @@ function source_if_exists () {
 source_if_exists "${HOME}/.nix-profile/share/zsh-z/zsh-z.plugin.zsh"
 source_if_exists "${HOME}/.fzf.zsh"
 
+# sharing paths between vim and the shell.
+export VIM_CWD_PATH='/tmp/vimcwd.path'
+function vcd() cd $(cat $VIM_CWD_PATH)
+
+
 # general
 function ls () { $HOME/.nix-profile/bin/ls --color $@ } # default to color ls.
 
@@ -29,10 +34,6 @@ function GT { pushd $(git rev-parse --show-toplevel) }
 # tree
 function tree () { ${HOME}/.nix-profile/bin/tree -A -C $@ }
 function wtree () { ${HOME}/.nix-profile/bin/tree --prune -P "*.java" -I "build" -A -C $@ }
-
-# sets the open neovim session's current directory to the current directory of the shell.
-# @see `neovim-remote`
-function here () { nvr +"cd $PWD" }
 
 # clones todo repo if file doesn't exist.
 function todo () {

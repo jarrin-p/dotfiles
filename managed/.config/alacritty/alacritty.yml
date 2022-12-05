@@ -13,9 +13,11 @@ window:
   padding:
     x: 10
     y: 10
+  decorations: none
 draw_bold_text_with_bright_colors: false
 alt_send_esc: false
-
+key_bindings:
+  - { key: N,        mods: Command, command: { program: "open", args: ["-n", "/Applications/Alacritty.app"] } }
 # Copyright (c) 2017-present Arctic Ice Studio <development@arcticicestudio.com>
 # Copyright (c) 2017-present Sven Greb <code@svengreb.de>
 
