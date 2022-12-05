@@ -8,3 +8,4 @@ nvim/coc-settings.json
 package-lock.json
 package.json
 node_modules/
+Session.vim
