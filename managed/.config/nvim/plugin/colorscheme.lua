@@ -32,4 +32,9 @@ Colors = {
 } -- }}}
 
 vim.api.nvim_set_hl(0, 'TablineSel', { fg = Colors.gui.cursor_fg, bg = Colors.gui.boolean_fg })
+vim.api.nvim_set_hl(0, 'TablineFill', {})
 vim.api.nvim_set_hl(0, 'CursorLine', {})
+vim.api.nvim_set_hl(0, 'EndOfBuffer', { fg = 'bg' })
+-- vim.api.nvim_set_hl(0, 'Whitespace', { fg = Colors.gui.gray, ctermfg = Colors.term.blue_dark }) -- }}}
+-- vim.api.nvim_set_hl(0, 'SignColumn', {})
+-- vim.api.nvim_set_hl(0, 'SpellCap', { ctermbg = Colors.term.blue_dark, undercurl = 1, sp = Colors.gui.gray })
