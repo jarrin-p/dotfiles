@@ -2,12 +2,15 @@
 --- @file `snippets.lua`
 LS = require 'luasnip'
 
+--- I'm awful and just copy pasted symbols I wanted.
 local symbols = {
-    bl = '«', -- bracket left
-    br = '»', -- bracket right
+    -- bl = '«', -- bracket left
+    -- br = '»', -- bracket right
     ra = '->', -- right ..arrow
-    left_tr = '◢',
-    right_tr = '◣',
+    left_tr = '',
+    right_tr = '',
+    bl = '',
+    br = '',
     -- local enter_sym = '⏎'
     -- local te = '⋯'
 }
@@ -65,7 +68,14 @@ local header = SLColorgroup:new{
     name = 'SLFileHeader',
     options = { bold = 0, italic = 0, ctermfg = 11, bg = Colors.gui.boolean_fg, fg = Colors.gui.cursor_fg },
 }
-local mod = SLColorgroup:new{ name = 'SLModified', options = { italic = 0, ctermfg = 9, fg = Colors.gui.red } }
+local header_reverse = SLColorgroup:new{
+    name = 'SLFileHeaderReverse',
+    options = { bold = 0, italic = 0, ctermfg = 11, fg = Colors.gui.boolean_fg, bg = statusline_background_default },
+}
+local mod = SLColorgroup:new{
+    name = 'SLModified',
+    options = { bold = 1, ctermfg = 9, fg = Colors.gui.identifier_fg, bg = Colors.gui.boolean_fg },
+}
 
 --- functions {{{
 --- gets the absolute path of the currently worked on file using `expand`
@@ -92,27 +102,28 @@ function MakePath()
     local buf_type = vim.api.nvim_get_option_value('buftype', {})
 
     if buf_type == 'terminal' then
-        return header:set 'Terminal  ' .. bracket:set ''
+        return header:set 'Terminal  ' .. header_reverse:set(symbols.left_tr) .. bracket:set ''
 
     elseif file_type == 'minimap' then
-        return header:set 'Minimap  ' .. bracket:set ''
+        return header:set 'Minimap  ' .. header_reverse:set(symbols.left_tr) .. bracket:set ''
 
     elseif file_type == 'help' then
-        return header:set 'Help  ' .. bracket:set ''
+        return header:set 'Help  ' .. header_reverse:set(symbols.left_tr) .. bracket:set ''
 
     elseif file_type == 'qf' then
-        return header:set 'Quick Fix || Location List  ' .. bracket:set ''
+        return header:set 'Quick Fix || Location List  ' .. header_reverse:set(symbols.left_tr) .. bracket:set ''
 
     elseif file_type == 'fugitive' then
-        return header:set 'Fugitive  ' .. bracket:set(symbols.bl) .. directory:set ' Git'
+        return header:set 'Fugitive  ' .. header_reverse:set(symbols.left_tr) .. bracket:set(symbols.bl)
+                   .. directory:set ' Git'
 
     elseif file_type == 'gitcommit' then
-        return header:set 'Commit  ' .. bracket:set(symbols.bl) .. directory:set ' Fugitive ' .. bracket:set(symbols.bl)
-                   .. directory:set ' Git'
+        return header:set 'Commit  ' .. header_reverse:set(symbols.left_tr) .. bracket:set(symbols.bl)
+                   .. directory:set ' Fugitive ' .. bracket:set(symbols.bl) .. directory:set ' Git'
 
     elseif file_type == 'git' then
-        return header:set 'Branch  ' .. bracket:set(symbols.bl) .. directory:set ' Fugitive ' .. bracket:set(symbols.bl)
-                   .. directory:set ' Git'
+        return header:set 'Branch  ' .. header_reverse:set(symbols.left_tr) .. bracket:set(symbols.bl)
+                   .. directory:set ' Fugitive ' .. bracket:set(symbols.bl) .. directory:set ' Git'
 
     elseif file_type == 'nerdtree' then
         return (sl_item:set '↟' .. header:set 'NERDTree')
@@ -162,8 +173,8 @@ function ConvertTableToPathString(path_table, truncate_point, project_root_index
 
     --- the `open` file itself is the last item in the table to be popped.
     -- additionally, adds a modified symbol if ... the file has been modified ...
-    status = header:set(table.remove(path_table)) .. mod:set(AddSymbolIfSet('modified', '+')) .. '  ' .. bracket:set ' '
-                 .. status
+    status = header:set(table.remove(path_table)) .. mod:set(AddSymbolIfSet('modified', '+')) .. header:set ' '
+                 .. header_reverse:set(symbols.left_tr) .. bracket:set ' ' .. status
     return status
 end
 

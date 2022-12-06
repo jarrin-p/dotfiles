@@ -21,4 +21,4 @@ vim.api.nvim_create_autocmd({ 'BufWinLeave' },
 vim.api.nvim_create_autocmd({ 'BufWinEnter' },
     { pattern = { '.*', '*' }, command = 'if expand("%") != "" | silent! loadview | endif' })
 
-vim.api.nvim_create_autocmd({ 'DirChanged' }, { callback = ExportCwd })
+vim.api.nvim_create_autocmd({ 'DirChanged', 'VimLeave' }, { callback = ExportCwd })

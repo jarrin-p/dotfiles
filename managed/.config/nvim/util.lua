@@ -250,6 +250,7 @@ end -- }}}
 
 --- exports the cwd to a temp file gotten from the env variable $VIM_CWD_PATH
 function ExportCwd()
+    -- cd %:p:h<enter>
     local cwd = vim.fn.getcwd()
     os.execute('echo "' .. cwd .. '" > ' .. os.getenv('VIM_CWD_PATH'))
 end

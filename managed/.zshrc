@@ -14,6 +14,21 @@ function vcd() cd $(cat $VIM_CWD_PATH)
 # general
 function ls () { $HOME/.nix-profile/bin/ls --color $@ } # default to color ls.
 
+function ranger {
+    local IFS=$'\t\n'
+    local tempfile="$(mktemp -t tmp.XXXXXX)"
+    local ranger_cmd=(
+        command
+        ranger
+        --cmd="map Q chain shell echo %d > "$tempfile"; quitall"
+    )
+
+    ${ranger_cmd[@]} "$@"
+    if [[ -f "$tempfile" ]] && [[ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]]; then
+        cd -- "$(cat "$tempfile")" || return
+    fi
+    command rm -f -- "$tempfile" 2>/dev/null
+}
 # nix
 function nix-zsh () { nix-shell --command "zsh" $@ } # start nix-shell using zsh instead.
 function mainEnv () { nix-env -iA nixpkgs.mainEnv } # (re)install main config.
