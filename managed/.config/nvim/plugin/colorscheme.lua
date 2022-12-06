@@ -26,8 +26,12 @@ Colors = {
         wood_dark = '#f0aa8a',
         wood_light = '#ffebc3',
         statusline_bg = '#374247',
-        cursor_fg = GetColorschemeAsHex("Cursor", "foreground"),
-        boolean_fg = GetColorschemeAsHex("Boolean", "foreground"),
+        cursor_fg = GetColorschemeAsHex('Cursor', 'foreground'),
+        boolean_fg = GetColorschemeAsHex('Boolean', 'foreground'),
+        float_fg = GetColorschemeAsHex('Float', 'foreground'),
+        string_fg = GetColorschemeAsHex('String', 'foreground'),
+        identifier_fg = GetColorschemeAsHex('Identifier', 'foreground'),
+        function_fg = GetColorschemeAsHex('Function', 'foreground'),
     },
 } -- }}}
 
@@ -35,6 +39,22 @@ vim.api.nvim_set_hl(0, 'TablineSel', { fg = Colors.gui.cursor_fg, bg = Colors.gu
 vim.api.nvim_set_hl(0, 'TablineFill', {})
 vim.api.nvim_set_hl(0, 'CursorLine', {})
 vim.api.nvim_set_hl(0, 'EndOfBuffer', { fg = 'bg' })
+vim.api.nvim_set_hl(0, 'String', { fg = Colors.gui.float_fg })
+vim.api.nvim_set_hl(0, 'Character', { fg = Colors.gui.float_fg })
+vim.api.nvim_set_hl(0, 'Number', { fg = Colors.gui.string_fg })
+vim.api.nvim_set_hl(0, 'Float', { fg = Colors.gui.string_fg })
+vim.api.nvim_set_hl(0, 'Operator', { fg = Colors.gui.float_fg })
+vim.api.nvim_set_hl(0, 'Conditional', { fg = Colors.gui.float_fg })
+vim.api.nvim_set_hl(0, 'Keyword', { bold = true, fg = Colors.gui.float_fg })
+vim.api.nvim_set_hl(0, 'Type', { italic = true, fg = Colors.gui.function_fg })
+vim.api.nvim_set_hl(0, 'Typedef', { italic = true, fg = Colors.gui.function_fg })
+vim.api.nvim_set_hl(0, 'Structure', { italic = true, fg = Colors.gui.function_fg })
+vim.api.nvim_set_hl(0, 'Define', { italic = true, fg = Colors.gui.function_fg })
+vim.api.nvim_set_hl(0, 'Label', { italic = true, fg = Colors.gui.function_fg })
+vim.api.nvim_set_hl(0, 'Identifier', { italic = true, fg = Colors.gui.function_fg })
+
+-- for i in ipairs(Colors) do print('something: ' .. i) end
+
 -- vim.api.nvim_set_hl(0, 'Whitespace', { fg = Colors.gui.gray, ctermfg = Colors.term.blue_dark }) -- }}}
 -- vim.api.nvim_set_hl(0, 'SignColumn', {})
 -- vim.api.nvim_set_hl(0, 'SpellCap', { ctermbg = Colors.term.blue_dark, undercurl = 1, sp = Colors.gui.gray })
