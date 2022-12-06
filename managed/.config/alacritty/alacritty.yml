@@ -19,3 +19,6 @@ draw_bold_text_with_bright_colors: false
 alt_send_esc: false
 key_bindings:
   - { key: N, mods: Alt, action: SpawnNewInstance }
+  - { key: Space, mods: Alt, action: ToggleViMode }
+  - { key: Equals, mods: Alt, action: IncreaseFontSize }
+  - { key: Minus, mods: Alt, action: DecreaseFontSize }
