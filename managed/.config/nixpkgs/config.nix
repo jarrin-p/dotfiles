@@ -74,12 +74,10 @@
         sbt
         stow
         terraform
-        tmux
         tree
         visidata
         wget
         youtube-dl
-        # zsh-vi-mode
         zsh-z
       ];
       pathsToLink = [ "/share" "/share/man" "/share/doc" "/bin" ];
