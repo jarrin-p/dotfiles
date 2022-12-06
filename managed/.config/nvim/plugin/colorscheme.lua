@@ -32,6 +32,7 @@ Colors = {
         string_fg = GetColorschemeAsHex('String', 'foreground'),
         identifier_fg = GetColorschemeAsHex('Identifier', 'foreground'),
         function_fg = GetColorschemeAsHex('Function', 'foreground'),
+        folded_fg = GetColorschemeAsHex('Folded', 'foreground'),
     },
 } -- }}}
 
@@ -52,6 +53,7 @@ vim.api.nvim_set_hl(0, 'Structure', { italic = true, fg = Colors.gui.function_fg
 vim.api.nvim_set_hl(0, 'Define', { italic = true, fg = Colors.gui.function_fg })
 vim.api.nvim_set_hl(0, 'Label', { italic = true, fg = Colors.gui.function_fg })
 vim.api.nvim_set_hl(0, 'Identifier', { italic = true, fg = Colors.gui.function_fg })
+vim.api.nvim_set_hl(0, 'Folded', { italic = true, fg = Colors.gui.folded_fg })
 
 -- for i in ipairs(Colors) do print('something: ' .. i) end
 
