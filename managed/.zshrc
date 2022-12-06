@@ -11,7 +11,6 @@ source_if_exists "${HOME}/.fzf.zsh"
 export VIM_CWD_PATH='/tmp/vimcwd.path'
 function vcd() cd $(cat $VIM_CWD_PATH)
 
-
 # general
 function ls () { $HOME/.nix-profile/bin/ls --color $@ } # default to color ls.
 
