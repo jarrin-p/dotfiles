@@ -1,6 +1,7 @@
 --- @author jarrin-p
 --- @file `snippets.lua`
 LS = require 'luasnip'
+--- TODO: nodes that connect forwards, backwards inspecting each other to create the transitions.
 
 --- create custom color groups for the status line. assigning them to variables
 --- allows the color groups to have a `set` helper function that uses defaults.
