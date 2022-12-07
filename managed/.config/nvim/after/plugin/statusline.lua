@@ -2,80 +2,28 @@
 --- @file `snippets.lua`
 LS = require 'luasnip'
 
---- I'm awful and just copy pasted symbols I wanted.
-local symbols = {
-    -- bl = '«', -- bracket left
-    -- br = '»', -- bracket right
-    ra = '->', -- right ..arrow
-    left_tr = '',
-    right_tr = '',
-    bl = '',
-    br = '',
-    -- local enter_sym = '⏎'
-    -- local te = '⋯'
-}
-local statusline_background_default = GetColorschemeAsHex("Tabline", "background")
-
---- nvim highlight group wrapper that allows easier inline status text formatting.
---- additionally, has defaults specified to keep the status line uniform
-SLColorgroup = {
-    name = 'Not set',
-    scope = 0,
-    options = {
-        underline = 0, -- underline needs to be enabled for custom underline color.
-        sp = Colors.gui.comment_fg, -- default for the underline color.
-        bg = statusline_background_default,
-    },
-    pretext = '',
-    posttext = '',
-
-    -- create new statusline colorgroup object. attempting to manage statusline color groups
-    -- so its behavior can be more easily updated.
-    new = function(self, arg_table)
-        self.__index = self
-        local obj = {}
-        setmetatable(obj, self)
-
-        for key, val in pairs(arg_table) do
-            if key == 'options' then
-                -- if it's the options table, loop through to add to the table instead of
-                -- overwriting from the new table. this preserves default settings.
-                for opts_key, opts_val in pairs(val) do obj.options[opts_key] = opts_val end
-
-            else
-                obj[key] = val
-            end
-        end
-        vim.api.nvim_set_hl(obj.scope, obj.name, obj.options)
-
-        return obj
-    end,
-
-    --- returns the string to use the color group in the status line.
-    --- @param text_to_color string for code readability, to "pseudo" wrap the group of characters to be colored.
-    set = function(self, text_to_color)
-        text_to_color = text_to_color or ''
-        return '%#' .. self.name .. '#' .. self.pretext .. text_to_color .. self.posttext
-    end,
-}
-
 --- create custom color groups for the status line. assigning them to variables
 --- allows the color groups to have a `set` helper function that uses defaults.
-local bracket = SLColorgroup:new{ name = 'SLBracket', options = { fg = Colors.gui.comment_fg } }
-local sl_item = SLColorgroup:new{ name = 'SLItem', options = { fg = Colors.gui.boolean_fg } }
-local directory = SLColorgroup:new{ name = 'SLDir', options = { italic = 1, ctermfg = 3, fg = Colors.gui.comment_fg } }
-local header = SLColorgroup:new{
+local bracket = InlineColorGroup:new{ name = 'SLBracket', options = { fg = Colors.gui.comment_fg } }
+local sl_item = InlineColorGroup:new{ name = 'SLItem', options = { fg = Colors.gui.boolean_fg } }
+local directory = InlineColorGroup:new{
+    name = 'SLDir',
+    options = { italic = 1, ctermfg = 3, fg = Colors.gui.comment_fg },
+    posttext = ' ' .. Symbols.bl,
+}
+local header = InlineColorGroup:new{
     name = 'SLFileHeader',
     options = { bold = 0, italic = 0, ctermfg = 11, bg = Colors.gui.boolean_fg, fg = Colors.gui.cursor_fg },
 }
-local header_reverse = SLColorgroup:new{
+local header_reverse = InlineColorGroup:new{
     name = 'SLFileHeaderReverse',
-    options = { bold = 0, italic = 0, ctermfg = 11, fg = Colors.gui.boolean_fg, bg = statusline_background_default },
+    options = { bold = 0, italic = 0, ctermfg = 11, fg = Colors.gui.boolean_fg, bg = Colors.gui.normal_bg },
 }
-local mod = SLColorgroup:new{
+local mod = InlineColorGroup:new{
     name = 'SLModified',
     options = { bold = 1, ctermfg = 9, fg = Colors.gui.identifier_fg, bg = Colors.gui.boolean_fg },
 }
+local sl_norm = InlineColorGroup:new{ name = 'SLNorm', options = { bg = Colors.gui.normal_bg } }
 
 --- functions {{{
 --- gets the absolute path of the currently worked on file using `expand`
@@ -102,31 +50,27 @@ function MakePath()
     local buf_type = vim.api.nvim_get_option_value('buftype', {})
 
     if buf_type == 'terminal' then
-        return header:set 'Terminal  ' .. header_reverse:set(symbols.left_tr) .. bracket:set ''
+        return header:set 'Terminal  ' .. header_reverse:set(Symbols.left_tr)
 
     elseif file_type == 'minimap' then
-        return header:set 'Minimap  ' .. header_reverse:set(symbols.left_tr) .. bracket:set ''
+        return header:set 'Minimap  ' .. header_reverse:set(Symbols.left_tr)
 
     elseif file_type == 'help' then
-        return header:set 'Help  ' .. header_reverse:set(symbols.left_tr) .. bracket:set ''
+        return header:set 'Help  ' .. header_reverse:set(Symbols.left_tr)
 
     elseif file_type == 'qf' then
-        return header:set 'Quick Fix || Location List  ' .. header_reverse:set(symbols.left_tr) .. bracket:set ''
+        return header:set 'Quick Fix || Location List  ' .. header_reverse:set(Symbols.left_tr)
 
     elseif file_type == 'fugitive' then
-        return header:set 'Fugitive  ' .. header_reverse:set(symbols.left_tr) .. bracket:set(symbols.bl)
-                   .. directory:set ' Git'
+        return header:set 'Fugitive  ' .. header_reverse:set(Symbols.left_tr) .. directory:set ' Git'
 
     elseif file_type == 'gitcommit' then
-        return header:set 'Commit  ' .. header_reverse:set(symbols.left_tr) .. bracket:set(symbols.bl)
-                   .. directory:set ' Fugitive ' .. bracket:set(symbols.bl) .. directory:set ' Git'
+        return header:set 'Commit  ' .. header_reverse:set(Symbols.left_tr) .. directory:set ' Fugitive '
+                   .. directory:set ' Git'
 
     elseif file_type == 'git' then
-        return header:set 'Branch  ' .. header_reverse:set(symbols.left_tr) .. bracket:set(symbols.bl)
-                   .. directory:set ' Fugitive ' .. bracket:set(symbols.bl) .. directory:set ' Git'
-
-    elseif file_type == 'nerdtree' then
-        return (sl_item:set '↟' .. header:set 'NERDTree')
+        return header:set 'Branch  ' .. header_reverse:set(Symbols.left_tr) .. directory:set ' Fugitive '
+                   .. directory:set ' Git'
 
     elseif vim.fn.FugitiveIsGitDir() == 1 then
         local abs_file_path = GetAbsolutePathAsTable()
@@ -162,32 +106,17 @@ function ConvertTableToPathString(path_table, truncate_point, project_root_index
         if #reverse_path < truncate_point then
             status = ' ' .. pop .. status
 
-            -- only append on a specific.
-            if (#reverse_path > 1) then status = ' ' .. bracket:set(symbols.bl) .. status end
-
         elseif #path_table == truncate_point then
             -- set the point where truncation occurs on the list
-            status = ' ' .. bracket:set(symbols.bl) .. directory:set ' <% '
+            status = ' ' .. directory:set ' <% '
         end
     end
 
     --- the `open` file itself is the last item in the table to be popped.
-    -- additionally, adds a modified symbol if ... the file has been modified ...
+    --- additionally, adds a modified symbol if ... the file has been modified ...
     status = header:set(table.remove(path_table)) .. mod:set(AddSymbolIfSet('modified', '+')) .. header:set ' '
-                 .. header_reverse:set(symbols.left_tr) .. bracket:set ' ' .. status
+                 .. header_reverse:set(Symbols.left_tr) .. bracket:set '' .. status
     return status
-end
-
---- uses fugitive to check if in a git directory, and if it is, return the head.
-function GetBranch()
-    if vim.fn.FugitiveIsGitDir() == 1 then return sl_item:set('⤤ ' .. vim.fn.FugitiveHead()) end
-    return ''
-end
-
---- returns the aws role from $AWS_ROLE.
-function GetAwsRole()
-    if os.getenv('AWS_ROLE') then return ' | ' .. os.getenv('AWS_ROLE') end
-    return ''
 end
 
 --- checks if a boolean option is true, then adds a user defined symbol if it is.
@@ -226,16 +155,7 @@ vim.g.MakeStatusLine = function()
         sl = sl .. MakePath()
     end
 
-    -- where to truncate and where the statusline splits.
-    sl = sl .. '%='
-
-    -- right hand side
-    sl = sl .. '        ' -- added 8 spaces of padding for when the status line is long.
-
-    sl = sl .. GetBranch()
-    sl = sl .. GetAwsRole()
-    sl = sl .. bracket:set '  ' -- rhs padding.
-
+    sl = sl .. sl_norm:set ''
     -- updates the window being worked in only.
     vim.wo.statusline = sl
     return sl

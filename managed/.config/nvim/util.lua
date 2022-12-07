@@ -255,4 +255,30 @@ function ExportCwd()
     os.execute('echo "' .. cwd .. '" > ' .. os.getenv('VIM_CWD_PATH'))
 end
 
+--- uses fugitive to check if in a git directory, and if it is, return the head.
+--- @return string #the name of the branch, or an empty string.
+function GetBranch()
+    if vim.fn.FugitiveIsGitDir() == 1 then return ('⤤ ' .. vim.fn.FugitiveHead()) end
+    return ''
+end
+
+--- @return string #the aws role from $AWS_ROLE.
+function GetAwsRole()
+    if os.getenv('AWS_ROLE') then return ' | ' .. os.getenv('AWS_ROLE') end
+    return ''
+end
+
+--- I'm awful and just copy pasted symbols I wanted.
+Symbols = {
+    -- bl = '«', -- bracket left
+    -- br = '»', -- bracket right
+    ra = '->', -- right ..arrow
+    left_tr = '',
+    right_tr = '',
+    bl = '',
+    br = '',
+    -- local enter_sym = '⏎'
+    -- local te = '⋯'
+}
+
 -- vim: fdm=marker foldlevel=0

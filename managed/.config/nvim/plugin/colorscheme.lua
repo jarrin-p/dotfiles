@@ -18,7 +18,6 @@ Colors = {
     term = { cyan = 81, blue_dark = 8, red = 9 },
 
     gui = {
-        comment_fg = GetColorschemeAsHex("Comment", "foreground"),
         gray_lighter = '#515354',
         green = '#a7c080',
         green_bright = '#a9dd9d',
@@ -26,13 +25,19 @@ Colors = {
         wood_dark = '#f0aa8a',
         wood_light = '#ffebc3',
         statusline_bg = '#374247',
-        cursor_fg = GetColorschemeAsHex('Cursor', 'foreground'),
         boolean_fg = GetColorschemeAsHex('Boolean', 'foreground'),
+        comment_fg = GetColorschemeAsHex('Comment', 'foreground'),
+        cursor_fg = GetColorschemeAsHex('Cursor', 'foreground'),
         float_fg = GetColorschemeAsHex('Float', 'foreground'),
-        string_fg = GetColorschemeAsHex('String', 'foreground'),
-        identifier_fg = GetColorschemeAsHex('Identifier', 'foreground'),
-        function_fg = GetColorschemeAsHex('Function', 'foreground'),
         folded_fg = GetColorschemeAsHex('Folded', 'foreground'),
+        function_fg = GetColorschemeAsHex('Function', 'foreground'),
+        identifier_fg = GetColorschemeAsHex('Identifier', 'foreground'),
+        normal_bg = GetColorschemeAsHex('Normal', 'background'),
+        normal_fg = GetColorschemeAsHex('Normal', 'foreground'),
+        statusline_background_default = GetColorschemeAsHex('Tabline', 'background'),
+        string_fg = GetColorschemeAsHex('String', 'foreground'),
+        tablinesel_fg = GetColorschemeAsHex('TabLineSel', 'foreground'),
+        tablinesel_bg = GetColorschemeAsHex('TabLineSel', 'background'),
     },
 } -- }}}
 
