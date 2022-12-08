@@ -9,7 +9,8 @@ local bracket = InlineColorGroup:new{ name = 'SLBracket', options = { fg = Color
 local sl_item = InlineColorGroup:new{ name = 'SLItem', options = { fg = Colors.gui.boolean_fg } }
 local directory = InlineColorGroup:new{
     name = 'SLDir',
-    options = { italic = 1, ctermfg = 3, fg = Colors.gui.comment_fg },
+    options = { italic = 1, ctermfg = 3, fg = Colors.gui.comment_fg, bg = Colors.gui.normal_bg },
+    pretext = ' ',
     posttext = ' ' .. Symbols.bl,
 }
 local header = InlineColorGroup:new{
@@ -105,7 +106,7 @@ function ConvertTableToPathString(path_table, truncate_point, project_root_index
         -- pop the next item to be displayed in the path from the stack and add a bracket
         local pop = directory:set(table.remove(reverse_path))
         if #reverse_path < truncate_point then
-            status = ' ' .. pop .. status
+            status = '' .. pop .. status
 
         elseif #path_table == truncate_point then
             -- set the point where truncation occurs on the list
