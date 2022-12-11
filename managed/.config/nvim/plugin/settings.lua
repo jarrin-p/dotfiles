@@ -73,6 +73,7 @@ vim.o.termguicolors = true
 --- editing settings {{{
 vim.o.backspace = 'indent,eol,start'
 vim.o.magic = true
+vim.o.spell = false
 vim.o.inccommand = 'split'
 vim.o.completeopt = 'menu,menuone,preview,noselect'
 vim.o.ignorecase = false
