@@ -110,4 +110,14 @@ function sp_level { export PS1="%n %${1}~ > " }
 # easier to use emacs mode in vim emulated terminal.
 set -o emacs
 
+# temporary, probably unsafe check for if `fish exists`.
+function tm() {
+    if type "fish" > /dev/null; then
+        env SHELL=$(which fish) tmux
+    else
+        tmux
+    fi
+
+}
+
 # vim: ft=bash fdm=manual foldlevel=0
