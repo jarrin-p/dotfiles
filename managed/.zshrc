@@ -107,7 +107,4 @@ ZZ_DEFAULT_PROMPT=$PS1
 function sp_default { export PS1="$ZZ_DEFAULT_PROMPT" }
 function sp_level { export PS1="%n %${1}~ > " }
 
-# easier to use emacs mode in vim emulated terminal.
-set -o emacs
-
 # vim: ft=bash fdm=manual foldlevel=0
