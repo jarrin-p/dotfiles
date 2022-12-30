@@ -23,6 +23,29 @@
         ];
     };
 
+    neovim = pkgs.neovim.override {
+        configure = {
+          packages.myPlugins = with pkgs.vimPlugins; {
+          start = [
+            fzf-vim
+            luasnip
+            cmp-nvim-lsp
+            nvim-cmp
+            nvim-lspconfig
+            plenary-nvim
+            cmp_luasnip
+            vim-fugitive
+            vim-surround
+            minimap-vim
+            rust-tools-nvim
+            nord-vim
+            playground
+          ];
+          opt = [];
+        };
+      };
+    };
+
     mainEnv = with pkgs; pkgs.buildEnv {
       name = "mainEnv";
       paths = [
