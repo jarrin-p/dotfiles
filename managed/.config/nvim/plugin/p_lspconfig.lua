@@ -1,18 +1,3 @@
-require('nvim-lsp-installer').setup {}
-local servers = {
-    'bashls',
-    'groovyls',
-    'jdtls',
-    'pyright',
-    'remark_ls',
-    'rnix',
-    'sqlls',
-    'sumneko_lua',
-    'terraformls',
-    'tsserver',
-    'vimls',
-}
-
 local rt = require("rust-tools")
 
 rt.setup({
@@ -28,20 +13,6 @@ rt.setup({
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 local r = require('lspconfig')
-for _, s in pairs(servers) do
-    if s == 'sumneko_lua' then
-        r[s].setup {
-            capabilities = capabilities,
-            settings = { Lua = { version = 'LuaJIT', diagnostics = { globals = { 'vim' } } } },
-        }
-    elseif s == 'bashls' then
-        r[s].setup { capabilities = capabilities, filetypes = { 'sh', 'bash', 'zsh' } }
-    elseif s == 'jdtls' then
-        r[s].setup { capabilities = capabilities, use_lombok_agent = true }
-    else
-        r[s].setup { capabilities = capabilities }
-    end
-end
 
 nnoremap('gD', ':lua vim.lsp.buf.declaration()<enter>')
 nnoremap('gd', ':lua vim.lsp.buf.definition()<enter>')
