@@ -23,29 +23,6 @@
         ];
     };
 
-    neovim = pkgs.neovim.override {
-        configure = {
-          packages.myPlugins = with pkgs.vimPlugins; {
-          start = [
-            fzf-vim
-            luasnip
-            cmp-nvim-lsp
-            nvim-cmp
-            nvim-lspconfig
-            plenary-nvim
-            cmp_luasnip
-            vim-fugitive
-            vim-surround
-            minimap-vim
-            rust-tools-nvim
-            nord-vim
-            playground
-          ];
-          opt = [];
-        };
-      };
-    };
-
     mainEnv = with pkgs; pkgs.buildEnv {
       name = "mainEnv";
       paths = [
@@ -82,7 +59,45 @@
         jdk17
         jq
         luaformatter
-        neovim
+        (neovim.override {
+            configure = {
+              customRC = ''
+                lua << EOF
+                  require "os"
+                  local rc_path, suffix = os.getenv("MYVIMRC"), ""
+                  if rc_path ~= nil and rc_path:match(".lua") then
+                      suffix = ".lua"
+                  else
+                      suffix = ".vim"
+                  end
+
+                  -- add path so require function will find additional files in `current` dir.
+                  package.path = string.gsub(rc_path, "init" .. suffix, "") .. "?.lua;" .. package.path
+
+                  require "util"
+                  require "plugins"
+                EOF
+              '';
+
+              packages.myPlugins = with pkgs.vimPlugins; {
+              start = [
+                fzf-vim
+                luasnip
+                cmp-nvim-lsp
+                nvim-cmp
+                nvim-lspconfig
+                plenary-nvim
+                cmp_luasnip
+                vim-fugitive
+                vim-surround
+                minimap-vim
+                rust-tools-nvim
+                nord-vim
+              ];
+              opt = [];
+            };
+          };
+        })
         neovim-remote
         nodejs-slim-14_x
         nodePackages.npm
