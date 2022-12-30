@@ -107,4 +107,25 @@ ZZ_DEFAULT_PROMPT=$PS1
 function sp_default { export PS1="$ZZ_DEFAULT_PROMPT" }
 function sp_level { export PS1="%n %${1}~ > " }
 
-# vim: ft=bash fdm=manual foldlevel=0
+# vi mode cursors.
+cursor_block="\033[2 q"
+cursor_thin="\033[6 q"
+
+# special zle functions.
+zle-line-init () {
+    zle -K viins # starts new shell with insert mode active.
+    printf $cursor_thin
+}
+zle-keymap-select () {
+    case $KEYMAP in
+        vicmd) printf $cursor_block ;;
+        *) printf $cursor_thin ;;
+    esac
+}
+
+# set zle widgets.
+zle -N zle-keymap-select
+zle -N zle-line-init
+bindkey -v
+
+# vim: ft=zsh fdm=manual foldlevel=0
