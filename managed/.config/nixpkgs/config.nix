@@ -1,21 +1,6 @@
-{
-  packageOverrides = pkgs: {
-
-    gradleJdk11 = with pkgs; pkgs.buildEnv {
-        name = "gradleJdk11";
-        paths = [
-            (gradle_7.override{ java = jdk11; })
-        ];
-    };
-
-    mainEnv = with pkgs; pkgs.buildEnv {
-      name = "mainEnv";
-      paths = [
-        (gradle_7.override{ java = jdk11; })
-        (lua5_3.withPackages (ps: with ps; [
-            luacheck
-        ]))
-        (python39.withPackages (ps: with ps; [
+let
+  pkgs = import <nixpkgs> {};
+  ppython39 = (pkgs.python39.withPackages (ps: with ps; [
             XlsxWriter
             boto3
             certifi
@@ -28,24 +13,11 @@
             requests
             urllib3
             virtualenv
-        ]))
-        bear
-        black
-        cargo
-        cmake
-        code-minimap
-        coreutils-full
-        coursier
-        curl
-        ffmpeg
-        fzf
-        gh
-        git
-        jdk17
-        jq
-        luaformatter
-        (neovim.override {
+        ]));
+
+  neovim = (pkgs.neovim.override {
             configure = {
+              # a hack that allows nvim config to exist without nix.
               customRC = ''
                 lua << EOF
                   require "os"
@@ -76,8 +48,46 @@
               opt = [];
             };
           };
-        })
+        });
+in
+{
+  packageOverrides = pkgs: {
+
+    # mostly keeping for reference to gradle/java version setting,
+    # since I feel likely to forget as a nix beginner.
+    gradleJdk11 = with pkgs; pkgs.buildEnv {
+        name = "gradleJdk11";
+        paths = [
+            (gradle_7.override{ java = jdk11; })
+        ];
+    };
+
+    mainEnv = with pkgs; pkgs.buildEnv {
+      name = "mainEnv";
+      paths = [
+        (gradle_7.override{ java = jdk11; })
+        (lua5_3.withPackages (ps: [
+            ps.luacheck
+        ]))
+        ppython39
+        bear
+        black
+        cargo
+        cmake
+        code-minimap
+        coreutils-full
+        coursier
+        curl
+        ffmpeg
+        fzf
+        gh
+        git
+        jdk17
+        jq
+        luaformatter
+        neovim
         neovim-remote
+        nil # nix language server.
         nodejs-slim-14_x
         nodePackages.npm
         nmap
@@ -97,7 +107,7 @@
         wget
         youtube-dl
         zsh-z
-      ];
+        ];
       pathsToLink = [ "/share" "/share/man" "/share/doc" "/bin" ];
       extraOutputsToInstall = [ "man" "doc" ];
     };
