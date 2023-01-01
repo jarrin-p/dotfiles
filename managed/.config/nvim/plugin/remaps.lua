@@ -1,12 +1,9 @@
 --- @author jarrin-p
 --- @file `remaps.lua`
-local init = os.getenv('MYVIMRC')
-
 --- simple changes {{{
 map('<space>', '<leader>') -- Remap leader to spacebar, obviously
 nnoremap('Y', 'y$') -- Change back to vanilla default
 nnoremap('U', '<c-r>') -- change U to redo because I'm simple and U confuses me.
-nnoremap('<leader>V', ':tabe ' .. init .. '<enter>:lcd %:p:h<enter>') -- edit init.lua
 nnoremap('`', '\'') -- swap mapping of "jump to mark's col,line" with "jump to mark's line"
 nnoremap('\'', '`') -- swap mapping of "jump to mark's line" with "jump to mark's col,line"
 -- end simple changes }}}

@@ -64,15 +64,8 @@
               customRC = ''
                 lua << EOF
                   require "os"
-                  local rc_path, suffix = os.getenv("MYVIMRC"), ""
-                  if rc_path ~= nil and rc_path:match(".lua") then
-                      suffix = ".lua"
-                  else
-                      suffix = ".vim"
-                  end
-
-                  -- add path so require function will find additional files in `current` dir.
-                  package.path = string.gsub(rc_path, "init" .. suffix, "") .. "?.lua;" .. package.path
+                  local config_path = os.getenv("HOME") .. "/.config/nvim/"
+                  package.path = config_path .. "?.lua;" .. package.path
 
                   require "util"
                   require "plugins"
@@ -93,6 +86,7 @@
                 minimap-vim
                 rust-tools-nvim
                 nord-vim
+                (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
               ];
               opt = [];
             };
