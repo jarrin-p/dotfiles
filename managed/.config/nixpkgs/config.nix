@@ -1,25 +1,10 @@
 {
   packageOverrides = pkgs: {
 
-    # don't need this on every computer.
-    transmission = with pkgs; pkgs.buildEnv {
-      name = "transmission";
-      paths = [
-        transmission
-      ];
-    };
-
     gradleJdk11 = with pkgs; pkgs.buildEnv {
         name = "gradleJdk11";
         paths = [
             (gradle_7.override{ java = jdk11; })
-        ];
-    };
-
-    gradleJdk17 = with pkgs; pkgs.buildEnv {
-        name = "gradleJdk17";
-        paths = [
-            (gradle_7.override{ java = jdk17; })
         ];
     };
 
@@ -115,14 +100,6 @@
       ];
       pathsToLink = [ "/share" "/share/man" "/share/doc" "/bin" ];
       extraOutputsToInstall = [ "man" "doc" ];
-      # TODO get post build script working.
-      # postBuild = ''
-      #   CS_CACHE=$out/cs_cache
-      #   echo $CS_CACHE
-      #   mkdir $out/cs_cache
-      #   $out/bin/cs setup --cache $CS_CACHE -y
-      #   $out/bin/cs install scala
-      # '';
     };
   };
 }
