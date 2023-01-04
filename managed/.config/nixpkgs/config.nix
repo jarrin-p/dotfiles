@@ -34,6 +34,7 @@ let
                 cmp-nvim-lsp
                 cmp_luasnip
                 fzf-vim
+                lsp_signature-nvim
                 luasnip
                 minimap-vim
                 nord-vim

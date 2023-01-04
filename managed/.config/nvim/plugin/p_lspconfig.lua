@@ -1,6 +1,7 @@
 -- language servers.
 require'rust-tools'.setup {}
 require'lspconfig'.nil_ls.setup {}
+require'lsp_signature'.setup()
 
 -- completion.
 require'cmp_nvim_lsp'.default_capabilities(vim.lsp.protocol.make_client_capabilities())
