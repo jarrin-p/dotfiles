@@ -41,27 +41,22 @@ Colors = {
     },
 } -- }}}
 
-vim.api.nvim_set_hl(0, 'TablineSel', { fg = Colors.gui.cursor_fg, bg = Colors.gui.boolean_fg })
-vim.api.nvim_set_hl(0, 'TablineFill', {})
-vim.api.nvim_set_hl(0, 'CursorLine', {})
-vim.api.nvim_set_hl(0, 'EndOfBuffer', { fg = 'bg' })
-vim.api.nvim_set_hl(0, 'String', { fg = Colors.gui.float_fg })
 vim.api.nvim_set_hl(0, 'Character', { fg = Colors.gui.float_fg })
-vim.api.nvim_set_hl(0, 'Number', { fg = Colors.gui.string_fg })
-vim.api.nvim_set_hl(0, 'Float', { fg = Colors.gui.string_fg })
-vim.api.nvim_set_hl(0, 'Operator', { fg = Colors.gui.float_fg })
 vim.api.nvim_set_hl(0, 'Conditional', { fg = Colors.gui.float_fg })
+vim.api.nvim_set_hl(0, 'CursorLine', {})
+vim.api.nvim_set_hl(0, 'Define', { italic = true, fg = Colors.gui.function_fg })
+vim.api.nvim_set_hl(0, 'EndOfBuffer', { fg = 'bg' })
+vim.api.nvim_set_hl(0, 'Float', { fg = Colors.gui.string_fg })
+vim.api.nvim_set_hl(0, 'Folded', { italic = true, fg = Colors.gui.folded_fg })
+vim.api.nvim_set_hl(0, 'Function', { italic = false, fg = Colors.gui.boolean_fg })
+vim.api.nvim_set_hl(0, 'Identifier', { italic = false, fg = Colors.gui.function_fg })
 vim.api.nvim_set_hl(0, 'Keyword', { bold = true, fg = Colors.gui.float_fg })
+vim.api.nvim_set_hl(0, 'Label', { italic = true, fg = Colors.gui.function_fg })
+vim.api.nvim_set_hl(0, 'Number', { italic = true, fg = Colors.gui.string_fg })
+vim.api.nvim_set_hl(0, 'Operator', { fg = Colors.gui.float_fg })
+vim.api.nvim_set_hl(0, 'String', { fg = Colors.gui.string_fg, italic = true })
+vim.api.nvim_set_hl(0, 'Structure', { italic = true, fg = Colors.gui.function_fg })
+vim.api.nvim_set_hl(0, 'TablineFill', {})
+vim.api.nvim_set_hl(0, 'TablineSel', { fg = Colors.gui.cursor_fg, bg = Colors.gui.boolean_fg })
 vim.api.nvim_set_hl(0, 'Type', { italic = true, fg = Colors.gui.function_fg })
 vim.api.nvim_set_hl(0, 'Typedef', { italic = true, fg = Colors.gui.function_fg })
-vim.api.nvim_set_hl(0, 'Structure', { italic = true, fg = Colors.gui.function_fg })
-vim.api.nvim_set_hl(0, 'Define', { italic = true, fg = Colors.gui.function_fg })
-vim.api.nvim_set_hl(0, 'Label', { italic = true, fg = Colors.gui.function_fg })
-vim.api.nvim_set_hl(0, 'Identifier', { italic = true, fg = Colors.gui.function_fg })
-vim.api.nvim_set_hl(0, 'Folded', { italic = true, fg = Colors.gui.folded_fg })
-
--- for i in ipairs(Colors) do print('something: ' .. i) end
-
--- vim.api.nvim_set_hl(0, 'Whitespace', { fg = Colors.gui.gray, ctermfg = Colors.term.blue_dark }) -- }}}
--- vim.api.nvim_set_hl(0, 'SignColumn', {})
--- vim.api.nvim_set_hl(0, 'SpellCap', { ctermbg = Colors.term.blue_dark, undercurl = 1, sp = Colors.gui.gray })
