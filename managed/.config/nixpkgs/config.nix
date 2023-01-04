@@ -31,19 +31,20 @@ let
 
               packages.myPlugins = with pkgs.vimPlugins; {
               start = [
+                cmp-nvim-lsp
+                cmp_luasnip
                 fzf-vim
                 luasnip
-                cmp-nvim-lsp
+                minimap-vim
+                nord-vim
                 nvim-cmp
+                nvim-jdtls
                 nvim-lspconfig
                 plenary-nvim
-                cmp_luasnip
+                rust-tools-nvim
                 vim-fugitive
                 vim-surround
-                minimap-vim
-                rust-tools-nvim
-                nord-vim
-                nvim-jdtls
+                vimwiki
                 (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
               ];
               opt = [];
