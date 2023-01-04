@@ -22,3 +22,5 @@ key_bindings:
   - { key: V, mods: Alt, action: ToggleViMode }
   - { key: Equals, mods: Alt, action: IncreaseFontSize }
   - { key: Minus, mods: Alt, action: DecreaseFontSize }
+env:
+  TERM: xterm-256color
