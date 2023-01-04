@@ -1,3 +1,16 @@
+local project_name
+if vim.fn.FugitiveIsGitDir() == 1 then
+    project_name = vim.fn.fnamemodify(vim.fn.FugitiveWorkTree(), ':p:h:t')
+else
+    project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+end
+-- language server settings
+local config = {
+    cmd = {'jdt-language-server', '-data', '/tmp/jdtls_workspace/' .. project_name},
+    root_dir = vim.fs.dirname(vim.fs.find({'.gradlew', '.git', 'mvnw'}, { upward = true })[1]),
+}
+require('jdtls').start_or_attach(config)
+
 vim.bo.tabstop = 2
 
 -- runs `spotlessApply` at the top level of the git repository.
@@ -79,5 +92,3 @@ ls.add_snippets(
         ),
     }
 )
-
--- vim: set formatprg=

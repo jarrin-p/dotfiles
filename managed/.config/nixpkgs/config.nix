@@ -43,6 +43,7 @@ let
                 minimap-vim
                 rust-tools-nvim
                 nord-vim
+                nvim-jdtls
                 (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
               ];
               opt = [];
@@ -66,9 +67,7 @@ in
       name = "mainEnv";
       paths = [
         (gradle_7.override{ java = jdk11; })
-        (lua5_3.withPackages (ps: [
-            ps.luacheck
-        ]))
+        (lua5_3.withPackages (ps: [ ps.luacheck ]))
         ppython39
         bear
         black
@@ -83,6 +82,7 @@ in
         gh
         git
         jdk17
+        jdt-language-server
         jq
         luaformatter
         neovim
