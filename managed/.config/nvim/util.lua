@@ -74,9 +74,10 @@ end -- }}}
 --- CleanBufferPostSpace() {{{
 --- cleans trailing whitespace in a file. win view is saved to keep cursor from jumping around from the substitute command.
 function CleanBufferPostSpace()
-    local view = vim.fn.winsaveview()
-    vim.cmd('keepjumps silent %smagic/ *$//')
-    vim.fn.winrestview(view)
+    -- TODO make this not keep jumps for undo with subs.
+    -- local view = vim.fn.winsaveview()
+    -- vim.cmd('keepjumps silent %smagic/ *$//')
+    -- vim.fn.winrestview(view)
 end -- }}}
 
 --- CurrentBufIsEmpty() {{{
