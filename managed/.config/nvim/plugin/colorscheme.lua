@@ -27,6 +27,7 @@ Colors = {
         statusline_bg = '#374247',
         boolean_fg = GetColorschemeAsHex('Boolean', 'foreground'),
         comment_fg = GetColorschemeAsHex('Comment', 'foreground'),
+        cursor_bg = GetColorschemeAsHex('Cursor', 'background'),
         cursor_fg = GetColorschemeAsHex('Cursor', 'foreground'),
         float_fg = GetColorschemeAsHex('Float', 'foreground'),
         folded_fg = GetColorschemeAsHex('Folded', 'foreground'),
@@ -43,7 +44,8 @@ Colors = {
 
 vim.api.nvim_set_hl(0, 'Character', { fg = Colors.gui.float_fg })
 vim.api.nvim_set_hl(0, 'Conditional', { fg = Colors.gui.float_fg })
-vim.api.nvim_set_hl(0, 'CursorLine', {})
+vim.api.nvim_set_hl(0, 'CurSearch', { fg = Colors.gui.cursor_fg, bg = Colors.gui.cursor_bg })
+vim.api.nvim_set_hl(0, 'CursorLine', { bg = Colors.gui.statusline_background_default })
 vim.api.nvim_set_hl(0, 'Define', { italic = true, fg = Colors.gui.function_fg })
 vim.api.nvim_set_hl(0, 'EndOfBuffer', { fg = 'bg' })
 vim.api.nvim_set_hl(0, 'Float', { fg = Colors.gui.string_fg })
