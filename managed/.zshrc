@@ -14,6 +14,7 @@ function vcd() cd $(cat $VIM_CWD_PATH)
 # general
 function ls () { $HOME/.nix-profile/bin/ls --color $@ } # default to color ls.
 
+# ranger
 function ranger {
     local IFS=$'\t\n'
     local tempfile="$(mktemp -t tmp.XXXXXX)"
