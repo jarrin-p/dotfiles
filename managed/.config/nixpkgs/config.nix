@@ -92,6 +92,8 @@ in
         nil # nix language server.
         nodejs-slim-14_x
         nodePackages.npm
+        nodePackages.typescript
+        nodePackages.typescript-language-server
         nmap
         pkcs11helper
         ranger
@@ -103,6 +105,7 @@ in
         sbt
         stow
         terraform
+        terraform-ls
         tree
         tmux
         visidata
