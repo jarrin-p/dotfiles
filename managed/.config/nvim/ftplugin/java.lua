@@ -12,6 +12,8 @@ local config = {
 require('jdtls').start_or_attach(config)
 
 vim.bo.tabstop = 2
+vim.wo.foldlevel = 1
+vim.wo.foldnestmax = 4
 
 -- runs `spotlessApply` at the top level of the git repository.
 Exec(
