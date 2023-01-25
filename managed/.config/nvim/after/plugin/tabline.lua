@@ -29,8 +29,8 @@ vim.g.MakeTabline = function()
     local num_tabs = vim.fn.tabpagenr('$')
     local tabl = tabline_std:set(GetBranch()) .. tabline_std_rev:set(Symbols.left_tr)
     tabl = tabl .. tabline_fill:set '' .. '%= ' -- right align tabs.
-    local right_sym
 
+    local right_sym
     if current_tab == 1 then
         right_sym = tabline_sel_rev:set(Symbols.right_tr)
     else
@@ -46,6 +46,7 @@ vim.g.MakeTabline = function()
             tabl = tabl .. tabline_std:set(i)
         end
     end
+    -- tabl = tabl .. ' %t%M'
 
     -- makes sure the fill is also after the tabs block.
     if num_tabs == current_tab then
