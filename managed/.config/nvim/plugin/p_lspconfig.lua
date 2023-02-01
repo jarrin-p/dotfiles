@@ -11,7 +11,7 @@ require'cmp_nvim_lsp'.default_capabilities(vim.lsp.protocol.make_client_capabili
 nnoremap('gD', ':lua vim.lsp.buf.declaration()<enter>')
 nnoremap('gd', ':lua vim.lsp.buf.definition()<enter>')
 nnoremap('<leader>d', ':lua vim.lsp.buf.hover()<enter>')
-nnoremap('gi', ':lua vim.lsp.buf.implementation()<enter>')
+nnoremap('gi', ':lua vim.lsp.buf.incoming_calls()<enter>')
 nnoremap('<leader>rn', ':lua vim.lsp.buf.rename()<enter>')
 nnoremap('gc', ':lua vim.lsp.buf.code_action()<enter>')
 nnoremap('g=', ':lua vim.lsp.buf.format{async = true}<enter>')
