@@ -11,6 +11,7 @@ let
             psycopg2
             pytest
             requests
+            sqlparse
             urllib3
             virtualenv
         ]));
