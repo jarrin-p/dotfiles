@@ -82,6 +82,7 @@ in
         coursier
         curl
         ffmpeg
+        fish
         fzf
         gh
         git
