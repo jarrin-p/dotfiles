@@ -9,7 +9,7 @@ local bracket = InlineColorGroup:new{ name = 'SLBracket', options = { fg = Color
 -- local sl_item = InlineColorGroup:new{ name = 'SLItem', options = { fg = Colors.gui.boolean_fg } }
 local directory = InlineColorGroup:new{
     name = 'SLDir',
-    options = { italic = 1, ctermfg = 3, fg = Colors.gui.comment_fg, bg = Colors.gui.normal_bg },
+    options = { italic = 1, ctermfg = 3, fg = Colors.gui.comment_fg, bg = Colors.gui.statusline_background_default },
     pretext = ' ',
     posttext = ' ' .. Symbols.bl,
 }
@@ -19,13 +19,19 @@ local header = InlineColorGroup:new{
 }
 local header_reverse = InlineColorGroup:new{
     name = 'SLFileHeaderReverse',
-    options = { bold = 0, italic = 0, ctermfg = 11, fg = Colors.gui.boolean_fg, bg = Colors.gui.normal_bg },
+    options = {
+        bold = 0,
+        italic = 0,
+        ctermfg = 11,
+        fg = Colors.gui.boolean_fg,
+        bg = Colors.gui.statusline_background_default,
+    },
 }
 local mod = InlineColorGroup:new{
     name = 'SLModified',
     options = { bold = 1, ctermfg = 9, fg = Colors.gui.identifier_fg, bg = Colors.gui.boolean_fg },
 }
-local sl_norm = InlineColorGroup:new{ name = 'SLNorm', options = { bg = Colors.gui.normal_bg } }
+local sl_norm = InlineColorGroup:new{ name = 'SLNorm', options = { bg = Colors.gui.statusline_background_default } }
 
 -- specific objects that get reused.
 local header_la = header_reverse:set(Symbols.left_tr)
@@ -141,7 +147,8 @@ vim.g.MakeStatusLine = function()
     -- left hand side padding, also declaration for easier adjusting.
     local sl = header:set '  '
     sl = sl .. MakePath()
-    sl = sl .. sl_norm:set ''
+    sl = sl .. sl_norm:set '%='
+    sl = sl .. '[ %Y ] ' .. '[ line %l / %L ]'
 
     -- updates the window being worked in only.
     vim.wo.statusline = sl
