@@ -38,6 +38,7 @@ let
                 lsp_signature-nvim
                 luasnip
                 minimap-vim
+                neoscroll-nvim
                 nord-vim
                 nvim-cmp
                 nvim-jdtls
