@@ -138,6 +138,9 @@ function ConvertTableToPathString(path_table, truncate_point, project_root_index
     --- additionally, adds a modified symbol if ... the file has been modified ...
     status = header:set(table.remove(path_table)) .. getModifiedStatus() .. header:set ' '
                  .. header_reverse:set(Symbols.left_tr) .. bracket:set '' .. status
+
+    status = status .. sl_norm:set '%='
+    status = status .. '[ %Y ] ' .. '[ line %l / %L ]'
     return status
 end
 
@@ -147,8 +150,6 @@ vim.g.MakeStatusLine = function()
     -- left hand side padding, also declaration for easier adjusting.
     local sl = header:set '  '
     sl = sl .. MakePath()
-    sl = sl .. sl_norm:set '%='
-    sl = sl .. '[ %Y ] ' .. '[ line %l / %L ]'
 
     -- updates the window being worked in only.
     vim.wo.statusline = sl
