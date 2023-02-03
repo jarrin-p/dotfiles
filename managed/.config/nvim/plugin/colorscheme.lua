@@ -39,6 +39,15 @@ Colors = {
         string_fg = GetColorschemeAsHex('String', 'foreground'),
         tablinesel_fg = GetColorschemeAsHex('TabLineSel', 'foreground'),
         tablinesel_bg = GetColorschemeAsHex('TabLineSel', 'background'),
+        diffAdd_bg = GetColorschemeAsHex('DiffAdd', 'background'),
+        diffChange_bg = GetColorschemeAsHex('DiffChange', 'background'),
+        diffDelete_bg = GetColorschemeAsHex('DiffDelete', 'background'),
+        diffText_bg = GetColorschemeAsHex('DiffText', 'background'),
+        diffAdd_fg = GetColorschemeAsHex('DiffAdd', 'foreground'),
+        diffChange_fg = GetColorschemeAsHex('DiffChange', 'foreground'),
+        diffDelete_fg = GetColorschemeAsHex('DiffDelete', 'foreground'),
+        diffText_fg = GetColorschemeAsHex('DiffText', 'foreground'),
+        tabline_bg = GetColorschemeAsHex('TabLine', 'background'),
     },
 } -- }}}
 
@@ -46,6 +55,10 @@ vim.api.nvim_set_hl(0, 'Character', { fg = Colors.gui.float_fg })
 vim.api.nvim_set_hl(0, 'Conditional', { fg = Colors.gui.float_fg })
 vim.api.nvim_set_hl(0, 'CurSearch', { fg = Colors.gui.cursor_fg, bg = Colors.gui.cursor_bg })
 vim.api.nvim_set_hl(0, 'CursorLine', {})
+vim.api.nvim_set_hl(0, 'DiffAdd', { bg = Colors.gui.tabline_bg, bold = true, fg = Colors.gui.diffAdd_fg })
+vim.api.nvim_set_hl(0, 'DiffChange', { bg = Colors.gui.tabline_bg, bold = true, fg = Colors.gui.diffChange_fg })
+vim.api.nvim_set_hl(0, 'DiffDelete', { bg = Colors.gui.tabline_bg, bold = true, fg = Colors.gui.diffDelete_fg })
+vim.api.nvim_set_hl(0, 'DiffText', { bg = Colors.gui.tabline_bg, bold = true, fg = Colors.gui.diffText_fg })
 vim.api.nvim_set_hl(0, 'Define', { italic = true, fg = Colors.gui.function_fg })
 vim.api.nvim_set_hl(0, 'EndOfBuffer', { fg = 'bg' })
 vim.api.nvim_set_hl(0, 'Float', { fg = Colors.gui.string_fg })
