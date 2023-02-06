@@ -46,6 +46,7 @@ let
                 plenary-nvim
                 rust-tools-nvim
                 vim-fugitive
+                vim-nix
                 vim-surround
                 vimwiki
                 (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
