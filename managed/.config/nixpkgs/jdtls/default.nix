@@ -2,9 +2,7 @@ let
   pkgs = import <nixpkgs> {};
 in
 with pkgs; stdenv.mkDerivation {
-  __noChroot = true;
-
-  name = "jdt-language-server";
+  name = "jdtls";
   system = builtins.currentSystem;
 
   src = fetchzip {
@@ -20,10 +18,10 @@ with pkgs; stdenv.mkDerivation {
   ];
 
   installPhase = ''
-    ls -al
     mkdir $out
     cp -r * $out
     makeWrapper $out/bin/jdtls $out/bin/jdtlsw \
+    --add-flags "--jvm-arg=\$JAVA_OPTS" \
     --add-flags "-configuration=/tmp/.cache/jdtls" \
     --add-flags "-data=/tmp/jdtls_workspace"
 

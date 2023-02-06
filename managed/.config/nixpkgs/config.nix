@@ -89,6 +89,7 @@ in
         git
         jdk17
         jdt-language-server
+        (import ./jdtls/default.nix)
         jq
         luaformatter
         neovim
