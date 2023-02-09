@@ -3,6 +3,7 @@ require'rust-tools'.setup {}
 require'lspconfig'.nil_ls.setup {}
 require'lspconfig'.tsserver.setup { cmd = { "typescript-language-server", "--stdio", "--tsserver-path", "tsserver" } }
 require'lspconfig'.terraformls.setup {}
+require'lspconfig'.pyright.setup {}
 require'lsp_signature'.setup()
 
 -- completion.

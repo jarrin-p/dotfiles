@@ -88,7 +88,6 @@ in
         gh
         git
         jdk17
-        jdt-language-server
         (import ./jdtls/default.nix)
         jq
         luaformatter
@@ -99,8 +98,10 @@ in
         nodePackages.npm
         nodePackages.typescript
         nodePackages.typescript-language-server
+        nodePackages.pyright
         nmap
         pkcs11helper
+        pylint
         ranger
         rename
         ripgrep
