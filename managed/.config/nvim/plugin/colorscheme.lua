@@ -12,30 +12,17 @@ end
 --- specifying colors manually. makes tweaking easier
 --- these are basically manually defined to line up with current color scheme config
 Colors = {
-    cursorline = '#f0aa8a', -- dark wood
-    none = 'none',
-
-    term = { cyan = 81, blue_dark = 8, red = 9 },
-
     gui = {
-        gray_lighter = '#515354',
-        green = '#a7c080',
-        green_bright = '#a9dd9d',
-        red = '#fd8489',
-        wood_dark = '#f0aa8a',
-        wood_light = '#ffebc3',
-        statusline_bg = '#374247',
+        statusline_background_default = GetColorschemeAsHex('Tabline', 'background'),
+
         boolean_fg = GetColorschemeAsHex('Boolean', 'foreground'),
         comment_fg = GetColorschemeAsHex('Comment', 'foreground'),
-        cursor_bg = GetColorschemeAsHex('Cursor', 'background'),
-        cursor_fg = GetColorschemeAsHex('Cursor', 'foreground'),
         float_fg = GetColorschemeAsHex('Float', 'foreground'),
         folded_fg = GetColorschemeAsHex('Folded', 'foreground'),
         function_fg = GetColorschemeAsHex('Function', 'foreground'),
         identifier_fg = GetColorschemeAsHex('Identifier', 'foreground'),
         normal_bg = GetColorschemeAsHex('Normal', 'background'),
         normal_fg = GetColorschemeAsHex('Normal', 'foreground'),
-        statusline_background_default = GetColorschemeAsHex('Tabline', 'background'),
         string_fg = GetColorschemeAsHex('String', 'foreground'),
         tablinesel_fg = GetColorschemeAsHex('TabLineSel', 'foreground'),
         tablinesel_bg = GetColorschemeAsHex('TabLineSel', 'background'),
@@ -43,37 +30,18 @@ Colors = {
         diffChange_bg = GetColorschemeAsHex('DiffChange', 'background'),
         diffDelete_bg = GetColorschemeAsHex('DiffDelete', 'background'),
         diffText_bg = GetColorschemeAsHex('DiffText', 'background'),
-        diffAdd_fg = GetColorschemeAsHex('DiffAdd', 'foreground'),
-        diffChange_fg = GetColorschemeAsHex('DiffChange', 'foreground'),
-        diffDelete_fg = GetColorschemeAsHex('DiffDelete', 'foreground'),
-        diffText_fg = GetColorschemeAsHex('DiffText', 'foreground'),
         tabline_bg = GetColorschemeAsHex('TabLine', 'background'),
     },
 } -- }}}
 
-vim.api.nvim_set_hl(0, 'Character', { fg = Colors.gui.float_fg })
-vim.api.nvim_set_hl(0, 'Conditional', { fg = Colors.gui.float_fg })
-vim.api.nvim_set_hl(0, 'CurSearch', { fg = Colors.gui.cursor_fg, bg = Colors.gui.cursor_bg })
-vim.api.nvim_set_hl(0, 'CursorLine', {})
-vim.api.nvim_set_hl(0, 'DiffAdd', { bg = Colors.gui.tabline_bg, bold = true, fg = Colors.gui.diffAdd_fg })
-vim.api.nvim_set_hl(0, 'DiffChange', { bg = Colors.gui.tabline_bg, bold = true, fg = Colors.gui.diffChange_fg })
-vim.api.nvim_set_hl(0, 'DiffDelete', { bg = Colors.gui.tabline_bg, bold = true, fg = Colors.gui.diffDelete_fg })
-vim.api.nvim_set_hl(0, 'DiffText', { bg = Colors.gui.tabline_bg, bold = true, fg = Colors.gui.diffText_fg })
-vim.api.nvim_set_hl(0, 'Define', { italic = true, fg = Colors.gui.function_fg })
+vim.api.nvim_set_hl(0, 'DiffAdd', { link = 'GreenItalic' })
+vim.api.nvim_set_hl(0, 'DiffChange', { link = 'OrangeItalic' })
+vim.api.nvim_set_hl(0, 'DiffDelete', { link = 'RedItalic' })
+vim.api.nvim_set_hl(0, 'DiffText', { link = 'YellowItalic' })
 vim.api.nvim_set_hl(0, 'EndOfBuffer', { fg = 'bg' })
-vim.api.nvim_set_hl(0, 'Float', { fg = Colors.gui.string_fg })
-vim.api.nvim_set_hl(0, 'Folded', { italic = true, fg = Colors.gui.folded_fg })
-vim.api.nvim_set_hl(0, 'Function', { italic = false, fg = Colors.gui.boolean_fg })
-vim.api.nvim_set_hl(0, 'Identifier', { italic = false, fg = Colors.gui.function_fg })
-vim.api.nvim_set_hl(0, 'Keyword', { bold = true, fg = Colors.gui.float_fg })
-vim.api.nvim_set_hl(0, 'Label', { italic = true, fg = Colors.gui.function_fg })
-vim.api.nvim_set_hl(0, 'Number', { italic = true, fg = Colors.gui.string_fg })
-vim.api.nvim_set_hl(0, 'Operator', { fg = Colors.gui.float_fg })
 vim.api.nvim_set_hl(0, 'Search', { underline = true, italic = true })
 vim.api.nvim_set_hl(0, 'CurSearch', { underline = true, italic = true, bold = true })
-vim.api.nvim_set_hl(0, 'String', { fg = Colors.gui.string_fg, italic = true })
-vim.api.nvim_set_hl(0, 'Structure', { italic = true, fg = Colors.gui.function_fg })
-vim.api.nvim_set_hl(0, 'TablineFill', {})
-vim.api.nvim_set_hl(0, 'TablineSel', { fg = Colors.gui.cursor_fg, bg = Colors.gui.boolean_fg })
-vim.api.nvim_set_hl(0, 'Type', { italic = true, fg = Colors.gui.function_fg })
-vim.api.nvim_set_hl(0, 'Typedef', { italic = true, fg = Colors.gui.function_fg })
+vim.api.nvim_set_hl(0, 'String', { link = 'AquaItalic' })
+-- vim.api.nvim_set_hl(0, 'MsgArea', { bg = 'Black' })
+vim.api.nvim_set_hl(0, 'TablineFill', { link = 'Normal' })
+vim.api.nvim_set_hl(0, 'TablineSel', { fg = Colors.gui.cursor_fg, bg = 'Black' })

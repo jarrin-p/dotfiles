@@ -99,7 +99,7 @@ zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r
 # add new line after each command
 precmd () {
     vcs_info
-    echo ""
+    echo " "
     [ ! -z $IN_NIX_SHELL ] && echo '[nix-shell]'
 }
 PS1='${vcs_info_msg_0_}%f%n %2~ %F{4}> %f'

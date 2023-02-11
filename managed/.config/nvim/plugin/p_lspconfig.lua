@@ -2,6 +2,21 @@ local util = require'lspconfig'.util
 -- language servers.
 require'rust-tools'.setup {}
 require'lspconfig'.nil_ls.setup {}
+require'lspconfig'.sumneko_lua.setup {
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { 'vim' },
+                workspace = {
+                    library = {
+                        [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                        [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+                    },
+                },
+            },
+        },
+    },
+}
 require'lspconfig'.tsserver.setup { cmd = { "typescript-language-server", "--stdio", "--tsserver-path", "tsserver" } }
 require'lspconfig'.terraformls.setup {}
 require'lspconfig'.pyright.setup { root_dir = util.find_git_ancestor }

@@ -15,7 +15,7 @@ local directory = InlineColorGroup:new{
 }
 local header = InlineColorGroup:new{
     name = 'SLFileHeader',
-    options = { bold = 0, italic = 0, ctermfg = 11, bg = Colors.gui.boolean_fg, fg = Colors.gui.cursor_fg },
+    options = { bold = 0, italic = 0, ctermfg = 11, bg = 'Black', fg = Colors.gui.cursor_fg },
 }
 local header_reverse = InlineColorGroup:new{
     name = 'SLFileHeaderReverse',
@@ -23,13 +23,14 @@ local header_reverse = InlineColorGroup:new{
         bold = 0,
         italic = 0,
         ctermfg = 11,
-        fg = Colors.gui.boolean_fg,
+        fg = 'Black',
         bg = Colors.gui.statusline_background_default,
+        -- bg = Colors.gui.statusline_background_default,
     },
 }
 local mod = InlineColorGroup:new{
     name = 'SLModified',
-    options = { bold = 1, ctermfg = 9, fg = Colors.gui.identifier_fg, bg = Colors.gui.boolean_fg },
+    options = { bold = 1, ctermfg = 9, fg = Colors.gui.identifier_fg, bg = 'Black' },
 }
 local sl_norm = InlineColorGroup:new{ name = 'SLNorm', options = { bg = Colors.gui.statusline_background_default } }
 

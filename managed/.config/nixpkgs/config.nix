@@ -35,11 +35,11 @@ let
                 cmp-nvim-lsp
                 cmp_luasnip
                 fzf-vim
+                gruvbox-material
                 lsp_signature-nvim
                 luasnip
                 minimap-vim
                 neoscroll-nvim
-                nord-vim
                 nvim-cmp
                 nvim-jdtls
                 nvim-lspconfig
@@ -110,6 +110,7 @@ in
         rust-analyzer
         sbt
         stow
+        sumneko-lua-language-server
         terraform
         terraform-ls
         tree

@@ -3,7 +3,7 @@
 --       when not overwritten.
 local tabline_sel_rev = InlineColorGroup:new{
     name = 'TabLine_Rev_Link',
-    options = { fg = Colors.gui.boolean_fg, bg = Colors.gui.normal_bg },
+    options = { fg = 'Black', bg = Colors.gui.normal_bg },
 }
 local tabline_std_rev = InlineColorGroup:new{
     name = 'somethingrandom',
