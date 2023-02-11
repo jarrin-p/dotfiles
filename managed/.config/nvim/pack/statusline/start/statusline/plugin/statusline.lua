@@ -1,73 +1,31 @@
 --- @author jarrin-p
 --- @file `snippets.lua`
-LS = require 'luasnip'
+local util = require 'pack.statusline.start.statusline.util.util'
+local path = require 'pack.statusline.start.statusline.util.path'
+local cg = require 'pack.statusline.start.statusline.util.component'
 --- TODO: nodes that connect forwards, backwards inspecting each other to create the transitions.
 
---- create custom color groups for the status line. assigning them to variables
---- allows the color groups to have a `set` helper function that uses defaults.
-local bracket = InlineColorGroup:new{ name = 'SLBracket', options = { fg = Colors.gui.comment_fg } }
--- local sl_item = InlineColorGroup:new{ name = 'SLItem', options = { fg = Colors.gui.boolean_fg } }
-local directory = InlineColorGroup:new{
-    name = 'SLDir',
-    options = { italic = 1, ctermfg = 3, fg = Colors.gui.comment_fg, bg = Colors.gui.statusline_background_default },
-    pretext = ' ',
-    posttext = ' ' .. Symbols.bl,
-}
-local header = InlineColorGroup:new{
-    name = 'SLFileHeader',
-    options = { bold = 0, italic = 0, ctermfg = 11, bg = 'Black', fg = Colors.gui.cursor_fg },
-}
-local header_reverse = InlineColorGroup:new{
-    name = 'SLFileHeaderReverse',
-    options = {
-        bold = 0,
-        italic = 0,
-        ctermfg = 11,
-        fg = 'Black',
-        bg = Colors.gui.statusline_background_default,
-        -- bg = Colors.gui.statusline_background_default,
-    },
-}
-local mod = InlineColorGroup:new{
-    name = 'SLModified',
-    options = { bold = 1, ctermfg = 9, fg = Colors.gui.identifier_fg, bg = 'Black' },
-}
-local sl_norm = InlineColorGroup:new{ name = 'SLNorm', options = { bg = Colors.gui.statusline_background_default } }
+local set_hl = vim.api.nvim_set_hl
+-- local builder = require 'pack.statusline.start.statusline.util.builder'
+set_hl(0, 'StatuslineSeparator', { fg = Colors.gui.comment_fg })
+set_hl(0, 'StatuslineDirectory',
+    { italic = 1, fg = Colors.gui.comment_fg, bg = Colors.gui.statusline_background_default })
+set_hl(0, 'StatuslineHeader', { bg = 'Black', fg = Colors.gui.cursor_fg })
+set_hl(0, 'StatuslineHeaderReverse', { fg = 'Black', bg = Colors.gui.cursor_fg })
+set_hl(0, 'StatuslineModified', { fg = Colors.gui.identifier_fg, bg = 'Black' })
+set_hl(0, 'StatuslineNormal', { bg = Colors.gui.statusline_background_default })
+
+-- define easier way to specify what values to set color groups in the status line.
+local bracket = cg:new{ name = 'StatuslineSeparator' }
+local directory = cg:new{ name = 'StatuslineDirectory', pretext = ' ', posttext = ' ' .. Symbols.bl }
+local header = cg:new{ name = 'StatuslineHeader' }
+local header_reverse = cg:new{ name = 'StatuslineHeaderReverse' }
+local mod = cg:new{ name = 'StatusLineModified' }
 
 -- specific objects that get reused.
 local header_la = header_reverse:set(Symbols.left_tr)
 local dir_git = directory:set 'Git'
 local dir_fug = directory:set 'Fugitive'
-
---- functions {{{
---- gets the absolute path of the currently worked on file using `expand`
---- and splits it into a table.
---- @return table abs_file_table an ordered table containing each directory for the path.
-function GetAbsolutePathAsTable()
-    local abs_file_path = {}
-    for match in vim.fn.expand('%:p'):sub(1):gmatch('/[^/]*') do table.insert(abs_file_path, (match:gsub('/', ''))) end
-    return abs_file_path
-end
-
---- standard linear search function.
---- @param table_to_search table the table to be searched.
---- @param item_to_find any item to be found in the table.
---- @return number index of item. returns `-1` if nothing is found.
-function LinearSearch(table_to_search, item_to_find)
-    for i, item in ipairs(table_to_search) do if item == item_to_find then return i end end
-    return -1
-end
-
---- checks if a boolean option is true, then adds a user defined symbol if it is.
---- @param option string the vim option to check if it's true or not.
---- @param symbol_to_use string the value to be returned if the option is true.
---- @return string #empty if false, otherwise returns `symbol_to_use`.
-function GetIfSet(option, symbol_to_use)
-    if (vim.api.nvim_get_option_value(option, {}) == true) then return symbol_to_use end
-    return ''
-end
-
-function getModifiedStatus() return mod:set(GetIfSet('modified', '+')) end
 
 --- build the path itself.
 function MakePath()
@@ -96,15 +54,15 @@ function MakePath()
         return header:set 'Branch  ' .. header_la .. dir_fug .. dir_git
 
     elseif vim.fn.FugitiveIsGitDir() == 1 then
-        local abs_file_path = GetAbsolutePathAsTable()
+        local abs_file_path = path.getAbsoluteAsTable()
 
         local _, last_index = vim.fn.FugitiveWorkTree():find('.*/')
-        local index_of_dir = LinearSearch(abs_file_path, (vim.fn.FugitiveWorkTree():sub(last_index):gsub('/', '')))
+        local index_of_dir = util.linearSearch(abs_file_path, (vim.fn.FugitiveWorkTree():sub(last_index):gsub('/', '')))
 
         local status = ConvertTableToPathString(abs_file_path, 5, index_of_dir)
         return status
     else
-        local status = ConvertTableToPathString(GetAbsolutePathAsTable(), 5)
+        local status = ConvertTableToPathString(path.getAbsoluteAsTable(), 5)
         return status
     end
 end
@@ -114,12 +72,16 @@ end
 --- @param truncate_point? number on the status line.
 --- @param project_root_index? number directory of the project root
 function ConvertTableToPathString(path_table, truncate_point, project_root_index)
-    if not path_table then return 'no path to convert' end
+    if not path_table then
+        return 'no path to convert'
+    end
     truncate_point = truncate_point or #path_table
     project_root_index = project_root_index or 1
 
     local status, reverse_path = '', {}
-    for i = #path_table, project_root_index, -1 do table.insert(reverse_path, path_table[i]) end
+    for i = #path_table, project_root_index, -1 do
+        table.insert(reverse_path, path_table[i])
+    end
 
     -- while there's more than one entry left to add to the path that will be displayed
     while (#reverse_path > 1) do
@@ -137,11 +99,10 @@ function ConvertTableToPathString(path_table, truncate_point, project_root_index
 
     --- the `open` file itself is the last item in the table to be popped.
     --- additionally, adds a modified symbol if ... the file has been modified ...
-    status = header:set(table.remove(path_table)) .. getModifiedStatus() .. header:set ' '
+    local modifiedStatus = mod:set(util.getIfSet('modified', '+'))
+    status = header:set(table.remove(path_table)) .. modifiedStatus .. header:set ' '
                  .. header_reverse:set(Symbols.left_tr) .. bracket:set '' .. status
 
-    status = status .. sl_norm:set '%='
-    status = status .. '[ %Y ] ' .. '[ line %l / %L ]'
     return status
 end
 
@@ -156,7 +117,6 @@ vim.g.MakeStatusLine = function()
     vim.wo.statusline = sl
     return sl
 end
--- end functions }}}
 
 vim.o.statusline = '%{%g:MakeStatusLine()%}'
 

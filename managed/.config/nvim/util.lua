@@ -282,6 +282,4 @@ Symbols = {
     -- local te = '⋯'
 }
 
-StatusLine = { make = function() return end }
-
 -- vim: fdm=marker foldlevel=0

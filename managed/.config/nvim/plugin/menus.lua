@@ -10,7 +10,7 @@ vim.cmd('aunmenu *')
 --- @field mode? string what modes this menu will be valid for. see `:h map-modes`.
 
 --- @param opts menu_opts settings to pass to mapping. hover `opts` for details.
-local function AddMenuItem(opts)
+function AddMenuItem(opts)
     if not opts.map or not opts.name then
         print('`opts.map` not provided. aborting function.')
         return
