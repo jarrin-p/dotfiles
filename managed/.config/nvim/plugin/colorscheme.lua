@@ -34,6 +34,9 @@ Colors = {
     },
 } -- }}}
 
+local fg = GetColorschemeAsHex('Fg', 'foreground')
+local darker = GetColorschemeAsHex('FloatBorder', 'background')
+
 vim.api.nvim_set_hl(0, 'DiffAdd', { link = 'GreenItalic' })
 vim.api.nvim_set_hl(0, 'DiffChange', { link = 'OrangeItalic' })
 vim.api.nvim_set_hl(0, 'DiffDelete', { link = 'RedItalic' })
@@ -42,6 +45,6 @@ vim.api.nvim_set_hl(0, 'EndOfBuffer', { fg = 'bg' })
 vim.api.nvim_set_hl(0, 'Search', { underline = true, italic = true })
 vim.api.nvim_set_hl(0, 'CurSearch', { underline = true, italic = true, bold = true })
 vim.api.nvim_set_hl(0, 'String', { link = 'AquaItalic' })
--- vim.api.nvim_set_hl(0, 'MsgArea', { bg = 'Black' })
+vim.api.nvim_set_hl(0, 'MsgArea', { fg = fg, bg = darker })
 vim.api.nvim_set_hl(0, 'TablineFill', { link = 'Normal' })
 vim.api.nvim_set_hl(0, 'TablineSel', { fg = Colors.gui.cursor_fg, bg = 'Black' })

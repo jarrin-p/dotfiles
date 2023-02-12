@@ -8,8 +8,6 @@
 M = {
     name = 'Not set',
     scope = 0,
-    pretext = '',
-    posttext = '',
     value = '',
 
     -- create new statusline colorgroup object. attempting to manage statusline color groups
@@ -30,7 +28,7 @@ M = {
     --- @return string #the color group in the status line.
     set = function(self, text_to_color)
         text_to_color = text_to_color or ''
-        return '%#' .. self.name .. '#' .. self.pretext .. text_to_color .. self.posttext
+        return '%#' .. self.name .. '#' .. text_to_color
     end,
 
     --- @param component component the component of the color scheme you want to transition to.
@@ -45,8 +43,19 @@ M = {
         return self:new{ name = newComponentName, value = symbol }
     end,
 
-    make_transition = function(self)
+    --- @return string #the value stored inside this component. typically preceded by `get_transition_to`.
+    get_value = function(self)
         return self:set(self.value)
+    end,
+
+    --- @param highlight_group_override string the name of the highlight group you wish to override.
+    --- @return component #a new component pointing at HighlightGroup that has reversed bg, fg of what this was called on.
+    reversed = function(self, highlight_group_override)
+        local bg = GetColorschemeAsHex(self.name, 'background')
+        local fg = GetColorschemeAsHex(self.name, 'foreground')
+        local newComponentName = highlight_group_override or self.name .. 'Reversed'
+        vim.api.nvim_set_hl(0, newComponentName, { bg = fg, fg = bg })
+        return self:new{ name = newComponentName }
     end,
 }
 return M
