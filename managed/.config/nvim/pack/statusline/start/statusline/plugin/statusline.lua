@@ -3,25 +3,19 @@
 local util = require 'pack.statusline.util.util'
 local path = require 'pack.statusline.util.path'
 local cg = require 'pack.statusline.util.component'
---- TODO: nodes that connect forwards, backwards inspecting each other to create the transitions.
 
 local fg = GetColorschemeAsHex('Fg', 'foreground')
 local darker = GetColorschemeAsHex('FloatBorder', 'background')
 
 local set_hl = vim.api.nvim_set_hl
--- local builder = require 'pack.statusline.start.statusline.util.builder'
-set_hl(0, 'StatuslineSeparator', { fg = Colors.gui.comment_fg })
-set_hl(0, 'StatuslineDirectory', { italic = 1, fg = Colors.gui.comment_fg, bg = darker })
 set_hl(0, 'StatuslineHeader', { fg = 'Black', bg = fg })
-set_hl(0, 'StatuslineHeaderReverse', { fg = fg, bg = 'Black' })
-set_hl(0, 'StatuslineHeaderModified', { fg = 'Black', bg = fg })
--- set_hl(0, 'StatuslineNormal', { bg = Colors.gui.statusline_background_default })
+set_hl(0, 'StatuslineDirectory', { italic = 1, fg = Colors.gui.comment_fg, bg = darker })
+set_hl(0, 'StatuslineSeparator', { fg = Colors.gui.comment_fg })
 
 -- define easier way to specify what values to set color groups in the status line.
 local bracket = cg:new{ name = 'StatuslineSeparator' }
 local directory = cg:new{ name = 'StatuslineDirectory' }
 local header = cg:new{ name = 'StatuslineHeader' }
-local mod = cg:new{ name = 'StatuslineHeaderModified' }
 
 -- specific objects that get reused.
 local transition_header_to_dir = header:get_transition_to(directory, 'background', Symbols.left_tr):get_value()
@@ -53,18 +47,19 @@ function MakePath()
         return file_types[file_type]
     end
 
+    -- otherwise, return an expanded path.
     return ConvertTableToPathString(path.getAbsoluteAsTable(), 5)
 end
 
 --- takes the path and converts it to a string that will be set on the statusline.
 --- @param path_table table to be converted to status.
---- @param truncate_point? number on the status line.
+--- @param depth? number on the status line.
 --- @param project_root_index? number directory of the project root
-function ConvertTableToPathString(path_table, truncate_point, project_root_index)
+function ConvertTableToPathString(path_table, depth, project_root_index)
     if not path_table then
         return 'no path to convert'
     end
-    truncate_point = truncate_point or #path_table
+    depth = depth or #path_table
     project_root_index = project_root_index or 1
 
     local pathing, reverse_path = '', {}
@@ -77,19 +72,19 @@ function ConvertTableToPathString(path_table, truncate_point, project_root_index
 
         -- pop the next item to be displayed in the path from the stack and add a bracket
         local pop = table.remove(reverse_path)
-        if #reverse_path < truncate_point then
+        if #reverse_path < depth then
             pathing = Symbols.bl .. ' ' .. pop .. ' ' .. pathing
 
-        elseif #path_table == truncate_point then
+        elseif #path_table == depth then
             -- set the point where truncation occurs on the list
             pathing = ' ' .. directory:set ' <% '
         end
     end
     pathing = directory:set(pathing)
 
-    --- the `open` file itself is the last item in the table to be popped.
+    --- the open file itself is the last item in the table to be popped.
     --- additionally, adds a modified symbol if ... the file has been modified ...
-    local modifiedStatus = mod:set(util.getIfSet('modified', '+'))
+    local modifiedStatus = util.getIfSet('modified', '+')
     pathing =
         header:set(table.remove(path_table)) .. modifiedStatus .. ' ' .. transition_header_to_dir .. bracket:set ''
             .. pathing
