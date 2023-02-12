@@ -25,8 +25,8 @@ local mod = cg:new{ name = 'StatuslineHeaderModified' }
 
 -- specific objects that get reused.
 local transition_header_to_dir = header:get_transition_to(directory, 'background', Symbols.left_tr):get_value()
-local dir_git = directory:set 'Git'
-local dir_fug = directory:set 'Fugitive'
+local dir_git = directory:set ' Git'
+local dir_fug = directory:set ' Fugitive'
 
 local buffer_types = { terminal = header:set 'Terminal  ' .. transition_header_to_dir }
 local file_types = {
