@@ -2,9 +2,9 @@
 --- todo: update this.
 local cg = require 'pack.statusline.util.component'
 
-local tabline_std = cg:new{ name = 'TabLine' }
+local tabline_std = cg:new{ name = 'Tabline' }
 local tabline_fill = cg:new{ name = 'Statusline' }
-local tabline_sel = tabline_std:reversed('TabLineSel')
+local tabline_sel = tabline_std:reversed('TablineSel')
 -- local tabline_sel = cg:new{ name = 'TabLineSel' }
 
 --- @return string tabline
