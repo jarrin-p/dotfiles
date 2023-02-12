@@ -53,42 +53,27 @@ end
 
 --- takes the path and converts it to a string that will be set on the statusline.
 --- @param path_table table to be converted to status.
---- @param depth? number on the status line.
---- @param project_root_index? number directory of the project root
-function ConvertTableToPathString(path_table, depth, project_root_index)
-    if not path_table then
-        return 'no path to convert'
+--- @param max_depth? number on the status line.
+function ConvertTableToPathString(path_table, max_depth)
+    if not path_table or #path_table == 0 then
+        return 'New File ' .. transition_header_to_dir
     end
-    depth = depth or #path_table
-    project_root_index = project_root_index or 1
+    max_depth = max_depth or #path_table
 
-    local pathing, reverse_path = '', {}
-    for i = #path_table, project_root_index, -1 do
-        table.insert(reverse_path, path_table[i])
-    end
+    local header_pop = table.remove(path_table)
+    local pathing = header:set '' .. header_pop .. util.getIfSet('modified', '+') .. ' '
+    pathing = pathing .. transition_header_to_dir .. directory:set ''
 
-    -- while there's more than one entry left to add to the path that will be displayed
-    while (#reverse_path > 1) do
-
+    local index = 1
+    while (index < max_depth and #path_table ~= 0) do
         -- pop the next item to be displayed in the path from the stack and add a bracket
-        local pop = table.remove(reverse_path)
-        if #reverse_path < depth then
-            pathing = Symbols.bl .. ' ' .. pop .. ' ' .. pathing
-
-        elseif #path_table == depth then
-            -- set the point where truncation occurs on the list
-            pathing = ' ' .. directory:set ' <% '
-        end
+        local pop = table.remove(path_table) or ''
+        pathing = pathing .. Symbols.bl .. ' ' .. pop .. ' '
+        index = index + 1
     end
-    pathing = directory:set(pathing)
 
     --- the open file itself is the last item in the table to be popped.
     --- additionally, adds a modified symbol if ... the file has been modified ...
-    local modifiedStatus = util.getIfSet('modified', '+')
-    pathing =
-        header:set(table.remove(path_table)) .. modifiedStatus .. ' ' .. transition_header_to_dir .. bracket:set ''
-            .. pathing
-
     return pathing
 end
 
