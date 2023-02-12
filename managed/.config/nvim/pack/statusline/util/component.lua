@@ -1,3 +1,5 @@
+local util = require 'pack.statusline.util.util'
+
 --- nvim highlight group wrapper that allows easier inline status text formatting.
 --- additionally, has defaults specified to keep the status/tab line uniform.
 --- @class component
@@ -36,8 +38,8 @@ M = {
     --- @param symbol string the symbol to use for transitioning.
     --- @return component transition the transition component.
     get_transition_to = function(self, component, identifier, symbol)
-        local from = GetColorschemeAsHex(component.name, identifier)
-        local to = GetColorschemeAsHex(self.name, identifier)
+        local from = util.get_colorscheme_as_hex(component.name, identifier)
+        local to = util.get_colorscheme_as_hex(self.name, identifier)
         local newComponentName = self.name .. 'To' .. component.name
         vim.api.nvim_set_hl(0, newComponentName, { bg = from, fg = to })
         return self:new{ name = newComponentName, value = symbol }
@@ -51,8 +53,8 @@ M = {
     --- @param highlight_group_override string the name of the highlight group you wish to override.
     --- @return component #a new component pointing at HighlightGroup that has reversed bg, fg of what this was called on.
     reversed = function(self, highlight_group_override)
-        local bg = GetColorschemeAsHex(self.name, 'background')
-        local fg = GetColorschemeAsHex(self.name, 'foreground')
+        local bg = util.get_colorscheme_as_hex(self.name, 'background')
+        local fg = util.get_colorscheme_as_hex(self.name, 'foreground')
         local newComponentName = highlight_group_override or self.name .. 'Reversed'
         vim.api.nvim_set_hl(0, newComponentName, { bg = fg, fg = bg })
         return self:new{ name = newComponentName }
