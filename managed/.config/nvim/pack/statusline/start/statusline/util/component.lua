@@ -37,13 +37,16 @@ M = {
     --- @param identifier string what key to access from the result of `GetColorschemeAsHex`.
     --- @param symbol string the symbol to use for transitioning.
     --- @return component transition the transition component.
-    get_transition = function(self, component, identifier, symbol)
-        identifier = identifier or 'background'
-        local from = GetColorschemeAsHex(self.name, identifier)
-        local to = GetColorschemeAsHex(component.name, identifier)
+    get_transition_to = function(self, component, identifier, symbol)
+        local from = GetColorschemeAsHex(component.name, identifier)
+        local to = GetColorschemeAsHex(self.name, identifier)
         local newComponentName = self.name .. 'To' .. component.name
         vim.api.nvim_set_hl(0, newComponentName, { bg = from, fg = to })
         return self:new{ name = newComponentName, value = symbol }
+    end,
+
+    make_transition = function(self)
+        return self:set(self.value)
     end,
 }
 return M
