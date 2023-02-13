@@ -1,3 +1,0 @@
-[submodule "managed/.config/tmux/nord-tmux"]
-	path = managed/.config/tmux/nord-tmux
-	url = https://github.com/arcticicestudio/nord-tmux.git
