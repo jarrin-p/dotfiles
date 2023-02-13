@@ -24,14 +24,21 @@ vim.g.MakeTabline = function()
     end
     tabl = tabl .. selection_state:get_transition_to(tabline_fill, 'background', Symbols.right_tr):get_value()
 
-    for i = 1, num_tabs do
+    local win_nr, win_id, buf_handle, buf_name, buf_name_tail
+    for tab_nr = 1, num_tabs do
         -- set the color group prefix for highlighting.
-        if i == current_tab then
+        if tab_nr == current_tab then
             selection_state = tabline_sel
         else
             selection_state = tabline_std
         end
-        tabl = tabl .. selection_state:set(' ' .. i .. ' ')
+        win_nr = vim.fn.tabpagewinnr(tab_nr)
+        win_id = vim.fn.win_getid(win_nr, tab_nr)
+        buf_handle = vim.api.nvim_win_get_buf(win_id)
+        buf_name = vim.api.nvim_buf_get_name(buf_handle)
+        buf_name_tail = vim.fn.fnamemodify(buf_name, ':t')
+
+        tabl = tabl .. selection_state:set(' ' .. tab_nr .. ' ' .. buf_name_tail .. ' ')
     end
     -- tabl = tabl .. ' %t%M'
 
