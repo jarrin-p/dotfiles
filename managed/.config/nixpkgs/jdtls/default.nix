@@ -1,5 +1,6 @@
 let
   pkgs = import <nixpkgs> {};
+  lombok = import ../lombok/default.nix;
 in
 with pkgs; stdenv.mkDerivation {
   name = "jdtls";
@@ -15,13 +16,18 @@ with pkgs; stdenv.mkDerivation {
     jdk17
     makeWrapper
     python39
+    lombok
   ];
+
+  inherit lombok;
 
   installPhase = ''
     mkdir $out
     cp -r * $out
+    echo $lombok
+    ls $lombok
     makeWrapper $out/bin/jdtls $out/bin/jdtlsw \
-    --add-flags "--jvm-arg=\$JAVA_OPTS" \
+    --add-flags "--jvm-arg=-javaagent:$lombok/lombok.jar" \
     --add-flags "-configuration=/tmp/.cache/jdtls" \
     --add-flags "-data=/tmp/jdtls_workspace"
 
