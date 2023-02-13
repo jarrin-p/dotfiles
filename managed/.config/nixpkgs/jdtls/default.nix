@@ -24,8 +24,6 @@ with pkgs; stdenv.mkDerivation {
   installPhase = ''
     mkdir $out
     cp -r * $out
-    echo $lombok
-    ls $lombok
     makeWrapper $out/bin/jdtls $out/bin/jdtlsw \
     --add-flags "--jvm-arg=-javaagent:$lombok/lombok.jar" \
     --add-flags "-configuration=/tmp/.cache/jdtls" \

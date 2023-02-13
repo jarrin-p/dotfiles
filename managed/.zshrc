@@ -129,6 +129,4 @@ zle -N zle-keymap-select
 zle -N zle-line-init
 bindkey -v
 
-# TODO perma fix for the java agent. more specifically, pull it into the jdtls via overalay and apply.
-export JAVA_OPTS=-javaagent:$HOME/Downloads/lombok.jar
 # vim: ft=zsh fdm=manual foldlevel=0
