@@ -1,8 +1,10 @@
-nnoremap('<leader>f', ':FZF<enter>')
+nnoremap('<leader>f', ':FZF -q !^.\\ <enter>')
 
 --- basically an alias. wraps the `fzf#wrap` function to be conveniently called from lua.
 --- @param opts table lua table equivalent to the table accepted by `fzf#wrap`.
-local function fzf_wrap(opts) vim.fn['fzf#run'](vim.fn['fzf#wrap'](opts)) end
+local function fzf_wrap(opts)
+    vim.fn['fzf#run'](vim.fn['fzf#wrap'](opts))
+end
 
 --- wraps a given function into a global function for callbacks that are required by vim functions.
 --- @param fn function function to be wrapped into a global.
@@ -17,7 +19,9 @@ end
 --- additionally, since this is a common operation, it removes the need for `({...})` into `{...}` (reduces clutter).
 --- @param t table the table to be concatted into flags.
 --- @return string #the table as a string with spaces in between.
-local function as_flags(t) return table.concat(t, ' ') end
+local function as_flags(t)
+    return table.concat(t, ' ')
+end
 
 function FuzzyGrep()
     local rg_prefix = 'rg ' .. as_flags {
@@ -51,7 +55,9 @@ nnoremap('<leader>g', ':lua FuzzyGrep()<enter>')
 function BufSelect()
     fzf_wrap {
         source = GetListedBufNames(),
-        sink = as_global(function(result) vim.cmd('e ' .. result) end),
+        sink = as_global(function(result)
+            vim.cmd('e ' .. result)
+        end),
         options = as_flags { '--prompt "buffer name > "' },
     }
 end
@@ -62,16 +68,24 @@ function BranchSelect(flags)
     flags = flags or ''
     fzf_wrap {
         source = 'git branch --no-color | tr -d " "' .. flags,
-        sink = as_global(function(result) if (result:find('*')) ~= 1 then vim.cmd('G checkout ' .. result) end end),
+        sink = as_global(function(result)
+            if (result:find('*')) ~= 1 then
+                vim.cmd('G checkout ' .. result)
+            end
+        end),
         options = as_flags { '--prompt "branch name > "' },
     }
 end
 nnoremap('<leader>B', ':lua BranchSelect()<enter>')
 
-function SetBranchToDiff() vim.g.BranchToDiff = vim.fn.input('enter branch to diff against: ') end
+function SetBranchToDiff()
+    vim.g.BranchToDiff = vim.fn.input('enter branch to diff against: ')
+end
 function BranchFileDiff()
     local source
-    if (pcall(function() source = 'git diff ' .. vim.g.BranchToDiff .. ' --name-only' end)) then
+    if (pcall(function()
+        source = 'git diff ' .. vim.g.BranchToDiff .. ' --name-only'
+    end)) then
         fzf_wrap {
             source = source,
             sink = as_global(function(result)
@@ -89,21 +103,21 @@ nnoremap('<leader>h', ':lua BranchFileDiff()<enter>')
 
 --- @see https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol
 --- todo: fix this..
-function SymbolSelect()
-    fzf_wrap {
-        source = as_global(function()
-            -- sync response since we're waiting for specific functionality and need the list to populate rg.
-            -- local params = { textDocument = vim.lsp.util.make_text_document_params() }
-            -- local response = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', params)
-        end),
-
-        sink = function(grep_result)
-            -- local details = Fzf_hash_table_store[grep_result]
-
-            -- need plus one since LSP result is indexed starting at 0.
-            -- vim.fn.cursor(details.range.start.line + 1, details.range.start.character + 1)
-        end,
-        options = as_flags { '--prompt "symbol > "' },
-    }
-end
-nnoremap('go', ':lua SymbolSelect()<enter>')
+-- function SymbolSelect()
+--     fzf_wrap {
+--         source = as_global(function()
+--             -- sync response since we're waiting for specific functionality and need the list to populate rg.
+--             -- local params = { textDocument = vim.lsp.util.make_text_document_params() }
+--             -- local response = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', params)
+--         end),
+-- 
+--         sink = function(grep_result)
+--             -- local details = Fzf_hash_table_store[grep_result]
+-- 
+--             -- need plus one since LSP result is indexed starting at 0.
+--             -- vim.fn.cursor(details.range.start.line + 1, details.range.start.character + 1)
+--         end,
+--         options = as_flags { '--prompt "symbol > "' },
+--     }
+-- end
+-- nnoremap('go', ':lua SymbolSelect()<enter>')

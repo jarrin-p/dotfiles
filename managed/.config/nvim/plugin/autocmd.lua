@@ -4,7 +4,7 @@
 vim.api.nvim_create_autocmd({ 'BufWritePre' }, { pattern = { '.*', '*' }, callback = FF })
 
 -- assumes spotlessApply is apart of gradle.build.
-vim.api.nvim_create_autocmd({ 'BufWritePost' }, { pattern = { '*.java', '*.scala' }, command = 'silent SA' })
+-- vim.api.nvim_create_autocmd({ 'BufWritePost' }, { pattern = { '*.java', '*.scala' }, command = 'silent SA' })
 
 -- after writing to a buffer, a `Session.vim` will be created in the root of
 -- a git repo if in one or in the current directory of the file.

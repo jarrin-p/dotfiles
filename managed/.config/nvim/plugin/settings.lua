@@ -58,7 +58,7 @@ vim.o.signcolumn = 'yes'
 vim.o.updatetime = 50
 vim.o.foldlevelstart = 99
 vim.o.scrolloff = 2 -- a little padding for the top and bottom of screen.
-vim.o.cursorline = false
+vim.o.cursorline = true
 vim.o.textwidth = 0
 vim.o.showmode = true -- specifically defining as true for whatever reason.
 vim.o.splitright = true -- splits new window to the right.
@@ -103,5 +103,4 @@ end
 local rg_string = 'rg --line-number --with-filename'
 vim.o.grepprg = rg_string .. pattern_string
 -- }}}
-
 -- vim: fdm=marker foldlevel=0

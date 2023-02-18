@@ -33,7 +33,7 @@ nnoremap('<leader>rn', ':lua vim.lsp.buf.rename()<enter>')
 nnoremap('gc', ':lua vim.lsp.buf.code_action()<enter>')
 nnoremap('g=', ':lua vim.lsp.buf.format{async = false}<enter>')
 nnoremap('gw', ':lua vim.lsp.buf.workspace_symbol()<enter>')
-nnoremap('gs', ':lua vim.lsp.buf.signature_help()<enter>')
+nnoremap('gs', ':SymbolsOutline<enter>')
 nnoremap('gj', ':lua vim.diagnostic.goto_next()<enter>')
 nnoremap('gk', ':lua vim.diagnostic.goto_prev()<enter>')
 

@@ -1,18 +1,19 @@
 let
   pkgs = import <nixpkgs> {};
-  ppython39 = (pkgs.python39.withPackages (ps: with ps; [
-            XlsxWriter
-            boto3
-            certifi
-            charset-normalizer
-            idna
-            openpyxl
-            pandas
-            psycopg2
-            pytest
-            requests
+  ppython39 = (pkgs.python310Full.withPackages (ps: with ps; [
+            # XlsxWriter
+            # boto3
+            # certifi
+            # charset-normalizer
+            # idna
+            # openpyxl
+            # pandas
+            # psycopg2
+            # pytest
+            # requests
             sqlparse
-            urllib3
+            # urllib3
+            pip
             virtualenv
         ]));
 
@@ -45,9 +46,11 @@ let
                 nvim-lspconfig
                 plenary-nvim
                 rust-tools-nvim
+                symbols-outline-nvim
                 vim-fugitive
                 vim-nix
                 vim-surround
+                vim-terraform
                 vimwiki
                 (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
               ];
