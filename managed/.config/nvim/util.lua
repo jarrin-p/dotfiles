@@ -1,15 +1,26 @@
 --- @author jarrin-p
 --- @file `util.lua`
---- remap functions {{{
-function map(lhs, rhs) vim.api.nvim_set_keymap('', lhs, rhs, { noremap = false, silent = true }) end
+local M = {}
+M.map = function(lhs, rhs)
+    vim.api.nvim_set_keymap('', lhs, rhs, { noremap = false, silent = true })
+end
 
-function nnoremap(lhs, rhs) vim.api.nvim_set_keymap('n', lhs, rhs, { noremap = true, silent = true }) end
-function buf_nnoremap(lhs, rhs) vim.api.nvim_buf_set_keymap(0, 'n', lhs, rhs, { noremap = true, silent = true }) end
+M.nnoremap = function(lhs, rhs)
+    vim.api.nvim_set_keymap('n', lhs, rhs, { noremap = true, silent = true })
+end
+
+function buf_nnoremap(lhs, rhs)
+    vim.api.nvim_buf_set_keymap(0, 'n', lhs, rhs, { noremap = true, silent = true })
+end
 
 --- assumes remap to normal mode.
-function inoremap(lhs, rhs) vim.api.nvim_set_keymap('i', lhs, '<c-o>' .. rhs, { noremap = true, silent = true }) end
+M.inoremap = function(lhs, rhs)
+    vim.api.nvim_set_keymap('i', lhs, '<c-o>' .. rhs, { noremap = true, silent = true })
+end
 
-function tnoremap(lhs, rhs) vim.api.nvim_set_keymap('t', lhs, rhs, { noremap = true, silent = true }) end -- }}}
+M.tnoremap = function(lhs, rhs)
+    vim.api.nvim_set_keymap('t', lhs, rhs, { noremap = true, silent = true })
+end
 
 --- alias {{{
 Exec = function(str, bool)
@@ -48,8 +59,12 @@ end -- }}}
 function MakeGitSession(opts)
     opts = opts or {}
     opts.session_name = opts.session_name or 'Session.vim'
-    if vim.fn.FugitiveIsGitDir() == 1 then opts.file_path = opts.file_path or vim.fn.FugitiveWorkTree() end
-    if not opts.file_path then return end -- don't litter sessions.
+    if vim.fn.FugitiveIsGitDir() == 1 then
+        opts.file_path = opts.file_path or vim.fn.FugitiveWorkTree()
+    end
+    if not opts.file_path then
+        return
+    end -- don't litter sessions.
     vim.cmd(table.concat({ 'mksession!', opts.file_path .. '/' .. opts.session_name }, ' '))
 end -- }}}
 
@@ -99,7 +114,9 @@ function GetListedBufNames(delimiter)
 
     local bufnames = {}
     for _, buffer in ipairs(vim.fn.getbufinfo()) do
-        if buffer.listed == 1 then table.insert(bufnames, buffer.name) end
+        if buffer.listed == 1 then
+            table.insert(bufnames, buffer.name)
+        end
     end
 
     return bufnames
@@ -120,7 +137,9 @@ end -- }}}
 --- @return string #command that will be run to execute ripgrep.
 function BuildRipGrepCommand(opts)
     local t = opts.t or nil
-    if type(t) == 'function' then t = t() end -- apply the function if it is one.
+    if type(t) == 'function' then
+        t = t()
+    end -- apply the function if it is one.
 
     local t_delim = opts.t_delim or '\n'
     local pipe = opts.pipe or nil
@@ -134,14 +153,18 @@ function BuildRipGrepCommand(opts)
 
     -- set as table for future comparison or apply function if it is one.
     local grep_args = opts.grep_args or {}
-    if type(grep_args) == 'function' then grep_args = grep_args() end
+    if type(grep_args) == 'function' then
+        grep_args = grep_args()
+    end
 
     local space_char = ' '
     local cmd = {}
 
     -- check if anything is going to be piped in.
     -- if it is then we want to prepend it to the full command using the delimiter.
-    if t then pipe = table.concat(t, t_delim) end
+    if t then
+        pipe = table.concat(t, t_delim)
+    end
     if pipe then
         table.insert(cmd, 'echo')
         table.insert(cmd, '"' .. pipe .. '"')
@@ -152,7 +175,11 @@ function BuildRipGrepCommand(opts)
     table.insert(cmd, grep_cmd)
 
     -- pass the additional args to the grep command if there are any.
-    if #grep_args > 0 then for _, arg in ipairs(grep_args) do table.insert(cmd, arg) end end
+    if #grep_args > 0 then
+        for _, arg in ipairs(grep_args) do
+            table.insert(cmd, arg)
+        end
+    end
 
     -- add the filter string. leaving as "" will allow full searching of the input.
     table.insert(cmd, grep_filter)
@@ -186,7 +213,9 @@ end -- }}}
 function StringToTable(str, delim)
     str = str .. delim -- append to make splitting easier.
     local result_as_table = {}
-    for match in string.gmatch(str, '([^' .. delim .. ']+)' .. delim) do table.insert(result_as_table, match) end
+    for match in string.gmatch(str, '([^' .. delim .. ']+)' .. delim) do
+        table.insert(result_as_table, match)
+    end
 
     return result_as_table
 end -- }}}
@@ -234,7 +263,9 @@ end -- }}}
 --- @param ext_command table
 --- @return string|nil command the exact command string that should be evaluated, or nil if a table was not passed.
 function MakeFormatPrgText(ext_command)
-    if type(ext_command) ~= 'table' then return nil end
+    if type(ext_command) ~= 'table' then
+        return nil
+    end
     local prefix = 'silent setlocal formatprg='
     local command = prefix .. table.concat(ext_command, '\\ ')
     return command
@@ -259,13 +290,17 @@ end
 --- uses fugitive to check if in a git directory, and if it is, return the head.
 --- @return string #the name of the branch, or an empty string.
 function GetBranch()
-    if vim.fn.FugitiveIsGitDir() == 1 then return ('⤤ ' .. vim.fn.FugitiveHead()) end
+    if vim.fn.FugitiveIsGitDir() == 1 then
+        return ('⤤ ' .. vim.fn.FugitiveHead())
+    end
     return ''
 end
 
 --- @return string #the aws role from $AWS_ROLE.
 function GetAwsRole()
-    if os.getenv('AWS_ROLE') then return ' | ' .. os.getenv('AWS_ROLE') end
+    if os.getenv('AWS_ROLE') then
+        return ' | ' .. os.getenv('AWS_ROLE')
+    end
     return ''
 end
 
@@ -281,5 +316,7 @@ Symbols = {
     -- local enter_sym = '⏎'
     -- local te = '⋯'
 }
+
+return M
 
 -- vim: fdm=marker foldlevel=0

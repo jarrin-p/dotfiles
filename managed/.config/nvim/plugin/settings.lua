@@ -18,7 +18,6 @@ vim.o.shada = table.concat(shada_settings, ',')
 --- gui settings {{{
 vim.g.font_size = 15
 vim.g.FontKW = 'JetBrains Mono:h' .. vim.g.font_size .. ', Fira Code:h'
--- vim.o.FontKW = 'Fira Code:h' .. vim.g.font_size .. ', Courier New:h'
 vim.o.guifont = vim.g.FontKW .. vim.g.font_size .. ''
 vim.o.linespace = 12
 
@@ -31,12 +30,7 @@ function SetFontSize(amt)
         vim.o.guifont = vim.g.FontKW .. vim.g.font_size .. ''
     end
 end
-
---- increase or decrease respectively the font size via mapping.
-nnoremap('<leader>+', ':lua SetFontSize(1)<enter>')
-nnoremap('<leader>-', ':lua SetFontSize(-1)<enter>')
-
--- end gui settings }}}
+-- }}}
 
 --- window settings {{{
 vim.o.title = true
@@ -79,7 +73,7 @@ vim.o.completeopt = 'menu,menuone,preview,noselect'
 vim.o.ignorecase = false
 vim.o.smartcase = true
 vim.o.clipboard = 'unnamed,unnamedplus'
--- end editing settings }}}
+-- }}}
 
 --- builtin plugin settings {{{
 vim.g.netrw_liststyle = 3

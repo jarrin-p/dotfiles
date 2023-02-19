@@ -1,4 +1,5 @@
-nnoremap('<leader>m', ':MinimapToggle<enter>')
+local util = require 'util'
+util.nnoremap('<leader>m', ':MinimapToggle<enter>')
 
 vim.g.minimap_width = 15
 vim.g.minimap_left = 1
