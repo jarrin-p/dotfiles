@@ -64,7 +64,6 @@ local M = {
         vim.cmd(table.concat({ 'source', opts.file_path .. '/' .. opts.session_name }, ' '))
     end,
 
-    --- CleanBufferPostSpace() 
     --- cleans trailing whitespace in a file. win view is saved to keep cursor from jumping around from the substitute command.
     clean_buffer_postspace = function()
         -- TODO make this not keep jumps for undo with subs.
@@ -72,90 +71,24 @@ local M = {
         -- vim.cmd('keepjumps silent %smagic/ *$//')
         -- vim.fn.winrestview(view)
     end,
+
+    --- get_listed_bufnames 
+    --- get list of buffers delimited using newlines by default.
+    --- @param delimiter? string (default '\\n') delimiter to use for returned table.
+    --- @return table bufnames the buffers as a table.
+    get_listed_bufnames = function(delimiter)
+        delimiter = delimiter or '\n'
+
+        local bufnames = {}
+        for _, buffer in ipairs(vim.fn.getbufinfo()) do
+            if buffer.listed == 1 then
+                table.insert(bufnames, buffer.name)
+            end
+        end
+
+        return bufnames
+    end,
 }
-
---- GetListedBufNames 
---- get list of buffers delimited using newlines by default.
---- @param delimiter? string (default '\\n') delimiter to use for returned table.
---- @return table bufnames the buffers as a table.
-function GetListedBufNames(delimiter)
-    delimiter = delimiter or '\n'
-
-    local bufnames = {}
-    for _, buffer in ipairs(vim.fn.getbufinfo()) do
-        if buffer.listed == 1 then
-            table.insert(bufnames, buffer.name)
-        end
-    end
-
-    return bufnames
-end
-
---- BuildRipGrepCommand(opts) 
---- build rg command. anything that also accepts a function requires a return value of the expected type.
---- @class rg_cmd_opts
---- @field t? string[]|function lua table to be piped into grep.
---- @field t_delim? string when `t` exists, the delimiter for concatenation.
---- @field pipe? string string to be piped into grep.
---- @field grep_cmd? string the rg command to run. currently it's just rg, but will generalized for other searchers.
---- @field grep_args? table|function table of arguments to pass to the grep command.
---- @field grep_filter? string default no filter (empty string). check your grep cmd docs for more info.
-
---- builds the command that will be used for running ripgrep. supports piped or external filters.
---- @param opts rg_cmd_opts
---- @return string #command that will be run to execute ripgrep.
-function BuildRipGrepCommand(opts)
-    local t = opts.t or nil
-    if type(t) == 'function' then
-        t = t()
-    end -- apply the function if it is one.
-
-    local t_delim = opts.t_delim or '\n'
-    local pipe = opts.pipe or nil
-    if pipe and t then
-        print('simultaneous use of tables and string piping is currently not supported')
-        return
-    end
-
-    local grep_cmd = opts.grep_cmd or 'rg'
-    local grep_filter = opts.grep_filter or '""'
-
-    -- set as table for future comparison or apply function if it is one.
-    local grep_args = opts.grep_args or {}
-    if type(grep_args) == 'function' then
-        grep_args = grep_args()
-    end
-
-    local space_char = ' '
-    local cmd = {}
-
-    -- check if anything is going to be piped in.
-    -- if it is then we want to prepend it to the full command using the delimiter.
-    if t then
-        pipe = table.concat(t, t_delim)
-    end
-    if pipe then
-        table.insert(cmd, 'echo')
-        table.insert(cmd, '"' .. pipe .. '"')
-        table.insert(cmd, '|')
-    end
-
-    -- add the grep command.
-    table.insert(cmd, grep_cmd)
-
-    -- pass the additional args to the grep command if there are any.
-    if #grep_args > 0 then
-        for _, arg in ipairs(grep_args) do
-            table.insert(cmd, arg)
-        end
-    end
-
-    -- add the filter string. leaving as "" will allow full searching of the input.
-    table.insert(cmd, grep_filter)
-
-    -- returns the full command.
-    return table.concat(cmd, space_char)
-end
 
 --- PrepentToEachTableEntry(t, text_to_prepend) 
 --- prepends to the front of each string in a table. does not update in place.
