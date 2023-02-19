@@ -55,7 +55,7 @@ util.nnoremap('<leader>g', ':lua FuzzyGrep()<enter>')
 
 function BufSelect()
     fzf_wrap {
-        source = GetListedBufNames(),
+        source = util.get_listed_bufnames(),
         sink = as_global(function(result)
             vim.cmd('e ' .. result)
         end),
