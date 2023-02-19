@@ -88,22 +88,22 @@ local M = {
 
         return bufnames
     end,
+
+    --- StringToTable(str, delim) 
+    --- split string into table. a quick implementation of the inverse of `table.concat`.
+    --- @param str string string to be broken apart.
+    --- @param delim string delimiter that determines where to break apart string.
+    --- @return table result_as_table the table of strings that were split.
+    string_to_table = function(str, delim)
+        str = str .. delim -- append to make splitting easier.
+        local result_as_table = {}
+        for match in string.gmatch(str, '([^' .. delim .. ']+)' .. delim) do
+            table.insert(result_as_table, match)
+        end
+
+        return result_as_table
+    end,
 }
-
---- StringToTable(str, delim) 
---- split string into table. a quick implementation of the inverse of `table.concat`.
---- @param str string string to be broken apart.
---- @param delim string delimiter that determines where to break apart string.
---- @return table result_as_table the table of strings that were split.
-function StringToTable(str, delim)
-    str = str .. delim -- append to make splitting easier.
-    local result_as_table = {}
-    for match in string.gmatch(str, '([^' .. delim .. ']+)' .. delim) do
-        table.insert(result_as_table, match)
-    end
-
-    return result_as_table
-end
 
 --- GetLSPKind(kind) 
 --- kind of like an enum for converting the kind response from the LSP

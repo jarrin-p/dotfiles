@@ -37,7 +37,7 @@ function FuzzyGrep()
     fzf_wrap {
         source = rg_prefix .. '""', -- searches everything on init.
         sink = as_global(function(result)
-            local results_table = StringToTable(result, ':')
+            local results_table = util.string_to_table(result, ':')
             vim.cmd('e ' .. results_table[1]) -- 1 is the file path.
             vim.fn.cursor(results_table[2], results_table[3]) -- 2 is the row, 3 is column.
         end),
