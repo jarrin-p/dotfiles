@@ -26,26 +26,26 @@ local M = {
         bool = bool or false
         vim.api.nvim_exec(str, bool)
     end,
+
+    --- make_session_on_git_root(opts)
+    --- @class make_git_session_opts
+    --- @field file_path? string
+    --- @field session_name? string
+
+    --- makes sessions in the git root directory if in one.
+    --- @param opts? make_git_session_opts
+    make_session_on_git_root = function(opts)
+        opts = opts or {}
+        opts.session_name = opts.session_name or 'Session.vim'
+        if vim.fn.FugitiveIsGitDir() == 1 then
+            opts.file_path = opts.file_path or vim.fn.FugitiveWorkTree()
+        end
+        if not opts.file_path then
+            return
+        end -- don't litter sessions.
+        vim.cmd(table.concat({ 'mksession!', opts.file_path .. '/' .. opts.session_name }, ' '))
+    end,
 }
-
---- MakeGitSession(opts) {{{
---- @class make_git_session_opts
---- @field file_path? string
---- @field session_name? string
-
---- makes sessions in the git root directory if in one.
---- @param opts? make_git_session_opts
-function MakeGitSession(opts)
-    opts = opts or {}
-    opts.session_name = opts.session_name or 'Session.vim'
-    if vim.fn.FugitiveIsGitDir() == 1 then
-        opts.file_path = opts.file_path or vim.fn.FugitiveWorkTree()
-    end
-    if not opts.file_path then
-        return
-    end -- don't litter sessions.
-    vim.cmd(table.concat({ 'mksession!', opts.file_path .. '/' .. opts.session_name }, ' '))
-end -- }}}
 
 --- LoadGitSession(opts) {{{
 --- @class load_git_session_opts

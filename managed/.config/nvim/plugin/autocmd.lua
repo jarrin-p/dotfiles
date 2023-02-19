@@ -1,6 +1,7 @@
 --- @author jarrin-p
 --- @file `autocmd.lua`
 -- run auto format before saving using formatprg if it's been set.
+local util = require 'util'
 vim.api.nvim_create_autocmd({ 'BufWritePre' }, { pattern = { '.*', '*' }, callback = FF })
 
 -- assumes spotlessApply is apart of gradle.build.
@@ -8,7 +9,7 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, { pattern = { '.*', '*' }, callba
 
 -- after writing to a buffer, a `Session.vim` will be created in the root of
 -- a git repo if in one or in the current directory of the file.
-vim.api.nvim_create_autocmd({ 'BufWritePost' }, { pattern = { '.*', '*' }, callback = MakeGitSession })
+vim.api.nvim_create_autocmd({ 'BufWritePost' }, { pattern = { '.*', '*' }, callback = util.make_session_on_git_root })
 
 -- before writing to a buffer postspace will be cleaned.
 vim.api.nvim_create_autocmd({ 'BufWritePre' }, { pattern = { '.*', '*' }, callback = CleanBufferPostSpace })
