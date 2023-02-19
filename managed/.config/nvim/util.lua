@@ -90,23 +90,6 @@ local M = {
     end,
 }
 
---- PrepentToEachTableEntry(t, text_to_prepend) 
---- prepends to the front of each string in a table. does not update in place.
---- @param t table table of strings that will have each text have prepended.
---- @param text_to_prepend string what will be prepended.
---- @return table new table with text prepended.
-function PrependToEachTableEntry(t, text_to_prepend)
-    local returned_table = {}
-    for _, value in ipairs(t) do
-        if type(value) ~= 'string' then
-            print('table contains non-string value. returning from function')
-            return
-        end
-        table.insert(returned_table, text_to_prepend .. value)
-    end
-    return returned_table
-end
-
 --- StringToTable(str, delim) 
 --- split string into table. a quick implementation of the inverse of `table.concat`.
 --- @param str string string to be broken apart.
