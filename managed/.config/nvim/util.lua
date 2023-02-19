@@ -28,27 +28,6 @@ local M = {
     end,
 }
 
---- RecurisvePrint(element, indent) {{{
---- recursively prints a table that has nested tables in a manner that isn't awful
---- @param element table the array or table to be printed
---- @param indent? string spaces that will be added in each level of recursion
-function RecursivePrint(element, indent)
-    indent = indent or ''
-    if type(element) == 'table' then
-        for key, val in pairs(element) do
-            if type(val) == 'table' then
-                print(indent .. key .. ':')
-                RecursivePrint(val, indent .. '  ')
-            else
-                key = (type(key) == 'boolean' and (key and 'true' or 'false') or key)
-                val = (type(val) == 'boolean' and (val and 'true' or 'false') or val)
-                val = (type(val) == 'function' and 'function' or val)
-                print(indent .. key .. ': ' .. val)
-            end
-        end
-    end
-end -- }}}
-
 --- MakeGitSession(opts) {{{
 --- @class make_git_session_opts
 --- @field file_path? string
