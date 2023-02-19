@@ -63,26 +63,16 @@ local M = {
         end
         vim.cmd(table.concat({ 'source', opts.file_path .. '/' .. opts.session_name }, ' '))
     end,
+
+    --- CleanBufferPostSpace() 
+    --- cleans trailing whitespace in a file. win view is saved to keep cursor from jumping around from the substitute command.
+    clean_buffer_postspace = function()
+        -- TODO make this not keep jumps for undo with subs.
+        -- local view = vim.fn.winsaveview()
+        -- vim.cmd('keepjumps silent %smagic/ *$//')
+        -- vim.fn.winrestview(view)
+    end,
 }
-
---- CleanBufferPostSpace() 
---- cleans trailing whitespace in a file. win view is saved to keep cursor from jumping around from the substitute command.
-function CleanBufferPostSpace()
-    -- TODO make this not keep jumps for undo with subs.
-    -- local view = vim.fn.winsaveview()
-    -- vim.cmd('keepjumps silent %smagic/ *$//')
-    -- vim.fn.winrestview(view)
-end
-
---- CurrentBufIsEmpty() 
---- check if buffer is empty
---- @return boolean
-function CurrentBufIsEmpty()
-    if vim.fn.line('$') == 1 and vim.fn.getline(1) == '' and vim.api.nvim_get_option_value('filetype', {}) == '' then
-        return true
-    end
-    return false
-end
 
 --- GetListedBufNames 
 --- get list of buffers delimited using newlines by default.

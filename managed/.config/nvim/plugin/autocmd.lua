@@ -12,7 +12,7 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, { pattern = { '.*', '*' }, callba
 vim.api.nvim_create_autocmd({ 'BufWritePost' }, { pattern = { '.*', '*' }, callback = util.make_session_on_git_root })
 
 -- before writing to a buffer postspace will be cleaned.
-vim.api.nvim_create_autocmd({ 'BufWritePre' }, { pattern = { '.*', '*' }, callback = CleanBufferPostSpace })
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, { pattern = { '.*', '*' }, callback = util.clean_buffer_postspace })
 
 -- create a view on save.
 vim.api.nvim_create_autocmd({ 'BufWinLeave' },
