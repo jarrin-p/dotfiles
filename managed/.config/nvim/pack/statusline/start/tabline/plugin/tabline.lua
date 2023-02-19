@@ -1,19 +1,20 @@
 --- note: this uses the component from the other pack!
 --- todo: update this.
 local cg = require 'pack.statusline.util.component'
+local util = require 'pack.statusline.util.util'
+local symbols = util.symbols
 
 local tabline_std = cg:new{ name = 'Tabline' }
 local tabline_fill = cg:new{ name = 'Statusline' }
 local tabline_sel = tabline_std:reversed('TablineSel')
--- local tabline_sel = cg:new{ name = 'TabLineSel' }
 
 --- @return string tabline
 vim.g.MakeTabline = function()
     local current_tab = vim.fn.tabpagenr()
     local num_tabs = vim.fn.tabpagenr('$')
-    local transition_header_to_fill = tabline_std:get_transition_to(tabline_fill, 'background', Symbols.left_tr)
+    local transition_header_to_fill = tabline_std:get_transition_to(tabline_fill, 'background', symbols.left_tr)
         :get_value()
-    local tabl = tabline_std:set ' ' .. GetBranch() .. ' ' .. transition_header_to_fill
+    local tabl = tabline_std:set ' ' .. util.get_branch() .. ' ' .. transition_header_to_fill
     tabl = tabl .. tabline_fill:set '' .. '%= ' -- right align tabs.
 
     local selection_state
@@ -22,7 +23,7 @@ vim.g.MakeTabline = function()
     else
         selection_state = tabline_std
     end
-    tabl = tabl .. selection_state:get_transition_to(tabline_fill, 'background', Symbols.right_tr):get_value()
+    tabl = tabl .. selection_state:get_transition_to(tabline_fill, 'background', symbols.right_tr):get_value()
 
     local win_nr, win_id, buf_handle, buf_name, buf_name_tail
     for tab_nr = 1, num_tabs do
@@ -40,15 +41,13 @@ vim.g.MakeTabline = function()
 
         tabl = tabl .. selection_state:set(' ' .. tab_nr .. ' ' .. buf_name_tail .. ' ')
     end
-    -- tabl = tabl .. ' %t%M'
 
-    -- makes sure the fill is also after the tabs block.
     if num_tabs == current_tab then
         selection_state = tabline_sel
     elseif num_tabs > 1 then
         selection_state = tabline_std
     end
-    tabl = tabl .. selection_state:get_transition_to(tabline_fill, 'background', Symbols.left_tr):get_value()
+    tabl = tabl .. selection_state:get_transition_to(tabline_fill, 'background', symbols.left_tr):get_value()
     tabl = tabl .. tabline_fill:set '   '
     return tabl
 end

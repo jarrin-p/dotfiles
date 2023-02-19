@@ -1,6 +1,7 @@
 --- @author jarrin-p
 --- @file `snippets.lua`
 local util = require 'pack.statusline.util.util'
+local symbols = util.symbols
 local path = require 'pack.statusline.util.path'
 local conf = require 'pack.statusline.util.config'
 
@@ -22,7 +23,7 @@ M.format_path_table_for_display = function(path_table, max_depth)
     local index = 1
     while (index < max_depth and #path_table ~= 0) do
         local pop = table.remove(path_table) or ''
-        pathing = pathing .. Symbols.bl .. ' ' .. pop .. ' '
+        pathing = pathing .. symbols.bl .. ' ' .. pop .. ' '
         index = index + 1
     end
     return pathing
@@ -65,7 +66,7 @@ M.make_file_info = function()
         file_type = 'Empty'
     end
 
-    local val = conf.transitions.fill_to_ft_info .. conf.ft_info:set ' ' .. file_type .. ' ' .. Symbols.br
+    local val = conf.transitions.fill_to_ft_info .. conf.ft_info:set ' ' .. file_type .. ' ' .. symbols.br
                     .. ' ≡ %l:%L   '
     return val
 end

@@ -29,5 +29,29 @@ local M = {
         getColorValueFromGroup = string.format("%06x", getColorValueFromGroup)
         return '#' .. getColorValueFromGroup
     end,
+
+    --- uses fugitive to check if in a git directory, and if it is, return the head.
+    --- @return string #the name of the branch, or an empty string.
+    get_branch = function()
+        if vim.fn.FugitiveIsGitDir() == 1 then
+            return ('⤤ ' .. vim.fn.FugitiveHead())
+        end
+        return ''
+    end,
+
+    --- I'm awful and just copy pasted symbols I wanted.
+    symbols = {
+        -- bl = '«', -- bracket left
+        -- br = '»', -- bracket right
+        ra = '->', -- right ..arrow
+        left_tr = '',
+        right_tr = '',
+        bl = '',
+        br = '',
+        -- local enter_sym = '⏎'
+        -- local te = '⋯'
+    },
+
 }
+
 return M

@@ -2,7 +2,7 @@
 --- @file `autocmd.lua`
 -- run auto format before saving using formatprg if it's been set.
 local util = require 'util'
-vim.api.nvim_create_autocmd({ 'BufWritePre' }, { pattern = { '.*', '*' }, callback = FF })
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, { pattern = { '.*', '*' }, callback = util.file_format })
 
 -- assumes spotlessApply is apart of gradle.build.
 -- vim.api.nvim_create_autocmd({ 'BufWritePost' }, { pattern = { '*.java', '*.scala' }, command = 'silent SA' })
@@ -22,4 +22,4 @@ vim.api.nvim_create_autocmd({ 'BufWinLeave' },
 vim.api.nvim_create_autocmd({ 'BufWinEnter' },
     { pattern = { '.*', '*' }, command = 'if expand("%") != "" | silent! loadview | endif' })
 
-vim.api.nvim_create_autocmd({ 'DirChanged', 'VimLeave' }, { callback = ExportCwd })
+vim.api.nvim_create_autocmd({ 'DirChanged', 'VimLeave' }, { callback = util.export_cwd })

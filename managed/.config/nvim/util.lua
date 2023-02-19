@@ -103,103 +103,21 @@ local M = {
 
         return result_as_table
     end,
-}
 
---- GetLSPKind(kind) 
---- kind of like an enum for converting the kind response from the LSP
---- into a physical name. sets it if it hasn't been made yet.
---- @param kind number kind to convert.
-function GetLSPKind(kind)
-    if not LSPKindEnum then
-        LSPKindEnum = {
-            [1] = 'File',
-            [2] = 'Module',
-            [3] = 'Namespace',
-            [4] = 'Package',
-            [5] = 'Class',
-            [6] = 'Method',
-            [7] = 'Property',
-            [8] = 'Field',
-            [9] = 'Constructor',
-            [10] = 'Enum',
-            [11] = 'Interface',
-            [12] = 'Function',
-            [13] = 'Variable',
-            [14] = 'Constant',
-            [15] = 'String',
-            [16] = 'Number',
-            [17] = 'Boolean',
-            [18] = 'Array',
-            [19] = 'Object',
-            [20] = 'Key',
-            [21] = 'Null',
-            [22] = 'EnumMember',
-            [23] = 'Struct',
-            [24] = 'Event',
-            [25] = 'Operator',
-            [26] = 'TypeParameter',
-        }
-    end
-    return LSPKindEnum[kind]
-end
+    file_format = function()
+        if vim.api.nvim_get_option_value('formatprg', {}) ~= '' then
+            local view = vim.fn.winsaveview()
+            vim.cmd('keepjumps silent norm gggqG')
+            vim.fn.winrestview(view)
+        end
+    end,
 
---- MakeFormatPrg() 
---- creates the string for a `formatprg` expression with escaped backslack `\` characters.
---- @param ext_command table
---- @return string|nil command the exact command string that should be evaluated, or nil if a table was not passed.
-function MakeFormatPrgText(ext_command)
-    if type(ext_command) ~= 'table' then
-        return nil
-    end
-    local prefix = 'silent setlocal formatprg='
-    local command = prefix .. table.concat(ext_command, '\\ ')
-    return command
-end
-
---- FF() (format file using formatprg) 
-function FF()
-    if vim.api.nvim_get_option_value('formatprg', {}) ~= '' then
-        local view = vim.fn.winsaveview()
-        vim.cmd('keepjumps silent norm gggqG')
-        vim.fn.winrestview(view)
-    end
-end
-
---- exports the cwd to a temp file gotten from the env variable $VIM_CWD_PATH
-function ExportCwd()
-    -- cd %:p:h<enter>
-    local cwd = vim.fn.getcwd()
-    os.execute('echo "' .. cwd .. '" > ' .. os.getenv('VIM_CWD_PATH'))
-end
-
---- uses fugitive to check if in a git directory, and if it is, return the head.
---- @return string #the name of the branch, or an empty string.
-function GetBranch()
-    if vim.fn.FugitiveIsGitDir() == 1 then
-        return ('⤤ ' .. vim.fn.FugitiveHead())
-    end
-    return ''
-end
-
---- @return string #the aws role from $AWS_ROLE.
-function GetAwsRole()
-    if os.getenv('AWS_ROLE') then
-        return ' | ' .. os.getenv('AWS_ROLE')
-    end
-    return ''
-end
-
---- I'm awful and just copy pasted symbols I wanted.
-Symbols = {
-    -- bl = '«', -- bracket left
-    -- br = '»', -- bracket right
-    ra = '->', -- right ..arrow
-    left_tr = '',
-    right_tr = '',
-    bl = '',
-    br = '',
-    -- local enter_sym = '⏎'
-    -- local te = '⋯'
+    --- exports the cwd to a temp file gotten from the env variable $VIM_CWD_PATH
+    export_cwd = function()
+        -- cd %:p:h<enter>
+        local cwd = vim.fn.getcwd()
+        os.execute('echo "' .. cwd .. '" > ' .. os.getenv('VIM_CWD_PATH'))
+    end,
 }
 
 return M

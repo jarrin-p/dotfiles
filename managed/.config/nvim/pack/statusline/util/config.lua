@@ -1,5 +1,6 @@
 local cg = require 'pack.statusline.util.component'
 local util = require 'pack.statusline.util.util'
+local symbols = util.symbols
 
 M = {}
 
@@ -29,8 +30,8 @@ M.dir_fug = M.directory:set ' Fugitive'
 
 -- generated values from transitions.
 M.transitions = {
-    header_to_dir = M.header:get_transition_to(M.directory, 'background', Symbols.left_tr):get_value(),
-    fill_to_ft_info = M.ft_info:get_transition_to(M.fill, 'background', Symbols.right_tr):get_value(),
+    header_to_dir = M.header:get_transition_to(M.directory, 'background', symbols.left_tr):get_value(),
+    fill_to_ft_info = M.ft_info:get_transition_to(M.fill, 'background', symbols.right_tr):get_value(),
 }
 
 M.buffer_types = { terminal = M.header:set '  Terminal  ' .. M.transitions.header_to_dir }
