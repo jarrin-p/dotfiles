@@ -45,36 +45,36 @@ local M = {
         end -- don't litter sessions.
         vim.cmd(table.concat({ 'mksession!', opts.file_path .. '/' .. opts.session_name }, ' '))
     end,
+
+    --- load_sessions_from_git_root(opts) 
+    --- @class load_git_session_opts
+    --- @field file_path? string
+    --- @field session_name? string
+
+    --- makes sessions in the git root directory if in one.
+    --- @param opts? load_git_session_opts
+    load_session_from_git_root = function(opts)
+        opts = opts or {}
+        opts.session_name = opts.session_name or 'Session.vim'
+        if vim.fn.FugitiveIsGitDir() == 1 then
+            opts.file_path = opts.file_path or vim.fn.FugitiveWorkTree()
+        else
+            opts.file_path = opts.file_path .. ' ' or ''
+        end
+        vim.cmd(table.concat({ 'source', opts.file_path .. '/' .. opts.session_name }, ' '))
+    end,
 }
 
---- LoadGitSession(opts) {{{
---- @class load_git_session_opts
---- @field file_path? string
---- @field session_name? string
-
---- makes sessions in the git root directory if in one.
---- @param opts? load_git_session_opts
-function LoadGitSession(opts)
-    opts = opts or {}
-    opts.session_name = opts.session_name or 'Session.vim'
-    if vim.fn.FugitiveIsGitDir() == 1 then
-        opts.file_path = opts.file_path or vim.fn.FugitiveWorkTree()
-    else
-        opts.file_path = opts.file_path .. ' ' or ''
-    end
-    vim.cmd(table.concat({ 'source', opts.file_path .. '/' .. opts.session_name }, ' '))
-end -- }}}
-
---- CleanBufferPostSpace() {{{
+--- CleanBufferPostSpace() 
 --- cleans trailing whitespace in a file. win view is saved to keep cursor from jumping around from the substitute command.
 function CleanBufferPostSpace()
     -- TODO make this not keep jumps for undo with subs.
     -- local view = vim.fn.winsaveview()
     -- vim.cmd('keepjumps silent %smagic/ *$//')
     -- vim.fn.winrestview(view)
-end -- }}}
+end
 
---- CurrentBufIsEmpty() {{{
+--- CurrentBufIsEmpty() 
 --- check if buffer is empty
 --- @return boolean
 function CurrentBufIsEmpty()
@@ -82,9 +82,9 @@ function CurrentBufIsEmpty()
         return true
     end
     return false
-end -- }}}
+end
 
---- GetListedBufNames {{{
+--- GetListedBufNames 
 --- get list of buffers delimited using newlines by default.
 --- @param delimiter? string (default '\\n') delimiter to use for returned table.
 --- @return table bufnames the buffers as a table.
@@ -99,9 +99,9 @@ function GetListedBufNames(delimiter)
     end
 
     return bufnames
-end -- }}}
+end
 
---- BuildRipGrepCommand(opts) {{{
+--- BuildRipGrepCommand(opts) 
 --- build rg command. anything that also accepts a function requires a return value of the expected type.
 --- @class rg_cmd_opts
 --- @field t? string[]|function lua table to be piped into grep.
@@ -165,9 +165,9 @@ function BuildRipGrepCommand(opts)
 
     -- returns the full command.
     return table.concat(cmd, space_char)
-end -- }}}
+end
 
---- PrepentToEachTableEntry(t, text_to_prepend) {{{
+--- PrepentToEachTableEntry(t, text_to_prepend) 
 --- prepends to the front of each string in a table. does not update in place.
 --- @param t table table of strings that will have each text have prepended.
 --- @param text_to_prepend string what will be prepended.
@@ -182,9 +182,9 @@ function PrependToEachTableEntry(t, text_to_prepend)
         table.insert(returned_table, text_to_prepend .. value)
     end
     return returned_table
-end -- }}}
+end
 
---- StringToTable(str, delim) {{{
+--- StringToTable(str, delim) 
 --- split string into table. a quick implementation of the inverse of `table.concat`.
 --- @param str string string to be broken apart.
 --- @param delim string delimiter that determines where to break apart string.
@@ -197,9 +197,9 @@ function StringToTable(str, delim)
     end
 
     return result_as_table
-end -- }}}
+end
 
---- GetLSPKind(kind) {{{
+--- GetLSPKind(kind) 
 --- kind of like an enum for converting the kind response from the LSP
 --- into a physical name. sets it if it hasn't been made yet.
 --- @param kind number kind to convert.
@@ -235,9 +235,9 @@ function GetLSPKind(kind)
         }
     end
     return LSPKindEnum[kind]
-end -- }}}
+end
 
---- MakeFormatPrg() {{{
+--- MakeFormatPrg() 
 --- creates the string for a `formatprg` expression with escaped backslack `\` characters.
 --- @param ext_command table
 --- @return string|nil command the exact command string that should be evaluated, or nil if a table was not passed.
@@ -248,16 +248,16 @@ function MakeFormatPrgText(ext_command)
     local prefix = 'silent setlocal formatprg='
     local command = prefix .. table.concat(ext_command, '\\ ')
     return command
-end -- }}}
+end
 
---- FF() (format file using formatprg) {{{
+--- FF() (format file using formatprg) 
 function FF()
     if vim.api.nvim_get_option_value('formatprg', {}) ~= '' then
         local view = vim.fn.winsaveview()
         vim.cmd('keepjumps silent norm gggqG')
         vim.fn.winrestview(view)
     end
-end -- }}}
+end
 
 --- exports the cwd to a temp file gotten from the env variable $VIM_CWD_PATH
 function ExportCwd()

@@ -5,7 +5,7 @@ local util = require 'util'
 util.exec([[ command! GT execute 'cd' fnameescape(FugitiveWorkTree())]], false)
 
 -- loads the Sessiom.vim from the root of the git directory if in one.
-util.exec([[ command! LG lua LoadGitSession()]], false)
+vim.api.nvim_create_user_command('LG', util.load_session_from_git_root, {})
 
 -- alias for opening quickfix list to a new tab.
 util.exec([[ command! CO tabnew | copen | only]], false)
