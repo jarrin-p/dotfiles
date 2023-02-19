@@ -1,32 +1,32 @@
 --- @author jarrin-p
 --- @file `util.lua`
-local M = {}
-M.map = function(lhs, rhs)
-    vim.api.nvim_set_keymap('', lhs, rhs, { noremap = false, silent = true })
-end
+local M = {
+    map = function(lhs, rhs)
+        vim.api.nvim_set_keymap('', lhs, rhs, { noremap = false, silent = true })
+    end,
 
-M.nnoremap = function(lhs, rhs)
-    vim.api.nvim_set_keymap('n', lhs, rhs, { noremap = true, silent = true })
-end
+    nnoremap = function(lhs, rhs)
+        vim.api.nvim_set_keymap('n', lhs, rhs, { noremap = true, silent = true })
+    end,
 
-function buf_nnoremap(lhs, rhs)
-    vim.api.nvim_buf_set_keymap(0, 'n', lhs, rhs, { noremap = true, silent = true })
-end
+    buf_nnoremap = function(lhs, rhs)
+        vim.api.nvim_buf_set_keymap(0, 'n', lhs, rhs, { noremap = true, silent = true })
+    end,
 
---- assumes remap to normal mode.
-M.inoremap = function(lhs, rhs)
-    vim.api.nvim_set_keymap('i', lhs, '<c-o>' .. rhs, { noremap = true, silent = true })
-end
+    --- assumes remap to normal mode.
+    inoremap = function(lhs, rhs)
+        vim.api.nvim_set_keymap('i', lhs, '<c-o>' .. rhs, { noremap = true, silent = true })
+    end,
 
-M.tnoremap = function(lhs, rhs)
-    vim.api.nvim_set_keymap('t', lhs, rhs, { noremap = true, silent = true })
-end
+    tnoremap = function(lhs, rhs)
+        vim.api.nvim_set_keymap('t', lhs, rhs, { noremap = true, silent = true })
+    end,
 
---- alias {{{
-Exec = function(str, bool)
-    bool = bool or false
-    vim.api.nvim_exec(str, bool)
-end -- }}}
+    exec = function(str, bool)
+        bool = bool or false
+        vim.api.nvim_exec(str, bool)
+    end,
+}
 
 --- RecurisvePrint(element, indent) {{{
 --- recursively prints a table that has nested tables in a manner that isn't awful

@@ -1,13 +1,14 @@
+local util = require 'util'
 local project_name
 if vim.fn.FugitiveIsGitDir() == 1 then
     project_name = vim.fn.fnamemodify(vim.fn.FugitiveWorkTree(), ':p:h:t')
 else
     project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 end
+
 -- language server settings
 local config = {
     cmd = { 'jdtlsw' },
-    -- cmd = {'jdt-language-server', '-data', '/tmp/jdtls_workspace/' .. project_name},
     root_dir = vim.fs.dirname(vim.fs.find({'.gradlew', '.git', 'mvnw'}, { upward = true })[1]),
 }
 require('jdtls').start_or_attach(config)
@@ -17,7 +18,7 @@ vim.wo.foldlevel = 1
 vim.wo.foldnestmax = 4
 
 -- runs `spotlessApply` at the top level of the git repository.
-Exec(
+util.exec(
     [[ command! SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]],
         false
 )
