@@ -3,7 +3,7 @@ local lsp_util = require'lspconfig'.util
 -- language servers.
 require'rust-tools'.setup {}
 require'lspconfig'.nil_ls.setup {}
-require'lspconfig'.sumneko_lua.setup {
+require'lspconfig'.lua_ls.setup {
     settings = {
         Lua = {
             diagnostics = {
