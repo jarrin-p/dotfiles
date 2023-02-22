@@ -19,12 +19,13 @@ with pkgs; stdenv.mkDerivation {
     lombok
   ];
 
-  inherit lombok;
+  inherit lombok jdk17;
 
   installPhase = ''
     mkdir $out
     cp -r * $out
     makeWrapper $out/bin/jdtls $out/bin/jdtlsw \
+    --set "JAVA_HOME" "$jdk17" \
     --add-flags "--jvm-arg=-javaagent:$lombok/lombok.jar" \
     --add-flags "-configuration=/tmp/.cache/jdtls" \
     --add-flags "-data=/tmp/jdtls_workspace"

@@ -90,7 +90,7 @@ in
         fzf
         gh
         git
-        jdk17
+        jdk11
         (import ./jdtls/default.nix)
         jq
         luaformatter
