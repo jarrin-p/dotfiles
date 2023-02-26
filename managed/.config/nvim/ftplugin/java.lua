@@ -9,7 +9,10 @@ end
 -- language server settings
 local config = {
     cmd = { 'jdtlsw' },
-    root_dir = vim.fs.dirname(vim.fs.find({'.gradlew', '.git', 'mvnw'}, { upward = true })[1]),
+    root_dir = vim.fs.dirname(vim.fs.find({ '.gradlew', '.git', 'mvnw' }, { upward = true })[1]),
+    settings = {
+        java = { format = { settings = { url = 'https://google.github.io/styleguide/intellij-java-google-style.xml' } } },
+    },
 }
 require('jdtls').start_or_attach(config)
 
@@ -18,18 +21,12 @@ vim.wo.foldlevel = 1
 vim.wo.foldnestmax = 4
 
 -- runs `spotlessApply` at the top level of the git repository.
-util.exec(
-    [[ command! SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]],
-        false
-)
+util.exec([[ command! SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]], false)
 
 local group_id = vim.api.nvim_create_augroup('JavaGroup', { clear = true })
 
 -- assumes spotlessApply is apart of gradle.build.
-vim.api.nvim_create_autocmd(
-    { 'BufWritePost' },
-        { pattern = { '*.java' }, command = 'silent SA', group = group_id }
-)
+vim.api.nvim_create_autocmd({ 'BufWritePost' }, { pattern = { '*.java' }, command = 'silent SA', group = group_id })
 
 local ls = require 'luasnip'
 local s = ls.snippet
@@ -50,49 +47,18 @@ local sn = ls.snippet_node
 -- local select_choice = require 'luasnip.extras.select_choice'
 ls.cleanup() -- clears all snippets
 
-ls.add_snippets(
-    'java', {
-        s(
-            'print', -- System.out.println()
-            { t({ 'System.out.println(' }), i(0), t { ');' } }
-        ), s(
-            'log.i', -- log.info
-            { t { 'log.info("' }, i(0), t { '");' } }
-        ), s(
-            'log.e', -- log.error
-            { t { 'log.error("' }, i(0), t { '");' } }
-        ), s(
-            '@Mapping', -- mapstruct mapping
-            {
-                t { '@Mapping(target = "' }, i(1, 'targetName'),
-                t { '", source = "' }, i(0, 'sourceName'), t { '")' },
-            }
-        ), s(
-            '.ase', -- assert equals
-            {
-                t { 'assertEquals(' }, i(1, 'expected'), t { ', ' },
-                i(0, 'valueToCheck'), t { ')' },
-            }
-        ), s(
-            '@fni', {
-                t { '@FunctionalInterface', 'public interface ' },
-                i(1, 'interfaceName'), t { ' {', '\t', '}' },
-            }
-        ), s(
-            '.interface', {
-                t { 'public interface ' }, i(1, 'interfaceName'), t { ' {', },
-                    t { '\t',},
-                t { '}' },
-            }
-        ),
-        s(
-            '.class',
-                {
-                    t { 'public class ' }, i(1, 'className'),
-                    t { ' {' },
-                        t { '\t', }, i(0),
-                    t { '}' },
-                }
-        ),
-    }
-)
+ls.add_snippets('java', {
+    s('print', -- System.out.println()
+    { t({ 'System.out.println(' }), i(0), t { ');' } }),
+    s('log.i', -- log.info
+    { t { 'log.info("' }, i(0), t { '");' } }),
+    s('log.e', -- log.error
+    { t { 'log.error("' }, i(0), t { '");' } }),
+    s('@Mapping', -- mapstruct mapping
+    { t { '@Mapping(target = "' }, i(1, 'targetName'), t { '", source = "' }, i(0, 'sourceName'), t { '")' } }),
+    s('.ase', -- assert equals
+    { t { 'assertEquals(' }, i(1, 'expected'), t { ', ' }, i(0, 'valueToCheck'), t { ')' } }),
+    s('@fni', { t { '@FunctionalInterface', 'public interface ' }, i(1, 'interfaceName'), t { ' {', '\t', '}' } }),
+    s('.interface', { t { 'public interface ' }, i(1, 'interfaceName'), t { ' {' }, t { '\t' }, t { '}' } }),
+    s('.class', { t { 'public class ' }, i(1, 'className'), t { ' {' }, t { '\t' }, i(0), t { '}' } }),
+})
