@@ -34,7 +34,7 @@ local M = {
     --- @return string #the name of the branch, or an empty string.
     get_branch = function()
         if vim.fn.FugitiveIsGitDir() == 1 then
-            return ('⤤ ' .. vim.fn.FugitiveHead())
+            return (' ' .. vim.fn.FugitiveHead())
         end
         return ''
     end,
@@ -48,6 +48,7 @@ local M = {
         right_tr = '',
         bl = '',
         br = '',
+        git = ''
         -- local enter_sym = '⏎'
         -- local te = '⋯'
     },

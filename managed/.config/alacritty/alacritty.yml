@@ -4,6 +4,13 @@ font:
   normal:
     family: JetBrains Mono
   size: 15.0
+  offset:
+    x: 0
+    y: 2
+  glyph_offset:
+    x: 0
+    y: 1
+
 shell:
   program: /bin/zsh
   args:
