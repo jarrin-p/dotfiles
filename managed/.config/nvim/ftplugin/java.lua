@@ -20,6 +20,8 @@ vim.bo.tabstop = 2
 vim.wo.foldlevel = 1
 vim.wo.foldnestmax = 4
 
+util.exec([[ command! SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]], false)
+
 local ls = require 'luasnip'
 local s = ls.snippet
 local t = ls.text_node

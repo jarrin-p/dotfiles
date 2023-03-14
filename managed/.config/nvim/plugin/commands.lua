@@ -13,4 +13,6 @@ util.exec([[ command! CO tabnew | copen | only]], false)
 -- creates a floating term that can quickly be destroyed.
 util.exec([[ command! T lua FloatingTerm() ]], false)
 
+-- formats the file using formatprg while keeping the cursor position.
+util.exec([[ command! FF lua require'util'.file_format()]])
 -- vim: fdm=marker foldlevel=0

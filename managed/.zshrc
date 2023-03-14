@@ -12,7 +12,7 @@ export VIM_CWD_PATH='/tmp/vimcwd.path'
 function vcd() cd $(cat $VIM_CWD_PATH)
 
 # general
-function ls () { $HOME/.nix-profile/bin/ls --color $@ } # default to color ls.
+function ls () { $HOME/.nix-profile/bin/ls --group-directories-first --color $@ } # default to color ls.
 
 # ranger
 function ranger {
@@ -47,7 +47,7 @@ function gt { pushd $(git rev-parse --show-toplevel) } # goto root of git direct
 function GT { pushd $(git rev-parse --show-toplevel) }
 
 # tree
-function tree () { ${HOME}/.nix-profile/bin/tree -A -C $@ }
+function tree () { ${HOME}/.nix-profile/bin/tree -A -C --dirsfirst $@ }
 function wtree () { ${HOME}/.nix-profile/bin/tree --prune -P "*.java" -I "build" -A -C $@ }
 
 # clones todo repo if file doesn't exist.

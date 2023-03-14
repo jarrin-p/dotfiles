@@ -106,6 +106,7 @@ in
         pkcs11helper
         pylint
         ranger
+        redis
         rename
         ripgrep
         rtorrent
