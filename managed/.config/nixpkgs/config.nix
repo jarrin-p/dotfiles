@@ -102,6 +102,7 @@ in
         nodePackages.typescript
         nodePackages.typescript-language-server
         nodePackages.pyright
+        nodePackages.vscode-json-languageserver
         nmap
         pkcs11helper
         pylint
