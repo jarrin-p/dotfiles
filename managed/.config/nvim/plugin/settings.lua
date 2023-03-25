@@ -36,7 +36,6 @@ end
 vim.o.title = true
 vim.o.titlestring = '%t'
 vim.o.showtabline = 2 -- always show the tabline
-vim.o.hidden = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 0 -- 0 means use tabstop value.
 vim.o.expandtab = true -- use spaces instead of tabs.
@@ -49,7 +48,7 @@ vim.o.foldcolumn = '3'
 vim.o.foldmethod = 'manual'
 vim.o.path = vim.o.path .. '**'
 vim.o.signcolumn = 'yes'
-vim.o.updatetime = 50
+vim.o.updatetime = 25
 vim.o.foldlevelstart = 99
 vim.o.scrolloff = 2 -- a little padding for the top and bottom of screen.
 vim.o.cursorline = true
@@ -62,7 +61,7 @@ vim.o.listchars = 'tab:-->,lead:·,trail:-'
 vim.opt_global.shortmess:remove('F') -- used for `nvim metals`
 vim.o.mouse = ''
 vim.o.termguicolors = true
--- end window settings }}}
+--}}}
 
 --- editing settings {{{
 vim.o.backspace = 'indent,eol,start'
@@ -73,6 +72,8 @@ vim.o.completeopt = 'menu,menuone,preview,noselect'
 vim.o.ignorecase = false
 vim.o.smartcase = true
 vim.o.clipboard = 'unnamed,unnamedplus'
+vim.o.autowrite = true
+vim.o.hidden = false
 -- }}}
 
 --- builtin plugin settings {{{
