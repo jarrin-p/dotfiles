@@ -33,10 +33,17 @@ util.nnoremap('gi', ':lua vim.lsp.buf.incoming_calls()<enter>')
 util.nnoremap('<leader>rn', ':lua vim.lsp.buf.rename()<enter>')
 util.nnoremap('gc', ':lua vim.lsp.buf.code_action()<enter>')
 util.nnoremap('g=', ':lua vim.lsp.buf.format{async = false}<enter>')
-util.nnoremap('gw', ':lua vim.lsp.buf.workspace_symbol()<enter>')
-util.nnoremap('gs', ':SymbolsOutline<enter>')
-util.nnoremap('gj', ':lua vim.diagnostic.goto_next()<enter>')
-util.nnoremap('gk', ':lua vim.diagnostic.goto_prev()<enter>')
+
+-- [s]ymbol [w]orkspace
+util.nnoremap('gsw', ':lua vim.lsp.buf.workspace_symbol()<enter>')
+
+-- [s]ymbol [d]ocument
+util.nnoremap('gsd', ':lua vim.lsp.buf.document_symbol()<enter>')
+
+-- [s]ymbol [o]utline
+util.nnoremap('gso', ':SymbolsOutline<enter>')
+util.nnoremap('<leader>j', ':lua vim.diagnostic.goto_next()<enter>')
+util.nnoremap('<leader>k', ':lua vim.diagnostic.goto_prev()<enter>')
 
 -- vim.api.nvim_create_augroup("hover", {})
 -- vim.api.nvim_create_autocmd({ "CursorHoldI" }, { group = "hover", callback = vim.lsp.buf.signature_help })
