@@ -72,7 +72,6 @@ local M = {
         -- vim.fn.winrestview(view)
     end,
 
-    --- get_listed_bufnames 
     --- get list of buffers delimited using newlines by default.
     --- @param delimiter? string (default '\\n') delimiter to use for returned table.
     --- @return table bufnames the buffers as a table.
@@ -82,14 +81,15 @@ local M = {
         local bufnames = {}
         for _, buffer in ipairs(vim.fn.getbufinfo()) do
             if buffer.listed == 1 then
-                table.insert(bufnames, buffer.name)
+                local bufname = vim.fn.fnamemodify(buffer.name, ":~:.")
+                table.insert(bufnames, bufname)
             end
         end
+        table.sort(bufnames)
 
         return bufnames
     end,
 
-    --- StringToTable(str, delim) 
     --- split string into table. a quick implementation of the inverse of `table.concat`.
     --- @param str string string to be broken apart.
     --- @param delim string delimiter that determines where to break apart string.

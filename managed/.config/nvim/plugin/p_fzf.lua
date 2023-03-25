@@ -56,6 +56,8 @@ util.nnoremap('<leader>g', ':lua FuzzyGrep()<enter>')
 function BufSelect()
     fzf_wrap {
         source = util.get_listed_bufnames(),
+
+        --- @param result string absolute path to the result.
         sink = as_global(function(result)
             vim.cmd('e ' .. result)
         end),
@@ -68,7 +70,7 @@ util.nnoremap('<leader>b', ':lua BufSelect()<enter>')
 function BranchSelect(flags)
     flags = flags or ''
     fzf_wrap {
-        source = 'git branch --no-color | tr -d " "' .. flags,
+        source = 'git branch --no-color | tr -d " " | sort -r -' .. flags,
         sink = as_global(function(result)
             if (result:find('*')) ~= 1 then
                 vim.cmd('G checkout ' .. result)
@@ -101,6 +103,7 @@ function BranchFileDiff()
     end
 end
 util.nnoremap('<leader>h', ':lua BranchFileDiff()<enter>')
+util.nnoremap('<leader>H', ':lua SetBranchToDiff()<enter>')
 
 --- @see https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol
 --- todo: fix this..
