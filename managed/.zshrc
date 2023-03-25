@@ -50,6 +50,11 @@ function GT { pushd $(git rev-parse --show-toplevel) }
 function tree () { ${HOME}/.nix-profile/bin/tree -A -C --dirsfirst $@ }
 function wtree () { ${HOME}/.nix-profile/bin/tree --prune -P "*.java" -I "build" -A -C $@ }
 
+# gradle
+function grr () gradle run $@
+function grt () gradle test $@
+function grtt () gradle test --tests $@
+
 # clones todo repo if file doesn't exist.
 function todo () {
     if [ ! -d "${HOME}/Info" ]; then (
