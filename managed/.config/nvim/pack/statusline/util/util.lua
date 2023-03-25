@@ -36,21 +36,16 @@ local M = {
         if vim.fn.FugitiveIsGitDir() == 1 then
             return (' ' .. vim.fn.FugitiveHead())
         end
-        return ''
+        return 'no repo'
     end,
 
     --- I'm awful and just copy pasted symbols I wanted.
     symbols = {
-        -- bl = '«', -- bracket left
-        -- br = '»', -- bracket right
-        ra = '->', -- right ..arrow
         left_tr = '',
         right_tr = '',
         bl = '',
         br = '',
         git = ''
-        -- local enter_sym = '⏎'
-        -- local te = '⋯'
     },
 
 }
