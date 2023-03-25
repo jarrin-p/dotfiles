@@ -23,3 +23,6 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter' },
     { pattern = { '.*', '*' }, command = 'if expand("%") != "" | silent! loadview | endif' })
 
 vim.api.nvim_create_autocmd({ 'DirChanged', 'VimLeave' }, { callback = util.export_cwd })
+
+vim.api.nvim_create_autocmd({ 'BufWinEnter' },
+    { pattern = { '*.flinklog' }, command = 'runtime! after/syntax/flinklog.lua' })
