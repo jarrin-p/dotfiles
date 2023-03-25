@@ -29,7 +29,7 @@ util.nnoremap('<c-b>', ':b#<enter>') -- most recent buffer, ctrl-b for 'back'
 util.nnoremap('<c-j>', ':bprev<enter>') -- previous buffer, ctrl-j for going down in the stack
 util.nnoremap('<c-k>', ':bnext<enter>') -- next buffer, ctrl-k for going up in the stack
 util.nnoremap('<c-t>', ':tabedit %<enter>') -- duplicate buffer to new tab
-util.nnoremap('<c-f>', ':cd %:p:h<enter>:pwd<enter>') -- cd to current file and show pwd
+util.nnoremap('<c-f>', ':lcd %:p:h<enter>:pwd<enter>') -- cd to current file and show pwd
 util.nnoremap('<c-g>', ':GT<enter>:pwd<enter>') -- cd to git dir
 
 --- fold method changing 
