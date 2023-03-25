@@ -67,7 +67,7 @@ M.make_file_info = function()
     end
 
     local val = conf.transitions.fill_to_ft_info .. conf.ft_info:set ' ' .. file_type .. ' ' .. symbols.br
-                    .. '  %l:%L   '
+                    .. '  %l:%L ' .. symbols.br .. ' col %c '
     return val
 end
 
