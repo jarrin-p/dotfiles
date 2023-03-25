@@ -90,6 +90,7 @@ in
         fzf
         gh
         git
+        google-java-format
         jdk11
         (import ./jdtls/default.nix)
         jq

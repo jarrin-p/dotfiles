@@ -6,6 +6,9 @@ else
     project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 end
 
+vim.o.formatprg = table.concat({'google-java-format', '-'}, ' ')
+vim.o.makeprg = 'gradle build'
+
 -- language server settings
 local config = {
     cmd = { 'jdtlsw' },
@@ -20,13 +23,12 @@ vim.bo.tabstop = 2
 vim.wo.foldlevel = 1
 vim.wo.foldnestmax = 4
 
-util.exec([[ command! SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply ]], false)
+util.exec([[ command! SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply % ]], false)
 
 local ls = require 'luasnip'
 local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
-local sn = ls.snippet_node
 -- local isn = ls.indent_snippet_node
 -- local f = ls.function_node
 -- local c = ls.choice_node
