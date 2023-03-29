@@ -1,5 +1,5 @@
 local util = require 'util'
-util.nnoremap('<leader>f', ':FZF -q !^.\\ !/.\\ <enter>')
+util.nnoremap('<leader>f', ':FZF <enter>')
 
 --- basically an alias. wraps the `fzf#wrap` function to be conveniently called from lua.
 --- @param opts table lua table equivalent to the table accepted by `fzf#wrap`.
