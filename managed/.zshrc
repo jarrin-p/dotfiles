@@ -82,7 +82,7 @@ function query {
 
 # when switching branches sometimes jdtls gets confused, cleaning quickly remedies this.
 function clean_jdtls {
-    find . -name ".project" -or -name ".settings" | xargs rm -rf
+    find . -name ".project" -or -name ".settings" -or "profile-out" | xargs rm -rf
 }
 
 # prompt config
