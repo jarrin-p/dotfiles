@@ -50,6 +50,7 @@ let
                 vim-nix
                 vim-surround
                 vim-terraform
+                vim-terraform-completion
                 vimwiki
                 (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
               ];
