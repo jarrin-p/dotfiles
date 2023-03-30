@@ -46,6 +46,7 @@ let
                 plenary-nvim
                 rust-tools-nvim
                 symbols-outline-nvim
+                vim-fish
                 vim-fugitive
                 vim-nix
                 vim-surround
@@ -77,6 +78,7 @@ in
         (gradle_7.override{ java = jdk11; })
         (lua5_3.withPackages (ps: [ ps.luacheck ]))
         ppython39
+        bat
         bear
         black
         cargo
@@ -95,6 +97,7 @@ in
         (import ./jdtls/default.nix)
         jq
         luaformatter
+        moar
         neovim
         neovim-remote
         nil # nix language server.
