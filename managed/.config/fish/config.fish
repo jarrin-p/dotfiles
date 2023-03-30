@@ -10,4 +10,6 @@ if status is-interactive
         set -l tempfile (mktemp tmp.XXXXXX)
         set -l ranger_cmd (command ranger --cmd="map Q chain shell echo %d > $tempfile; quitall")
     end
+    fish_add_path $HOME/.nix-profile/bin
+    fish_add_path /nix/var/nix/profiles/default/bin
 end
