@@ -38,7 +38,7 @@ util.nnoremap('<leader>zfm', ':set foldmethod=manual<enter>')
 
 --- finding navigation 
 util.nnoremap('<leader>n', ':cnext<enter>')
-util.nnoremap('<leader>N', ':cprev<enter>')
+util.nnoremap('<leader>p', ':cprev<enter>')
 
 -- terminal remaps 
 util.tnoremap('<C-[>', '<C-\\><C-n>')

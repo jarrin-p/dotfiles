@@ -87,6 +87,7 @@ in
         coreutils-full
         coursier
         curl
+        direnv
         ffmpeg
         fish
         fzf

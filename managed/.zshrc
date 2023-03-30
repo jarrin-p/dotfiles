@@ -47,8 +47,8 @@ function gt { pushd $(git rev-parse --show-toplevel) } # goto root of git direct
 function GT { pushd $(git rev-parse --show-toplevel) }
 
 # tree
-function tree () { ${HOME}/.nix-profile/bin/tree -A -C --dirsfirst $@ }
-function wtree () { ${HOME}/.nix-profile/bin/tree --prune -P "*.java" -I "build" -A -C $@ }
+function tree () { command tree -A -C --dirsfirst $@ }
+function wtree () { command tree --prune -P "*.java" -I "build" -A -C $@ }
 
 # gradle
 function grr () gradle run $@
