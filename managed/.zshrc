@@ -134,4 +134,6 @@ zle -N zle-keymap-select
 zle -N zle-line-init
 bindkey -v
 
+eval "$(direnv hook zsh)"
+
 # vim: ft=zsh fdm=manual foldlevel=0

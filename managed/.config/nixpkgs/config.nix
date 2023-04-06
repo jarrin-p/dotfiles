@@ -43,6 +43,7 @@ let
                 nvim-cmp
                 nvim-jdtls
                 nvim-lspconfig
+                nvim-tree-lua
                 plenary-nvim
                 rust-tools-nvim
                 symbols-outline-nvim
