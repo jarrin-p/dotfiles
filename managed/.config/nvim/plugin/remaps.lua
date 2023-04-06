@@ -40,6 +40,9 @@ util.nnoremap('<leader>zfm', ':set foldmethod=manual<enter>')
 util.nnoremap('<leader>n', ':cnext<enter>')
 util.nnoremap('<leader>p', ':cprev<enter>')
 
+util.nnoremap('<leader>t', ':NvimTreeToggle<enter>')
+util.nnoremap('<leader>T', ':NvimTreeFindFile<enter>')
+
 -- terminal remaps 
 util.tnoremap('<C-[>', '<C-\\><C-n>')
 util.tnoremap('<c-h>', '<C-\\><C-n><c-w>W') -- previous window (above, left)
