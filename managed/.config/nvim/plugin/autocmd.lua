@@ -26,3 +26,6 @@ vim.api.nvim_create_autocmd({ 'DirChanged', 'VimLeave' }, { callback = util.expo
 
 vim.api.nvim_create_autocmd({ 'BufWinEnter' },
     { pattern = { '*.flinklog' }, command = 'runtime! after/syntax/flinklog.lua' })
+
+vim.api.nvim_create_autocmd({ 'BufWinEnter' },
+    { pattern = { '*.rangerconf' }, command = 'runtime! after/syntax/rangerconf.lua' })
