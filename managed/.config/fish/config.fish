@@ -19,8 +19,6 @@ if status is-interactive
         printf " $disp > "
     end
 
-    export PAGER=moar
-
     # fix wrongly ordered variables.
     fish_add_path $HOME/.nix-profile/bin
     fish_add_path /nix/var/nix/profiles/default/bin
@@ -28,18 +26,48 @@ if status is-interactive
     # load private files.
     if test -f $HOME/.fish.private; source $HOME/.fish.private; end
 
-    function ls; command ls --group-directories-first --color $argv; end
-    function gt; pushd $(git rev-parse --show-toplevel); end
-    function GT; pushd $(git rev-parse --show-toplevel); end
-    function g --description "Directly opens `Fugitive` in `nvim`."; nvim -c "Git" -c "only"; end
-    function mainEnv --description "Updates current working environment."; nix-env -iA nixpkgs.mainEnv; end
+    function ls 
+        command ls --group-directories-first --color $argv
+    end
 
-    function tree; command tree --dirsfirst -AC --prune $argv; end
+    function gt
+        pushd $(git rev-parse --show-toplevel)
+    end
+
+    function GT
+        pushd $(git rev-parse --show-toplevel)
+    end
+
+    function g --description "Directly opens `Fugitive` in `nvim`."
+        nvim -c "Git" -c "only"
+    end
+
+    function mainEnv --description "Updates current working environment."
+        nix-env -iA nixpkgs.mainEnv
+    end
+
+    function tree
+        command tree --dirsfirst -AC --prune $argv
+    end
+
+    function nix-fish --description "start nix-shell using fish instead. "
+        nix-shell --command "fish" $argv
+    end
+
+    function todo
+        if test -f $HOME/Info
+            mkdir $HOME/Info
+            cd $HOME/Info
+            touch todo.md
+        end
+
+        nvim $HOME/Info/todo.md
+    end
 
     # update ranger function to cd into the directory it currently landed on.
     function ranger --description "Opens `ranger` and `cd`s to ranger's pwd on close."
       set tempfile '/tmp/chosendir'
-      command ranger --choosedir=$tempfile (pwd)
+      env EDITOR=nvr command ranger --choosedir=$tempfile (pwd)
 
       if test -f $tempfile
           if [ (cat $tempfile) != (pwd) ]
@@ -50,8 +78,11 @@ if status is-interactive
       rm -f $tempfile
     end
 
-
     # aws completion
     complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
 
+
+    export PAGER=moar
+    set -g EDITOR 'nvr -s'
+    set -g VISUAL 'nvr -s'
 end
