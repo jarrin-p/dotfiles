@@ -6,17 +6,26 @@ if status is-interactive
     # disable greeting.
     set fish_greeting ""
 
+    # disable mode specification (uses cursor instead).
+    function fish_mode_prompt
+    end
+
     set __fish_git_prompt_show_informative_status 1
     function fish_prompt
-        set -l disp (string join / (string split -- / $PWD)[-2..-1])
+        printf "\n"
+
         set_color blue
-        # printf $PWD
         printf (fish_git_prompt)
         printf "\n"
         set_color white
         printf $USER
+
+        set -l disp (string join / (string split -- / $PWD)[-2..-1])
         set_color green
-        printf " $disp > "
+        printf " $disp "
+
+        set_color yellow
+        printf "> "
     end
 
     # fix wrongly ordered variables.
@@ -81,7 +90,21 @@ if status is-interactive
     # aws completion
     complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
 
-    if type -q direnv; direnv hook fish | source; end
+    if type -q direnv
+        direnv hook fish | source
+    end
+
+    # explicitly state our terminal can support a changing cursor.
+    if status is-interactive
+        if string match -q 'xterm*' $TERM
+            set -g fish_vi_force_cursor 1
+        end
+    end
+
+    set fish_cursor_default block
+    set fish_cursor_insert line
+    set fish_cursor_replace_one underscore
+    set fish_cursor_visual block
 
     export PAGER=moar
     set -g EDITOR 'nvr -s'
