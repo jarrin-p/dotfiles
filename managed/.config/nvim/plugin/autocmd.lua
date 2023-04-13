@@ -29,3 +29,10 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter' },
 
 vim.api.nvim_create_autocmd({ 'BufWinEnter' },
     { pattern = { '*.rangerconf' }, command = 'runtime! after/syntax/rangerconf.lua' })
+
+vim.cmd([[augroup CursorLine
+    au!
+    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    au WinLeave * setlocal nocursorline
+augroup END
+]])

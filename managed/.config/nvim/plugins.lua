@@ -3,13 +3,25 @@
 vim.cmd('let g:gruvbox_material_enable_italic = 1')
 vim.cmd('colorscheme gruvbox-material')
 require"nvim-tree".setup({
+    sync_root_with_cwd = true,
+    respect_buf_cwd = true,
+    view = { relativenumber = true, width = 50 },
+    update_focused_file = { enable = true, update_root = true, ignore_list = {} },
+    diagnostics = {
+        enable = true,
+        show_on_dirs = true,
+        show_on_open_dirs = true,
+        debounce_delay = 50,
+        severity = { min = vim.diagnostic.severity.HINT, max = vim.diagnostic.severity.ERROR },
+        icons = { hint = "", info = "i", warning = "w", error = "x" },
+    },
     renderer = {
         add_trailing = false,
-        group_empty = false,
-        highlight_git = false,
+        group_empty = true,
+        highlight_git = true,
         full_name = false,
-        highlight_opened_files = "none",
-        highlight_modified = "none",
+        highlight_opened_files = "name",
+        highlight_modified = "name",
         root_folder_label = ":~:s?$?/..?",
         indent_width = 2,
         indent_markers = {
@@ -28,12 +40,12 @@ require"nvim-tree".setup({
                 default = "",
                 symlink = "",
                 bookmark = "",
-                modified = "·",
+                modified = "*",
                 folder = {
                     arrow_closed = "▸",
                     arrow_open = "▾",
                     default = "",
-                    open = "",
+                    open = "·",
                     empty = "",
                     empty_open = "",
                     symlink = "",
@@ -41,7 +53,7 @@ require"nvim-tree".setup({
                 },
                 git = {
                     unstaged = "u",
-                    staged = "✓",
+                    staged = "s",
                     unmerged = "",
                     renamed = "r",
                     untracked = "",
