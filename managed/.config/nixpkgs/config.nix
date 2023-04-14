@@ -1,5 +1,14 @@
 let
-  pkgs = import <nixpkgs> {};
+  # pkgs = import <nixpkgs> {};
+  ok = "cc45a3f8c98e1c33ca996e3504adefbf660a72d1";
+  pkgs = import (fetchTarball ("http://github.com/NixOS/nixpkgs/archive/" + ok + ".tar.gz")) {};
+  
+  # pkgs = import (builtins.fetchGit {
+  #   # Descriptive name to make the store path easier to identify
+  #   name = "22.11";
+  #   url = "https://github.com/nixos/nixpkgs";
+  #   ref = "refs/tags/22.11";
+  #   }) {};
   ppython39 = (pkgs.python310Full.withPackages (ps: with ps; [
             # XlsxWriter
             # boto3
@@ -55,6 +64,16 @@ let
                 vim-terraform-completion
                 vimwiki
                 (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
+                # (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
+                #                     .overrideAttrs (old: { 
+                #                         version = "2022-08-31";
+                #                         src = pkgs.fetchFromGitHub { 
+                #                             owner = "nvim-treesitter";
+                #                             repo = "nvim-treesitter";
+                #                             rev = "501db1459a7a46cb0766b3c56e9a6904bbcbcc97";
+                #                             sha256 = "sha256-MGtvAtZ4VgZczalMlbftdTtPr6Ofxdkudpo6PmaVhtQ=";
+                #                         };
+                #                     })
               ];
               opt = [];
             };
@@ -108,6 +127,7 @@ in
         nodePackages.typescript
         nodePackages.typescript-language-server
         nodePackages.pyright
+        nodePackages.cdktf-cli
         nodePackages.vscode-json-languageserver
         nmap
         pkcs11helper

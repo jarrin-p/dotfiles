@@ -35,7 +35,7 @@ if status is-interactive
     # load private files.
     if test -f $HOME/.fish.private; source $HOME/.fish.private; end
 
-    function ls 
+    function ls
         command ls --group-directories-first --color $argv
     end
 
@@ -45,6 +45,10 @@ if status is-interactive
 
     function GT
         pushd $(git rev-parse --show-toplevel)
+    end
+
+    function get_repo_root
+        git rev-parse --show-toplevel
     end
 
     function g --description "Directly opens `Fugitive` in `nvim`."
@@ -59,6 +63,13 @@ if status is-interactive
         command tree --dirsfirst -AC --prune $argv
     end
 
+    # wip
+    function here
+        set -l matched (string replace (get_repo_root) '' (pwd))
+        echo $matched
+        tree -P $matched --matchdirs (get_repo_root)
+    end
+
     function nix-fish --description "start nix-shell using fish instead. "
         nix-shell --command "fish" $argv
     end
@@ -71,6 +82,10 @@ if status is-interactive
         end
 
         nvim $HOME/Info/todo.md
+    end
+
+    function vcd
+        cd (cat $VIM_CWD_PATH)
     end
 
     # update ranger function to cd into the directory it currently landed on.
@@ -106,7 +121,7 @@ if status is-interactive
     set fish_cursor_replace_one underscore
     set fish_cursor_visual block
 
-    export PAGER=moar
-    set -g EDITOR 'nvr -s'
-    set -g VISUAL 'nvr -s'
+    set -x PAGER less
+    set -x EDITOR nvim
+    set -x VISUAL nvim
 end

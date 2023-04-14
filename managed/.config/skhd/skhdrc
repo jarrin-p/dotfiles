@@ -5,7 +5,7 @@
 :: navigate @
 
 # mode switches
-default, navigate < shift - escape ; navigate
+# default, navigate < shift - escape ; navigate
 
 # interact mode via `i`
 navigate < i ; default

@@ -1,0 +1,52 @@
+set number
+set relativenumber
+set incsearch
+set ideajoin
+set clipboard='unnamed,unnamedplus'
+set NERDTree
+set surround
+
+let mapleader="\<space>"
+
+" map redo into something reasonable.
+nnoremap U <c-r>
+
+" quicker mods
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nmap <leader>f <Action>(GotoFile)
+nmap <leader>g <Action>(FindInPath)
+nmap gd <Action>(GotoDeclaration)
+nmap gc <Action>(ShowIntentionActions)
+nmap gs <Action>(ActivateProblemsViewToolWindow)
+nmap <leader>a <Action>(GotoAction)
+nmap <leader>d <Action>(QuickJavaDoc)
+nmap <leader>h <Action>(RecentFiles)
+nmap <leader>H <Action>(RecentChangedFiles)
+nmap <leader>t <Action>(ActivateProjectToolWindow)
+nmap <leader>T <Action>(ActivateProjectToolWindow)<Action>(SelectInProjectView)
+nmap <leader>G <Action>(ActivateCommitToolWindow)
+nmap <leader>b <Action>(ToggleLineBreakpoint)
+nmap <leader>R <Action>(RunAnything)
+nmap <leader>B <Action>(Git.Branches)
+
+" opens terminal
+command! T action ActivateTerminalToolWindow
+command! Term action ActivateTerminalToolWindow
+
+" opens git log.
+command! Gl action ActivateVersionControlToolWindow
+command! Glog action ActivateVersionControlToolWindow
+
+" opens commit panes.
+command! Gc action ActivateCommitToolWindow
+command! Gcommit action ActivateCommitToolWindow
+
+" Only but for all intellij windows.
+command! Only action HideAllWindows
+
+command! New action NewFile
+command! Scr action NewScratchFile
+command! Scratch action NewScratchFile
