@@ -13,7 +13,7 @@ local orange = util.get_colorscheme_as_hex('Orange', 'foreground')
 -- local dark_green = '#252715'
 -- local dark_red = '#251110'
 -- local dark_orange = '#25160c'
---
+
 local opacity = .15
 local dark_green = apply_opacity(green, bg, opacity)
 local dark_red = apply_opacity(red, bg, opacity)
@@ -34,4 +34,7 @@ vim.api.nvim_set_hl(0, 'CurSearch', { bg = darker, underline = true, italic = tr
 vim.api.nvim_set_hl(0, 'String', { link = 'AquaItalic' })
 vim.api.nvim_set_hl(0, 'MsgArea', { fg = fg, bg = darker })
 vim.api.nvim_set_hl(0, 'TablineFill', { link = 'Normal' })
+
+vim.api.nvim_set_hl(0, 'Whitespace', { fg = dark_orange })
+
 
