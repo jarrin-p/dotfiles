@@ -105,9 +105,7 @@ if status is-interactive
     # aws completion
     complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
 
-    if type -q direnv
-        direnv hook fish | source
-    end
+    direnv hook fish | source
 
     # explicitly state our terminal can support a changing cursor.
     if status is-interactive
