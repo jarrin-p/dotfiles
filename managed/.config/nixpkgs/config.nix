@@ -9,6 +9,10 @@ let
   #   url = "https://github.com/nixos/nixpkgs";
   #   ref = "refs/tags/22.11";
   #   }) {};
+  rust_analyzer_fix_commit = "a47f5d61ce06a433998fb5711f723773e3156f46";
+
+  pinned_pkg_commit = "cc45a3f8c98e1c33ca996e3504adefbf660a72d1";
+  pkgs = import (fetchTarball ("http://github.com/NixOS/nixpkgs/archive/" + pinned_pkg_commit + ".tar.gz")) {};
   ppython39 = (pkgs.python310Full.withPackages (ps: with ps; [
             # XlsxWriter
             # boto3
@@ -54,7 +58,14 @@ let
                 nvim-lspconfig
                 nvim-tree-lua
                 plenary-nvim
-                rust-tools-nvim
+                (rust-tools-nvim.overrideAttrs (old: {
+                  src = pkgs.fetchFromGitHub {
+                    owner = "simrat39";
+                    repo = "rust-tools.nvim";
+                    rev = rust_analyzer_fix_commit;
+                    hash = "sha256-82QOD4o6po9PHbYUdSEnJpf5yR9lru3GTLNvfRNFydg=";
+                  };
+                }))
                 symbols-outline-nvim
                 vim-fish
                 vim-fugitive
