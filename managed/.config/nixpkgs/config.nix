@@ -1,31 +1,11 @@
 let
-  # pkgs = import <nixpkgs> {};
-  ok = "cc45a3f8c98e1c33ca996e3504adefbf660a72d1";
-  pkgs = import (fetchTarball ("http://github.com/NixOS/nixpkgs/archive/" + ok + ".tar.gz")) {};
-  
-  # pkgs = import (builtins.fetchGit {
-  #   # Descriptive name to make the store path easier to identify
-  #   name = "22.11";
-  #   url = "https://github.com/nixos/nixpkgs";
-  #   ref = "refs/tags/22.11";
-  #   }) {};
   rust_analyzer_fix_commit = "a47f5d61ce06a433998fb5711f723773e3156f46";
 
   pinned_pkg_commit = "cc45a3f8c98e1c33ca996e3504adefbf660a72d1";
   pkgs = import (fetchTarball ("http://github.com/NixOS/nixpkgs/archive/" + pinned_pkg_commit + ".tar.gz")) {};
+
   ppython39 = (pkgs.python310Full.withPackages (ps: with ps; [
-            # XlsxWriter
-            # boto3
-            # certifi
-            # charset-normalizer
-            # idna
-            # openpyxl
-            # pandas
-            # psycopg2
-            # pytest
-            # requests
             sqlparse
-            # urllib3
             pip
             virtualenv
         ]));
@@ -75,16 +55,6 @@ let
                 vim-terraform-completion
                 vimwiki
                 (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
-                # (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
-                #                     .overrideAttrs (old: { 
-                #                         version = "2022-08-31";
-                #                         src = pkgs.fetchFromGitHub { 
-                #                             owner = "nvim-treesitter";
-                #                             repo = "nvim-treesitter";
-                #                             rev = "501db1459a7a46cb0766b3c56e9a6904bbcbcc97";
-                #                             sha256 = "sha256-MGtvAtZ4VgZczalMlbftdTtPr6Ofxdkudpo6PmaVhtQ=";
-                #                         };
-                #                     })
               ];
               opt = [];
             };
@@ -95,7 +65,6 @@ in
   packageOverrides = pkgs: {
 
     # mostly keeping for reference to gradle/java version setting,
-    # since I feel likely to forget as a nix beginner.
     gradleJdk11 = with pkgs; pkgs.buildEnv {
         name = "gradleJdk11";
         paths = [
