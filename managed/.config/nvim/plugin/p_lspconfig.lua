@@ -20,9 +20,19 @@ require'lspconfig'.sumneko_lua.setup {
     },
 }
 require'lspconfig'.tsserver.setup { cmd = { "typescript-language-server", "--stdio", "--tsserver-path", "tsserver" } }
-require'lspconfig'.terraformls.setup {}
 require'lspconfig'.pyright.setup { root_dir = lsp_util.find_git_ancestor }
 require'lspconfig'.jsonls.setup { cmd = { "vscode-json-languageserver", "--stdio" } }
+require'lspconfig'.terraformls.setup {}
+
+-- wip
+-- require'lspconfig'.dockerls.setup{}
+-- require'lspconfig'.tflint.setup{}
+
+-- local null_ls = require'null-ls'
+-- null_ls.setup({
+--   sources = { null_ls.builtins.diagnostics.pylint }
+-- })
+-- require'lspconfig'.docker_compose_language_service.setup{}
 
 -- completion.
 require'cmp_nvim_lsp'.default_capabilities(vim.lsp.protocol.make_client_capabilities())

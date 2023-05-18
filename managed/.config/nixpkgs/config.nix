@@ -33,6 +33,7 @@ let
                 luasnip
                 minimap-vim
                 neoscroll-nvim
+                null-ls-nvim
                 nvim-cmp
                 nvim-jdtls
                 nvim-lspconfig
@@ -109,6 +110,7 @@ in
         nodePackages.pyright
         nodePackages.cdktf-cli
         nodePackages.vscode-json-languageserver
+        nodePackages.dockerfile-language-server-nodejs
         nmap
         pkcs11helper
         pylint
@@ -124,6 +126,8 @@ in
         sumneko-lua-language-server
         terraform
         terraform-ls
+        tflint
+        tflint-plugins.tflint-ruleset-aws
         tree
         tmux
         visidata
