@@ -59,10 +59,10 @@ vim.o.splitbelow = true -- splits new window down.
 vim.o.list = true
 vim.o.listchars = 'tab:-->,leadmultispace:│   ,trail:-'
 vim.o.jumpoptions = 'view'
--- ·
 vim.opt_global.shortmess:remove('F') -- used for `nvim metals`
 vim.o.mouse = 'nv'
 vim.o.termguicolors = true
+vim.o.viewoptions = 'folds,cursor'
 --}}}
 
 --- editing settings {{{
