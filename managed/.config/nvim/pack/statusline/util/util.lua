@@ -26,6 +26,10 @@ local M = {
     --- @param colorgroup string the name of the color group to get back as a string.
     get_colorscheme_as_hex = function(colorgroup, colorgroup_field)
         local getColorValueFromGroup = vim.api.nvim_get_hl_by_name(colorgroup, true)[colorgroup_field]
+        -- uncomment for debugging. todo: logging.
+        -- print('colorgroup         : ' .. colorgroup)
+        -- print('colorgroup_field   : ' .. colorgroup_field)
+        -- print('colorValueFromGroup: ' .. getColorValueFromGroup)
         getColorValueFromGroup = string.format("%06x", getColorValueFromGroup)
         return '#' .. getColorValueFromGroup
     end,

@@ -4,9 +4,10 @@ local symbols = util.symbols
 
 M = {}
 
-M.fg = util.get_colorscheme_as_hex('Fg', 'foreground')
+M.fg = util.get_colorscheme_as_hex('Normal', 'foreground')
 M.lighter = util.get_colorscheme_as_hex('Tabline', 'background')
-M.darker = util.get_colorscheme_as_hex('FloatBorder', 'background')
+-- M.darker = util.get_colorscheme_as_hex('FloatBorder', 'background')
+M.darker = util.get_colorscheme_as_hex('Normal', 'background')
 
 -- make sure we create the color groups before we start using them for
 -- transitions.
