@@ -103,7 +103,7 @@ in
         neovim
         neovim-remote
         nil # nix language server.
-        nodejs-slim-14_x
+        nodejs-slim-19_x
         nodePackages.npm
         nodePackages.typescript
         nodePackages.typescript-language-server
