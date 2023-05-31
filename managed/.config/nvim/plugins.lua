@@ -3,8 +3,8 @@
 vim.cmd('let g:gruvbox_material_enable_italic = 1')
 vim.cmd('colorscheme gruvbox-material')
 require"nvim-tree".setup({
-    sync_root_with_cwd = true,
-    respect_buf_cwd = true,
+    sync_root_with_cwd = false,
+    respect_buf_cwd = false,
     view = { relativenumber = true, width = 50 },
     update_focused_file = { enable = true, update_root = true, ignore_list = {} },
     -- diagnostics = {
@@ -33,7 +33,7 @@ require"nvim-tree".setup({
             webdev_colors = true,
             git_placement = "after",
             -- modified_placement = "before",
-            padding = " ",
+            padding = "",
             symlink_arrow = " ➛ ",
             show = { file = true, folder = true, folder_arrow = true, git = true, },
             -- show = { file = true, folder = true, folder_arrow = true, git = true, modified = true },
@@ -46,7 +46,7 @@ require"nvim-tree".setup({
                     arrow_closed = "▸",
                     arrow_open = "▾",
                     default = "",
-                    open = "·",
+                    open = "",
                     empty = "",
                     empty_open = "",
                     symlink = "",
