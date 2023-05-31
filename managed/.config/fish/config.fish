@@ -2,7 +2,7 @@ if status is-interactive
 
     # make fish more vi like.
     fish_vi_key_bindings
-
+ 
     # disable greeting.
     set fish_greeting ""
 
@@ -33,7 +33,18 @@ if status is-interactive
     fish_add_path /nix/var/nix/profiles/default/bin
 
     # load private files.
-    if test -f $HOME/.fish.private; source $HOME/.fish.private; end
+    if test -f $HOME/.fish.private
+        source $HOME/.fish.private
+    end
+
+    function nvim
+        if test -n $TMUX
+            set -x NVIM_LISTEN_ADDRESS '/tmp/'(tmux display-message -p '#W')
+            nvr -s $argv
+        else
+            nvr -s $argv
+        end
+    end
 
     function ls
         command ls --group-directories-first --color $argv
@@ -90,16 +101,20 @@ if status is-interactive
 
     # update ranger function to cd into the directory it currently landed on.
     function ranger --description "Opens `ranger` and `cd`s to ranger's pwd on close."
-      set tempfile '/tmp/chosendir'
-      env EDITOR=nvr command ranger --choosedir=$tempfile (pwd)
+        if test -n $TMUX
+            set -x NVIM_LISTEN_ADDRESS '/tmp/'(tmux display-message -p '#W')
+        end
 
-      if test -f $tempfile
+        set tempfile '/tmp/chosendir'
+        env EDITOR=nvr command ranger --choosedir=$tempfile (pwd)
+
+        if test -f $tempfile
           if [ (cat $tempfile) != (pwd) ]
             cd (cat $tempfile)
           end
-      end
+        end
 
-      rm -f $tempfile
+        rm -f $tempfile
     end
 
     # aws completion
@@ -122,4 +137,5 @@ if status is-interactive
     set -x PAGER less
     set -x EDITOR nvim
     set -x VISUAL nvim
+    set -x SHELL fish
 end
