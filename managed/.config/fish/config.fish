@@ -37,14 +37,16 @@ if status is-interactive
         source $HOME/.fish.private
     end
 
-    function nvim
-        if test -n $TMUX
-            set -x NVIM_LISTEN_ADDRESS '/tmp/'(tmux display-message -p '#W')
-            nvr -s $argv
-        else
-            nvr -s $argv
-        end
-    end
+    # function nvim
+    #     if test -n $TMUX
+    #         echo (tmux display-message -p '#W')
+    #         set -x NVIM_LISTEN_ADDRESS '/tmp/'(tmux display-message -p '#W')
+    #         nvr -s $argv
+    #     else
+    #         echo 'tmux is empty'
+    #         nvr -s $argv
+    #     end
+    # end
 
     function ls
         command ls --group-directories-first --color $argv
