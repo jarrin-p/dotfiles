@@ -103,14 +103,14 @@ in
         neovim
         neovim-remote
         nil # nix language server.
-        nodejs-slim-19_x
-        nodePackages.npm
-        nodePackages.typescript
-        nodePackages.typescript-language-server
-        nodePackages.pyright
-        nodePackages.cdktf-cli
-        nodePackages.vscode-json-languageserver
-        nodePackages.dockerfile-language-server-nodejs
+        # nodejs-slim-19_x
+        nodePackages_latest.npm
+        nodePackages_latest.typescript
+        nodePackages_latest.typescript-language-server
+        nodePackages_latest.pyright
+        # nodePackages_latest.cdktf-cli
+        nodePackages_latest.vscode-json-languageserver
+        nodePackages_latest.dockerfile-language-server-nodejs
         nmap
         pkcs11helper
         pylint
