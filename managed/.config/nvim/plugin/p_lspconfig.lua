@@ -2,6 +2,7 @@ local util = require 'util'
 local lsp_util = require'lspconfig'.util
 
 -- language servers.
+
 require'rust-tools'.setup {}
 require'lspconfig'.nil_ls.setup {}
 require'lspconfig'.lua_ls.setup {
@@ -23,6 +24,17 @@ require'lspconfig'.tsserver.setup { cmd = { "typescript-language-server", "--std
 require'lspconfig'.pyright.setup { root_dir = lsp_util.find_git_ancestor }
 require'lspconfig'.jsonls.setup { cmd = { "vscode-json-languageserver", "--stdio" } }
 require'lspconfig'.terraformls.setup {}
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+require'lspconfig'.html.setup {
+    cmd = { "html-languageserver", "--stdio" },
+    capabilities = capabilities,
+}
+require'lspconfig'.cssls.setup {
+    cmd = { "css-languageserver", "--stdio" },
+    capabilities = capabilities,
+}
 
 -- wip
 -- require'lspconfig'.dockerls.setup{}

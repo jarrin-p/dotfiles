@@ -48,6 +48,7 @@ let
                   };
                 }))
                 symbols-outline-nvim
+                vim-closetag
                 vim-fish
                 vim-fugitive
                 vim-nix
@@ -103,14 +104,15 @@ in
         neovim
         neovim-remote
         nil # nix language server.
-        # nodejs-slim-19_x
+        # nodePackages_latest.cdktf-cli
+        nodePackages_latest.dockerfile-language-server-nodejs
         nodePackages_latest.npm
         nodePackages_latest.typescript
         nodePackages_latest.typescript-language-server
         nodePackages_latest.pyright
-        # nodePackages_latest.cdktf-cli
+        nodePackages_latest.vscode-css-languageserver-bin
         nodePackages_latest.vscode-json-languageserver
-        nodePackages_latest.dockerfile-language-server-nodejs
+        nodePackages_latest.vscode-html-languageserver-bin
         nmap
         pkcs11helper
         pylint
