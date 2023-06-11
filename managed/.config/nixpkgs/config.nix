@@ -1,7 +1,7 @@
 let
   rust_analyzer_fix_commit = "a47f5d61ce06a433998fb5711f723773e3156f46";
 
-  pinned_pkg_commit = "cc45a3f8c98e1c33ca996e3504adefbf660a72d1";
+  pinned_pkg_commit = "4ecab3273592f27479a583fb6d975d4aba3486fe";
   pkgs = import (fetchTarball ("http://github.com/NixOS/nixpkgs/archive/" + pinned_pkg_commit + ".tar.gz")) {};
 
   ppython39 = (pkgs.python310Full.withPackages (ps: with ps; [
