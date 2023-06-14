@@ -108,7 +108,8 @@ if status is-interactive
         end
 
         set tempfile '/tmp/chosendir'
-        env EDITOR=nvr command ranger --choosedir=$tempfile (pwd)
+        # env EDITOR=nvr
+        command ranger --choosedir=$tempfile (pwd)
 
         if test -f $tempfile
           if [ (cat $tempfile) != (pwd) ]
@@ -139,5 +140,5 @@ if status is-interactive
     set -x PAGER less
     set -x EDITOR nvim
     set -x VISUAL nvim
-    set -x SHELL fish
+    #set -x SHELL fish
 end

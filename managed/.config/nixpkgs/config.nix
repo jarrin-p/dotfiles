@@ -134,7 +134,7 @@ in
         tmux
         visidata
         wget
-        youtube-dl
+        yq
         zsh-z
         ];
       pathsToLink = [ "/share" "/share/man" "/share/doc" "/bin" ];
