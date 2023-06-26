@@ -8,5 +8,5 @@ end
 config.color_scheme = 'Gruvbox dark, hard (base16)'
 config.font = wezterm.font('JetBrains Mono')
 -- config.font = wezterm.font('JetBrains Mono', { weight = 'Bold', italic = true })
-
+config.enable_tab_bar = false
 return config
