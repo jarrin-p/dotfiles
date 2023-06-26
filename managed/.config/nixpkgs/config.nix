@@ -28,6 +28,7 @@ let
 
               packages.myPlugins = with pkgs.vimPlugins; {
               start = [
+                base16-vim
                 cmp-nvim-lsp
                 cmp_luasnip
                 fzf-vim
