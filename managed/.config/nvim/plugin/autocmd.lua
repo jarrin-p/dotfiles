@@ -30,6 +30,9 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter' },
 vim.api.nvim_create_autocmd({ 'BufWinEnter' },
     { pattern = { '*.rangerconf' }, command = 'runtime! after/syntax/rangerconf.lua' })
 
+vim.api.nvim_create_autocmd({ 'BufWinEnter' },
+    { pattern = { '*.velocity' }, command = 'runtime! after/syntax/velocity.lua' })
+
 vim.cmd([[augroup CursorLine
     au!
     au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
