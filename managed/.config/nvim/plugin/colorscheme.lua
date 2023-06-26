@@ -3,13 +3,13 @@
 local util = require 'pack.statusline.util.util'
 local apply_opacity = require'hex_tool'.apply_opacity_transition
 
-local fg = util.get_colorscheme_as_hex('Fg', 'foreground')
+local fg = util.get_colorscheme_as_hex('Normal', 'foreground')
 local bg = util.get_colorscheme_as_hex('Normal', 'background')
 local darker = util.get_colorscheme_as_hex('FloatBorder', 'background')
 
-local green = util.get_colorscheme_as_hex('Green', 'foreground')
-local red = util.get_colorscheme_as_hex('Red', 'foreground')
-local orange = util.get_colorscheme_as_hex('Orange', 'foreground')
+local green = util.get_colorscheme_as_hex('Function', 'foreground')
+local red = util.get_colorscheme_as_hex('Character', 'foreground')
+local orange = util.get_colorscheme_as_hex('Float', 'foreground')
 -- local dark_green = '#252715'
 -- local dark_red = '#251110'
 -- local dark_orange = '#25160c'
