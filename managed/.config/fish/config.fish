@@ -48,6 +48,11 @@ if status is-interactive
     #     end
     # end
 
+    function hold
+        set -gx hold $argv
+        echo $argv
+    end
+
     function ls
         command ls --group-directories-first --color $argv
     end
