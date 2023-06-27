@@ -30,7 +30,8 @@ let
                 cmp-nvim-lsp
                 cmp_luasnip
                 fzf-vim
-                gruvbox-material
+                # gruvbox
+                gruvbox-nvim
                 luasnip
                 minimap-vim
                 neoscroll-nvim

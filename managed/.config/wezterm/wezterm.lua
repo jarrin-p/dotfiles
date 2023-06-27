@@ -6,7 +6,7 @@ if wezterm.config_builder then
 end
 
 config.enable_tab_bar = false
-config.color_scheme = 'Gruvbox dark, hard (base16)'
+config.color_scheme = 'GruvboxDarkHard'
 
 -- fonts
 config.font = wezterm.font('JetBrains Mono')
