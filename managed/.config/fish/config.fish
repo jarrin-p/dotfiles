@@ -2,7 +2,7 @@ if status is-interactive
 
     # make fish more vi like.
     fish_vi_key_bindings
- 
+
     # disable greeting.
     set fish_greeting ""
 
@@ -70,7 +70,7 @@ if status is-interactive
     end
 
     function g --description "Directly opens `Fugitive` in `nvim`."
-        nvim -c "Git" -c "only"
+        nvim -c Git -c only
     end
 
     function mainEnv --description "Updates current working environment."
@@ -89,7 +89,7 @@ if status is-interactive
     end
 
     function nix-fish --description "start nix-shell using fish instead. "
-        nix-shell --command "fish" $argv
+        nix-shell --command fish $argv
     end
 
     function todo
@@ -112,14 +112,11 @@ if status is-interactive
             set -x NVIM_LISTEN_ADDRESS '/tmp/'(tmux display-message -p '#W')
         end
 
-        set tempfile '/tmp/chosendir'
-        # env EDITOR=nvr
+        set tempfile /tmp/chosendir
         command ranger --choosedir=$tempfile (pwd)
 
-        if test -f $tempfile
-          if [ (cat $tempfile) != (pwd) ]
+        if test -f $tempfile && test (cat $tempfile) != (pwd)
             cd (cat $tempfile)
-          end
         end
 
         rm -f $tempfile
@@ -145,5 +142,4 @@ if status is-interactive
     set -x PAGER less
     set -x EDITOR nvim
     set -x VISUAL nvim
-    #set -x SHELL fish
 end
