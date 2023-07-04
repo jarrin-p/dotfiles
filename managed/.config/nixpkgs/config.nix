@@ -1,7 +1,5 @@
 let
   rust_analyzer_fix_commit = "a47f5d61ce06a433998fb5711f723773e3156f46";
-  tree_sitter_fix_commit = "5822a8c6886f0238a315b57e5e96acdd74d04448";
-  cldktf_fix_commit = "e9afd2c3cdbdd2d66bb2160fc3421bee59bb5995";
 
   pinned_pkg_commit = "4ecab3273592f27479a583fb6d975d4aba3486fe";
   pkgs = import (fetchTarball ("http://github.com/NixOS/nixpkgs/archive/" + pinned_pkg_commit + ".tar.gz")) {};
@@ -59,14 +57,9 @@ let
                 vim-terraform
                 vim-terraform-completion
                 vimwiki
-                (nvim-treesitter.overrideAttrs (old: {
-                  src = pkgs.fetchFromGitHub {
-                    owner = "nvim-treesitter";
-                    repo = "nvim-treesitter";
-                    rev = tree_sitter_fix_commit;
-                    hash = "sha256-QEPH2oMF/KS/wBGzoJzXHDvaShWYhRFpuTRLIa0Iu+0=";
-                  };
-                })).withAllGrammars
+
+                # occasionally may need to remove, collect-garbage, re-install due to how tree-sitter updates.
+                nvim-treesitter.withAllGrammars
               ];
               opt = [];
             };
