@@ -6,6 +6,6 @@ require'nvim-treesitter.configs'.setup {
         additional_vim_regex_highlighting = false,
 
         -- todo: look into why these languages are throwing errors.
-        disable = { 'vim', 'help', 'bash', 'zsh', 'sh', 'nix', 'dockerfile', 'make', 'markdown', 'fish', 'typescript',},
+        -- disable = { 'vim', 'help', 'bash', 'zsh', 'sh', 'nix', 'dockerfile', 'make', 'markdown', 'typescript', 'sql' },
     },
 }

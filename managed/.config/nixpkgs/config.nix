@@ -26,7 +26,6 @@ let
 
               packages.myPlugins = with pkgs.vimPlugins; {
               start = [
-                base16-vim
                 cmp-nvim-lsp
                 cmp_luasnip
                 fzf-vim
@@ -57,7 +56,9 @@ let
                 vim-terraform
                 vim-terraform-completion
                 vimwiki
-                (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
+
+                # occasionally may need to remove, collect-garbage, re-install due to how tree-sitter updates.
+                nvim-treesitter.withAllGrammars
               ];
               opt = [];
             };
