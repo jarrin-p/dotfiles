@@ -95,7 +95,7 @@ M.make_statusline = function()
 end
 
 --- definition of the statusline as a vim global function in order to reference it
---- inside the statusline functino call natively.
+--- inside the statusline function call natively.
 vim.g.MakeStatusLine = M.make_statusline
 vim.o.statusline = '%{%g:MakeStatusLine()%}'
 
