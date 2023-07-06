@@ -19,10 +19,11 @@ config.freetype_load_target = "HorizontalLcd"
 config.keys = {
     { key = '=', mods = 'ALT', action = wezterm.action.IncreaseFontSize },
     { key = '-', mods = 'ALT', action = wezterm.action.DecreaseFontSize },
+    { key = 't', mods = 'CTRL', action = wezterm.action.DisableDefaultAssignment, },
 }
 
 -- window settings
-config.enable_scroll_bar = true
+config.enable_scroll_bar = false
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 
 return config
