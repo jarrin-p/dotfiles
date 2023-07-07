@@ -1,6 +1,6 @@
 local cg = require 'pack.statusline.util.component'
 local util = require 'pack.statusline.util.util'
-local symbols = util.symbols
+local symbols = require 'pack.statusline.util.symbols'
 
 M = {}
 

@@ -1,7 +1,7 @@
 --- @author jarrin-p
 --- @file `snippets.lua`
 local util = require 'pack.statusline.util.util'
-local symbols = util.symbols
+local symbols = require'pack.statusline.util.symbols'
 local path = require 'pack.statusline.util.path'
 local conf = require 'pack.statusline.util.config'
 

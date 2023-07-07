@@ -51,14 +51,6 @@ local M = {
         return 'no repo'
     end,
 
-    --- I'm awful and just copy pasted symbols I wanted.
-    symbols = {
-        left_tr = '',
-        right_tr = '',
-        bl = '',
-        br = '',
-        git = ''
-    },
 
 }
 
