@@ -47,8 +47,8 @@ vim.g.MakeTabline = function()
     elseif num_tabs > 1 then
         selection_state = tabline_std
     end
-    tabl = tabl .. selection_state:get_transition_to(tabline_fill, 'background', symbols.left_tr):get_value()
-    tabl = tabl .. tabline_fill:set '   '
+    -- tabl = tabl .. selection_state:get_transition_to(tabline_fill, 'background', symbols.left_tr):get_value()
+    -- tabl = tabl .. tabline_fill:set '   '
     return tabl
 end
 

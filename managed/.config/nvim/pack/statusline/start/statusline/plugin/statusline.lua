@@ -1,5 +1,5 @@
 --- @author jarrin-p
---- @file `snippets.lua`
+--- @file `statusline.lua`
 local util = require 'pack.statusline.util.util'
 local symbols = require'pack.statusline.util.symbols'
 local path = require 'pack.statusline.util.path'
@@ -12,7 +12,7 @@ M = {}
 --- @param max_depth? number how many parent directories to display of the file.
 M.format_path_table_for_display = function(path_table, max_depth)
     if not path_table or #path_table == 0 then
-        return conf.header:set '  New File ' .. conf.transitions.header_to_dir
+        return conf.header:set ' New File ' .. conf.transitions.header_to_dir
     end
     max_depth = max_depth or #path_table
 
