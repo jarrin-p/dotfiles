@@ -3,12 +3,12 @@ local util = require 'pack.statusline.util.util'
 --- nvim highlight group wrapper that allows easier inline status text formatting.
 --- additionally, has defaults specified to keep the status/tab line uniform.
 --- @class component
---- @field name string
+--- @field hl_name string
 --- @field scope integer
 --- @field pretext string
 --- @field posttext string
 M = {
-    name = 'Not set',
+    hl_name = 'Not set',
     scope = 0,
     value = '',
 
@@ -30,7 +30,7 @@ M = {
     --- @return string #the color group in the status line.
     set = function(self, text_to_color)
         text_to_color = text_to_color or ''
-        return '%#' .. self.name .. '#' .. text_to_color
+        return '%#' .. self.hl_name .. '#' .. text_to_color
     end,
 
     --- @param component component the component of the color scheme you want to transition to.
@@ -38,11 +38,11 @@ M = {
     --- @param symbol string the symbol to use for transitioning.
     --- @return component transition the transition component.
     get_transition_to = function(self, component, identifier, symbol)
-        local from = util.get_colorscheme_as_hex(component.name, identifier)
-        local to = util.get_colorscheme_as_hex(self.name, identifier)
-        local newComponentName = self.name .. 'To' .. component.name
+        local from = util.get_colorscheme_as_hex(component.hl_name, identifier)
+        local to = util.get_colorscheme_as_hex(self.hl_name, identifier)
+        local newComponentName = self.hl_name .. 'To' .. component.hl_name
         vim.api.nvim_set_hl(0, newComponentName, { bg = from, fg = to })
-        return self:new{ name = newComponentName, value = symbol }
+        return self:new{ hl_name = newComponentName, value = symbol }
     end,
 
     --- @return string #the value stored inside this component. typically preceded by `get_transition_to`.
@@ -53,11 +53,11 @@ M = {
     --- @param highlight_group_override string the name of the highlight group you wish to override.
     --- @return component #a new component pointing at HighlightGroup that has reversed bg, fg of what this was called on.
     reversed = function(self, highlight_group_override)
-        local bg = util.get_colorscheme_as_hex(self.name, 'background')
-        local fg = util.get_colorscheme_as_hex(self.name, 'foreground')
-        local newComponentName = highlight_group_override or self.name .. 'Reversed'
+        local bg = util.get_colorscheme_as_hex(self.hl_name, 'background')
+        local fg = util.get_colorscheme_as_hex(self.hl_name, 'foreground')
+        local newComponentName = highlight_group_override or self.hl_name .. 'Reversed'
         vim.api.nvim_set_hl(0, newComponentName, { bg = fg, fg = bg })
-        return self:new{ name = newComponentName }
+        return self:new{ hl_name = newComponentName }
     end,
 }
 return M

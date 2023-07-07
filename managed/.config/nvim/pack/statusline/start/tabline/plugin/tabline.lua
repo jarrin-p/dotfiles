@@ -4,8 +4,8 @@ local cg = require 'pack.statusline.util.component'
 local util = require 'pack.statusline.util.util'
 local symbols = require'pack.statusline.util.symbols'
 
-local tabline_std = cg:new{ name = 'Tabline' }
-local tabline_fill = cg:new{ name = 'Statusline' }
+local tabline_std = cg:new{ hl_name = 'Tabline' }
+local tabline_fill = cg:new{ hl_name = 'Statusline' }
 local tabline_sel = tabline_std:reversed('TablineSel')
 
 --- @return string tabline
