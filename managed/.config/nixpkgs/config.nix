@@ -4,6 +4,12 @@ let
   pinned_pkg_commit = "4ecab3273592f27479a583fb6d975d4aba3486fe";
   pkgs = import (fetchTarball ("http://github.com/NixOS/nixpkgs/archive/" + pinned_pkg_commit + ".tar.gz")) {};
 
+  fennelRepl = (pkgs.luajit.withPackages (ps: with ps; [
+            fennel
+            readline
+            luacheck
+        ]));
+
   ppython39 = (pkgs.python310Full.withPackages (ps: with ps; [
             sqlparse
             pip
@@ -27,6 +33,7 @@ let
               packages.myPlugins = with pkgs.vimPlugins; {
               start = [
                 base16-vim
+                conjure
                 cmp-nvim-lsp
                 cmp_luasnip
                 fzf-vim
@@ -81,7 +88,6 @@ in
       name = "mainEnv";
       paths = [
         (gradle_7.override{ java = jdk11; })
-        (lua5_3.withPackages (ps: [ ps.luacheck ]))
         ppython39
         bat
         bear
@@ -93,6 +99,7 @@ in
         coursier
         curl
         direnv
+        fennelRepl
         ffmpeg
         fish
         fzf
@@ -107,7 +114,7 @@ in
         neovim
         neovim-remote
         nil # nix language server.
-        nodePackages_latest.cdktf-cli
+        # nodePackages_latest.cdktf-cli
         nodePackages_latest.dockerfile-language-server-nodejs
         nodePackages_latest.npm
         nodePackages_latest.typescript
@@ -120,6 +127,7 @@ in
         pkcs11helper
         pylint
         ranger
+        readline
         redis
         rename
         ripgrep
