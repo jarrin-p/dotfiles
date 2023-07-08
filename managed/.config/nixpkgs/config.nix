@@ -24,7 +24,9 @@ let
                   require "os"
                   local config_path = os.getenv("HOME") .. "/.config/nvim/"
                   package.path = config_path .. "?.lua;" .. package.path
+                  package.path = "${fennelRepl}/share/lua/5.1/" .. "?.lua;" .. package.path
 
+                  require "fennel".install()
                   require "util"
                   require "plugins"
                 EOF
