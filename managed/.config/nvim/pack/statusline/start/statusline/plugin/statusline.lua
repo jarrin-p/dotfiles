@@ -83,7 +83,7 @@ M.add_builder_function(M.fill)
 M.add_builder_function(M.right_align)
 M.add_builder_function(M.make_file_info)
 
-M.make_statusline = function()
+vim.g.MakeStatusLine = function()
     local sl = ''
     for _, builder_fn in ipairs(M.builder_functions) do
         sl = sl .. builder_fn()
@@ -94,9 +94,6 @@ M.make_statusline = function()
     return sl
 end
 
---- definition of the statusline as a vim global function in order to reference it
---- inside the statusline function call natively.
-vim.g.MakeStatusLine = M.make_statusline
 vim.o.statusline = '%{%g:MakeStatusLine()%}'
 
 -- add autocommands for the statusline to update more frequently.
