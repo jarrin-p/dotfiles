@@ -30,6 +30,11 @@ local M = {
         end
     end,
 
+    -- this gets the current file of where it's defined.
+    get_logger = function()
+        return debug.getinfo(1 ,"S").source
+    end,
+
     --- this should not be used externally.
     --- todo: create format settings for writing out with all log outputs.
     --- @param text string what to actually output.
