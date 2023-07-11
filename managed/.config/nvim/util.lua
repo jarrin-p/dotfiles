@@ -86,7 +86,6 @@ local M = {
             end
         end
         table.sort(bufnames)
-
         return bufnames
     end,
 

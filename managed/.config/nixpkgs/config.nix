@@ -26,7 +26,11 @@ let
                   package.path = config_path .. "?.lua;" .. package.path
                   package.path = "${fennelRepl}/share/lua/5.1/" .. "?.lua;" .. package.path
 
-                  require "fennel".install()
+                  fennel_base = require"fennel"
+                  fennel = fennel_base.install()
+                  fennel.path = config_path .. "?.fnl;" .. fennel.path
+
+                  require "fennel_init"
                   require "util"
                   require "plugins"
                 EOF
@@ -104,6 +108,7 @@ in
         fennelRepl
         ffmpeg
         fish
+        fnlfmt
         fzf
         gh
         git
