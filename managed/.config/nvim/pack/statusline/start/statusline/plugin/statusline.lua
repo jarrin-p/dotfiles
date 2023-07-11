@@ -5,7 +5,7 @@ local symbols = require'pack.statusline.util.symbols'
 local path = require 'pack.statusline.util.path'
 local conf = require 'pack.statusline.util.config'
 
-M = {}
+local M = {}
 
 --- takes the path and converts it to a string that will be set on the statusline.
 --- @param path_table table to be converted to status.

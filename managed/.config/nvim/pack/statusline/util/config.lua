@@ -3,7 +3,7 @@ local util = require 'pack.statusline.util.util'
 local symbols = require 'pack.statusline.util.symbols'
 local spec = require 'pack.statusline.util.color_specs'
 
-M = {}
+local M = {}
 
 M.fg = util.get_colorscheme_as_hex(spec.fg.hl_name, spec.fg.color_type)
 M.lighter = util.get_colorscheme_as_hex(spec.lighter.hl_name, spec.lighter.color_type)

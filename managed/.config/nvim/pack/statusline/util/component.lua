@@ -7,7 +7,7 @@ local util = require 'pack.statusline.util.util'
 --- @field scope integer
 --- @field pretext string
 --- @field posttext string
-M = {
+local M = {
     hl_name = 'Not set',
     scope = 0,
     value = '',

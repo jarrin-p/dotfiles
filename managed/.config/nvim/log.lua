@@ -7,7 +7,7 @@ local level_map = {
     INFO = 2,
     DEBUG = 1, -- debug appears to be a keyword.
 }
-M = {
+local M = {
     level_map = level_map,
     level = (function()
         local level = os.getenv('DOTFILES_LOG_LEVEL')
