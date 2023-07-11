@@ -5,7 +5,7 @@ vim.o.compatible = false
 --- shada settings {{{
 -- @see 'h sd' or 'h shada'
 local shada_settings = {
-    '!', -- restores global variables.
+    -- '!', -- restores global variables.
     -- '%5',  -- restore # buffers.
     '\'10', -- reduce number of history files.
     '<50',
