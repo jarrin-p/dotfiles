@@ -2,9 +2,8 @@ local util = require 'util'
 local lsp_util = require'lspconfig'.util
 
 -- language servers.
-
 require'rust-tools'.setup {}
-require'lspconfig'.nil_ls.setup {}
+-- require'lspconfig'.nil_ls.setup {}
 require'lspconfig'.lua_ls.setup {
     settings = {
         Lua = {
@@ -35,6 +34,8 @@ require'lspconfig'.cssls.setup {
     cmd = { "css-languageserver", "--stdio" },
     capabilities = capabilities,
 }
+
+require'lspconfig'.sqlls.setup{}
 
 -- wip
 -- require'lspconfig'.dockerls.setup{}
