@@ -24,13 +24,13 @@ let
                   require "os"
                   local config_path = os.getenv("HOME") .. "/.config/nvim/"
                   package.path = config_path .. "?.lua;" .. package.path
-                  package.path = "${fennelRepl}/share/lua/5.1/" .. "?.lua;" .. package.path
+                  -- package.path = "${fennelRepl}/share/lua/5.1/" .. "?.lua;" .. package.path
 
-                  fennel_base = require"fennel"
-                  fennel = fennel_base.install()
-                  fennel.path = config_path .. "?.fnl;" .. fennel.path
+                  -- fennel_base = require"fennel"
+                  -- fennel = fennel_base.install()
+                  -- fennel.path = config_path .. "?.fnl;" .. fennel.path
 
-                  require "fennel_init"
+                  -- require "fennel_init"
                   require "util"
                   require "plugins"
                 EOF
