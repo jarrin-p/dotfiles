@@ -1,2 +1,2 @@
 *.lua
-!setup.lua
+!nix_hook.lua
