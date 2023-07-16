@@ -10,3 +10,4 @@ node_modules/
 nvim/coc-settings.json
 package-lock.json
 package.json
+md5sum.check

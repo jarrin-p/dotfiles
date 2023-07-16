@@ -1,3 +1,2 @@
 *.lua
-!init.lua
-md5sum.check
+!setup.lua
