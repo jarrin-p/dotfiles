@@ -24,13 +24,15 @@
                              (nil err) (print :could-not-find-existing-md5))
       ;; converts a set of lines into a lua table.
       load-md5-into-table (fn [md5-in]
-                            (local file-md5-map {})
-                            (when md5-in
-                              (each [line (md5-in:lines)]
-                                (each [md5hash file-path (line:gmatch match-pattern)]
-                                  (tset file-md5-map file-path md5hash)))
-                              (md5-in:close))
-                            file-md5-map) ;; hashes
+                            (let [empty {}
+                                  file-md5-map (if md5-in
+                                                   (collect [line (md5-in:lines)]
+                                                     (let [(md5hash file-path) (line:match match-pattern)]
+                                                       (values file-path
+                                                               md5hash)))
+                                                   empty)]
+                              (md5-in:close)
+                              file-md5-map))
       current (load-md5-into-table current-md5-lines)
       validation (load-md5-into-table validation-md5-lines)]
   (let [compile-fnl (fn [file-name]
