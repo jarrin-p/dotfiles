@@ -1,6 +1,11 @@
 (local io (require :io))
 (local os (require :os))
-(local log (require :logs))
+(local nvim-config-path (.. (os.getenv :HOME) :/.config/nvim))
+;; in the future if I want to load additional fennel
+; (local fennel-base (require :fennel))
+; (local fennel (fennel-base.install))
+; (set package.path (.. nvim-config-path "/?.fnl;" package.path))
+; (var log (require :logs))
 
 (local map-length (fn [t]
                     (accumulate [i 0 _ _ (pairs t)] (+ i 0))))
@@ -10,8 +15,9 @@
 (var run-full-compile false)
 
 (let [match-pattern "(%w+)  ([%w./_-]+)" ;; gets list of md5sums for each file.
-      config-path (let [path (.. (os.getenv :HOME) :/.config/nvim)
-                        real-path-handle (io.popen (.. "realpath " path) :r)
+      config-path (let [real-path-handle (io.popen (.. "realpath "
+                                                       nvim-config-path)
+                                                   :r)
                         real-path (real-path-handle:read)]
                     (real-path-handle:close)
                     real-path)
