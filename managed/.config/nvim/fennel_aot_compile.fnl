@@ -37,29 +37,28 @@
                                                        (values file-path
                                                                md5hash)))
                                                    empty)]
-                              (md5-in:close)
                               file-md5-map))
       current (load-md5-into-table current-md5-lines)
-      validation (load-md5-into-table validation-md5-lines)]
-  (let [compile-fnl (fn [file-name]
-                      (print (.. "detected file change: compiling to lua "
-                                 file-name))
-                      (os.execute (.. "fennel --compile " file-name " > "
-                                      (file-name:sub 1 (- (length file-name) 4))
-                                      :.lua)))
-        ;; re-compiles all on edge conditions such as new files added or errors.
-        compilation-strategy (if run-full-compile
-                                 (fn [file-name md5]
-                                   (compile-fnl file-name))
-                                 (fn [file-name md5] ; compile only changed files.
-                                   (when (not= md5 (. validation file-name))
-                                     (set update-checksum-file true) ; todo - cleanup redundant check.
-                                     (compile-fnl file-name))))]
-    (when (not= (map-length current) (map-length validation))
-      (print :found-difference-between-file-counts)
-      (set run-full-compile true))
-    (each [file-name md5 (pairs current)]
-      (compilation-strategy file-name md5))
-    (when (or update-checksum-file run-full-compile)
-      (os.execute (.. "find " config-path
-                      " -name '*.fnl' | xargs -I% md5sum % > " md5-filepath)))))
+      validation (load-md5-into-table validation-md5-lines)
+      compile-fnl (fn [file-name]
+                    (print (.. "detected file change: compiling to lua "
+                               file-name))
+                    (os.execute (.. "fennel --compile " file-name " > "
+                                    (file-name:sub 1 (- (length file-name) 4))
+                                    :.lua)))
+      ;; re-compiles all on edge conditions such as new files added or errors.
+      compilation-strategy (if run-full-compile
+                               (fn [file-name md5]
+                                 (compile-fnl file-name))
+                               (fn [file-name md5] ; compile only changed files.
+                                 (when (not= md5 (. validation file-name))
+                                   (set update-checksum-file true) ; todo - cleanup redundant check.
+                                   (compile-fnl file-name))))]
+  (when (not= (map-length current) (map-length validation))
+    (print :found-difference-between-file-counts)
+    (set run-full-compile true))
+  (each [file-name md5 (pairs current)]
+    (compilation-strategy file-name md5))
+  (when (or update-checksum-file run-full-compile)
+    (os.execute (.. "find " config-path
+                    " -name '*.fnl' | xargs -I% md5sum % > " md5-filepath))))
