@@ -5,7 +5,7 @@ require "os"
 --- compile all fennel into lua first using fennel application (should be installed via nixpkgs).
 --- this saves overhead of having to load fennel compiler into neovim each startup.
 local aot_compile_filename = "fennel_aot_compile.fnl"
-local command = "fennel " .. os.getenv("HOME") .. "/.config/nvim/" .. aot_compile_filename
+local command = "PACKAGE_PATH='" .. package.path .. "' fennel " .. os.getenv("HOME") .. "/.config/nvim/" .. aot_compile_filename
 os.execute(command)
 require "util"
 require "plugins"
