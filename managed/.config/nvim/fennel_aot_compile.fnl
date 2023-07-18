@@ -10,6 +10,23 @@
 (local map-length (fn [t]
                     (accumulate [i 0 _ _ (pairs t)] (+ i 0))))
 
+(local get-path-tail
+       (fn [path]
+         (let [pattern ".+/(.+)" ; everything up until first slash.
+               normalized-path (if (string.match path "\\./.+") path
+                                   (.. "./" path))]
+           (string.match normalized-path pattern))))
+
+;; note: this will exclude ./a/x.tail and ./b/x.tail
+(local exclude
+       (fn [target exclude-table]
+         (collect [file-path val (pairs target)]
+           (let [path-tail (get-path-tail file-path)
+                 is-in-excluded (?. exclude-table path-tail)]
+             (if is-in-excluded nil (values file-path val))))))
+
+(local exclude-list {:fennel_aot_compile.fnl true})
+
 ;; flags for different state.
 (var update-checksum-file false)
 (var run-full-compile false)
@@ -30,15 +47,12 @@
                              (nil err) (print :could-not-find-existing-md5))
       ;; converts a set of lines into a lua table.
       load-md5-into-table (fn [md5-in]
-                            (let [empty {}
-                                  file-md5-map (if md5-in
-                                                   (collect [line (md5-in:lines)]
-                                                     (let [(md5hash file-path) (line:match match-pattern)]
-                                                       (values file-path
-                                                               md5hash)))
-                                                   empty)]
-                              file-md5-map))
-      current (load-md5-into-table current-md5-lines)
+                            (if md5-in
+                                (collect [line (md5-in:lines)]
+                                  (let [(md5hash file-path) (line:match match-pattern)]
+                                    (values file-path md5hash)))
+                                {}))
+      current (exclude (load-md5-into-table current-md5-lines) exclude-list)
       validation (load-md5-into-table validation-md5-lines)
       compile-fnl (fn [file-name]
                     (print (.. "detected file change: compiling to lua "
