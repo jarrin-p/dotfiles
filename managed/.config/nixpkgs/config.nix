@@ -114,9 +114,8 @@ in
         neovim
         neovim-remote
         nil # nix language server.
-        # nodePackages_latest.cdktf-cli
+        nodejs_20
         nodePackages_latest.dockerfile-language-server-nodejs
-        nodePackages_latest.npm
         nodePackages_latest.typescript
         nodePackages_latest.typescript-language-server
         nodePackages_latest.pyright

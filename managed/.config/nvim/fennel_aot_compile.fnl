@@ -7,6 +7,9 @@
 ; (set package.path (.. nvim-config-path "/?.fnl;" package.path))
 ; (var log (require :logs))
 
+;; todo: recompile when lua files are found to be changed as well.
+;; todo: persist exclude list to export of md5sum.check
+
 (local map-length (fn [t]
                     (accumulate [i 0 _ _ (pairs t)] (+ i 0))))
 

@@ -71,7 +71,7 @@
 
 ;; splits new window down.
 (set vim.o.list true)
-(set vim.o.listchars "tab:;>,leadmultispace:│   ,trail:-")
+(set vim.o.listchars "tab:;>,leadmultispace:    ,trail:-")
 (set vim.o.jumpoptions :view)
 (vim.opt_global.shortmess:remove :F)
 
