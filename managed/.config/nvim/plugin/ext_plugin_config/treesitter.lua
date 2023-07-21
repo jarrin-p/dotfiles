@@ -4,7 +4,7 @@ require'nvim-treesitter.configs'.setup {
         -- note: if there's an issue with treesitter parsing, try
         -- uninstalling via nix, collecting garbage, re-installing.
         -- disable = { 'vim' },
-        additional_vim_regex_highlighting = false,
+        additional_vim_regex_highlighting = true,
     },
     incremental_selection = {
       enable = true,
