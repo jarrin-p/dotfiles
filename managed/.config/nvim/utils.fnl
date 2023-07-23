@@ -43,7 +43,20 @@
                                                                              file-path
                                                                              session-name)]
                                           (print command)
-                                          (vim.cmd command)))})
+                                          (vim.cmd command)))
+          :clean_buffer_postspace (fn []
+                                    (let [view (vim.fn.winsaveview)]
+                                      (vim.cmd "keepjumps silent %smagic/ *$//")
+                                      (vim.fn.winrestview view)))
+          :get_listed_bufnames (fn [delimiter]
+                                 (let [delimiter (or delimiter "\\n")
+                                       buf-info (vim.fn.getbufinfo)
+                                       buffer-names (icollect [_ buffer (ipairs buf-info)]
+                                                      (vim.fn.fnamemodify buffer.name
+                                                                          ":~:."))]
+                                   (table.sort buffer-names)))
+          :export_cwd (fn []
+                        (os.execute (.. "echo \"" (vim.fn.getcwd) "\" > "
+                                        (os.getenv :VIM_CWD_PATH))))})
 
-; fennel exports the last value in a file.
 M
