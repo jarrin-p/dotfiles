@@ -8,6 +8,7 @@ let
             fennel
             readline
             luacheck
+            lyaml
         ]));
 
   ppython39 = (pkgs.python310Full.withPackages (ps: with ps; [
