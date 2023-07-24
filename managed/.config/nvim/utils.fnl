@@ -57,6 +57,7 @@
                                    (table.sort buffer-names)))
           :export_cwd (fn []
                         (os.execute (.. "echo \"" (vim.fn.getcwd) "\" > "
-                                        (os.getenv :VIM_CWD_PATH))))})
+                                        (os.getenv :VIM_CWD_PATH))))
+          })
 
 M

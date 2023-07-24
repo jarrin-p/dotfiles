@@ -1,5 +1,6 @@
 (local io (require :io))
 (local os (require :os))
+(local popen io.popen)
 (local nvim-config-path (.. (os.getenv :HOME) :/.config/nvim))
 ;; in the future if I want to load additional fennel
 ; (local fennel-base (require :fennel))
@@ -11,52 +12,76 @@
 ;; todo: persist exclude list to export of md5sum.check
 
 (local map-length (fn [t]
-                    (accumulate [i 0 _ _ (pairs t)] (+ i 0))))
+                    (accumulate [i 0 _ _ (pairs t)] (+ i 1))))
 
-(local get-path-tail
+(local destructure-path
        (fn [path]
-         (let [pattern ".+/(.+)" ; everything up until first slash.
-               normalized-path (if (string.match path "\\./.+") path
-                                   (.. "./" path))]
-           (string.match normalized-path pattern))))
+         (let [normalized-path (-> path
+                                   (#(if (string.match $1 "^./")
+                                         $1
+                                         (.. "./" $1)))
+                                   (#(string.gsub $1 "/$" "")))
+               (dir basename) (string.match normalized-path "(%./.*)/(.*)")
+               (file-name extension) (string.match basename "(.*)%.(.*)")]
+           {: basename : dir : file-name : extension})))
 
 ;; note: this will exclude ./a/x.tail and ./b/x.tail
 (local exclude
        (fn [target exclude-table]
          (collect [file-path val (pairs target)]
-           (let [path-tail (get-path-tail file-path)
+           (let [path-tail (. (destructure-path file-path) :basename)
                  is-in-excluded (?. exclude-table path-tail)]
              (if is-in-excluded nil (values file-path val))))))
 
-(local exclude-list {:fennel_aot_compile.fnl true})
+(local allow
+       (fn [target allow-table]
+         (collect [file-path val (pairs target)]
+           (if (. allow-table file-path) (values file-path val) nil))))
+
+(local exclude-list {:fennel_aot_compile.fnl true :nvim-macros.fnl true})
 
 ;; flags for different state.
 (var update-checksum-file false)
 (var run-full-compile false)
 
-(let [match-pattern "(%w+)  ([%w./_-]+)" ;; gets list of md5sums for each file.
-      config-path (let [real-path-handle (io.popen (.. "realpath "
-                                                       nvim-config-path)
-                                                   :r)
-                        real-path (real-path-handle:read)]
-                    (real-path-handle:close)
-                    real-path)
-      md5-filepath (.. config-path "/" :md5sum.check)
-      current-md5-lines (io.popen (.. "find " config-path
-                                      " -name '*.fnl' | xargs -I% md5sum %")
-                                  :r)
-      ;; reads local state file to check for changes.
-      validation-md5-lines (match (io.open md5-filepath :r) file file
-                             (nil err) (print :could-not-find-existing-md5))
-      ;; converts a set of lines into a lua table.
-      load-md5-into-table (fn [md5-in]
-                            (if md5-in
-                                (collect [line (md5-in:lines)]
-                                  (let [(md5hash file-path) (line:match match-pattern)]
-                                    (values file-path md5hash)))
-                                {}))
-      current (exclude (load-md5-into-table current-md5-lines) exclude-list)
-      validation (load-md5-into-table validation-md5-lines)
+;; TODO finish moving destructured file paths into normalized structure
+;; TODO pull path related things into utils.
+(let [md5-match-pattern "(%w+)  ([%w./_-]+)"
+      ;; gets list of md5sums for each file.
+      config-realpath (with-open [real-path (io.popen (.. "realpath "
+                                                          nvim-config-path)
+                                                      :r)]
+                        (real-path:read))
+      md5-filepath (.. config-realpath "/" :md5sum.check)
+      line-as-hashset-key-iter (fn [iter]
+                                 (collect [line iter]
+                                   (values line (destructure-path line))))
+      split-hash-iter (fn [iter]
+                        (collect [line iter]
+                          (let [(md5hash file-path) (line:match md5-match-pattern)
+                                destructured (destructure-path file-path)]
+                            (values file-path md5hash))))
+      build-table-from-file-cmd (fn [read-method cmd iterator-applier]
+                                  (with-open [handle (read-method cmd :r)]
+                                    (case handle found
+                                      (iterator-applier (found:lines))
+                                      (nil err)
+                                      (values nil err))))
+      current-md5-lines (-> (build-table-from-file-cmd io.popen
+                                                       (.. "find "
+                                                           config-realpath
+                                                           " -name '*.fnl' | xargs -I% md5sum %")
+                                                       split-hash-iter)
+                            (exclude exclude-list))
+      current-lua-files (-> (build-table-from-file-cmd io.popen
+                                                       (.. "find "
+                                                           config-realpath
+                                                           " -name '*.lua'")
+                                                       line-as-hashset-key-iter)
+                            (exclude exclude-list)
+                            (allow current-md5-lines))
+      validation-md5-lines (build-table-from-file-cmd io.open md5-filepath
+                                                      split-hash-iter)
       compile-fnl (fn [file-name]
                     (print (.. "detected file change: compiling to lua "
                                file-name))
@@ -64,18 +89,22 @@
                                     (file-name:sub 1 (- (length file-name) 4))
                                     :.lua)))
       ;; re-compiles all on edge conditions such as new files added or errors.
-      compilation-strategy (if run-full-compile
-                               (fn [file-name md5]
-                                 (compile-fnl file-name))
-                               (fn [file-name md5] ; compile only changed files.
-                                 (when (not= md5 (. validation file-name))
-                                   (set update-checksum-file true) ; todo - cleanup redundant check.
-                                   (compile-fnl file-name))))]
-  (when (not= (map-length current) (map-length validation))
-    (print :found-difference-between-file-counts)
-    (set run-full-compile true))
-  (each [file-name md5 (pairs current)]
-    (compilation-strategy file-name md5))
-  (when (or update-checksum-file run-full-compile)
-    (os.execute (.. "find " config-path
+      compile-all (fn [file-name md5]
+                    (compile-fnl file-name))
+      compile-diff (fn [file-name md5]
+                     (when (not= md5 (. validation-md5-lines file-name))
+                       (set update-checksum-file true)
+                       (compile-fnl file-name)))
+      fnl-count (map-length current-md5-lines)
+      lua-count (map-length current-lua-files)
+      validation-count (map-length validation-md5-lines)
+      aot-compile (fn [compilation-strategy file-map]
+                    (each [file-name md5 (pairs file-map)]
+                      (compilation-strategy file-name md5)))]
+  (-> (match [fnl-count lua-count validation-count]
+        [x x x] compile-diff
+        [x y z] compile-all)
+      (aot-compile current-md5-lines))
+  (when (or update-checksum-file)
+    (os.execute (.. "find " config-realpath
                     " -name '*.fnl' | xargs -I% md5sum % > " md5-filepath))))
