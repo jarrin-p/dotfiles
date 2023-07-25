@@ -107,6 +107,7 @@ in
         gh
         git
         google-java-format
+        (import ./groovyls/default.nix)
         jdk11
         (import ./jdtls/default.nix)
         jq
