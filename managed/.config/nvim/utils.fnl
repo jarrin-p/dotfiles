@@ -28,10 +28,9 @@
                                                              :Session.vim)
                                             file-path (or options.file_path
                                                           (vim.fn.FugitiveWorkTree))
-                                            command (build-session-command :mksession!
+                                            command (build-session-command "silent! mksession!"
                                                                            file-path
                                                                            session-name)]
-                                        (print command)
                                         (vim.cmd command)))
           :load_session_from_git_root (lambda [?opts]
                                         (let [options (or ?opts {})
