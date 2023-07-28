@@ -83,8 +83,6 @@
       validation-md5-lines (build-table-from-file-cmd io.open md5-filepath
                                                       split-hash-iter)
       compile-fnl (fn [file-name]
-                    (print (.. "detected file change: compiling to lua "
-                               file-name))
                     (os.execute (.. "fennel --compile " file-name " > "
                                     (file-name:sub 1 (- (length file-name) 4))
                                     :.lua)))
