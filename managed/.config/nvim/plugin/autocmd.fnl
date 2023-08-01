@@ -1,10 +1,10 @@
 (local util (require :utils))
 
 (let [au (fn [events opts] (_G.vim.api.nvim_create_autocmd events opts))]
-  (au [:BufWritePost]
-      {:pattern [".*" "*"] :callback util.clean_buffer_postspace})
-  (au [:BufWritePost]
-      {:pattern [".*" "*"] :callback util.make_session_on_git_root})
+  ;(au [:BufWritePost]
+  ;    {:pattern [".*" "*"] :callback util.clean_buffer_postspace})
+  ; (au [:BufWritePost]
+  ;     {:pattern [".*" "*"] :callback util.make_session_on_git_root})
   (au [:BufWinLeave]
       {:pattern [".*" "*"]
        :command "if expand(\"%\") != \"\" | silent! mkview | endif"})
