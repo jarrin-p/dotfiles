@@ -14,6 +14,8 @@
 (nnoremap :<leader>+ ":lua SetFontSize(1)")
 (nnoremap :<leader>- ":lua SetFontSize(-1)")
 
+(nnoremap :<leader>w ":sil make<enter>")
+
 ;; insert mode maps
 ;; note: this `inoremap` prepends `<c-o>` for a single action.
 (inoremap :<c-h> :b)
