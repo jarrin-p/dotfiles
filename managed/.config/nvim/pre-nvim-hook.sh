@@ -1,45 +1,34 @@
 #!/bin/sh
 
-stored_hash_path=dot-md5s.json
+lrm_store_path=/tmp/fnl_compile
+last_recorded_mtime_path=${lrm_store_path}/last_recorded_mtime
+mkdir -p ${lrm_store_path}
+touch ${last_recorded_mtime_path}
 
-current=$(find -E . \
-    -not -type d \
-    -iregex '.*.[fnl|lua]' \
-    | xargs -I% md5sum % \
-    | xargs -I% jq -rn --arg path % '
-        $path
-        | split(" ")
-        | { key: .[1], value: .[0]}' \
-        | jq -s '. | from_entries' \
-)
+function get_most_recently_updated () {
+    find -E . \
+        -not -type d \
+        -and \( -name '*.fnl' -or -name '*.lua' \) \
+        | xargs -P0 -I{} stat --format='%Z' {} \
+        | sort --reverse \
+        | head --lines=1
+}
 
-stored=$(cat ${stored_hash_path})
+# todo: escape period.
+most_recently_updated=$(get_most_recently_updated)
+last_recorded_mtime=$(cat ${last_recorded_mtime_path})
 
-# todo: union current keys with stored keys,
-# since right now current keys aren't checked.
-changes=$(echo "${current} ${stored}" | jq -rs ' {
-        current: .[0],
-        stored: .[1]
-    }
-    | . as $comp
-    | .current
-    | keys
-    | .[]
-    | . as $key
-    | {
-        file: $key,
-        current: ( $comp.current | .[($key)] ),
-        stored: ( $comp.stored | .[($key)] )
-    }
-    | . as $joined
-    | select ( .current != .stored )
-    | .file
-    | select ( endswith("fnl") )
-    | sub ("\\.fnl"; "")' \
-)
-
-if test -z "${changes}"
+if test "${most_recently_updated}" != "${last_recorded_mtime}"
 then
-    echo "found fennel changes. recompiling.
-    echo $changes | xargs -I% sh -c "fennel --compile %.fnl > %.lua"
+    echo "found changes"
+    find -E . -not -type d -and -name '*.fnl' \
+        |  {
+            while read -r file_path
+            do
+                out=$(echo "${file_path}" | sed -E 's/.fnl/.lua/')
+                fennel --compile "${file_path}" > "${out}" &
+            done
+            wait
+        }
+    get_most_recently_updated > "${last_recorded_mtime_path}"
 fi

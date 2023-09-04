@@ -2,10 +2,8 @@
 --- however it is desired for this to be called before nvim calls anything else.
 require "os"
 
---- compile all fennel into lua first using fennel application (should be installed via nixpkgs).
---- this saves overhead of having to load fennel compiler into neovim each startup.
--- local aot_compile_filename = "fennel_aot_compile.fnl"
--- local command = "PACKAGE_PATH='" .. package.path .. "' fennel " .. os.getenv("HOME") .. "/.config/nvim/" .. aot_compile_filename
--- os.execute(command)
+local home_dir = os.getenv("HOME")
+os.execute("sh " .. home_dir .. "/.config/nvim/pre-nvim-hook.sh")
+
 require "util"
 require "plugins"
