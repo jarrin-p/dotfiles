@@ -45,6 +45,7 @@ let
                 nvim-cmp
                 nvim-jdtls
                 nvim-lspconfig
+                nvim-metals
                 nvim-tree-lua
                 plenary-nvim
                 (rust-tools-nvim.overrideAttrs (old: {
@@ -136,6 +137,8 @@ in
         rustc
         rust-analyzer
         sbt
+        scala-cli
+        # scalafmt
         stow
         sumneko-lua-language-server
         terraform
