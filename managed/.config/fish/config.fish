@@ -141,4 +141,11 @@ if status is-interactive
     set -x EDITOR nvim
     set -x VISUAL nvim
     #set -x SHELL fish
+    
+    function clean_scala
+        find . -name '.bsp' | xargs -I% rm -rf %
+        find . -name '.metals' | xargs -I% rm -rf %
+        find . -name '.bloop' | xargs -I% rm -rf %
+    end
 end
+
