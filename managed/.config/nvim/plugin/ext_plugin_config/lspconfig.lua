@@ -1,9 +1,11 @@
 local util = require 'util'
 local lsp_util = require'lspconfig'.util
 
+require'lspconfig'.texlab.setup {}
+
 -- language servers.
 require'rust-tools'.setup {}
--- require'lspconfig'.nil_ls.setup {}
+require'lspconfig'.nil_ls.setup {} -- nix language server.
 require'lspconfig'.lua_ls.setup {
     settings = {
         Lua = {
