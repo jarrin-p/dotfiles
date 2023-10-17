@@ -75,6 +75,7 @@ let
         });
 in
 {
+  allowUnfree = true;
   packageOverrides = pkgs: {
 
     # mostly keeping for reference to gradle/java version setting,
@@ -91,7 +92,7 @@ in
         (gradle_7.override{ java = jdk11; })
         ppython39
         bat
-        bear
+        # bear
         bitwarden-cli
         black
         cargo
@@ -138,6 +139,7 @@ in
         rustc
         rust-analyzer
         sbt
+        scala-cli
         # scalafmt
         stow
         sumneko-lua-language-server
