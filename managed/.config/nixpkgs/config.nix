@@ -92,6 +92,7 @@ in
         ppython39
         bat
         bear
+        bitwarden-cli
         black
         cargo
         cmake
@@ -137,7 +138,6 @@ in
         rustc
         rust-analyzer
         sbt
-        scala-cli
         # scalafmt
         stow
         sumneko-lua-language-server
