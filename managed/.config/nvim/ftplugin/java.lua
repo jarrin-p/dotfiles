@@ -19,7 +19,7 @@ local config = {
 }
 require('jdtls').start_or_attach(config)
 
-vim.bo.tabstop = 2
+vim.bo.tabstop = 4
 vim.wo.foldlevel = 1
 vim.wo.foldnestmax = 4
 

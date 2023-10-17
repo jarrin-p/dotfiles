@@ -14,7 +14,7 @@ require"nvim-tree".setup({
         show_on_open_dirs = true,
         debounce_delay = 50,
         severity = { min = vim.diagnostic.severity.HINT, max = vim.diagnostic.severity.ERROR },
-        icons = { hint = "", info = "i", warning = "w", error = "x" },
+        icons = { hint = "h", info = "i", warning = "w", error = "x" },
     },
     renderer = {
         add_trailing = false,
