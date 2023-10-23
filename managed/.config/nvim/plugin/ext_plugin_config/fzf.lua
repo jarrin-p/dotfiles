@@ -105,6 +105,26 @@ end
 util.nnoremap('<leader>h', ':lua BranchFileDiff()<enter>')
 util.nnoremap('<leader>H', ':lua SetBranchToDiff()<enter>')
 
+function Jump()
+    local f = io.open("/tmp/fishfn_jump__last_used_name", "r+")
+    if f ~= nil then
+        local content = f:read("a*"):gsub("%s+", "")
+        print(content)
+
+        fzf_wrap {
+            source = "find . -name '" .. content .. "'",
+            -- source = "find . -name '" .. content .. "'",
+            sink = as_global(function(result)
+                vim.cmd('GT')
+                vim.cmd('cd ' .. vim.fn.fnamemodify(result, ':p:h'))
+            end),
+            options = as_flags { '--prompt "directories with file > "' },
+        }
+        f:close()
+    end
+end
+util.nnoremap('<leader>J', ':lua Jump()<enter>')
+
 --- @see https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol
 --- todo: fix this..
 -- function SymbolSelect()
