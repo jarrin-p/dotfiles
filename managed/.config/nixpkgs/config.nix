@@ -1,4 +1,13 @@
 let
+  # easily find nixpkgs containing the version of software you need.
+  # https://lazamar.co.uk/nix-versions/
+  # shoutout to the author for creating this.
+  tf15nixpkgs = import (builtins.fetchTarball {
+        url = "https://github.com/NixOS/nixpkgs/archive/4ab8a3de296914f3b631121e9ce3884f1d34e1e5.tar.gz";
+    }) {};
+
+  tf15 = tf15nixpkgs.terraform;
+
   rust_analyzer_fix_commit = "a47f5d61ce06a433998fb5711f723773e3156f46";
 
   pinned_pkg_commit = "4ecab3273592f27479a583fb6d975d4aba3486fe";
@@ -143,7 +152,8 @@ in
         # scalafmt
         stow
         sumneko-lua-language-server
-        terraform
+        tf15
+        # terraform
         terraform-ls
         tflint
         tflint-plugins.tflint-ruleset-aws
