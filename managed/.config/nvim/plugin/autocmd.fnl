@@ -4,6 +4,8 @@
   ; todo: fix util method to not mess with the jump history.
   ;(au [:BufWritePost]
   ;    {:pattern [".*" "*"] :callback util.clean_buffer_postspace})
+  ;(au [:BufWritePost]
+  ;   {:pattern [".*" "*"] :callback util.backup_session})
   (au [:BufWinLeave]
       {:pattern [".*" "*"]
        :command "if expand(\"%\") != \"\" | silent! mkview | endif"})

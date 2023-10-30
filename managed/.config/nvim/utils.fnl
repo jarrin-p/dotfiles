@@ -32,6 +32,17 @@
                                                                            file-path
                                                                            session-name)]
                                         (vim.cmd command)))
+          ; unused
+          :backup_session (lambda [?opts]
+                                      (let [options (or ?opts {})
+                                            session-name (or options.session_name
+                                                             :Session.vim)
+                                            file-path (or options.file_path
+                                                          (:/tmp/current_session))
+                                            command (build-session-command "silent! mksession!"
+                                                                           file-path
+                                                                           session-name)]
+                                        (vim.cmd command)))
           :load_session_from_git_root (lambda [?opts]
                                         (let [options (or ?opts {})
                                               session-name (or options.session_name
