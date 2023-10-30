@@ -25,6 +25,7 @@
   (set-hl :DiffChange {:bg dark_orange})
   (set-hl :DiffText {:bg dark_orange})
   (set-hl :EndOfBuffer {:fg :bg})
+  (set-hl :Folded {:link :Comment })
   (set-hl :Search {:bg darker :underline true :italic true})
   (set-hl :CurSearch {:bg darker :underline true :italic true :bold true})
   (set-hl :String {:link :AquaItalic})
