@@ -8,8 +8,10 @@ with pkgs; stdenv.mkDerivation {
   system = builtins.currentSystem;
 
   src = fetchzip {
-    url = "https://download.eclipse.org/jdtls/milestones/1.19.0/jdt-language-server-1.19.0-202301171536.tar.gz";
-    sha256 = "sha256-PmS7DpjTf5YUT5EYiIUME1k/prN/2lXnTjpCxQUmoeI=";
+    url = "https://www.eclipse.org/downloads/download.php?file=/jdtls/milestones/1.28.0/jdt-language-server-1.28.0-202309281329.tar.gz";
+    sha256 = "sha256-Kz8+e/VKc5DeG3SZAn7cuKA0XaAygEHhXN4SvbQTVxQ=";
+    # url = "https://download.eclipse.org/jdtls/milestones/1.19.0/jdt-language-server-1.19.0-202301171536.tar.gz";
+    # sha256 = "sha256-PmS7DpjTf5YUT5EYiIUME1k/prN/2lXnTjpCxQUmoeI=";
     stripRoot = false; # zip contains tree
   };
 
