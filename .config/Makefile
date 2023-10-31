@@ -12,3 +12,7 @@ lua_files = $(fennel_files:.fnl=.lua)
 
 .PHONY: build
 build: $(lua_files)
+
+.PHONY: clean_generated
+clean_generated:
+	echo $(lua_files) | xargs rm
