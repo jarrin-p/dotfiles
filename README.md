@@ -15,4 +15,17 @@ readme is very wip.
 - nix [(link)](https://nixos.org)
 
 ### setup
+- clone the repo **into one subdirectory**, such that `$HOME/some_dir/dotfiles` is the result. todo: make dynamic.
+- note about this step: this will create symlinks in your home directory to match the file structure inside this repo, but stow should not overwrite files by default. if existing configurations exist, it may cause the stow option to fail.
+    - quote from stow man page: "Stow will never delete anything that it doesn't own."
+    - (the actual step) run `sh restow.sh`
 - `nix-env -iA nixpkgs.mainEnv` to install the setup.
+
+### uninstall
+needs to be tested, but the general idea would be something like.
+```
+nix-env --uninstall mainEnv
+cd .. && stow -D dotfiles -t ../
+```
+
+basically just standard `nix` uninstall and delete option with `stow`.
