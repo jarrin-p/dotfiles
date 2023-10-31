@@ -1,6 +1,6 @@
 ; settings
 (set vim.o.formatprg (table.concat [:google-java-format "-"] " "))
-(set vim.o.makeprg "tmux send-keys -t {marked} 'gradle test' enter")
+(set vim.o.makeprg "tmux send-keys -t {marked} escape 'Sgradle test' enter")
 (set vim.bo.tabstop 4)
 (set vim.wo.foldlevel 1)
 (set vim.wo.foldnestmax 1)
@@ -25,12 +25,15 @@
               :settings {:java {:signatureHelp {:enabled true}
                                 :inlayHints {:parameterNames {:enabled :all}}
                                 :format {:settings {:url "https://google.github.io/styleguide/intellij-java-google-style.xml"}}}}}]
-  (jdtls.start_or_attach config)
-  )
+  (jdtls.start_or_attach config))
 
-; relic
-(vim.api.nvim_exec "command! SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply %"
-                   false)
+; wip - get function name
+; (fn get-function-name []
+;   (let [util (require :nvim-treesitter.ts_utils)
+;         rec (fn [node]
+;               (if (= (node:type) :function_definition) node (rec node)))
+;         current-node (util.get_node_at_cursor)])
+;   (rec current-node))
 
 ; snippets
 (let [ls (require :luasnip)
@@ -52,3 +55,6 @@
               (s phrase stmnt interface-name fn-start end-pt fn-end))]
   (ls.add_snippets [println class]))
 {}
+; relic
+(vim.api.nvim_exec "command! SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply %"
+                   false)
