@@ -7,6 +7,8 @@ zsh/.zshrc.private
 node_modules/
 nvim/coc-settings.json
 
+*.lua
+
 # global git ignore
 .classpath
 .settings
