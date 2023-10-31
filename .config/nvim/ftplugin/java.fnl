@@ -40,21 +40,24 @@
       s ls.snippet
       t ls.text_node
       i ls.insert_node
-      println (let [phrase :_print
+      println (let [phrase :.print
                     stmnt (t [:System.out.println])
                     t-start (t ["(\""])
                     ins (i 0)
                     t-end (t ["\");"])]
                 (s phrase [stmnt t-start ins t-end]))
-      class (let [phrase :_interface
+      class (let [phrase :.interface
                   stmnt (t ["public interface"])
                   interface-name (i 1 :interfaceName)
                   fn-start (t ["{"])
                   end-pt (i 0)
                   fn-end (t ["}"])]
               (s phrase stmnt interface-name fn-start end-pt fn-end))]
-  (ls.add_snippets [println class]))
-{}
+  (ls.cleanup)
+  (ls.add_snippets :java [println class]))
+
 ; relic
 (vim.api.nvim_exec "command! SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply %"
                    false)
+
+{}
