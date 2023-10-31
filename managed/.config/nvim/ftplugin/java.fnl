@@ -51,3 +51,4 @@
                   fn-end (t ["}"])]
               (s phrase stmnt interface-name fn-start end-pt fn-end))]
   (ls.add_snippets [println class]))
+{}

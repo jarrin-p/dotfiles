@@ -1,1 +1,0 @@
--- vim.bo.formatprg = table.concat({ 'rustfmt', '%' }, ' ')
