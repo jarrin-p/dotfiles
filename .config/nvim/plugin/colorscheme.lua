@@ -1,0 +1,31 @@
+local util = require("pack.statusline.util.util")
+local apply_opacity = (require("hex_tool")).apply_opacity_transition
+local fg = util.get_colorscheme_as_hex("Fg", "foreground")
+local bg = util.get_colorscheme_as_hex("Normal", "background")
+local darker = util.get_colorscheme_as_hex("FloatBorder", "background")
+local green = util.get_colorscheme_as_hex("Green", "foreground")
+local red = util.get_colorscheme_as_hex("Red", "foreground")
+local orange = util.get_colorscheme_as_hex("Orange", "foreground")
+local opacity = 0.15
+local dark_green = apply_opacity(green, bg, opacity)
+local dark_red = apply_opacity(red, bg, opacity)
+local dark_orange = apply_opacity(orange, bg, opacity)
+local set_hl
+local function _1_(name, opts)
+  return vim.api.nvim_set_hl(0, name, opts)
+end
+set_hl = _1_
+set_hl("DiffAdd", {bg = dark_green})
+set_hl("DiffAdded", {link = "DiffAdd"})
+set_hl("DiffDelete", {bg = dark_red, fg = dark_red})
+set_hl("DiffRemoved", {bg = dark_red})
+set_hl("DiffChange", {bg = dark_orange})
+set_hl("DiffText", {bg = dark_orange})
+set_hl("EndOfBuffer", {fg = "bg"})
+set_hl("Folded", {link = "Comment"})
+set_hl("Search", {bg = darker, underline = true, italic = true})
+set_hl("CurSearch", {bg = darker, underline = true, italic = true, bold = true})
+set_hl("String", {link = "AquaItalic"})
+set_hl("MsgArea", {fg = fg, bg = darker})
+set_hl("TablineFill", {link = "Normal"})
+return set_hl("Whitespace", {fg = dark_orange})

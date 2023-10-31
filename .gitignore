@@ -1,8 +1,13 @@
 .DS_Store
 Session.vim
-managed/.config/coc/*
-managed/.config/fish/fish_variables
-managed/.config/nvim/autoload/*
-managed/zsh/.zshrc.private
+.config/coc/*
+.config/fish/fish_variables
+.config/nvim/autoload/*
+zsh/.zshrc.private
 node_modules/
 nvim/coc-settings.json
+
+# global git ignore
+.classpath
+.settings
+.zprofile
