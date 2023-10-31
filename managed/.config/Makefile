@@ -8,7 +8,7 @@ fennel_files = $(shell find -E $(config) \
 lua_files = $(fennel_files:.fnl=.lua)
 
 %.lua: %.fnl
-	@fennel --compile $< > $@
+	fennel --compile $< > $@
 
 .PHONY: build
 build: $(lua_files)
