@@ -1,13 +1,8 @@
 .DS_Store
-Dockerfile
 Session.vim
-makefile
 managed/.config/coc/*
 managed/.config/fish/fish_variables
 managed/.config/nvim/autoload/*
 managed/zsh/.zshrc.private
 node_modules/
 nvim/coc-settings.json
-package-lock.json
-package.json
-md5sum.check

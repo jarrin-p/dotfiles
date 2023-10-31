@@ -3,7 +3,7 @@
 require "os"
 
 local home_dir = os.getenv("HOME")
-os.execute("sh " .. home_dir .. "/.config/nvim/pre-nvim-hook.sh")
+os.execute("cd " .. home_dir .. "/.config/nvim && make build > /dev/null")
 
 require "util"
 require "plugins"
