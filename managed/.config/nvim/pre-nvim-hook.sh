@@ -18,9 +18,9 @@ function get_most_recently_updated () {
 # todo: escape period.
 most_recently_updated=$(get_most_recently_updated)
 last_recorded_mtime=$(cat ${last_recorded_mtime_path})
-echo "last recorded mtime path : ${last_recorded_mtime_path}"
-echo "last recorded mtime      : ${last_recorded_mtime}"
-echo "most recently updated    : ${most_recently_updated}"
+# echo "last recorded mtime path : ${last_recorded_mtime_path}"
+# echo "last recorded mtime      : ${last_recorded_mtime}"
+# echo "most recently updated    : ${most_recently_updated}"
 
 if test "${most_recently_updated}" != "${last_recorded_mtime}" \
     || test -z "${last_recorded_mtime}"
