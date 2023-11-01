@@ -8,7 +8,7 @@
 ; 
 ; -- assumes spotlessApply is apart of gradle.build.
 ; vim.api.nvim_create_autocmd({ 'BufWritePost' }, { pattern = { '*.java' }, command = 'silent SA', group = group_id })
-(local util (require :util))
+; (local util (require :util))
 
 (set vim.o.formatprg "scala-cli fmt -F --stdin -F --stdout")
 
