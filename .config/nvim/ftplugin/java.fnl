@@ -4,6 +4,12 @@
 (set vim.bo.tabstop 4)
 (set vim.wo.foldlevel 1)
 (set vim.wo.foldnestmax 1)
+(let [update-makeprg (fn [args]
+                       (let [cmd-prefix "tmux send-keys -t {marked} escape 'S"
+                             cmd-post "' enter"
+                             val args.args]
+                         (set vim.o.makeprg (.. cmd-prefix val cmd-post))))]
+  (vim.api.nvim_create_user_command :SetTest update-makeprg {:nargs "?"}))
 
 ; lsp
 (let [jdtls (require :jdtls)
