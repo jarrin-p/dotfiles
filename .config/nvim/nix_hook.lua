@@ -5,5 +5,5 @@ require "os"
 local home_dir = os.getenv("HOME")
 os.execute("cd " .. home_dir .. "/.config && make build")
 
-require "util"
+require "utils"
 require "plugins"

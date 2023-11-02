@@ -1,5 +1,4 @@
-local util = require 'util'
-util.nnoremap('<leader>f', ':FZF <enter>')
+local util = require 'utils'
 
 --- basically an alias. wraps the `fzf#wrap` function to be conveniently called from lua.
 --- @param opts table lua table equivalent to the table accepted by `fzf#wrap`.
@@ -51,7 +50,6 @@ function FuzzyGrep()
         },
     }
 end
-util.nnoremap('<leader>g', ':lua FuzzyGrep()<enter>')
 
 function BufSelect()
     fzf_wrap {
@@ -64,7 +62,6 @@ function BufSelect()
         options = as_flags { '--prompt "buffer name > "' },
     }
 end
-util.nnoremap('<leader>b', ':lua BufSelect()<enter>')
 
 --- @param flags string of flags to pass into git branch. mainly for if you want to use `--all` to show remote branches.
 function BranchSelect(flags)
@@ -79,7 +76,6 @@ function BranchSelect(flags)
         options = as_flags { '--prompt "branch name > "' },
     }
 end
-util.nnoremap('<leader>B', ':lua BranchSelect()<enter>')
 
 function SetBranchToDiff()
     vim.g.BranchToDiff = vim.fn.input('enter branch to diff against: ')
@@ -102,8 +98,6 @@ function BranchFileDiff()
         BranchFileDiff()
     end
 end
-util.nnoremap('<leader>h', ':lua BranchFileDiff()<enter>')
-util.nnoremap('<leader>H', ':lua SetBranchToDiff()<enter>')
 
 function Jump()
     local f = io.open("/tmp/fishfn_jump__last_used_name", "r+")
@@ -123,7 +117,6 @@ function Jump()
         f:close()
     end
 end
-util.nnoremap('<leader>J', ':lua Jump()<enter>')
 
 --- @see https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_documentSymbol
 --- todo: fix this..

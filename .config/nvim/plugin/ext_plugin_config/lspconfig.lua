@@ -1,4 +1,3 @@
-local util = require 'util'
 local lsp_util = require'lspconfig'.util
 
 require'lspconfig'.texlab.setup {}
@@ -47,24 +46,6 @@ require'lspconfig'.sqlls.setup {}
 -- completion.
 require'cmp_nvim_lsp'.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-util.nnoremap('gD', ':lua vim.lsp.buf.declaration()<enter>')
-util.nnoremap('gd', ':lua vim.lsp.buf.definition()<enter>')
-util.nnoremap('<leader>d', ':lua vim.lsp.buf.hover()<enter>')
-util.nnoremap('gi', ':lua vim.lsp.buf.incoming_calls()<enter>')
-util.nnoremap('<leader>rn', ':lua vim.lsp.buf.rename()<enter>')
-util.nnoremap('gc', ':lua vim.lsp.buf.code_action()<enter>')
-util.nnoremap('g=', ':lua vim.lsp.buf.format{async = false}<enter>')
-
--- [s]ymbol [w]orkspace
-util.nnoremap('gsw', ':lua vim.lsp.buf.workspace_symbol()<enter>')
-
--- [s]ymbol [d]ocument
-util.nnoremap('gsd', ':lua vim.lsp.buf.document_symbol()<enter>')
-
--- [s]ymbol [o]utline
-util.nnoremap('gso', ':SymbolsOutline<enter>')
-util.nnoremap('<leader>j', ':lua vim.diagnostic.goto_next()<enter>')
-util.nnoremap('<leader>k', ':lua vim.diagnostic.goto_prev()<enter>')
 
 -- vim.api.nvim_create_augroup("hover", {})
 -- vim.api.nvim_create_autocmd({ "CursorHoldI" }, { group = "hover", callback = vim.lsp.buf.signature_help })

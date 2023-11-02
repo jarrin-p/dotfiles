@@ -34,15 +34,15 @@
                                         (vim.cmd command)))
           ; unused
           :backup_session (lambda [?opts]
-                                      (let [options (or ?opts {})
-                                            session-name (or options.session_name
-                                                             :Session.vim)
-                                            file-path (or options.file_path
-                                                          (:/tmp/current_session))
-                                            command (build-session-command "silent! mksession!"
-                                                                           file-path
-                                                                           session-name)]
-                                        (vim.cmd command)))
+                            (let [options (or ?opts {})
+                                  session-name (or options.session_name
+                                                   :Session.vim)
+                                  file-path (or options.file_path
+                                                (:/tmp/current_session))
+                                  command (build-session-command "silent! mksession!"
+                                                                 file-path
+                                                                 session-name)]
+                              (vim.cmd command)))
           :load_session_from_git_root (lambda [?opts]
                                         (let [options (or ?opts {})
                                               session-name (or options.session_name
@@ -68,6 +68,16 @@
           :export_cwd (fn []
                         (os.execute (.. "echo \"" (vim.fn.getcwd) "\" > "
                                         (os.getenv :VIM_CWD_PATH))))
-          })
+          :string_to_table (fn [str delim]
+                             (let [sanitized-str (.. str delim)]
+                               (icollect [v (string.gmatch (.. "([^" delim
+                                                               "]+)"))]
+                                 v)))
+          :file_format (fn []
+                         (if (not= (vim.api.nvim_get_option_value :formatprg {})
+                                   (" "))
+                             (let [view (vim.fn.winsaveview)]
+                               (vim.cmd "keepjumps silent norm gggqG")
+                               (vim.fn.winrestview view))))})
 
 M
