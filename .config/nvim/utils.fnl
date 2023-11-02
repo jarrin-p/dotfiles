@@ -70,7 +70,7 @@
                                         (os.getenv :VIM_CWD_PATH))))
           :string_to_table (fn [str delim]
                              (let [sanitized-str (.. str delim)]
-                               (icollect [v (string.gmatch (.. "([^" delim
+                               (icollect [v (sanitized-str:gmatch (.. "([^" delim
                                                                "]+)"))]
                                  v)))
           :file_format (fn []
