@@ -1,6 +1,5 @@
 ; settings
 (set vim.o.formatprg (table.concat [:google-java-format "-"] " "))
-(set vim.o.makeprg "tmux send-keys -t {marked} escape 'Sgradle test' enter")
 (set vim.bo.tabstop 4)
 (set vim.wo.foldlevel 1)
 (set vim.wo.foldnestmax 1)
