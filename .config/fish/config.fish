@@ -113,7 +113,7 @@ if status is-interactive
 
         if test -f $tempfile
           if [ (cat $tempfile) != (pwd) ]
-            cd (cat $tempfile)
+            pushd (cat $tempfile)
           end
         end
 
