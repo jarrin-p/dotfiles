@@ -4,7 +4,7 @@
   (exec "command! GT execute 'lcd' fnameescape(FugitiveWorkTree())" false)
   (add-cmd :LG util.load_session_from_git_root {})
   (add-cmd :FF util.file_format {})
-  (add-cmd :GO (fn [] (exec "silent !tmux split-window -h -c $(dirname %)")) {})
+  (add-cmd :GO (fn [_] (exec "silent !tmux split-window -h -c $(dirname %)" false)) {})
   (let [update-makeprg (fn [args]
                          (let [cmd-prefix "tmux send-keys -t {marked} escape 'S"
                                cmd-post "' enter"
