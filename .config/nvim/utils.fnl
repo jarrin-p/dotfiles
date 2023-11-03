@@ -64,7 +64,7 @@
                                        buffer-names (icollect [_ buffer (ipairs buf-info)]
                                                       (vim.fn.fnamemodify buffer.name
                                                                           ":~:."))]
-                                   (table.sort buffer-names)))
+                                    (table.sort buffer-names)))
           :export_cwd (fn []
                         (os.execute (.. "echo \"" (vim.fn.getcwd) "\" > "
                                         (os.getenv :VIM_CWD_PATH))))

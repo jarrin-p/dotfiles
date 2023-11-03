@@ -107,7 +107,7 @@ if status is-interactive
             set -x NVIM_LISTEN_ADDRESS '/tmp/'(tmux display-message -p '#W')
         end
 
-        set tempfile '/tmp/chosendir'
+        set tempfile '/tmp/.config/chosendir'
         # env EDITOR=nvr
         command ranger --choosedir=$tempfile (pwd)
 
@@ -141,11 +141,23 @@ if status is-interactive
     set -x EDITOR nvim
     set -x VISUAL nvim
     #set -x SHELL fish
-    
+
     function clean_scala
         find . -name '.bsp' | xargs -I% rm -rf %
         find . -name '.metals' | xargs -I% rm -rf %
         find . -name '.bloop' | xargs -I% rm -rf %
     end
+
+    function grab -a file --description "stores a realpath of a file, which can then be retrieved by executing the fn put."
+        set -l p (realpath $file)
+        realpath $file > /tmp/.config/grab
+        echo "stored $p"
+    end
+
+    function put --description "retrieves the path stored by grab."
+        cat /tmp/.config/grab
+    end
+
+    mkdir -p /tmp/.config
 end
 
