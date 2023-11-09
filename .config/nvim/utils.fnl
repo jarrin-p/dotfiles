@@ -56,13 +56,12 @@
                                     (let [view (vim.fn.winsaveview)]
                                       (vim.cmd "keepjumps silent %smagic/ *$//")
                                       (vim.fn.winrestview view)))
-          :get_listed_bufnames (fn [delimiter]
-                                 (let [delimiter (or delimiter "\\n")
-                                       buf-info (vim.fn.getbufinfo)
+          :get_listed_bufnames (fn []
+                                 (let [buf-info (vim.fn.getbufinfo)
                                        buffer-names (icollect [_ buffer (ipairs buf-info)]
                                                       (vim.fn.fnamemodify buffer.name
                                                                           ":~:."))]
-                                   (table.sort buffer-names)))
+                                   buffer-names))
           :export_cwd (fn []
                         (os.execute (.. "echo \"" (vim.fn.getcwd) "\" > "
                                         (os.getenv :VIM_CWD_PATH))))
@@ -73,10 +72,8 @@
                                                                       "]+)"))]
                                  v)))
           :file_format (fn []
-                         (if (not= (vim.api.nvim_get_option_value :formatprg {})
-                                   (" "))
-                             (let [view (vim.fn.winsaveview)]
-                               (vim.cmd "keepjumps silent norm gggqG")
-                               (vim.fn.winrestview view))))})
+                         (let [view (vim.fn.winsaveview)]
+                           (vim.cmd "keepjumps silent norm gggqG")
+                           (vim.fn.winrestview view)))})
 
 M
