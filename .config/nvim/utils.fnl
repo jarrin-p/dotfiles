@@ -18,10 +18,8 @@
           :exec (fn [str send-output]
                   (vim.api.nvim_exec str
                                      (case send-output
-                                       true
-                                       true
-                                       _
-                                       false)))
+                                       true true
+                                       _ false)))
           :make_session_on_git_root (lambda [?opts]
                                       (let [options (or ?opts {})
                                             session-name (or options.session_name
@@ -64,14 +62,15 @@
                                        buffer-names (icollect [_ buffer (ipairs buf-info)]
                                                       (vim.fn.fnamemodify buffer.name
                                                                           ":~:."))]
-                                    (table.sort buffer-names)))
+                                   (table.sort buffer-names)))
           :export_cwd (fn []
                         (os.execute (.. "echo \"" (vim.fn.getcwd) "\" > "
                                         (os.getenv :VIM_CWD_PATH))))
           :string_to_table (fn [str delim]
                              (let [sanitized-str (.. str delim)]
-                               (icollect [v (sanitized-str:gmatch (.. "([^" delim
-                                                               "]+)"))]
+                               (icollect [v (sanitized-str:gmatch (.. "([^"
+                                                                      delim
+                                                                      "]+)"))]
                                  v)))
           :file_format (fn []
                          (if (not= (vim.api.nvim_get_option_value :formatprg {})
