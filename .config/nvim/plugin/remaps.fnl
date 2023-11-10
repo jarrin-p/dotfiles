@@ -70,7 +70,7 @@
 (nnoremap :<leader>B ":lua BranchSelect()<enter>")
 (nnoremap :<leader>h ":lua BranchFileDiff()<enter>")
 (nnoremap :<leader>H ":lua SetBranchToDiff()<enter>")
-(nnoremap :<leader>J ":lua Jump()<enter>")
+(nnoremap :<leader>J ":GT<enter>:lua Jump()<enter>")
 
 ;;
 ;; lsp
