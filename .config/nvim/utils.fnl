@@ -18,8 +18,10 @@
           :exec (fn [str send-output]
                   (vim.api.nvim_exec str
                                      (case send-output
-                                       true true
-                                       _ false)))
+                                       true
+                                       true
+                                       _
+                                       false)))
           :make_session_on_git_root (lambda [?opts]
                                       (let [options (or ?opts {})
                                             session-name (or options.session_name
@@ -58,9 +60,12 @@
                                       (vim.fn.winrestview view)))
           :get_listed_bufnames (fn []
                                  (let [buf-info (vim.fn.getbufinfo)
+                                       cleanup (fn [buffer]
+                                                 (vim.fn.fnamemodify buffer.name
+                                                                     ":~:."))
                                        buffer-names (icollect [_ buffer (ipairs buf-info)]
-                                                      (vim.fn.fnamemodify buffer.name
-                                                                          ":~:."))]
+                                                      (if (and (= buffer.listed 1) (= buffer.hidden 0))
+                                                          (cleanup buffer) nil))]
                                    buffer-names))
           :export_cwd (fn []
                         (os.execute (.. "echo \"" (vim.fn.getcwd) "\" > "

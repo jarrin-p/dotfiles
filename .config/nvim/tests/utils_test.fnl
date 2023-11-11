@@ -4,7 +4,7 @@
 (local utils (require :utils))
 
 ;; load file
-(vim.cmd "e tests/resources/test_json_fmt.json")
+(vim.cmd "silent e! tests/resources/test_json_fmt.json")
 
 ;; load resource into buffer.
 (vim.cmd :FF)
@@ -13,17 +13,23 @@
 (let [lines (vim.api.nvim_buf_get_lines 0 0 999 false)]
   (each [index line (ipairs lines)]
     (case index
-      1 (assert (= line "{"))
-      2 (assert (= line "  \"hello\": \"world\""))
-      3 (assert (= line "}"))
-      _ ((print "unexpected table index. exiting") (vim.cmd :qa!)))))
+      1
+      (assert (= line "{"))
+      2
+      (assert (= line "  \"hello\": \"world\""))
+      3
+      (assert (= line "}"))
+      _
+      ((print "unexpected table index. test failed") (vim.cmd :qa!)))))
+
+;; reset the file.
+(vim.cmd "silent e! tests/resources/test_json_fmt.json")
+(vim.cmd "silent e! Makefile")
+(vim.cmd "silent e! nix_hook.lua")
 
 ;; check buffers
 (let [result (utils.get_listed_bufnames)] ; command we're actually trying to test.
-  (print utils.get_listed_bufnames)
-  (print result)
-  (each [index bufname (ipairs result)]
-    (print bufname)))
+  (assert (= (length result) 3)))
 
 ;; don't save the file, we just want to make sure it formats properly.
 (vim.cmd :qa!)
