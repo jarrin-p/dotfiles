@@ -13,9 +13,9 @@ let
 in
 {
   allowUnfree = true;
-  packageOverrides = pkgs: {
+  packageOverrides = _: {
 
-    mainEnv = with pkgs; pkgs.buildEnv {
+    mainEnv = with pkgs; buildEnv {
       name = "mainEnv";
       paths = [
         (gradle_7.override{ java = jdk11; })
