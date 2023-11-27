@@ -30,7 +30,7 @@ if you symlinked everything, you can undo them with the `unstow.sh` helper.
 ./unstow.sh
 ```
 
-uninstall the nix derivation (its name is `mainEnv`, which can be seen in the file.)
+then, uninstall the nix derivation (its name is `mainEnv`, which can be seen in the file.)
 **note**: if `stow` was installed via `nix`, you'll want to run the previous command first to undo stow's symlinks first.
 ```sh
 nix-env --uninstall mainEnv
