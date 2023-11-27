@@ -70,7 +70,7 @@ in
         sbt
         stow
         sumneko-lua-language-server
-        (import ./packages/terraform.nix {})
+        (import ./tooling/terraform.nix {})
         terraform-ls
         tree
         tmux
