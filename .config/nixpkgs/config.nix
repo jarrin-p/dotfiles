@@ -48,7 +48,7 @@ in
         jq
         luaformatter
         moar
-        (import ./nvim/default.nix { pkgs = pkgs; })
+        (import ./packages/nvim.nix { pkgs = pkgs; })
         neovim-remote
         nil # nix language server.
         nodejs_20
@@ -70,7 +70,7 @@ in
         sbt
         stow
         sumneko-lua-language-server
-        (import ./tooling/terraform.nix {})
+        (import ./packages/terraform.nix {})
         terraform-ls
         tree
         tmux
