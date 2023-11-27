@@ -1,7 +1,6 @@
-# todo: pin this version of nixpkgs.
+{ pkgs }:
 let
-  pkgs = import <nixpkgs> {};
-  lombok = import ../lombok/default.nix;
+  lombok = import ../lombok/default.nix { pkgs = pkgs; };
 in
 with pkgs; stdenv.mkDerivation {
   name = "jdtls";

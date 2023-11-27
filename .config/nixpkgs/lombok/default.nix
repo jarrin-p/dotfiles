@@ -1,5 +1,5 @@
+{ pkgs }:
 let
-  pkgs = import <nixpkgs> {};
   lombok = builtins.fetchurl "https://projectlombok.org/downloads/lombok.jar";
 in
 with pkgs; derivation {

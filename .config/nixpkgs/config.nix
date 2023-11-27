@@ -44,7 +44,7 @@ in
         google-java-format
         (import ./groovyls/default.nix)
         jdk11
-        (import ./jdtls/default.nix)
+        (import ./jdtls/default.nix { pkgs = pkgs; })
         jq
         luaformatter
         moar
