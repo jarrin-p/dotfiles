@@ -21,14 +21,6 @@ in
   allowUnfree = true;
   packageOverrides = pkgs: {
 
-    # mostly keeping for reference to gradle/java version setting,
-    gradleJdk11 = with pkgs; pkgs.buildEnv {
-        name = "gradleJdk11";
-        paths = [
-            (gradle_7.override{ java = jdk11; })
-        ];
-    };
-
     mainEnv = with pkgs; pkgs.buildEnv {
       name = "mainEnv";
       paths = [
