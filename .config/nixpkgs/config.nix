@@ -42,7 +42,7 @@ in
         gh
         git
         google-java-format
-        (import ./groovyls/default.nix { pkgs = pkgs; })
+        # (import ./groovyls/default.nix { pkgs = pkgs; })
         jdk11
         (import ./jdtls/default.nix { pkgs = pkgs; })
         jq
