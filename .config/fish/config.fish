@@ -68,10 +68,6 @@ if status is-interactive
         nvim -c "Git" -c "only"
     end
 
-    function mainEnv --description "Updates current working environment."
-        nix-env -iA nixpkgs.mainEnv
-    end
-
     function tree
         command tree --dirsfirst -AC --prune $argv
     end

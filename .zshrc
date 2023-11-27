@@ -32,7 +32,6 @@ function ranger {
 }
 # nix
 function nix-zsh () { nix-shell --command "zsh" $@ } # start nix-shell using zsh instead.
-function mainEnv () { nix-env -iA nixpkgs.mainEnv } # (re)install main config.
 
 # docker
 function dcu () { docker compose up }
