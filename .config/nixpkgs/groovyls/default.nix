@@ -1,5 +1,5 @@
+{ pkgs }:
 let
-  pkgs = import <nixpkgs> {};
   jar_file = "groovy-language-server-all.jar";
 in
 with pkgs; stdenv.mkDerivation rec {
