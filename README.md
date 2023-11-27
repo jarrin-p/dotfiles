@@ -19,9 +19,9 @@ to install all dependencies for the dotfiles, run from the root of the repositor
 nix-env -if ./config/main-env.nix
 ```
 
-then, you can use the helper script which will use `stow` (installed by nix) to symlink the dotfiles into the home directory. the script should use a *relative path*, cuz symlinks.
+then, you can use the helper script which will use `stow` (installed by nix) to symlink the dotfiles into the home directory. it will automatically get the relative path to your home directory.
 ```sh
-./restow.sh ../relative/path/to/home
+./restow.sh
 ```
 
 ### uninstall
@@ -30,9 +30,7 @@ uninstall the nix derivation (its name is `mainEnv`, which can be seen in the fi
 nix-env --uninstall mainEnv
 ```
 
-and if you symlinked everything, you can undo them with something like.
+and if you symlinked everything, you can undo them with the `unstow.sh` helper.
 ```sh
-cd .. && stow -D dotfiles -t ../
+./unstow.sh
 ```
-
-basically just standard `nix` uninstall and delete option with `stow`.
