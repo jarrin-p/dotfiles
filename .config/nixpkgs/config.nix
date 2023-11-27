@@ -4,12 +4,6 @@ let
   pinned_pkg_commit = "4ecab3273592f27479a583fb6d975d4aba3486fe";
   pkgs = import (fetchTarball ("http://github.com/NixOS/nixpkgs/archive/" + pinned_pkg_commit + ".tar.gz")) {};
 
-  fennelRepl = (pkgs.luajit.withPackages (ps: with ps; [
-            fennel
-            readline
-            luacheck
-            lyaml
-        ]));
 
   # ppython39 = (pkgs.python310Full.withPackages (ps: with ps; [
   #           sqlparse
@@ -34,7 +28,7 @@ in
         coursier
         curl
         direnv
-        fennelRepl
+        (import ./packages/fennel.nix { pkgs = pkgs; })
         ffmpeg
         fish
         fnlfmt
