@@ -8,8 +8,7 @@ let
   #           virtualenv
   #       ]));
 in
-final: prev: {
-  mainEnv = with final; prev.buildEnv {
+  with pkgs; buildEnv {
     name = "mainEnv";
     paths = [
         (gradle_7.override{ java = jdk11; })
@@ -22,7 +21,7 @@ final: prev: {
         coursier
         curl
         direnv
-        (import ../packages/fennel.nix { pkgs = pkgs; })
+        (import ./packages/fennel.nix { pkgs = pkgs; })
         ffmpeg
         fish
         fnlfmt
@@ -32,11 +31,11 @@ final: prev: {
         google-java-format
         # (import ./groovyls/default.nix { pkgs = pkgs; })
         jdk11
-        (import ../jdtls/default.nix { pkgs = pkgs; })
+        (import ./jdtls/default.nix { pkgs = pkgs; })
         jq
         luaformatter
         moar
-        (import ../packages/nvim.nix { pkgs = pkgs; })
+        (import ./packages/nvim.nix { pkgs = pkgs; })
         neovim-remote
         nil # nix language server.
         nodejs_20
@@ -58,7 +57,7 @@ final: prev: {
         sbt
         stow
         sumneko-lua-language-server
-        (import ../packages/terraform.nix {})
+        (import ./packages/terraform.nix {})
         terraform-ls
         tree
         tmux
@@ -66,7 +65,6 @@ final: prev: {
         wget
         yq
         ];
-  };
 }
 # broken packages.
 # pkcs11helper
