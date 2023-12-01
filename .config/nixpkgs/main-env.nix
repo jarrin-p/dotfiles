@@ -1,12 +1,15 @@
 let
-  pinned_pkg_commit = "4ecab3273592f27479a583fb6d975d4aba3486fe";
-  pkgs = import (fetchTarball ("http://github.com/NixOS/nixpkgs/archive/" + pinned_pkg_commit + ".tar.gz")) {};
+  pkgs = import (builtins.fetchGit {
+    name = "nixpkgs-23-11";
+    url = "https://github.com/nixos/nixpkgs/";
+    ref = "refs/tags/23.11";
+  }) {};
 in
   with pkgs; buildEnv {
     name = "mainEnv";
     paths = [
         (gradle_7.override{ java = jdk11; })
-        (import ./packages/python.nix { pkgs = pkgs; })
+        # (import ./packages/python.nix { pkgs = pkgs; })
         (import ./packages/fennel.nix { pkgs = pkgs; })
         (import ./jdtls/default.nix { pkgs = pkgs; })
         (import ./packages/nvim.nix { pkgs = pkgs; })
@@ -32,7 +35,6 @@ in
         google-java-format
         jdk11
         jq
-        luaformatter
         moar
         neovim-remote
         nil # nix language server.
@@ -66,3 +68,4 @@ in
 # broken packages.
 # pkcs11helper
 # rtorrent
+# luaformatter
