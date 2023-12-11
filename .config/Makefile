@@ -2,7 +2,7 @@
 config := $(HOME)/.config/nvim/
 
 # all the fennel files that should be compiled.
-fennel_files := $(shell fd '.fnl' $(config))
+fennel_files := $(shell fd '.fnl' $(config) --type f)
 
 # the expected lua files we should have generated.
 lua_files = $(fennel_files:.fnl=.lua)
