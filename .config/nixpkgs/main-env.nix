@@ -27,6 +27,7 @@ in
         curl
         direnv
         ffmpeg
+        fd
         fish
         fnlfmt
         fzf
