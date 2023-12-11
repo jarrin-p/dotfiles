@@ -20,7 +20,7 @@ require'lspconfig'.lua_ls.setup {
         },
     },
 }
-require'lspconfig'.tsserver.setup { cmd = { "typescript-language-server", "--stdio", "--tsserver-path", "tsserver" } }
+require'lspconfig'.tsserver.setup { cmd = { "typescript-language-server", "--stdio" } }
 require'lspconfig'.pyright.setup { root_dir = lsp_util.find_git_ancestor }
 require'lspconfig'.jsonls.setup { cmd = { "vscode-json-languageserver", "--stdio" } }
 require'lspconfig'.terraformls.setup {}
