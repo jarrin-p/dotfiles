@@ -4,8 +4,12 @@
 (local metals_config ((. (require :metals) :bare_config)))
 (set metals_config.settings
      {:fallbackScalaVersion :2.13.10
+      ;:showImplicitArguments true
       :sbtScript :/Users/js/.nix-profile/bin/sbt})
-; 
+
+(set metals_config.capabilities
+     ((. (require :cmp_nvim_lsp) :default_capabilities)))
+
 ; -- Example of settings
 ; metals_config.settings = {
 ;   showImplicitArguments = true,

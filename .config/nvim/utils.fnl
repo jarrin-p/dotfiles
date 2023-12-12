@@ -68,8 +68,7 @@
                                                           (cleanup buffer) nil))]
                                    buffer-names))
           :export_cwd (fn []
-                        (os.execute (.. "echo \"" (vim.fn.getcwd) "\" > "
-                                        (os.getenv :VIM_CWD_PATH))))
+                        (os.execute (.. "echo \"" (vim.fn.getcwd) "\" > /tmp/.vim_cwd")))
           :string_to_table (fn [str delim]
                              (let [sanitized-str (.. str delim)]
                                (icollect [v (sanitized-str:gmatch (.. "([^"
