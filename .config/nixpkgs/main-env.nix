@@ -9,10 +9,11 @@ in
     name = "mainEnv";
     paths = [
         (gradle_7.override{ java = jdk11; })
-        # (import ./packages/python.nix { pkgs = pkgs; })
         (import ./packages/fennel.nix { pkgs = pkgs; })
         (import ./jdtls/default.nix { pkgs = pkgs; })
         (import ./packages/nvim.nix { pkgs = pkgs; })
+        (import ./packages/rtorrent.nix {})
+        # (import ./packages/python.nix { pkgs = pkgs; })
         # (import ./groovyls/default.nix { pkgs = pkgs; })
 
         # this specifies its own version of nixpkgs to get a specific version of terraform.
