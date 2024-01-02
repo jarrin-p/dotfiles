@@ -1,3 +1,4 @@
+(local os (require :os))
 (local nvim_metals_group
        (vim.api.nvim_create_augroup :nvim-metals {:clear true}))
 
@@ -5,7 +6,7 @@
 (set metals_config.settings
      {:fallbackScalaVersion :2.13.10
       ;:showImplicitArguments true
-      :sbtScript :/Users/js/.nix-profile/bin/sbt})
+      :sbtScript (.. (os.getenv :HOME) :/.nix-profile/bin/sbt) })
 
 (set metals_config.capabilities
      ((. (require :cmp_nvim_lsp) :default_capabilities)))
