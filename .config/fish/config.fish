@@ -155,5 +155,6 @@ if status is-interactive
     end
 
     mkdir -p /tmp/.config
+    set -x FZF_DEFAULT_COMMAND "rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
 end
 
