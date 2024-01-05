@@ -35,6 +35,7 @@ in
         gh
         git
         google-java-format
+        gnumake
         jdk11
         jq
         moar
@@ -49,6 +50,7 @@ in
         nodePackages_latest.vscode-json-languageserver
         nodePackages_latest.vscode-html-languageserver-bin
         pylint
+        python310
         ranger
         readline
         redis
