@@ -3,15 +3,9 @@
 (set vim.o.compatible false)
 
 ; shada settings
-; @see "h sd" or "h shada"
-(let [shada-settings {; "!" ; restores global variables.
-                      ; "%5" ; restore # buffers.
-                      :10 ; reduce number of history files.
-                      :<50
-                      :s10 :h
-                      ; disable hlsearch when loading shada file.
-                      }]
-  (set vim.o.shada (table.concat shada-settings ",")))
+; @see "h 'sd'" or "h 'shada'"
+(let [shada-settings (table.concat [ "%3" "'10" "\"50" :s10 ":50" :h ] ",")]
+  (set vim.o.shada shada-settings))
 
 ; gui settings
 (set vim.g.font_size 15)
