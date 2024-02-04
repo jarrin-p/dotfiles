@@ -58,7 +58,7 @@ in
         ripgrep
         rustc
         rust-analyzer
-        sbt
+        scala-cli
         stow
         sumneko-lua-language-server
         terraform-ls
