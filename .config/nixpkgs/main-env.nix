@@ -49,6 +49,7 @@ in
         nodePackages_latest.vscode-css-languageserver-bin
         nodePackages_latest.vscode-json-languageserver
         nodePackages_latest.vscode-html-languageserver-bin
+        nodePackages_latest.cdktf-cli
         pylint
         python310
         ranger
