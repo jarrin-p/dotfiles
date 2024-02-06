@@ -4,7 +4,7 @@
 
 (local metals_config ((. (require :metals) :bare_config)))
 (set metals_config.settings
-     {:fallbackScalaVersion :2.13.10
+     {:fallbackScalaVersion :3.3.0
       ;:showImplicitArguments true
       :sbtScript :sbt })
 

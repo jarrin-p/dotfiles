@@ -60,7 +60,7 @@ in
         ripgrep
         rustc
         rust-analyzer
-        scala-cli
+        # scala-cli
         stow
         sumneko-lua-language-server
         terraform-ls
