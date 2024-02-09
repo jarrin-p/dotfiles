@@ -6,7 +6,7 @@
 (set metals_config.settings
      {:fallbackScalaVersion :2.13.10
       ;:showImplicitArguments true
-      :sbtScript (.. (os.getenv :HOME) :/.nix-profile/bin/sbt) })
+      :sbtScript :sbt })
 
 (set metals_config.capabilities
      ((. (require :cmp_nvim_lsp) :default_capabilities)))
