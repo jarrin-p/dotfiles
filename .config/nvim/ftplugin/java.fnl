@@ -1,8 +1,21 @@
 ; settings
+
 (set vim.o.formatprg (table.concat [:google-java-format "-"] " "))
 (set vim.bo.tabstop 4)
 (set vim.wo.foldlevel 1)
 (set vim.wo.foldnestmax 1)
+
+;; conditionally use spotlessApply if it's available to the gradle project.
+(let [nnoremap #(vim.api.nvim_buf_set_keymap 0 :n $1 $2
+                                             {:noremap true :silent true})
+      map-spotless #(nnoremap :g=
+                              ":!cd $(git rev-parse --show-toplevel); gradle spotlessApply<enter>")
+      map-lsp #(nnoremap :g= ":lua vim.lsp.buf.format{async = false}<enter>")
+      set-map #(match $2
+                 0 (map-spotless)
+                 _ (map-lsp))]
+  (vim.fn.jobstart "cd $(git rev-parse --show-toplevel) && gradle spotlessDiagnose"
+                   {:on_exit set-map}))
 
 ; lsp
 (let [jdtls (require :jdtls)
@@ -56,9 +69,5 @@
               (s phrase stmnt interface-name fn-start end-pt fn-end))]
   (ls.cleanup)
   (ls.add_snippets :java [println class]))
-
-; relic
-(vim.api.nvim_exec "command! SA !cd $(git rev-parse --show-toplevel); gradle spotlessApply %"
-                   false)
 
 {}
