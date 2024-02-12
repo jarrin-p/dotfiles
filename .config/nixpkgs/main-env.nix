@@ -18,6 +18,8 @@ in
 
         # this specifies its own version of nixpkgs to get a specific version of terraform.
         (import ./packages/terraform.nix {})
+
+        ansifilter # an actual savior.
         bat
         bitwarden-cli
         black
