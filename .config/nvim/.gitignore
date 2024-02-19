@@ -3,3 +3,4 @@
 !hex_tool.lua
 !pack/statusline/**
 !plugin/ext_plugin_config/**
+plugin/ext_plugin_config/metals.lua
