@@ -47,6 +47,8 @@ function FuzzyGrep()
             '--query ""',
             '--delimiter :',
             '--bind "change:reload:sleep 0.1; ' .. rg_prefix .. ' {q} || true"',
+            '--bind "ctrl-f:unbind(change,ctrl-f)+change-prompt(fzf > )+enable-search+clear-query"',
+            '--header "ctrl-f to switch to fzf for additional filtering."'
         },
     }
 end
