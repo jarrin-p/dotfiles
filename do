@@ -15,6 +15,7 @@ EOF
 install_pkgs() {
     if test -f .config/nixpkgs/main-env.nix
     then
+        echo 'installing .config/nixpkgs/main-env.nix'
         nix-env -if .config/nixpkgs/main-env.nix
     else
         echo 'could not locate main file. try running from the root of this repo.'
@@ -22,9 +23,10 @@ install_pkgs() {
 }
 
 check_dots() {
+    echo 'checking for dotfiles to use as package.'
     if ! test -d dotfiles
     then
-        echo 'could not find repo to use as package. aborting.'
+        echo 'ERROR: could not find repo to use as package. aborting.'
         exit 1
     fi
 }
@@ -56,20 +58,23 @@ unstow() {
   echo 'stow undone.'
 }
 
-case "$1" in
-    setup*)
-        install_pkgs
-        restow
-        ;;
-    refr*)
-        echo 'refreshing "main-env.nix"'
-        install_pkgs
-        ;;
-    uninst*)
-        unstow
-        nix-env --uninstall 'mainEnv'
-        ;;
-    *)
-        usage
-        ;;
-esac
+while ! test -z "$1"
+do
+    case "$1" in
+        s*)
+            install_pkgs
+            restow
+            ;;
+        r*)
+            install_pkgs
+            ;;
+        u*)
+            unstow
+            nix-env --uninstall 'mainEnv'
+            ;;
+        *)
+            usage
+            ;;
+    esac
+    shift
+done
