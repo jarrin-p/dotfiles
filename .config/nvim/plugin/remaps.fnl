@@ -7,16 +7,17 @@
 (map :<space> :<leader>)
 (nnoremap :Y :y$)
 
-; change back to vanilla default.
+;; fzf search for maps.
+(nnoremap :g? ":Maps<enter>")
+
+;; change U to redo because I'm simple and U confuses me.
 (nnoremap :U :<c-r>)
 
-; change U to redo because I'm simple and U confuses me.
+;; swap mapping of "jump to mark's col,line" with "jump to mark's line".
 (nnoremap "`" "'")
 
-; swap mapping of "jump to mark's col,line" with "jump to mark's line".
+;; swap mapping of "jump to mark's line" with "jump to mark's col,line".
 (nnoremap "'" "`")
-
-; swap mapping of "jump to mark's line" with "jump to mark's col,line".
 
 ;; increase or decrease respectively the font size via mapping.
 (nnoremap :<leader>+ ":lua SetFontSize(1)")
@@ -72,9 +73,7 @@
 (nnoremap :<leader>H ":lua SetBranchToDiff()<enter>")
 (nnoremap :<leader>J ":GT<enter>:lua Jump()<enter>")
 
-;;
 ;; lsp
-;;
 (nnoremap :gD ":lua vim.lsp.buf.declaration()<enter>")
 (nnoremap :gd ":lua vim.lsp.buf.definition()<enter>")
 (nnoremap :<leader>d ":lua vim.lsp.buf.hover()<enter>")
