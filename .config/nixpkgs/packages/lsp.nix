@@ -2,6 +2,7 @@
 let
   bins = with pkgs; [
     nil # nix language server.
+    nls
     sumneko-lua-language-server
     terraform-ls
   ];

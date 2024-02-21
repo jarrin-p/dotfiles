@@ -52,6 +52,7 @@ in
                 vim-closetag
                 vim-fish
                 vim-fugitive
+                vim-nickel
                 vim-nix
                 vim-surround
                 vim-terraform
