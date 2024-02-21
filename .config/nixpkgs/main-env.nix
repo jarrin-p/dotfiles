@@ -10,13 +10,13 @@ in
     paths = [
         (gradle_7.override{ java = jdk11; })
         (import ./packages/fennel.nix { pkgs = pkgs; })
-        (import ./jdtls/default.nix { pkgs = pkgs; })
+        (import ./packages/lsp.nix { pkgs = pkgs; })
         (import ./packages/nvim.nix { pkgs = pkgs; })
-        (import ./packages/rtorrent.nix {})
-        # (import ./packages/python.nix { pkgs = pkgs; })
-        # (import ./groovyls/default.nix { pkgs = pkgs; })
 
-        # this specifies its own version of nixpkgs to get a specific version of terraform.
+        # version of rtorrent that doesn't break.
+        (import ./packages/rtorrent.nix {})
+
+        # version 1.15 of terraform.
         (import ./packages/terraform.nix {})
 
         ansifilter # an actual savior.
@@ -42,15 +42,9 @@ in
         jq
         moar
         neovim-remote
-        nil # nix language server.
         nodejs_20
-        nodePackages_latest.dockerfile-language-server-nodejs
         nodePackages_latest.typescript
-        nodePackages_latest.typescript-language-server
         nodePackages_latest.pyright
-        nodePackages_latest.vscode-css-languageserver-bin
-        nodePackages_latest.vscode-json-languageserver
-        nodePackages_latest.vscode-html-languageserver-bin
         pylint
         python310
         ranger
@@ -60,10 +54,7 @@ in
         ripgrep
         rustc
         rust-analyzer
-        # scala-cli
         stow
-        sumneko-lua-language-server
-        terraform-ls
         tree
         tmux
         visidata
@@ -73,5 +64,4 @@ in
 }
 # broken packages.
 # pkcs11helper
-# rtorrent
 # luaformatter
