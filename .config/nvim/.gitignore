@@ -1,6 +1,7 @@
 !nix_hook.lua
 !log.lua
 !hex_tool.lua
+!plugins.lua
 !pack/statusline/**
 !plugin/ext_plugin_config/**
 plugin/ext_plugin_config/metals.lua
