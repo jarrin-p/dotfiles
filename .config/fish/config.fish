@@ -156,5 +156,24 @@ if status is-interactive
 
     mkdir -p /tmp/.config
     set -x FZF_DEFAULT_COMMAND "rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
+
+    set -x _BOOKMARKS /tmp/.config/bookmarks
+    function marks
+        argparse 'a/add=' 'e/edit' -- $argv
+
+        ! test -z "$_flag_edit" && nvim $_BOOKMARKS && return
+        ! test -z "$_flag_add" && add_mark $_flag_add && return
+
+        cat $_BOOKMARKS | gum choose
+    end
+
+    function add_mark -a mark
+        echo $mark >> $_BOOKMARKS
+        set -l _marks (cat $_BOOKMARKS | sort -u)
+        rm $_BOOKMARKS
+        for _mark in $_marks
+            echo $_mark >> $_BOOKMARKS
+        end
+    end
 end
 

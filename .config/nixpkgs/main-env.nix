@@ -38,6 +38,7 @@ in
           git
           google-java-format
           gnumake
+          gum
           jdk11
           jq
           moar
