@@ -52,13 +52,8 @@ if status is-interactive
         command ls --group-directories-first --color $argv
     end
 
-    function gt
-        pushd $(git rev-parse --show-toplevel)
-    end
-
-    function GT
-        pushd $(git rev-parse --show-toplevel)
-    end
+    abbr --add gt pushd \(git rev-parse --show-toplevel\)
+    abbr --add GT pushd \(git rev-parse --show-toplevel\)
 
     function get_repo_root
         git rev-parse --show-toplevel
