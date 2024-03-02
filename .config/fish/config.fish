@@ -103,25 +103,6 @@ if status is-interactive
         set -u LF_CD_FILE
     end
 
-    # update ranger function to cd into the directory it currently landed on.
-    function ranger --description "Opens `ranger` and `cd`s to ranger's pwd on close."
-        if test -n $TMUX
-            set -x NVIM_LISTEN_ADDRESS '/tmp/'(tmux display-message -p '#W')
-        end
-
-        set tempfile '/tmp/.config/chosendir'
-        # env EDITOR=nvr
-        command ranger --choosedir=$tempfile (pwd)
-
-        if test -f $tempfile
-          if [ (cat $tempfile) != (pwd) ]
-            pushd (cat $tempfile)
-          end
-        end
-
-        rm -f $tempfile
-    end
-
     # aws completion
     complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
 

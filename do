@@ -1,5 +1,8 @@
 #!/bin/sh
 
+command -v gum > /dev/null
+has_gum=$?
+
 usage() {
     cat <<-EOF
     usage
@@ -59,9 +62,7 @@ unstow() {
   echo 'stow undone.'
 }
 
-test -z "$@" && usage
-while ! test -z "$1"
-do
+handle() {
     case "$1" in
         refresh)
             install_pkgs
@@ -81,5 +82,19 @@ do
             usage
             ;;
     esac
-    shift
-done
+}
+
+if test -z "$@" && test $has_gum -eq 0
+then
+    choice=$(gum choose --ordered "refresh" "setup" "stow" "uninstall" "usage")
+    handle $choice
+elif test -z "$@"
+then
+    usage
+else
+    while ! test -z "$1"
+    do
+        handle $1
+        shift
+    done
+fi
