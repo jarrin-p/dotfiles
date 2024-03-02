@@ -42,6 +42,7 @@ in
           gum
           jdk11
           jq
+          lf
           moar
           neovim-remote
           nodejs_20
@@ -49,7 +50,6 @@ in
           nodePackages_latest.pyright
           pylint
           python310
-          ranger
           readline
           redis
           rename
