@@ -1,0 +1,11 @@
+cmd quit-and-cd &{{
+    pwd > $LF_CD_FILE
+    lf -remote "send $id quit"
+}}
+
+cmd quit &{{
+    lf -remote "send $id quit"
+}}
+
+map Q quit
+map q quit-and-cd

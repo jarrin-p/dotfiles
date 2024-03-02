@@ -8,6 +8,7 @@ usage() {
     command:
         refresh    re-runs nix install
         setup      sets up the environment for the first time
+        stow       applies stow for changes that might need... stowing.
         uninstall  removes everything.
 EOF
 }
@@ -58,17 +59,21 @@ unstow() {
   echo 'stow undone.'
 }
 
+test -z "$@" && usage
 while ! test -z "$1"
 do
     case "$1" in
-        s*)
+        refresh)
+            install_pkgs
+            ;;
+        setup)
             install_pkgs
             restow
             ;;
-        r*)
-            install_pkgs
+        stow)
+            restow
             ;;
-        u*)
+        uninstall)
             unstow
             nix-env --uninstall 'mainEnv'
             ;;

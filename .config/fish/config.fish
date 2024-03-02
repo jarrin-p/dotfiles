@@ -92,6 +92,17 @@ if status is-interactive
         cd (cat $VIM_CWD_PATH)
     end
 
+    function lf
+        set -x LF_CD_FILE /tmp/.lfcd
+        command lf $argv
+        set -l dir (realpath (cat $LF_CD_FILE))
+        if test -s $LF_CD_FILE && test "$dir" != "$(pwd)"
+            cd "$dir"
+        end
+        rm $LF_CD_FILE
+        set -u LF_CD_FILE
+    end
+
     # update ranger function to cd into the directory it currently landed on.
     function ranger --description "Opens `ranger` and `cd`s to ranger's pwd on close."
         if test -n $TMUX
