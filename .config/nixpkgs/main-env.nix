@@ -7,7 +7,8 @@ let
 in
   with pkgs; buildEnv {
     name = "mainEnv";
-    paths = (import ./packages/lsp.nix { pkgs = pkgs; }) ++
+    paths =
+      (import ./packages/lsp.nix { pkgs = pkgs; }) ++
         [
           (gradle_7.override{ java = jdk11; })
           (import ./packages/fennel.nix { pkgs = pkgs; })
