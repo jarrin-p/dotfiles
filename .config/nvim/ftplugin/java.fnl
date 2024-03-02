@@ -66,7 +66,7 @@
                   fn-start (t ["{"])
                   end-pt (i 0)
                   fn-end (t ["}"])]
-              (s phrase stmnt interface-name fn-start end-pt fn-end))]
+              (s phrase [stmnt interface-name fn-start end-pt fn-end]))]
   (ls.cleanup)
   (ls.add_snippets :java [println class]))
 
