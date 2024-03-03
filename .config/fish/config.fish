@@ -21,7 +21,8 @@ if status is-interactive
             printf ' '
         end
 
-        set_color brblack && date '+%T %a %b %d' | tr -d '\n'
+        # set_color brblack
+        # date '+%T %a %b %d' | tr -d "\n"
 
         printf "\n"
         set_color white
