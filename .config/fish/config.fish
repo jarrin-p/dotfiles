@@ -14,8 +14,15 @@ if status is-interactive
     function fish_prompt
         printf "\n"
 
-        set_color blue
-        printf (fish_git_prompt)
+        set -l git (fish_git_prompt)
+        if ! test -z "$git"
+            set_color blue
+            fish_git_prompt | tr -d ' '
+            printf ' '
+        end
+
+        set_color brblack && date '+%T %a %b %d' | tr -d '\n'
+
         printf "\n"
         set_color white
         printf $USER
