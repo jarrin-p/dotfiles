@@ -21,10 +21,10 @@ if status is-interactive
             printf ' '
         end
 
-        # set_color brblack
-        # date '+%T %a %b %d' | tr -d "\n"
+        set_color brblack
+        set -l timestamp (date '+%T %a %b %d' | tr -d "\n")
 
-        printf "\n"
+        printf "$timestamp\n"
         set_color white
         printf $USER
 
