@@ -1,9 +1,5 @@
 let
-  pkgs = import (builtins.fetchGit {
-    name = "nixpkgs-23-11";
-    url = "https://github.com/nixos/nixpkgs/";
-    ref = "refs/tags/23.11";
-  }) {};
+  pkgs = import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/23.11"; }) {};
 in
   with pkgs; buildEnv {
     name = "mainEnv";
