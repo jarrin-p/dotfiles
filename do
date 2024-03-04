@@ -9,8 +9,9 @@ usage() {
     ./do [command]
 
     command:
-        refresh    re-runs nix install
-        setup      sets up the environment for the first time
+        usage      shows this.
+        refresh    re-runs nix install.
+        setup      sets up the environment for the first time.
         stow       applies stow for changes that might need... stowing.
         uninstall  removes everything.
 EOF
@@ -86,7 +87,7 @@ handle() {
 
 if test -z "$@" && test $has_gum -eq 0
 then
-    choice=$(gum choose --ordered "refresh" "setup" "stow" "uninstall" "usage")
+    choice=$(gum choose --ordered "refresh" "setup" "stow" "uninstall" "usage" "cancel")
     handle $choice
 elif test -z "$@"
 then
