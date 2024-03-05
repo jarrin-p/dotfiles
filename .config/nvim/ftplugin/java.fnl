@@ -19,17 +19,17 @@
 
 ; lsp
 (let [jdtls (require :jdtls)
-      c1 (. ((. (require :cmp_nvim_lsp) :default_capabilities) (vim.lsp.protocol.make_client_capabilities)))
-      capabilities (let [c jdtls.extendedClientCapabilities]
-                     (tset c :onCompletionItemSelectedCommand
-                           :editor.action.triggerParameterHints)
-                     c)
-      on-attach (fn [_ bufnr] (vim.lsp.buf.inlay_hint bufnr true)
-                  (vim.lsp.inlay_hint bufnr true))
-      config {:on_attach on-attach
+      cmp_nvim_lsp (require :cmp_nvim_lsp)
+      capabilities (. (cmp_nvim_lsp.default_capabilities (vim.lsp.protocol.make_client_capabilities)))
+      extendedClientCapabilities (let [c jdtls.extendedClientCapabilities]
+                                   (tset c :onCompletionItemSelectedCommand
+                                         :editor.action.triggerParameterHints)
+                                   c)
+      on_attach #(vim.lsp.inlay_hint $2 true)
+      config {: on_attach
               :cmd [:jdtlsw]
-              :capabilities c1
-              :init_options {:extendedClientCapabilities capabilities}
+              : capabilities
+              :init_options {: extendedClientCapabilities}
               :root_dir (let [find-result (-> (vim.fs.find [:.gradlew
                                                             :.git
                                                             :mvnw]
