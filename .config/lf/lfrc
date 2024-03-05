@@ -7,5 +7,18 @@ cmd quit &{{
     lf -remote "send $id quit"
 }}
 
+cmd fzf ${{
+    choice=$(fzf --layout=reverse)
+    test -z "$choice" && exit 0
+    if test -d "$choice"
+    then
+        lf -remote "send cd $choice"
+    else
+        lf -remote "send cd $(dirname $choice)"
+    fi
+}}
+
 map Q quit
 map q quit-and-cd
+map f fzf
+# vim: ft=lf
