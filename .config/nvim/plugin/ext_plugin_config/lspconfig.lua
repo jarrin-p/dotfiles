@@ -26,7 +26,9 @@ require'lspconfig'.jsonls.setup { cmd = { "vscode-json-languageserver", "--stdio
 require'lspconfig'.terraformls.setup {}
 -- require'lspconfig'.groovyls.setup { cmd = { "groovyls" } }
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 require'lspconfig'.html.setup { cmd = { "html-languageserver", "--stdio" }, capabilities = capabilities }
 require'lspconfig'.cssls.setup { cmd = { "css-languageserver", "--stdio" }, capabilities = capabilities }
