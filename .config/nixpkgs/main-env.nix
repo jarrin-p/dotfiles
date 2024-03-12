@@ -33,6 +33,7 @@ in
           fzf
           gh
           git
+          glab
           google-java-format
           gnumake
           gum
