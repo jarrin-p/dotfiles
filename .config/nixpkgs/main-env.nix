@@ -46,6 +46,7 @@ in
           nodePackages_latest.typescript
           nodePackages_latest.pyright
           pylint
+          python311Packages.sqlparse
           python310
           readline
           redis
