@@ -1,14 +1,16 @@
 let
   pkgs = import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/23.11"; }) {};
+  callPackage = pkgs.callPackage;
 in
-  with pkgs; buildEnv {
+  pkgs.buildEnv {
     name = "mainEnv";
     paths =
       (import ./packages/lsp.nix { pkgs = pkgs; }) ++
         [
-          (gradle_7.override{ java = jdk11; })
-          (import ./packages/fennel.nix { pkgs = pkgs; })
-          (import ./packages/nvim.nix { pkgs = pkgs; })
+          (pkgs.gradle_7.override{ java = pkgs.jdk11; })
+
+          (callPackage ./packages/fennel.nix {})
+          (callPackage ./packages/nvim.nix {})
 
           # version of rtorrent that doesn't break.
           (import ./packages/rtorrent.nix {})
@@ -16,50 +18,50 @@ in
           # version 1.15 of terraform.
           (import ./packages/terraform.nix {})
 
-          ansifilter # an actual savior.
-          bat
-          bitwarden-cli
-          black
-          cargo
-          code-minimap
-          coreutils-full
-          coursier
-          curl
-          direnv
-          ffmpeg
-          fd
-          fish
-          fnlfmt
-          fzf
-          gh
-          git
-          glab
-          google-java-format
-          gnumake
-          gum
-          jdk11
-          jq
-          lf
-          moar
-          neovim-remote
-          nodejs_20
-          nodePackages_latest.typescript
-          nodePackages_latest.pyright
-          pylint
-          python311Packages.sqlparse
-          python310
-          readline
-          redis
-          rename
-          ripgrep
-          rustc
-          rust-analyzer
-          stow
-          tree
-          tmux
-          visidata
-          wget
-          yq
+          pkgs.ansifilter # an actual savior.
+          pkgs.bat
+          pkgs.bitwarden-cli
+          pkgs.black
+          pkgs.cargo
+          pkgs.code-minimap
+          pkgs.coreutils-full
+          pkgs.coursier
+          pkgs.curl
+          pkgs.direnv
+          pkgs.ffmpeg
+          pkgs.fd
+          pkgs.fish
+          pkgs.fnlfmt
+          pkgs.fzf
+          pkgs.gh
+          pkgs.git
+          pkgs.glab
+          pkgs.google-java-format
+          pkgs.gnumake
+          pkgs.gum
+          pkgs.jdk11
+          pkgs.jq
+          pkgs.lf
+          pkgs.moar
+          pkgs.neovim-remote
+          pkgs.nodejs_20
+          pkgs.nodePackages_latest.typescript
+          pkgs.nodePackages_latest.pyright
+          pkgs.pylint
+          pkgs.python311Packages.sqlparse
+          pkgs.python310
+          pkgs.readline
+          pkgs.redis
+          pkgs.rename
+          pkgs.ripgrep
+          pkgs.rustc
+          pkgs.rust-analyzer
+          pkgs.stow
+          pkgs.tree
+          pkgs.tmux
+          pkgs.visidata
+          pkgs.wget
+          pkgs.yq
         ];
 }
 # broken packages.

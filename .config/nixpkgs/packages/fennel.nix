@@ -1,5 +1,5 @@
-{ pkgs }:
-(pkgs.luajit.withPackages (ps: with ps; [
+{ luajit }:
+(luajit.withPackages (ps: with ps; [
           fennel
           readline
           luacheck

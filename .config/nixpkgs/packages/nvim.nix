@@ -1,15 +1,15 @@
-{ pkgs }:
+{ neovim, luajit, vimPlugins, fetchFromGitHub }:
 let
   rust_analyzer_fix_commit = "a47f5d61ce06a433998fb5711f723773e3156f46";
 
-  fennelRepl = (pkgs.luajit.withPackages (ps: with ps; [
+  fennelRepl = (luajit.withPackages (ps: with ps; [
             fennel
             readline
             luacheck
             lyaml
         ]));
 in
-(pkgs.neovim.override {
+(neovim.override {
             configure = {
               # a hack that allows nvim config to exist without nix.
               customRC = ''
@@ -22,7 +22,7 @@ in
                 EOF
               '';
 
-              packages.myPlugins = with pkgs.vimPlugins; {
+              packages.myPlugins = with vimPlugins; {
               start = [
                 base16-vim
                 conjure
@@ -41,7 +41,7 @@ in
                 nvim-tree-lua
                 plenary-nvim
                 (rust-tools-nvim.overrideAttrs (old: {
-                  src = pkgs.fetchFromGitHub {
+                  src = fetchFromGitHub {
                     owner = "simrat39";
                     repo = "rust-tools.nvim";
                     rev = rust_analyzer_fix_commit;
