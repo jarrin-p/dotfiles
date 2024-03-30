@@ -5,6 +5,7 @@ let
     nls
     sumneko-lua-language-server
     terraform-ls
+    haskell-language-server
   ];
   nodeLS = with pkgs.nodePackages_latest; [
     vscode-css-languageserver-bin

@@ -35,6 +35,7 @@ require'lspconfig'.cssls.setup { cmd = { "css-languageserver", "--stdio" }, capa
 
 require'lspconfig'.sqlls.setup {}
 require'lspconfig'.nickel_ls.setup{}
+require'lspconfig'.hls.setup{}
 
 -- wip
 -- require'lspconfig'.dockerls.setup{}
