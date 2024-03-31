@@ -36,7 +36,7 @@ if status is-interactive
         printf "> "
     end
 
-    # fix wrongly ordered variables.
+    # fix incorrectly ordered variables.
     fish_add_path $HOME/.nix-profile/bin
     fish_add_path /nix/var/nix/profiles/default/bin
 
@@ -44,17 +44,6 @@ if status is-interactive
     if test -f $HOME/.fish.private
         source $HOME/.fish.private
     end
-
-    # function nvim
-    #     if test -n $TMUX
-    #         echo (tmux display-message -p '#W')
-    #         set -x NVIM_LISTEN_ADDRESS '/tmp/'(tmux display-message -p '#W')
-    #         nvr -s $argv
-    #     else
-    #         echo 'tmux is empty'
-    #         nvr -s $argv
-    #     end
-    # end
 
     function ls
         command ls --group-directories-first --color $argv

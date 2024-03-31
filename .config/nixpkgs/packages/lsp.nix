@@ -1,11 +1,12 @@
 { pkgs }:
 let
   bins = with pkgs; [
+    haskell-language-server
+    llvmPackages_9.clang-unwrapped
     nil # nix language server.
     nls
     sumneko-lua-language-server
     terraform-ls
-    haskell-language-server
   ];
   nodeLS = with pkgs.nodePackages_latest; [
     vscode-css-languageserver-bin

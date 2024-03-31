@@ -21,7 +21,6 @@ in
           pkgs.ansifilter # an actual savior.
           pkgs.bat
           pkgs.bitwarden-cli
-          pkgs.black
           pkgs.cargo
           pkgs.code-minimap
           pkgs.coreutils-full
@@ -35,17 +34,12 @@ in
           pkgs.fzf
           pkgs.gh
           pkgs.git
-          pkgs.glab
-          pkgs.google-java-format
           pkgs.gnumake
           pkgs.gum
-          pkgs.jdk11
           pkgs.jq
           pkgs.lf
           pkgs.moar
           pkgs.neovim-remote
-          pkgs.nodejs_20
-          pkgs.nodePackages_latest.typescript
           pkgs.nodePackages_latest.pyright
           pkgs.pylint
           pkgs.python311Packages.sqlparse
@@ -54,8 +48,6 @@ in
           pkgs.redis
           pkgs.rename
           pkgs.ripgrep
-          pkgs.rustc
-          pkgs.rust-analyzer
           pkgs.stow
           pkgs.tree
           pkgs.tmux
