@@ -1,6 +1,7 @@
 { pkgs }:
 let
   bins = with pkgs; [
+    ccls
     haskell-language-server
     llvmPackages_9.clang-unwrapped
     nil # nix language server.
