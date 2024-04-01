@@ -25,7 +25,12 @@ if status is-interactive
         set -l timestamp (date '+%T %a %b %d' | tr -d "\n")
 
         printf "$timestamp\n"
+
         set_color white
+        if ! test -z "$SSH_CLIENT"
+            set -l client (echo "$SSH_CLIENT" | awk -F' ' '{ printf $1 }')
+            printf "[client: $client] "
+        end
         printf $USER
 
         set -l disp (string join / (string split -- / $PWD)[-2..-1])
