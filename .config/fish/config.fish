@@ -62,6 +62,12 @@ if status is-interactive
     end
 
     function g --description "Directly opens `Fugitive` in `nvim`."
+        git status > /dev/null 2>&1
+        if test $status -ne 0
+            echo "not a git repository, there's nothing to look at."
+            return 1
+        end
+
         nvim -c "Git" -c "only"
     end
 
