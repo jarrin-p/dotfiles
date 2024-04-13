@@ -46,8 +46,8 @@ if status is-interactive
     fish_add_path /nix/var/nix/profiles/default/bin
 
     # load private files.
-    if test -f $HOME/.fish.private
-        source $HOME/.fish.private
+    if test -f $HOME/.private/fish/private.fish
+        source $HOME/.private/fish/private.fish
     end
 
     function ls
