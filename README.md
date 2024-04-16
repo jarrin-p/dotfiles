@@ -6,33 +6,16 @@ readme is very wip.
 `nix` is used to manage dependencies for all applications as part of the development environment, but dotfiles are managed through `stow` for symlinking, in order to attempt to keep runtime config separate from setup config.
 
 ## notes
-- current setup brings in all packages, including a few versions of jdk, so the overall size may be large.
-- `stow` is used for creating dotfile symlinks into the home directory. please read about `stow` if you are not familiar.
+- `stow` is used for creating dotfile symlinks into the home directory. please read about `stow` if you are not familiar. it shouldn't ovewrite existing files though.
 
 ## getting started
 ### minimum requirements
 - nix [(link)](https://nixos.org)
 
 ### setup
+everything can be managed through a shell script. just run `./do` to see what's available.
+
 to install all dependencies for the dotfiles, run from the root of the repository:
 ```sh
-nix-env -if ./config/main-env.nix
+./do setup
 ```
-
-then, you can use the helper script which will use `stow` (installed by nix) to symlink the dotfiles into the home directory. it will automatically get the relative path to your home directory.
-```sh
-./restow.sh
-```
-
-### uninstall
-if you symlinked everything, you can undo them with the `unstow.sh` helper.
-```sh
-./unstow.sh
-```
-
-then, uninstall the nix derivation (its name is `mainEnv`, which can be seen in the file.)
-**note**: if `stow` was installed via `nix`, you'll want to run the previous command first to undo stow's symlinks first.
-```sh
-nix-env --uninstall mainEnv
-```
-
