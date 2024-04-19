@@ -34,8 +34,10 @@ in
           pkgs.fzf
           pkgs.gh
           pkgs.git
+          pkgs.glow
           pkgs.gnumake
           pkgs.gum
+          pkgs.haskellPackages.hoogle
           pkgs.jq
           pkgs.lf
           pkgs.moar
