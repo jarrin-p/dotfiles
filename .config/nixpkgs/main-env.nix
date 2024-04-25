@@ -32,6 +32,7 @@ in
           pkgs.fish
           pkgs.fnlfmt
           pkgs.fzf
+          pkgs.gettext
           pkgs.gh
           pkgs.git
           pkgs.glow
