@@ -11,8 +11,7 @@
                              "};"])]
       build-env [(text-node ["pkgs.buildEnv {"
                              "\tname = \"\";"
-                             "\tpaths = ["
-                             "\t]"
+                             "\tpaths = [];"
                              "};"])]
       mk-derivation [(text-node ["pkgs.stdenv.mkDerivation {"
                                  "\t__noChroot = false;"
