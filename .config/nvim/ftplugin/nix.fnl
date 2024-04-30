@@ -6,9 +6,9 @@
       nixpkgs-pin [(text-node "import (builtins.fetchTarball { url = \"https://api.github.com/repos/nixos/nixpkgs/tarball/23.11\"; }) {}")]
       ghc-with-pkgs [(text-node ["(haskellPackages.ghcWithPackages (pkgs: [pkgs.aeson]))"])]
       fetchtar [(text-node ["builtins.fetchTarball {"
-                             "\turl = \"\";"
-                             "\tsha256 = \"\";"
-                             "};"])]
+                            "\turl = \"\";"
+                            "\tsha256 = \"\";"
+                            "};"])]
       build-env [(text-node ["pkgs.buildEnv {"
                              "\tname = \"\";"
                              "\tpaths = [];"
