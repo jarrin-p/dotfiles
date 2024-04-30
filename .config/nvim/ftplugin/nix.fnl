@@ -1,5 +1,7 @@
 (set vim.o.tabstop 2)
 
+;; todo - reduce boilerplate.
+;; probably just need a few functions with varargs to handle everything requiring an array.
 (let [{:text_node text-node : snippet : cleanup :add_snippets add-snippets} (require :luasnip)
       nixpkgs-pin [(text-node "import (builtins.fetchTarball { url = \"https://api.github.com/repos/nixos/nixpkgs/tarball/23.11\"; }) {}")]
       ghc-with-pkgs [(text-node ["(haskellPackages.ghcWithPackages (pkgs: [pkgs.aeson]))"])]
@@ -35,6 +37,7 @@
   (->> [(snippet :__nixpkgsPin nixpkgs-pin)
         (snippet :__fetchTar fetchtar)
         (snippet :__mkDerivation mk-derivation)
+        (snippet :__buildEnv build-env)
         (snippet :__ghcWithPkgs ghc-with-pkgs)]
        (add-snippets :nix)))
 

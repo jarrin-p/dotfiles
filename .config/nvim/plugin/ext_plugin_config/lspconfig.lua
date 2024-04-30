@@ -38,6 +38,14 @@ require'lspconfig'.nickel_ls.setup{}
 require'lspconfig'.hls.setup{}
 require'lspconfig'.ccls.setup{}
 
+require'lspconfig'.fennel_ls.setup {
+    init_options = {
+        ["fennel-ls"] = {
+            ["extra-globals"] = "vim"
+        }
+    }
+}
+
 -- wip
 -- require'lspconfig'.dockerls.setup{}
 -- require'lspconfig'.tflint.setup{}
