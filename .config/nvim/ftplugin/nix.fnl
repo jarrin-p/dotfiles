@@ -7,6 +7,11 @@
                              "\turl = \"\";"
                              "\tsha256 = \"\";"
                              "};"])]
+      build-env [(text-node ["pkgs.buildEnv {"
+                             "\tname = \"\";"
+                             "\tpaths = ["
+                             "\t]"
+                             "};"])]
       mk-derivation [(text-node ["pkgs.stdenv.mkDerivation {"
                                  "\t__noChroot = false;"
                                  ""
