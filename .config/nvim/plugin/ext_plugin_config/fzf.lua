@@ -23,6 +23,18 @@ local function as_flags(t)
     return table.concat(t, ' ')
 end
 
+function FzfAll()
+    fzf_wrap {
+        source = 'rg ' .. as_flags {
+            '--no-ignore',
+            '--hidden',
+            '--files',
+            '--glob=\'!*.git\'',
+        },
+        sink = as_global(function(result) vim.cmd('e ' .. result) end),
+    }
+end
+
 function FuzzyGrep()
     local rg_prefix = 'rg ' .. as_flags {
         '--hidden',

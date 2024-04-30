@@ -66,6 +66,7 @@
 
 ;; fzf
 (nnoremap :<leader>f ":FZF <enter>")
+(nnoremap :<leader>F ":lua FzfAll()<enter>")
 (nnoremap :<leader>g ":lua FuzzyGrep()<enter>")
 (nnoremap :<leader>b ":lua BufSelect()<enter>")
 (nnoremap :<leader>B ":lua BranchSelect()<enter>")
