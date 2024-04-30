@@ -55,6 +55,7 @@ in
           pkgs.stow
           pkgs.tree
           pkgs.tmux
+          pkgs.universal-ctags
           pkgs.visidata
           pkgs.wget
           pkgs.yq
