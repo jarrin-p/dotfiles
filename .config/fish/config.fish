@@ -128,7 +128,7 @@ if status is-interactive
     set fish_cursor_replace_one underscore
     set fish_cursor_visual block
 
-    set -x PAGER nvimpager
+    set -x PAGER bat
     set -x EDITOR nvim
     set -x VISUAL nvim
     #set -x SHELL fish
