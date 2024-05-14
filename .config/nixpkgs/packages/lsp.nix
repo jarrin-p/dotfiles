@@ -10,8 +10,9 @@ let
     pkgs.nls
     pkgs.sumneko-lua-language-server
     pkgs.terraform-ls
+    pkgs.yaml-language-server
   ];
-  nodeLS = with pkgs.nodePackages_latest; [
+  nodeBins = with pkgs.nodePackages_latest; [
     vscode-css-languageserver-bin
     vscode-json-languageserver
     vscode-html-languageserver-bin
@@ -24,4 +25,4 @@ let
     (import ./jdtls/default.nix { pkgs = pkgs; })
   ];
 in
-  bins ++ nodeLS ++ imports
+  bins ++ nodeBins ++ imports

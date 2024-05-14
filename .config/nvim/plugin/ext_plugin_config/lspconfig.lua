@@ -58,6 +58,7 @@ require'lspconfig'.fennel_ls.setup {
 
 -- completion.
 require'cmp_nvim_lsp'.default_capabilities(vim.lsp.protocol.make_client_capabilities())
+require'lspconfig'.yamlls.setup {}
 
 
 -- vim.api.nvim_create_augroup("hover", {})
