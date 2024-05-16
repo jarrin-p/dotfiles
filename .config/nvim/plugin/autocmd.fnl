@@ -19,7 +19,7 @@
       {:pattern [:*.rangerconf]
        :command "runtime! after/syntax/rangerconf.lua"})
   (au [:BufWinEnter]
-      {:pattern [:*.rangerconf]
+      {:pattern [:*.lfrc]
        :command "runtime! after/syntax/lf.lua"})
   (au [:BufWinEnter]
       {:pattern [:*.velocity] :command "runtime! after/syntax/velocity.lua"})

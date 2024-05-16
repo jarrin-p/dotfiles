@@ -1,6 +1,4 @@
 (vim.cmd "syn match Comment '#.*'")
 (vim.cmd "syn keyword Identifier set setlocal map cmap cmd")
 (vim.cmd "syn keyword Boolean true false")
-;; (vim.cmd "syn keyword Statement = eval cmd")
-;; (vim.cmd "syn match Identifier '\\s\\?.\\{-\\}map'")
-;; (vim.cmd "syn keyword Repeat for")
+{}
