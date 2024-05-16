@@ -57,7 +57,6 @@ in
                 vim-surround
                 vim-terraform
                 vim-terraform-completion
-                vimwiki
 
                 # occasionally may need to remove, collect-garbage, re-install due to how tree-sitter updates.
                 nvim-treesitter.withAllGrammars
