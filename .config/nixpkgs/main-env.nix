@@ -44,7 +44,6 @@ in
           pkgs.moar
           pkgs.neovim-remote
           pkgs.nodePackages_latest.pyright
-          pkgs.nvimpager
           pkgs.pylint
           pkgs.python311Packages.sqlparse
           pkgs.python310
@@ -64,3 +63,4 @@ in
 # broken packages.
 # pkcs11helper
 # luaformatter
+# nvimpager
