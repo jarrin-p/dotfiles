@@ -1,4 +1,4 @@
-ceil = require 'math'.ceil
+local ceil = require 'math'.ceil
 local M = {}
 M.hex_table = {
     ['0'] = 0,
@@ -50,7 +50,7 @@ function M.hex_to_rgb(hex, index)
 end
 
 --- @param hex string r, g, or b piece of the hex code.
---- @return string #color code for individual.
+--- @return integer #color code for individual.
 function M.convert_to_rgb(hex, index)
     local tens = M.hex_to_rgb(hex, index)
     local ones = M.hex_to_rgb(hex, index + 1)
@@ -61,7 +61,7 @@ end
 
 --- @param front string hex for single r, g, b piece.
 --- @param behind string hex for single r, g, b color.
---- @return string #hex color for single r, g, b, after opacity applied.
+--- @return integer #hex color for single r, g, b, after opacity applied.
 function M.apply_opacity(front, behind, opacity)
     return ceil(opacity * front + (1 - opacity) * behind)
 end
@@ -99,9 +99,9 @@ function M.convert_rgb_table_to_hex(rgb_table)
 end
 
 function M.apply_opacity_transition(front, back, opacity)
-    local front = M.get_hex_as_rgb_table(front)
-    local back = M.get_hex_as_rgb_table(back)
-    local applied = M.apply_opacity_to_tables(front, back, opacity)
+    local front_ = M.get_hex_as_rgb_table(front)
+    local back_ = M.get_hex_as_rgb_table(back)
+    local applied = M.apply_opacity_to_tables(front_, back_, opacity)
     return M.convert_rgb_table_to_hex(applied)
 end
 
