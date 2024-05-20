@@ -23,13 +23,6 @@ local M = {
         return ''
     end,
 
-    --- @param colorgroup string the name of the color group to get back as a string.
-    get_colorscheme_as_hex = function(colorgroup, colorgroup_field)
-        local getColorValueFromGroup = vim.api.nvim_get_hl_by_name(colorgroup, true)[colorgroup_field]
-        getColorValueFromGroup = string.format("%06x", getColorValueFromGroup)
-        return '#' .. getColorValueFromGroup
-    end,
-
     --- uses fugitive to check if in a git directory, and if it is, return the head.
     --- @return string #the name of the branch, or an empty string.
     get_branch = function()
