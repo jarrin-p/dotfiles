@@ -63,3 +63,4 @@
                                          :readme.md]
                          :symlink_destination true}}]
   (setup config))
+{}
