@@ -6,14 +6,6 @@ local function fzf_wrap(opts)
     vim.fn['fzf#run'](vim.fn['fzf#wrap'](opts))
 end
 
---- wraps a given function into a global function for callbacks that are required by vim functions.
---- @param fn function function to be wrapped into a global.
---- @return function the handler for the vim global function.
-local function as_global(fn)
-    vim.g.as_global = fn
-    return vim.g.as_global
-end
-
 --- function that operates more as a descriptor for readability (and consequently allows commenting).
 --- this is specifically for applying the generic `table.concat(t, sep = ' ')` that's used for flags in commandline operations.
 --- additionally, since this is a common operation, it removes the need for `({...})` into `{...}` (reduces clutter).
@@ -31,7 +23,7 @@ function FzfAll()
             '--files',
             '--glob=\'!*.git\'',
         },
-        sink = as_global(function(result) vim.cmd('e ' .. result) end),
+        sink = function(result) vim.cmd('e ' .. result) end,
     }
 end
 
@@ -47,11 +39,11 @@ function FuzzyGrep()
     } .. ' '
     fzf_wrap {
         source = rg_prefix .. '""', -- searches everything on init.
-        sink = as_global(function(result)
+        sink = function(result)
             local results_table = util.string_to_table(result, ':')
             vim.cmd('e ' .. results_table[1]) -- 1 is the file path.
             vim.fn.cursor(results_table[2], results_table[3]) -- 2 is the row, 3 is column.
-        end),
+        end,
         options = as_flags {
             '--ansi',
             '--prompt "grep > "',
@@ -70,9 +62,9 @@ function BufSelect()
         source = util.get_listed_bufnames(),
 
         --- @param result string absolute path to the result.
-        sink = as_global(function(result)
+        sink = function(result)
             vim.cmd('e ' .. result)
-        end),
+        end,
         options = as_flags { '--prompt "buffer name > "' },
     }
 end
@@ -82,11 +74,11 @@ function BranchSelect(flags)
     flags = flags or ''
     fzf_wrap {
         source = 'git branch --no-color | tr -d " " | sort -r -' .. flags,
-        sink = as_global(function(result)
+        sink = function(result)
             if (result:find('*')) ~= 1 then
                 vim.cmd('G checkout ' .. result)
             end
-        end),
+        end,
         options = as_flags { '--prompt "branch name > "' },
     }
 end
@@ -101,10 +93,10 @@ function BranchFileDiff()
     end)) then
         fzf_wrap {
             source = source,
-            sink = as_global(function(result)
+            sink = function(result)
                 vim.cmd('GT') -- cds to the top of the git repo.
                 vim.cmd('e ' .. result) -- edits the file.
-            end),
+            end,
             options = as_flags { '--prompt "(' .. vim.g.BranchToDiff .. ') changed file > "' },
         }
     else
@@ -122,10 +114,10 @@ function Jump()
         fzf_wrap {
             source = "find . -name '" .. content .. "'",
             -- source = "find . -name '" .. content .. "'",
-            sink = as_global(function(result)
+            sink = function(result)
                 vim.cmd('GT')
                 vim.cmd('cd ' .. vim.fn.fnamemodify(result, ':p:h'))
-            end),
+            end,
             options = as_flags { '--prompt "directories with file > "' },
         }
         f:close()
