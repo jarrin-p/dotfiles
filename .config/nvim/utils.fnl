@@ -1,5 +1,4 @@
-(local build-session-command (fn [cmd path name] (.. cmd " " path "/" name)))
-(local vim _G.vim)
+(fn build-session-command [cmd path name] (.. cmd " " path "/" name))
 (local M {:map (fn [lhs rhs]
                  (vim.api.nvim_set_keymap "" lhs rhs
                                           {:noremap false :silent true}))
