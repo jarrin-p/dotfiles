@@ -15,7 +15,6 @@
                :nickel_ls {}
                :nil_ls {}
                :pyright {:root_dir lsp-util.find_git_ancestor}
-               :rust-tools {}
                :sqlls {}
                :terraformls {}
                :texlab {}
