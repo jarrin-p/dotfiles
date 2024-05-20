@@ -68,9 +68,9 @@
 (nnoremap :<leader>f ":FZF <enter>")
 (nnoremap :<leader>F ":FuzzyFindNoIgnore<enter>")
 (nnoremap :<leader>g ":FuzzyGrep<enter>")
-(nnoremap :<leader>b ":FuzzyBufferSelect<enter>")
+(nnoremap :<leader>h ":FuzzyBranchChanges<enter>")
 (nnoremap :<leader>B ":FuzzyBranchSelect<enter>")
-(nnoremap :<leader>h ":lua BranchFileDiff()<enter>")
+(nnoremap :<leader>b ":FuzzyBufferSelect<enter>")
 (nnoremap :<leader>H ":lua SetBranchToDiff()<enter>")
 (nnoremap :<leader>J ":GT<enter>:lua Jump()<enter>")
 

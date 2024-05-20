@@ -15,28 +15,6 @@ local function as_flags(t)
     return table.concat(t, ' ')
 end
 
-function SetBranchToDiff()
-    vim.g.BranchToDiff = vim.fn.input('enter branch to diff against: ')
-end
-function BranchFileDiff()
-    local source
-    if (pcall(function()
-        source = 'git diff ' .. vim.g.BranchToDiff .. ' --name-only'
-    end)) then
-        fzf_wrap {
-            source = source,
-            sink = function(result)
-                vim.cmd('GT') -- cds to the top of the git repo.
-                vim.cmd('e ' .. result) -- edits the file.
-            end,
-            options = as_flags { '--prompt "(' .. vim.g.BranchToDiff .. ') changed file > "' },
-        }
-    else
-        SetBranchToDiff()
-        BranchFileDiff()
-    end
-end
-
 function Jump()
     local f = io.open("/tmp/fishfn_jump__last_used_name", "r+")
     if f ~= nil then

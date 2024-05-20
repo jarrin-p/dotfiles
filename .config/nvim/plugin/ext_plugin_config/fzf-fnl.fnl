@@ -6,6 +6,16 @@
        :get_listed_bufnames get-listed-bufnames} (require :utils)
       new-cmd #(vim.api.nvim_create_user_command $1 $2 {})
       join #(table.concat $1 " ")]
+  (new-cmd :FuzzyBranchChanges
+           #(let [to-diff (case vim.g.BranchToDiff
+                            nil (let [branch (vim.fn.input "enter branch to diff against: ")]
+                                  (set vim.g.BranchToDiff branch)
+                                  branch)
+                            branch branch)
+                  source (.. "git diff " to-diff " --name-only")]
+              (fzf {: source
+                    :sink #((vim.cmd :GT) (vim.cmd (.. "e " $1)))
+                    :options (.. "--prompt \"(" to-diff ") changed file > \"")})))
   (new-cmd :FuzzyBranchSelect
            #(fzf {:source "git branch --no-color | tr -d \" \" | sort -r -"
                   :sink #(when (not= ($1:find "*") 1)
