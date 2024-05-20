@@ -66,13 +66,11 @@
 
 ;; fzf
 (nnoremap :<leader>f ":FZF <enter>")
+(nnoremap :<leader>B ":FuzzyBranchSelect<enter>")
+(nnoremap :<leader>h ":FuzzyBranchChanges<enter>")
+(nnoremap :<leader>b ":FuzzyBufferSelect<enter>")
 (nnoremap :<leader>F ":FuzzyFindNoIgnore<enter>")
 (nnoremap :<leader>g ":FuzzyGrep<enter>")
-(nnoremap :<leader>h ":FuzzyBranchChanges<enter>")
-(nnoremap :<leader>B ":FuzzyBranchSelect<enter>")
-(nnoremap :<leader>b ":FuzzyBufferSelect<enter>")
-(nnoremap :<leader>H ":lua SetBranchToDiff()<enter>")
-(nnoremap :<leader>J ":GT<enter>:lua Jump()<enter>")
 
 ;; lsp
 (nnoremap :gD ":lua vim.lsp.buf.declaration()<enter>")
