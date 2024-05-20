@@ -98,20 +98,21 @@
                         (values k (rgb-to-hex v)))]
     (.. "#" r g b)))
 
-(fn apply-opacity-transition [foreground background opacity]
+(fn apply-opacity-transition [foreground background new-foreground-opacity]
   "
   given two colors and an input, provides a color like a 'transition' to the background.
 
   args
       foreground: string (hex)
       background: string (hex)
-      opacity: float (0 to 1.0)
+      new-foreground-opacity: float (0 to 1.0)
 
   returns
       the color used to represent a foreground with 'opacity' on background.
   "
   (let [fg (get-hex-as-rgb-table foreground)
         bg (get-hex-as-rgb-table background)]
-    (convert-rgb-table-to-hex (apply-opacity-to-tables fg bg opacity))))
+    (-> (apply-opacity-to-tables fg bg new-foreground-opacity)
+        (convert-rgb-table-to-hex))))
 
 {: apply-opacity-transition}
