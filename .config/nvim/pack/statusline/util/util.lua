@@ -1,4 +1,3 @@
-local log = require'log'
 local M = {
     --- standard linear search function.
     --- @param table_to_search table the table to be searched.
@@ -26,18 +25,7 @@ local M = {
 
     --- @param colorgroup string the name of the color group to get back as a string.
     get_colorscheme_as_hex = function(colorgroup, colorgroup_field)
-        log:dbg('getting colorgroup `' .. colorgroup .. '` by name.')
-        local hl = vim.api.nvim_get_hl_by_name(colorgroup, true)
-
-        log:dbg('all fields and values from ' .. colorgroup)
-        for k, v in pairs(hl) do
-            log:dbg(k)
-            log:dbg(v)
-        end
-
-        log:dbg('attempting to extract field: `' .. colorgroup_field .. '`')
         local getColorValueFromGroup = vim.api.nvim_get_hl_by_name(colorgroup, true)[colorgroup_field]
-
         getColorValueFromGroup = string.format("%06x", getColorValueFromGroup)
         return '#' .. getColorValueFromGroup
     end,
