@@ -3,11 +3,4 @@
 !hex_tool.lua
 !plugins.lua
 !pack/statusline/**
-!plugin/ext_plugin_config/**
-plugin/ext_plugin_config/metals.lua
-plugin/ext_plugin_config/nvim-cmp.lua
-plugin/ext_plugin_config/minimap.lua
-plugin/ext_plugin_config/jq-vim.lua
-plugin/ext_plugin_config/neoscroll.lua
-plugin/ext_plugin_config/symbols-outline.lua
-plugin/ext_plugin_config/lsp-config.lua
+!plugin/ext_plugin_config/fzf.lua
