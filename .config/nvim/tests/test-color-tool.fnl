@@ -1,4 +1,4 @@
-(let [{: apply-opacity-transition} (require :utils.hex-tool)
+(let [{: apply-opacity-transition} (require :utils.color-tool)
       green "#a9b665" ;; test color.
       background "#282828"
       expected "#3C3E32"

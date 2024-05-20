@@ -5,8 +5,8 @@ utils() {
 }
 
 hex_tool() {
-    rm utils/hex-tool.lua 2>/dev/null # want to import .fnl directly for testing convenience.
-    fennel tests/test-hex-tool.fnl
+    rm utils/color-tool.lua 2>/dev/null # want to import .fnl directly for testing convenience.
+    fennel tests/test-color-tool.fnl
 }
 
 all() {
