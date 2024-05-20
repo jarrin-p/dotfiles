@@ -42,7 +42,9 @@
                             opacity-behind (* (- 1 opacity) behind)]
                         (-> (+ opacity-front opacity-behind) (ceil))))
       apply-opacity-transition (fn [front back opacity]
-                                 (let [apply-opacity-to-tables (fn [] {})
+                                 (let [apply-opacity-to-tables (fn [front behind opacity] 
+                                                                 {}
+                                                                 )
                                        get-hex-as-rgb-table (fn [] {})
                                        convert-rgb-table-to-hex (fn [] {})]
                                    (-> (apply-opacity-to-tables (get-hex-as-rgb-table front)
