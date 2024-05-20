@@ -1,4 +1,4 @@
-(local ceil (. (require :math) :ceil))
+(local {: ceil} (require :math))
 (local hex-to-base2 {:0 0
                      :1 1
                      :2 2
@@ -48,7 +48,8 @@
   returns
       numerical (0-255) representation of hex value.
   "
-  (. hex-to-base2 (hex:sub index index)))
+  (let [key (hex:sub index index)]
+    (. hex-to-base2 key)))
 
 (fn rgb-to-hex [val]
   "
@@ -73,20 +74,22 @@
     (+ (* tens 16) ones)))
 
 (fn apply-opacity-to-tables [front behind opacity]
-  (collect [k _ (ipairs front)]
-    (apply-opacity (. front k) (. behind k) opacity)))
+  (collect [k _ (pairs front)]
+    (values k (apply-opacity (. front k) (. behind k) opacity))))
 
 (fn get-hex-as-rgb-table [hex]
-  {:r (convert-to-rgb hex 2)
-   :g (convert-to-rgb hex 4)
-   :b (convert-to-rgb hex 6)})
+  (let [r (convert-to-rgb hex 2)
+        g (convert-to-rgb hex 4)
+        b (convert-to-rgb hex 6)]
+    {: r : g : b}))
 
 (fn convert-rgb-table-to-hex [rgb]
   "
-  rgb: table
-      r: number
-      g: number
-      b: number
+  args
+      rgb: table
+          r: number
+          g: number
+          b: number
 
   returns: string
       hex representation of the rgb table.
@@ -95,9 +98,20 @@
                         (values k (rgb-to-hex v)))]
     (.. "#" r g b)))
 
-(fn apply-opacity-transition [front back opacity]
-  (-> (apply-opacity-to-tables (get-hex-as-rgb-table front)
-                               (get-hex-as-rgb-table back) opacity)
-      (convert-rgb-table-to-hex)))
+(fn apply-opacity-transition [foreground background opacity]
+  "
+  given two colors and an input, provides a color like a 'transition' to the background.
+
+  args
+      foreground: string (hex)
+      background: string (hex)
+      opacity: float (0 to 1.0)
+
+  returns
+      the color used to represent a foreground with 'opacity' on background.
+  "
+  (let [fg (get-hex-as-rgb-table foreground)
+        bg (get-hex-as-rgb-table background)]
+    (convert-rgb-table-to-hex (apply-opacity-to-tables fg bg opacity))))
 
 {: apply-opacity-transition}
