@@ -1,5 +1,5 @@
 (let [{:get_colorscheme_as_hex colorscheme-as-hex} (require :pack.statusline.util.util)
-      {: apply-opacity-transition} (require :utils.hex-tool)]
+      {: apply-opacity-transition} (require :utils.color-tool)]
   ;; local dark_green = "#252715"
   ;; local dark_red = "#251110"
   ;; local dark_orange = "#25160c"
