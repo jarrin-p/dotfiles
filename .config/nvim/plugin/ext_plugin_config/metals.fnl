@@ -1,4 +1,3 @@
-(local os (require :os))
 (local nvim_metals_group
        (vim.api.nvim_create_augroup :nvim-metals {:clear true}))
 
