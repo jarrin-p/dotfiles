@@ -74,4 +74,9 @@
                         (values k (apply (. fg k) (. bg k) fg-opacity)))]
     (.. "#" r g b)))
 
-{: apply-opacity-transition}
+(fn get-colorscheme-as-hex [color-group colorgroup-field]
+  (let [color-value (. (vim.api.nvim_get_hl_by_name color-group true)
+                       colorgroup-field)]
+    (.. "#" (string.format "%06x" color-value))))
+
+{: apply-opacity-transition : get-colorscheme-as-hex}

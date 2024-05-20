@@ -1,16 +1,15 @@
-(let [{:get_colorscheme_as_hex colorscheme-as-hex} (require :pack.statusline.util.util)
-      {: apply-opacity-transition} (require :utils.color-tool)]
+(let [{: apply-opacity-transition : get-colorscheme-as-hex} (require :utils.color-tool)]
   ;; local dark_green = "#252715"
   ;; local dark_red = "#251110"
   ;; local dark_orange = "#25160c"
   (let [set-hl (fn [name opts] (vim.api.nvim_set_hl 0 name opts))
         opacity 0.15
-        fg (colorscheme-as-hex :Fg :foreground)
-        bg (colorscheme-as-hex :Normal :background)
-        darker (colorscheme-as-hex :FloatBorder :background)
-        green (colorscheme-as-hex :Green :foreground)
-        red (colorscheme-as-hex :Red :foreground)
-        orange (colorscheme-as-hex :Orange :foreground)
+        fg (get-colorscheme-as-hex :Fg :foreground)
+        bg (get-colorscheme-as-hex :Normal :background)
+        darker (get-colorscheme-as-hex :FloatBorder :background)
+        green (get-colorscheme-as-hex :Green :foreground)
+        red (get-colorscheme-as-hex :Red :foreground)
+        orange (get-colorscheme-as-hex :Orange :foreground)
         dark_green (apply-opacity-transition green bg opacity)
         dark_red (apply-opacity-transition red bg opacity)
         dark_orange (apply-opacity-transition orange bg opacity)]
