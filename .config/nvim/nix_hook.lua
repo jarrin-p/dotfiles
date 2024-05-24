@@ -3,7 +3,7 @@
 require "os"
 
 local xdg_dir = os.getenv("XDG_CONFIG_DIRS")
-os.execute("cd " .. xdg_dir .. "/.config && make build")
+os.execute("cd " .. xdg_dir .. " && make build")
 
 -- these must run before neovim loads anything else.
 vim.cmd('let g:gruvbox_material_enable_italic = 1')

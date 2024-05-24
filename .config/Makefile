@@ -1,5 +1,5 @@
 # `find` needs the trailing slash to indicate it's a directory.
-config := $(HOME)/.config/nvim/
+config := $(XDG_CONFIG_DIRS)/nvim/
 
 # all the fennel files that should be compiled.
 fennel_files := $(shell fd '.fnl' $(config) --type f)
