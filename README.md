@@ -22,4 +22,4 @@ running
 ```sh
 ./do setup_shell
 ```
-will automate that process for you and add it to startup rcs. only `fish` is configured for righ tnow.
+will automate that process for you and add it to startup rcs. only `fish` is configured for right now.
