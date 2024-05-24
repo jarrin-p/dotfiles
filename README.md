@@ -5,9 +5,6 @@ readme is very wip.
 
 `nix` is used to manage dependencies for all applications as part of the development environment. cli applications use environment variables for pointing at configuration files. they are set automatically when sourcing a shell's rc file (currently on `fish` is up to date..).
 
-## notes
-- `stow` is used for creating dotfile symlinks into the home directory. please read about `stow` if you are not familiar. it shouldn't ovewrite existing files though.
-
 ## getting started
 ### minimum requirements
 - [nix](https://nixos.org)
