@@ -14,12 +14,16 @@ if status is-interactive
     end
 
     # environment variables.
-    set -x BAT_THEME TwoDark
     set -x PAGER bat
     set -x MANPAGER "bat --wrap never"
+    set -x BAT_THEME TwoDark
+
     set -x EDITOR nvim
     set -x VISUAL nvim
+
     set -x LF_CONFIG_HOME $DOTX_CONFIG_LOCATION
+    set -x WEZTERM_CONFIG_FILE $DOTX_CONFIG_LOCATION/.config/wezterm
+    set -x FZF_DEFAULT_COMMAND "rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
 
     # disable mode specification (uses cursor instead).
     function fish_mode_prompt
@@ -98,7 +102,5 @@ if status is-interactive
     complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
 
     direnv hook fish | source
-
-    set -x FZF_DEFAULT_COMMAND "rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
 end
 
