@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 utils() {
-    nvim --headless +"lua require 'tests.utils_test'" +q
+    nvim --headless +"lua require 'tests.test-utils'" +q
 }
 
 hex_tool() {

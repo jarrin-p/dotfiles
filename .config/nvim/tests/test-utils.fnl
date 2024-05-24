@@ -22,16 +22,19 @@
       _
       ((print "unexpected table index. test failed") (vim.cmd :qa!)))))
 
+;; reset all buffers.
+(vim.cmd "%bd!")
+
 ;; reset the file.
 (vim.cmd "silent e! tests/resources/test_json_fmt.json")
 (vim.cmd "silent e! Makefile")
-(vim.cmd "silent e! nix_hook.lua")
-
+(vim.cmd "silent e! nix-hook.lua")
+(print "created 3 buffers.")
 ;; check buffers
 (let [result (utils.get_listed_bufnames)] ; command we're actually trying to test.
   (assert (= (length result) 3)))
 
 ;; don't save the file, we just want to make sure it formats properly.
+(print "test complete")
 (vim.cmd :qa!)
-
 {}
