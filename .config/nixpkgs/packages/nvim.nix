@@ -9,7 +9,7 @@ in
                 lua << EOF
                   require "os"
                   package.path = package.path .. ";" .. os.getenv("XDG_CONFIG_DIRS") .. "/nvim/?.lua"
-                  require "nix_hook"
+                  require "nix-hook"
                 EOF
               '';
 
