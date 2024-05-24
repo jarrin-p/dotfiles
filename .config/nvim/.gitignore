@@ -1,5 +1,2 @@
-!nix_hook.lua
-!log.lua
-!hex_tool.lua
-!plugins.lua
+!nix-hook.lua
 !pack/statusline/**

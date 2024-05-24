@@ -19,7 +19,7 @@ if status is-interactive
     set -x MANPAGER "bat --wrap never"
     set -x EDITOR nvim
     set -x VISUAL nvim
-    set -x LF_CONFIG_HOME $XDG_CONFIG_DIRS
+    set -x LF_CONFIG_HOME $DOTX_CONFIG_LOCATION
 
     # disable mode specification (uses cursor instead).
     function fish_mode_prompt

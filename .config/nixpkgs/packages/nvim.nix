@@ -8,7 +8,7 @@ in
               customRC = ''
                 lua << EOF
                   require "os"
-                  package.path = package.path .. ";" .. os.getenv("XDG_CONFIG_DIRS") .. "/nvim/?.lua"
+                  package.path = package.path .. ";" .. os.getenv("DOTX_CONFIG_LOCATION") .. "/nvim/?.lua"
                   require "nix-hook"
                 EOF
               '';
