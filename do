@@ -12,7 +12,6 @@ usage() {
         usage      shows this.
         refresh    re-runs nix install.
         setup      sets up the environment for the first time.
-        stow       applies stow for changes that might need... stowing.
         uninstall  removes everything.
 EOF
 }
@@ -27,43 +26,25 @@ install_pkgs() {
     fi
 }
 
-check_dots() {
-    echo 'checking for dotfiles to use as package.'
-    if ! test -d dotfiles
-    then
-        echo 'ERROR: could not find repo to use as package. aborting.'
+setup_shell() {
+    test -z "$1" || test -z "$2" && {
+        echo "error. required arguments missing:"
+        echo "\$1 = bash | zsh | fish"
+        echo "\$2 = /path/to/dotx/config"
         exit 1
-    fi
-}
-
-restow() {
-    # old behavior
-    # cd ..
-
-    # check_dots
-    # dots=$(pwd)
-
-    # note: only handles 1 dir from xdg at the moment.
-    relpath=$(python -c "import os.path; print(os.path.relpath('$XDG_CONFIG_DIRS', '.'))") || exit 1
-
-    echo "stowing using $relpath/"
-    stow -R .config -t $relpath/ > /dev/null
-
-    echo 'restowed'
-}
-
-unstow() {
-  cd ..
-
-  check_dots
-  dots=$(pwd)
-
-  relpath=$(python -c "import os.path; print(os.path.relpath('$HOME', '$dots'))") || exit 1
-
-  echo "undoing stow using $relpath/"
-  stow -D dotfiles -t $relpath/
-
-  echo 'stow undone.'
+    }
+    case "$1" in
+        fish)
+            cat <<-EOF > $HOME/.config/fish/conf.d/dotx-config.fish
+set -x DOTX_CONFIG_LOCATION "$2"
+source \$DOTX_CONFIG_LOCATION/fish/config.fish
+EOF
+            ;;
+        *)
+            echo "unknown shell. aborting."
+            exit 1
+            ;;
+    esac
 }
 
 handle() {
@@ -71,18 +52,12 @@ handle() {
         refresh)
             install_pkgs
             ;;
-        setup)
-            install_pkgs
-            restow
-            ;;
-        stow)
-            restow
-            ;;
-        unstow)
-            unstow
+        setup_shell)
+            supported_shell=$(gum choose "bash" "zsh" "fish")
+            supported_path=$(gum input)
+            setup_shell $supported_shell $supported_path
             ;;
         uninstall)
-            unstow
             nix-env --uninstall 'mainEnv'
             ;;
         *)
