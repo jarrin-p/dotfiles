@@ -1,10 +1,25 @@
 if status is-interactive
+    set fish_greeting "" # disable greeting.
 
     # make fish more vi like.
     fish_vi_key_bindings
- 
-    # disable greeting.
-    set fish_greeting ""
+    set fish_cursor_default block
+    set fish_cursor_insert line
+    set fish_cursor_replace_one underscore
+    set fish_cursor_visual block
+
+    # explicitly state our terminal can support a changing cursor.
+    if string match -q 'xterm*' $TERM
+        set -g fish_vi_force_cursor 1
+    end
+
+    # environment variables.
+    set -x BAT_THEME TwoDark
+    set -x PAGER bat
+    set -x MANPAGER "bat --wrap never"
+    set -x EDITOR nvim
+    set -x VISUAL nvim
+    set -x LF_CONFIG_HOME $XDG_CONFIG_DIRS
 
     # disable mode specification (uses cursor instead).
     function fish_mode_prompt
@@ -41,21 +56,14 @@ if status is-interactive
         printf "> "
     end
 
-    # fix incorrectly ordered variables.
-    fish_add_path $HOME/.nix-profile/bin
-    fish_add_path /nix/var/nix/profiles/default/bin
+    # abbreviations
+    abbr --add gt pushd \(git rev-parse --show-toplevel\)
+    abbr --add GT pushd \(git rev-parse --show-toplevel\)
 
-    # load private files.
-    if test -f $HOME/.private/fish/private.fish
-        source $HOME/.private/fish/private.fish
-    end
-
+    # functions
     function ls
         command ls --group-directories-first --color $argv
     end
-
-    abbr --add gt pushd \(git rev-parse --show-toplevel\)
-    abbr --add GT pushd \(git rev-parse --show-toplevel\)
 
     function get_repo_root
         git rev-parse --show-toplevel
@@ -75,31 +83,6 @@ if status is-interactive
         command tree --dirsfirst -AC --prune $argv
     end
 
-    # wip
-    function here
-        set -l matched (string replace (get_repo_root) '' (pwd))
-        echo $matched
-        tree -P $matched --matchdirs (get_repo_root)
-    end
-
-    function nix-fish --description "start nix-shell using fish instead. "
-        nix-shell --command "fish" $argv
-    end
-
-    function todo
-        if test -f $HOME/Info
-            mkdir $HOME/Info
-            cd $HOME/Info
-            touch todo.md
-        end
-
-        nvim $HOME/Info/todo.md
-    end
-
-    function vcd
-        cd (cat $VIM_CWD_PATH)
-    end
-
     function lf
         set -x LF_CD_FILE /tmp/.lfcd
         command lf $argv
@@ -116,59 +99,6 @@ if status is-interactive
 
     direnv hook fish | source
 
-    # explicitly state our terminal can support a changing cursor.
-    if status is-interactive
-        if string match -q 'xterm*' $TERM
-            set -g fish_vi_force_cursor 1
-        end
-    end
-
-    set fish_cursor_default block
-    set fish_cursor_insert line
-    set fish_cursor_replace_one underscore
-    set fish_cursor_visual block
-
-    set -x PAGER bat
-    set -x EDITOR nvim
-    set -x VISUAL nvim
-    #set -x SHELL fish
-
-    function clean_scala
-        find . -name '.bsp' | xargs -I% rm -rf %
-        find . -name '.metals' | xargs -I% rm -rf %
-        find . -name '.bloop' | xargs -I% rm -rf %
-    end
-
-    function grab -a file --description "stores a realpath of a file, which can then be retrieved by executing the fn put."
-        set -l p (realpath $file)
-        realpath $file > /tmp/.config/grab
-        echo "stored $p"
-    end
-
-    function put --description "retrieves the path stored by grab."
-        cat /tmp/.config/grab
-    end
-
-    mkdir -p /tmp/.config
     set -x FZF_DEFAULT_COMMAND "rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
-
-    set -x _BOOKMARKS /tmp/.config/bookmarks
-    function marks
-        argparse 'a/add=' 'e/edit' -- $argv
-
-        ! test -z "$_flag_edit" && nvim $_BOOKMARKS && return
-        ! test -z "$_flag_add" && add_mark $_flag_add && return
-
-        cat $_BOOKMARKS | gum choose
-    end
-
-    function add_mark -a mark
-        echo $mark >> $_BOOKMARKS
-        set -l _marks (cat $_BOOKMARKS | sort -u)
-        rm $_BOOKMARKS
-        for _mark in $_marks
-            echo $_mark >> $_BOOKMARKS
-        end
-    end
 end
 

@@ -37,14 +37,17 @@ check_dots() {
 }
 
 restow() {
-    cd ..
+    # old behavior
+    # cd ..
 
-    check_dots
-    dots=$(pwd)
-    relpath=$(python -c "import os.path; print(os.path.relpath('$HOME', '$dots'))") || exit 1
+    # check_dots
+    # dots=$(pwd)
+
+    # note: only handles 1 dir from xdg at the moment.
+    relpath=$(python -c "import os.path; print(os.path.relpath('$XDG_CONFIG_DIRS', '.'))") || exit 1
 
     echo "stowing using $relpath/"
-    stow -R dotfiles -t $relpath/ > /dev/null
+    stow -R .config -t $relpath/ > /dev/null
 
     echo 'restowed'
 }
@@ -74,6 +77,9 @@ handle() {
             ;;
         stow)
             restow
+            ;;
+        unstow)
+            unstow
             ;;
         uninstall)
             unstow
