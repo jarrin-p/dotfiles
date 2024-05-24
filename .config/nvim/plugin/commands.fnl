@@ -12,6 +12,6 @@
                                cmd-post "' enter"
                                val args.args]
                            (set vim.o.makeprg (.. cmd-prefix val cmd-post))))]
-    (add-cmd :SetTest update-makeprg {:nargs "?"})))
+    (add-cmd :SetMakeRunner update-makeprg {:nargs "?"})))
 
 {}
