@@ -26,6 +26,10 @@ if status is-interactive
     set -x FZF_DEFAULT_COMMAND "rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
 
     # disable mode specification (uses cursor instead).
+    # command wrappers
+    function tmux
+        command tmux -f $DOTX_CONFIG_LOCATION/tmux/.tmux.conf $argv
+    end
     function fish_mode_prompt
     end
 
