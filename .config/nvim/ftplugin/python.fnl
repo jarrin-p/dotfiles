@@ -1,1 +1,13 @@
-(let [cmd [:black :-q "-"]] (set vim.bo.formatprg (table.concat cmd " ")))
+(do
+  (print :loading-python-ft)
+  (fn load-lsp [server-key setup-tbl]
+    (let [setup (. (require :lspconfig) server-key)
+          {:default_capabilities capabilities-fn} (require :cmp_nvim_lsp)
+          capabilities (-> (vim.lsp.protocol.make_client_capabilities)
+                           (capabilities-fn))]
+      (do
+        (when (not setup-tbl.capabilities)
+          (set setup-tbl.capabilities capabilities))
+        (setup setup-tbl))))
+  (set vim.bo.formatprg (table.concat [:black :-q "-"] " "))
+  {})
