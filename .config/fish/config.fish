@@ -25,11 +25,31 @@ if status is-interactive
     set -x WEZTERM_CONFIG_FILE $DOTX_CONFIG_LOCATION/.config/wezterm
     set -x FZF_DEFAULT_COMMAND "rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
 
-    # disable mode specification (uses cursor instead).
     # command wrappers
     function tmux
         command tmux -f $DOTX_CONFIG_LOCATION/tmux/.tmux.conf $argv
     end
+
+    function ls
+        command ls --group-directories-first --color $argv
+    end
+
+    function tree
+        command tree --dirsfirst -AC --prune $argv
+    end
+
+    function lf
+        set -x LF_CD_FILE /tmp/.lfcd
+        command lf $argv
+        set -l dir (realpath (cat $LF_CD_FILE))
+        if test -s $LF_CD_FILE && test "$dir" != "$(pwd)"
+            cd "$dir"
+        end
+        rm $LF_CD_FILE
+        set -u LF_CD_FILE
+    end
+
+    # prompt
     function fish_mode_prompt
     end
 
@@ -69,10 +89,6 @@ if status is-interactive
     abbr --add GT pushd \(git rev-parse --show-toplevel\)
 
     # functions
-    function ls
-        command ls --group-directories-first --color $argv
-    end
-
     function get_repo_root
         git rev-parse --show-toplevel
     end
@@ -85,21 +101,6 @@ if status is-interactive
         end
 
         nvim -c "Git" -c "only"
-    end
-
-    function tree
-        command tree --dirsfirst -AC --prune $argv
-    end
-
-    function lf
-        set -x LF_CD_FILE /tmp/.lfcd
-        command lf $argv
-        set -l dir (realpath (cat $LF_CD_FILE))
-        if test -s $LF_CD_FILE && test "$dir" != "$(pwd)"
-            cd "$dir"
-        end
-        rm $LF_CD_FILE
-        set -u LF_CD_FILE
     end
 
     # aws completion
