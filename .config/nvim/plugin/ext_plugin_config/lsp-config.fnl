@@ -14,7 +14,6 @@
                                                                              (vim.fn.expand :$VIMRUNTIME/lua/vim/lsp) true}}}}}}
                :nickel_ls {}
                :nil_ls {}
-               :pyright {:root_dir lsp-util.find_git_ancestor}
                :sqlls {}
                :terraformls {}
                :texlab {}
