@@ -25,19 +25,14 @@ if status is-interactive
     set -x WEZTERM_CONFIG_FILE $DOTX_CONFIG_LOCATION/.config/wezterm
     set -x FZF_DEFAULT_COMMAND "rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
 
+    # abbreviations
+    abbr --add gt pushd \(git rev-parse --show-toplevel\)
+    abbr --add GT pushd \(git rev-parse --show-toplevel\)
+    abbr --add tmux command tmux -f $DOTX_CONFIG_LOCATION/tmux/.tmux.conf
+    abbr --add ls command ls --group-directories-first --color
+    abbr --add tree command tree --dirsfirst -AC --prune $argv
+
     # command wrappers
-    function tmux
-        command tmux -f $DOTX_CONFIG_LOCATION/tmux/.tmux.conf $argv
-    end
-
-    function ls
-        command ls --group-directories-first --color $argv
-    end
-
-    function tree
-        command tree --dirsfirst -AC --prune $argv
-    end
-
     function lf
         set -x LF_CD_FILE /tmp/.lfcd
         command lf $argv
@@ -83,10 +78,6 @@ if status is-interactive
         set_color yellow
         printf "> "
     end
-
-    # abbreviations
-    abbr --add gt pushd \(git rev-parse --show-toplevel\)
-    abbr --add GT pushd \(git rev-parse --show-toplevel\)
 
     # functions
     function get_repo_root
