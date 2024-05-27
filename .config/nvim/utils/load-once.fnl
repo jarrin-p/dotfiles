@@ -2,7 +2,7 @@
   (let [{: info} (require :utils.log)
         lsps (case _G.loaded
                nil (do
-                     (info #"initializing global loading table.")
+                     (info #"load-once.fnl: initializing global loading table.")
                      {})
                x x)]
     (set _G.loaded (do
@@ -10,10 +10,8 @@
                        nil (do
                              (load-fn)
                              (tset lsps key true))
-                       false (do
-                               (print :loading-registered-fn))
                        true (do
-                              (info #"function for given key has already been loaded.")))
+                              (info #"load-once.fnl: function for given key has already been loaded.")))
                      lsps))))
 
 {: load-once}
