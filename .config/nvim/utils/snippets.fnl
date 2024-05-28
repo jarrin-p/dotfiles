@@ -1,8 +1,13 @@
 (let [luasnip (require :luasnip)
-      {: text_node :insert_node ins : cleanup :add_snippets add-snippets :snippet build-snippet} luasnip]
+      {: text_node
+       :insert_node ins
+       : cleanup
+       :add_snippets add-snippets
+       :snippet build-snippet} luasnip]
   (fn text [...] (text_node [...]))
 
-  (fn add-language-snippets [filetype snippets] "
+  (fn add-language-snippets [filetype snippets]
+    "
   args
       filetype: string
           the filetype to load the snippets for.
