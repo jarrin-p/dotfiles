@@ -4,7 +4,9 @@
        : cleanup
        :add_snippets add-snippets
        :snippet build-snippet} luasnip]
-  (fn text [...] (text_node [...]))
+  (fn text [...]
+    "alias for text_node. allows string args to be var-args instead of an array."
+    (text_node [...]))
 
   (fn add-language-snippets [filetype snippets]
     "
@@ -12,8 +14,8 @@
       filetype: string
           the filetype to load the snippets for.
       snippets: [[ invocation-name (string)
-                   snippet (fn[luasnip]) -> [node] ]]
-          array of small arrays. index 1 -> invocation name, index 2 -> fn returning nodes.
+                   snippet (fn[] -> [node]) ]]
+          array of 2-element arrays. index 1 -> invocation name, index 2 -> fn returning nodes.
           the returned array should be snippet-nodes that actually build the snippet.
           this will be fed into the 'lifecycle' of creating snippets for a filetype.
       opts: table
@@ -25,7 +27,7 @@
                                                                snippets)
                                         (->> snippet
                                              (build-snippet invocation-name)
-                                             (#[$1]) ; only takes arrays (tables), so convert it.
+                                             (#[$1]) ; processing one at a time but it only takes arrays (tables), so convert it.
                                              (add-snippets filetype))
                                         {})
         _ (cleanup))))
