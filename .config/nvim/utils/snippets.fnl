@@ -4,6 +4,14 @@
        : cleanup
        :add_snippets add-snippets
        :snippet build-snippet} luasnip]
+  (fn indent [amt text state]
+    "create indentation for a specified number of tabstops."
+    (case [amt state]
+      [0 nil] text
+      [i nil] (indent (- i 1) text (.. "\t"))
+      [0 state#] (.. state# text)
+      [i state#] (indent (- i 1) text (.. state# "\t"))))
+
   (fn text [...]
     "alias for text_node. allows string args to be var-args instead of an array."
     (text_node [...]))
@@ -32,4 +40,4 @@
                                         {})
         _ (cleanup))))
 
-  {: add-language-snippets : text : ins})
+  {: add-language-snippets : text : ins : indent})
