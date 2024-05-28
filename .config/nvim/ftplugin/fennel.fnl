@@ -13,6 +13,6 @@
                             [:__icollect
                              [(text "(icollect [i v (ipairs ")
                               (ins 1 :array)
-                              (text ")]" "\tv)")]]
-                            ]))
+                              (text ")]" "\tv)")]]]))
+
   {})
