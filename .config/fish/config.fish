@@ -29,7 +29,7 @@ if status is-interactive
     abbr --add gt pushd \(git rev-parse --show-toplevel\)
     abbr --add GT pushd \(git rev-parse --show-toplevel\)
     abbr --add tmux command tmux -f $DOTX_CONFIG_LOCATION/tmux/.tmux.conf
-    abbr --add ls command ls --group-directories-first --color
+    abbr --add ls command ls --group-directories-first --human-readable --color
     abbr --add tree command tree --dirsfirst -AC --prune $argv
 
     # command wrappers
