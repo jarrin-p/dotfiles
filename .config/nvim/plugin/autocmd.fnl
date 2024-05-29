@@ -1,18 +1,10 @@
-(local util (require :utils))
-
 (let [au (fn [events opts] (_G.vim.api.nvim_create_autocmd events opts))]
-  ; todo: fix util method to not mess with the jump history.
-  ;(au [:BufWritePost]
-  ;    {:pattern [".*" "*"] :callback util.clean_buffer_postspace})
-  ;(au [:BufWritePost]
-  ;   {:pattern [".*" "*"] :callback util.backup_session})
   (au [:BufWinLeave]
       {:pattern [".*" "*"]
        :command "if expand(\"%\") != \"\" | silent! mkview | endif"})
   (au [:BufWinEnter]
       {:pattern [".*" "*"]
        :command "if expand(\"%\") != \"\" | silent! loadview | endif"})
-  (au [:DirChanged :VimLeave] {:callback util.export_cwd})
   (au [:BufWinEnter]
       {:pattern [:*.flinklog] :command "runtime! after/syntax/flinklog.lua"})
   (au [:BufWinEnter]
