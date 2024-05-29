@@ -3,10 +3,11 @@
 require "os"
 
 local dotx_dir = os.getenv("DOTX_CONFIG_LOCATION") .. "/.config"
+local user = os.getenv("USER")
 vim.g.dotx = dotx_dir
 
 -- todo: os specific behavior.
-os.execute("cd " .. dotx_dir .. " && make build > /tmp/dotx-buildlog")
+os.execute("cd " .. dotx_dir .. " && make build > /tmp/dotx-buildlog-" .. user)
 
 local added_dirs = "," .. dotx_dir .. "/nvim" .. "," .. dotx_dir .. "/nvim/after"
 vim.o.runtimepath = vim.o.runtimepath .. added_dirs
