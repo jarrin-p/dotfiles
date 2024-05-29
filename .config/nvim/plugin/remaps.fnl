@@ -65,6 +65,7 @@
     (nnoremap :<leader>f ":FZF <enter>")
     (nnoremap :<leader>B ":FuzzyBranchSelect<enter>")
     (nnoremap :<leader>h ":FuzzyBranchChanges<enter>")
+    (nnoremap :<leader>H ":FuzzyBranchChangesSetBranch<enter>")
     (nnoremap :<leader>b ":FuzzyBufferSelect<enter>")
     (nnoremap :<leader>F ":FuzzyFindNoIgnore<enter>")
     (nnoremap :<leader>g ":FuzzyGrep<enter>")

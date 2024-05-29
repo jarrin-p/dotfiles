@@ -2,20 +2,25 @@
   (let [{"fzf#run" run "fzf#wrap" wrap} vim.fn]
     (run (wrap opts))))
 
+(fn set-branch-to-diff []
+  (let [branch (vim.fn.input "enter branch to diff against: ")]
+    (do
+      (set vim.g.BranchToDiff branch)
+      branch)))
+
 (let [{:string_to_table string-to-table
        :get_listed_bufnames get-listed-bufnames} (require :utils)
       new-cmd #(vim.api.nvim_create_user_command $1 $2 {})
       join #(table.concat $1 " ")]
   (new-cmd :FuzzyBranchChanges
            #(let [to-diff (case vim.g.BranchToDiff
-                            nil (let [branch (vim.fn.input "enter branch to diff against: ")]
-                                  (set vim.g.BranchToDiff branch)
-                                  branch)
+                            nil (set-branch-to-diff)
                             branch branch)
                   source (.. "git diff " to-diff " --name-only")]
               (fzf {: source
                     :sink #((vim.cmd :GT) (vim.cmd (.. "e " $1)))
                     :options (.. "--prompt \"(" to-diff ") changed file > \"")})))
+  (new-cmd :FuzzyBranchChangesSetBranch #(set-branch-to-diff))
   (new-cmd :FuzzyBranchSelect
            #(fzf {:source "git branch --no-color | tr -d \" \" | sort -r -"
                   :sink #(when (not= ($1:find "*") 1)
@@ -39,8 +44,7 @@
                                 "--glob='!*.git'"
                                 " "])]
               (fzf {:source (.. prefix "\"\"")
-                    :sink #(let [{1 file-path 2 row 3 col} (string-to-table $1
-                                                                            ":")]
+                    :sink #(let [[file-path row col] (string-to-table $1 ":")]
                              (vim.cmd (.. "e " file-path))
                              (vim.fn.cursor row col))
                     :options (join [:--ansi
