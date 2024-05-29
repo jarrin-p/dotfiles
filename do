@@ -35,6 +35,7 @@ setup_shell() {
     }
     case "$1" in
         fish)
+            mkdir -p $HOME/.config/fish/conf.d
             cat <<-EOF > $HOME/.config/fish/conf.d/dotx-config.fish
 set -x DOTX_CONFIG_LOCATION "$2"
 source \$DOTX_CONFIG_LOCATION/fish/config.fish
@@ -49,12 +50,12 @@ EOF
 
 handle() {
     case "$1" in
-        refresh)
+        install)
             install_pkgs
             ;;
         setup_shell)
-            supported_shell=$(gum choose "bash" "zsh" "fish")
-            supported_path=$(gum input)
+            supported_shell=$(gum choose --header="shell to setup" "bash" "zsh" "fish")
+            supported_path=$(gum input --header="path to location of dotfiles" --value="$(pwd)")
             setup_shell $supported_shell $supported_path
             ;;
         uninstall)
@@ -68,7 +69,7 @@ handle() {
 
 if test -z "$@" && test $has_gum -eq 0
 then
-    choice=$(gum choose --ordered "refresh" "setup" "stow" "uninstall" "usage" "cancel")
+    choice=$(gum choose --ordered "install" "setup_shell" "uninstall" "usage" "cancel")
     handle $choice
 elif test -z "$@"
 then
