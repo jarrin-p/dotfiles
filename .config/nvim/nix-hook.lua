@@ -2,13 +2,13 @@
 --- however it is desired for this to be called before nvim calls anything else.
 require "os"
 
-local xdg_dir = os.getenv("DOTX_CONFIG_LOCATION")
-vim.g.dotx = xdg_dir
+local dotx_dir = os.getenv("DOTX_CONFIG_LOCATION") .. "/.config"
+vim.g.dotx = dotx_dir
 
 -- todo: os specific behavior.
-os.execute("cd " .. xdg_dir .. " && make build > /tmp/dotx-buildlog")
+os.execute("cd " .. dotx_dir .. " && make build > /tmp/dotx-buildlog")
 
-local added_dirs = "," .. xdg_dir .. "/nvim" .. "," .. xdg_dir .. "/nvim/after"
+local added_dirs = "," .. dotx_dir .. "/nvim" .. "," .. dotx_dir .. "/nvim/after"
 vim.o.runtimepath = vim.o.runtimepath .. added_dirs
 vim.o.packpath = vim.o.packpath .. added_dirs
 
