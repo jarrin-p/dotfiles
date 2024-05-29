@@ -21,7 +21,6 @@ in
           pkgs.ansifilter # an actual savior.
           pkgs.bat
           pkgs.bitwarden-cli
-          pkgs.cargo
           pkgs.code-minimap
           pkgs.coreutils-full
           pkgs.coursier
@@ -51,6 +50,7 @@ in
           pkgs.redis
           pkgs.rename
           pkgs.ripgrep
+          pkgs.rustup
           pkgs.stow
           pkgs.tree
           pkgs.tmux

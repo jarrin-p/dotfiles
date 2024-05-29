@@ -20,7 +20,7 @@
     a function that supplies the output. works good with # to create
     identity fns for strings.
   "
-  (when (>= log-level level-priority)
+  (when (<= log-level level-priority)
     (print (.. output-prefix (out)))))
 
 (let [{: getenv} (require :os)

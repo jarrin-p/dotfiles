@@ -1,5 +1,4 @@
 (let [lspconfig (require :lspconfig)
-      {:util lsp-util} lspconfig
       {:default_capabilities capabilities-fn} (require :cmp_nvim_lsp)
       capabilities (-> (vim.lsp.protocol.make_client_capabilities)
                        (capabilities-fn))

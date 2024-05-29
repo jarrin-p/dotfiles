@@ -1,7 +1,4 @@
-{ neovim, vimPlugins, fetchFromGitHub }:
-let
-  rust_analyzer_fix_commit = "a47f5d61ce06a433998fb5711f723773e3156f46";
-in
+{ neovim, vimPlugins }:
 (neovim.override {
             configure = {
               # a hack that allows nvim config to exist without nix.
@@ -31,14 +28,6 @@ in
                   nvim-metals
                   nvim-tree-lua
                   plenary-nvim
-                  (rust-tools-nvim.overrideAttrs (old: {
-                    src = fetchFromGitHub {
-                      owner = "simrat39";
-                      repo = "rust-tools.nvim";
-                      rev = rust_analyzer_fix_commit;
-                      hash = "sha256-82QOD4o6po9PHbYUdSEnJpf5yR9lru3GTLNvfRNFydg=";
-                    };
-                  }))
                   symbols-outline-nvim
                   vim-closetag
                   vim-fish
