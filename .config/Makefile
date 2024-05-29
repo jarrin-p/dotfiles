@@ -1,5 +1,5 @@
 # `find` needs the trailing slash to indicate it's a directory.
-config := $(DOTX_CONFIG_LOCATION)/nvim/
+config := $(DOTX_CONFIG_LOCATION)/.config/nvim/
 
 # all the fennel files that should be compiled.
 fennel_files := $(shell fd '.fnl' $(config) --type f)
