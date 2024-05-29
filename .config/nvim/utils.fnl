@@ -13,7 +13,6 @@
                                                                   file-path
                                                                   session-name)]
                                (vim.cmd command)))
- ; unused
  :backup_session (lambda [?opts]
                    (let [options (or ?opts {})
                          session-name (or options.session_name :Session.vim)
