@@ -21,14 +21,14 @@ if status is-interactive
     set -x EDITOR nvim
     set -x VISUAL nvim
 
-    set -x LF_CONFIG_HOME $DOTX_CONFIG_LOCATION
+    set -x LF_CONFIG_HOME $DOTX_CONFIG_LOCATION/.config
     set -x WEZTERM_CONFIG_FILE $DOTX_CONFIG_LOCATION/.config/wezterm
     set -x FZF_DEFAULT_COMMAND "rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
 
     # abbreviations
     abbr --add gt pushd \(git rev-parse --show-toplevel\)
     abbr --add GT pushd \(git rev-parse --show-toplevel\)
-    abbr --add tmux command tmux -f $DOTX_CONFIG_LOCATION/tmux/.tmux.conf
+    abbr --add tmux command tmux -f $DOTX_CONFIG_LOCATION/.config/tmux/.tmux.conf
     abbr --add ls command ls --group-directories-first --human-readable --color
     abbr --add tree command tree --dirsfirst -AC --prune $argv
 

@@ -38,7 +38,7 @@ setup_shell() {
             mkdir -p $HOME/.config/fish/conf.d
             cat <<-EOF > $HOME/.config/fish/conf.d/dotx-config.fish
 set -x DOTX_CONFIG_LOCATION "$2"
-source \$DOTX_CONFIG_LOCATION/fish/config.fish
+source \$DOTX_CONFIG_LOCATION/.config/fish/config.fish
 EOF
             ;;
         *)
