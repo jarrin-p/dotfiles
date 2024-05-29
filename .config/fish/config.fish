@@ -8,11 +8,6 @@ if status is-interactive
     set fish_cursor_replace_one underscore
     set fish_cursor_visual block
 
-    # explicitly state our terminal can support a changing cursor.
-    if string match -q 'xterm*' $TERM
-        set -g fish_vi_force_cursor 1
-    end
-
     # environment variables.
     set -x PAGER bat
     set -x MANPAGER "bat --wrap never" # todo: look into why `bat -l man` doesn't parse colors correctly.
@@ -44,8 +39,13 @@ if status is-interactive
         set -u LF_CD_FILE
     end
 
-    # prompt
-    function fish_mode_prompt
+    # explicitly state our terminal can support a changing cursor.
+    if string match -q 'xterm*' $TERM
+        set -g fish_vi_force_cursor 1
+
+        # hide text displaying cursor mode.
+        function fish_mode_prompt
+        end
     end
 
     set __fish_git_prompt_show_informative_status 1
