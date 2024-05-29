@@ -5,14 +5,14 @@ has_gum=$?
 
 usage() {
     cat <<-EOF
-    usage
-    ./do [command]
+usage
+./do [command]
 
-    command:
-        usage      shows this.
-        refresh    re-runs nix install.
-        setup      sets up the environment for the first time.
-        uninstall  removes everything.
+command:
+    usage        shows this.
+    install      runs nix install for the main environment.
+    setup_shell  add a shim to a shell that sources config accessors for used apps.
+    uninstall    removes everything.
 EOF
 }
 
