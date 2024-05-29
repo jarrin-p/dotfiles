@@ -15,7 +15,7 @@ if status is-interactive
 
     # environment variables.
     set -x PAGER bat
-    set -x MANPAGER "bat --wrap never"
+    set -x MANPAGER "bat --wrap never" # todo: look into why `bat -l man` doesn't parse colors correctly.
     set -x BAT_THEME TwoDark
 
     set -x EDITOR nvim
