@@ -3,7 +3,7 @@
       add-cmd vim.api.nvim_create_user_command]
   (exec "command! GT execute 'lcd' fnameescape(FugitiveWorkTree())" false)
   (add-cmd :LG util.load_session_from_git_root {})
-  (add-cmd :FF util.file_format {})
+  (add-cmd :FF util.file-format {})
   (add-cmd :GO
            (fn [_] (exec "silent !tmux split-window -h -c $(dirname %)" false))
            {})

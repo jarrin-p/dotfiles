@@ -1,5 +1,5 @@
 (fn build-session-command [cmd path name] (.. cmd " " path "/" name))
-(local M {:map (fn [lhs rhs]
+{:map (fn [lhs rhs]
                  (vim.api.nvim_set_keymap "" lhs rhs
                                           {:noremap false :silent true}))
           :nnoremap (fn [lhs rhs]
@@ -53,30 +53,27 @@
                                                                              session-name)]
                                           (print command)
                                           (vim.cmd command)))
-          :clean_buffer_postspace (fn []
-                                    (let [view (vim.fn.winsaveview)]
+          :clean_buffer_postspace 
+                                    #(let [view (vim.fn.winsaveview)]
                                       (vim.cmd "keepjumps silent %smagic/ *$//")
-                                      (vim.fn.winrestview view)))
-          :get_listed_bufnames (fn []
-                                 (let [buf-info (vim.fn.getbufinfo)
+                                      (vim.fn.winrestview view))
+          :get_listed_bufnames 
+                                 #(let [buf-info (vim.fn.getbufinfo)
                                        cleanup (fn [buffer]
                                                  (vim.fn.fnamemodify buffer.name
                                                                      ":~:."))
                                        buffer-names (icollect [_ buffer (ipairs buf-info)]
                                                       (if (and (= buffer.listed 1) (= buffer.hidden 0))
                                                           (cleanup buffer) nil))]
-                                   buffer-names))
-          :export_cwd (fn []
-                        (os.execute (.. "echo \"" (vim.fn.getcwd) "\" > /tmp/.vim_cwd")))
+                                   buffer-names)
+          :export_cwd #(os.execute (.. "echo \"" (vim.fn.getcwd) "\" > /tmp/.vim_cwd"))
           :string_to_table (fn [str delim]
                              (let [sanitized-str (.. str delim)]
                                (icollect [v (sanitized-str:gmatch (.. "([^"
                                                                       delim
                                                                       "]+)"))]
                                  v)))
-          :file_format (fn []
-                         (let [view (vim.fn.winsaveview)]
-                           (vim.cmd "keepjumps silent norm gggqG")
-                           (vim.fn.winrestview view)))})
-
-M
+          :file-format #(let [view (vim.fn.winsaveview)]
+                           (do
+                             (vim.cmd "keepjumps silent norm gggqG")
+                             (vim.fn.winrestview view)))}
