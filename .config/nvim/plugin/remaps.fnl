@@ -1,14 +1,8 @@
-(let [map (fn [lhs rhs]
-            (vim.api.nvim_set_keymap "" lhs rhs {:noremap false :silent true}))
-      nnoremap (fn [lhs rhs]
-                 (vim.api.nvim_set_keymap :n lhs rhs
-                                          {:noremap true :silent true}))
-      inoremap (fn [lhs rhs]
-                 (vim.api.nvim_set_keymap :i lhs (.. :<c-o> rhs)
-                                          {:noremap true :silent true}))
-      tnoremap (fn [lhs rhs]
-                 (vim.api.nvim_set_keymap :t lhs rhs
-                                          {:noremap true :silent true}))]
+(let [map #(vim.api.nvim_set_keymap "" $1 $2 {:noremap false :silent true})
+      nnoremap #(vim.api.nvim_set_keymap :n $1 $2 {:noremap true :silent true})
+      inoremap #(vim.api.nvim_set_keymap :i $1 (.. :<c-o> $2)
+                                         {:noremap true :silent true})
+      tnoremap #(vim.api.nvim_set_keymap :t $1 $2 {:noremap true :silent true})]
   (do
     (map :<space> :<leader>)
     (nnoremap :Y :y$)
