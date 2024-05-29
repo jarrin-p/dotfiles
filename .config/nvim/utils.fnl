@@ -1,17 +1,5 @@
 (fn build-session-command [cmd path name] (.. cmd " " path "/" name))
-{:map (fn [lhs rhs]
-        (vim.api.nvim_set_keymap "" lhs rhs {:noremap false :silent true}))
- :nnoremap (fn [lhs rhs]
-             (vim.api.nvim_set_keymap :n lhs rhs {:noremap true :silent true}))
- :buf_nnoremap (fn [lhs rhs]
-                 (vim.api.nvim_set_keymap 0 :n lhs rhs
-                                          {:noremap true :silent true}))
- :inoremap (fn [lhs rhs]
-             (vim.api.nvim_set_keymap :i lhs (.. :<c-o> rhs)
-                                      {:noremap true :silent true}))
- :tnoremap (fn [lhs rhs]
-             (vim.api.nvim_set_keymap :t lhs rhs {:noremap true :silent true}))
- :exec (fn [str send-output]
+{:exec (fn [str send-output]
          (vim.api.nvim_exec str (case send-output
                                   true true
                                   _ false)))
