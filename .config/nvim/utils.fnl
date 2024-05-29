@@ -3,16 +3,6 @@
          (vim.api.nvim_exec str (case send-output
                                   true true
                                   _ false)))
- :make_session_on_git_root (lambda [?opts]
-                             (let [options (or ?opts {})
-                                   session-name (or options.session_name
-                                                    :Session.vim)
-                                   file-path (or options.file_path
-                                                 (vim.fn.FugitiveWorkTree))
-                                   command (build-session-command "silent! mksession!"
-                                                                  file-path
-                                                                  session-name)]
-                               (vim.cmd command)))
  :backup_session (lambda [?opts]
                    (let [options (or ?opts {})
                          session-name (or options.session_name :Session.vim)
@@ -21,17 +11,6 @@
                          command (build-session-command "silent! mksession!"
                                                         file-path session-name)]
                      (vim.cmd command)))
- :load_session_from_git_root (lambda [?opts]
-                               (let [options (or ?opts {})
-                                     session-name (or options.session_name
-                                                      :Session.vim)
-                                     file-path (or options.file_path
-                                                   (vim.fn.FugitiveWorkTree))
-                                     command (build-session-command :source
-                                                                    file-path
-                                                                    session-name)]
-                                 (print command)
-                                 (vim.cmd command)))
  :clean_buffer_postspace #(let [view (vim.fn.winsaveview)]
                             (vim.cmd "keepjumps silent %smagic/ *$//")
                             (vim.fn.winrestview view))
@@ -44,7 +23,6 @@
                                                 (cleanup buffer)
                                                 nil))]
                          buffer-names)
- :export_cwd #(os.execute (.. "echo \"" (vim.fn.getcwd) "\" > /tmp/.vim_cwd"))
  :string_to_table (fn [str delim]
                     (let [sanitized-str (.. str delim)]
                       (icollect [v (sanitized-str:gmatch (.. "([^" delim "]+)"))]
