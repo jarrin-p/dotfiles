@@ -13,7 +13,6 @@
               packages.myPlugins = with vimPlugins; {
                 start = [
                   base16-vim
-                  conjure
                   cmp-nvim-lsp
                   cmp_luasnip
                   fzf-vim
