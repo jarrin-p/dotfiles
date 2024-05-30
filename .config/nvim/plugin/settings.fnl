@@ -13,15 +13,6 @@
 (set vim.o.guifont (.. vim.g.FontKW vim.g.font_size ""))
 (set vim.o.linespace 12)
 
-;; sets the font size using a controlled global variable. allows easy remapping for increasing and decreasing
-;; font size, something very much appreciated by others when screen sharing.
-(global SetFontSize
-        (fn [amt]
-          (let [delta (+ vim.g.font_size amt)]
-            (if (> delta 0)
-                (set vim.g.font_size delta)
-                (set vim.o.guifont (.. vim.g.FontKW vim.g.font_size ""))))))
-
 (set vim.o.title true)
 (set vim.o.titlestring "%t")
 (set vim.o.showtabline 2)

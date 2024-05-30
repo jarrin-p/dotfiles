@@ -13,8 +13,8 @@
     ;;
     ;; gui maps
     ;;
-    (nnoremap :<leader>+ ":lua SetFontSize(1)") ; increase or decrease respectively the font size via mapping.
-    (nnoremap :<leader>- ":lua SetFontSize(-1)")
+    (nnoremap :<leader>+ ":SetFontSize(1)") ; increase or decrease respectively the font size via mapping.
+    (nnoremap :<leader>- ":SetFontSize(-1)")
     (nnoremap :<leader>w ":sil make<enter>")
     ;;
     ;; insert mode maps
