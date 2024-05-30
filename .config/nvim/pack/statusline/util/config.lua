@@ -1,29 +1,29 @@
 local cg = require 'pack.statusline.util.component'
 local symbols = require 'pack.statusline.util.symbols'
-local spec = require 'pack.statusline.util.color_specs'
+local spec = require 'pack.statusline.util.color-specs'
 local get_colorscheme_as_hex = require 'utils.color-tool'["get-colorscheme-as-hex"]
 
 local M = {}
 
-M.fg = get_colorscheme_as_hex(spec.fg.hl_name, spec.fg.color_type)
-M.lighter = get_colorscheme_as_hex(spec.lighter.hl_name, spec.lighter.color_type)
-M.darker = get_colorscheme_as_hex(spec.darker.hl_name, spec.darker.color_type)
+M.fg = get_colorscheme_as_hex(spec.fg['hl-name'], spec.fg['color-type'])
+M.lighter = get_colorscheme_as_hex(spec.lighter['hl-name'], spec.lighter['color-type'])
+M.darker = get_colorscheme_as_hex(spec.darker['hl-name'], spec.darker['color-type'])
 
 -- make sure we create the color groups before we start using them for
 -- transitions.
 local set_hl = vim.api.nvim_set_hl
 set_hl(0, 'Statusline', { fg = 'Black', bg = M.darker })
-M.fill = cg:new{ hl_name = 'Statusline' }
+M.fill = cg:new{ ['hl-name'] = 'Statusline' }
 
 set_hl(0, 'StatuslineHeader', { fg = 'Black', bg = M.fg })
-M.header = cg:new{ hl_name = 'StatuslineHeader' }
+M.header = cg:new{ ['hl-name'] = 'StatuslineHeader' }
 
 set_hl(0, 'StatuslineDirectory',
     { italic = 1, fg = get_colorscheme_as_hex('Comment', 'foreground'), bg = M.darker })
-M.directory = cg:new{ hl_name = 'StatuslineDirectory' }
+M.directory = cg:new{ ['hl-name'] = 'StatuslineDirectory' }
 
 set_hl(0, 'StatuslineFtInfo', { fg = M.fg, bg = M.lighter })
-M.ft_info = cg:new{ hl_name = 'StatuslineFtInfo' }
+M.ft_info = cg:new{ ['hl-name'] = 'StatuslineFtInfo' }
 
 -- define a few things that get reused.
 M.dir_git = M.directory:set ' Git'
