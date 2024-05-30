@@ -5,7 +5,7 @@ let
     fennelNixpkgs.fennel-ls
     pkgs.ccls
     pkgs.haskell-language-server
-    pkgs.llvmPackages_9.clang-unwrapped
+    pkgs.llvmPackages_16.clang-unwrapped
     pkgs.nil # nix language server.
     pkgs.nls
     pkgs.sumneko-lua-language-server

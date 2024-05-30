@@ -1,5 +1,5 @@
 let
-  pkgs = import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/23.11"; }) {};
+  pkgs = import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/24.05-beta"; }) {};
   callPackage = pkgs.callPackage;
 in
   pkgs.buildEnv {
