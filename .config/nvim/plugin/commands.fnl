@@ -10,7 +10,7 @@
   (exec "command! GT execute 'lcd' fnameescape(FugitiveWorkTree())" false)
   (add-cmd :FF file-format {})
   (add-cmd :GO #(exec "silent !tmux split-window -h -c $(dirname %)" false) {})
-  (add-cmd :SetFontSize set-font-size)
+  (add-cmd :SetFontSize set-font-size {})
   (let [update-makeprg (fn [args]
                          (let [cmd-prefix "tmux send-keys -t {marked} enter escape 'S"
                                cmd-post "' enter"
