@@ -4,7 +4,7 @@
 
 ; shada settings
 ; @see "h 'sd'" or "h 'shada'"
-(let [shada-settings (table.concat [ "%3" "'10" "\"50" :s10 ":50" :h ] ",")]
+(let [shada-settings (table.concat ["%3" "'10" "\"50" :s10 ":50" :h] ",")]
   (set vim.o.shada shada-settings))
 
 ; gui settings
@@ -93,9 +93,14 @@
 ;; term settings
 (set vim.o.ttimeoutlen 0)
 
+;; lsp settings
+(vim.lsp.inlay_hint.enable true)
+
 ;; grep pattern setup
 (let [patterns {:!*.class :!*.jar :!*.java.html :!*.git*}
-      pattern-string (accumulate [pattern-string "" _ pattern (ipairs patterns)]
-                       (.. pattern-string " --glob='" pattern "'"))
+      pattern-string (accumulate [init "" _ pattern (ipairs patterns)]
+                       (.. init " --glob='" pattern "'"))
       rg-string "rg --line-number --with-filename"]
-  (set vim.o.grepprg (.. rg_string pattern_string)))
+  (set vim.o.grepprg (.. rg-string pattern-string)))
+
+{}
