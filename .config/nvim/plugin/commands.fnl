@@ -7,7 +7,9 @@
                            (set vim.g.font-size new-size)
                            (set vim.o.guifont
                                 (.. vim.g.FontKW vim.g.font_size "")))))]
-  (exec "command! GT execute 'lcd' fnameescape(FugitiveWorkTree())" false)
+  ;;(exec "command! GT execute 'lcd' fnameescape(FugitiveWorkTree())" false)
+  (add-cmd :GT #(let [path (-> (vim.fn.FugitiveWorkTree) (vim.fn.fnameescape))]
+                  (vim.cmd.lcd path)) {})
   (add-cmd :FF file-format {})
   (add-cmd :GO #(exec "silent !tmux split-window -h -c $(dirname %)" false) {})
   (add-cmd :SetFontSize set-font-size {})
