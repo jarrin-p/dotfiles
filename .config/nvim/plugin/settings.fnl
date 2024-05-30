@@ -96,11 +96,6 @@
 ;; lsp settings
 (vim.lsp.inlay_hint.enable true)
 
-;; grep pattern setup
-(let [patterns {:!*.class :!*.jar :!*.java.html :!*.git*}
-      pattern-string (accumulate [init "" _ pattern (ipairs patterns)]
-                       (.. init " --glob='" pattern "'"))
-      rg-string "rg --line-number --with-filename"]
-  (set vim.o.grepprg (.. rg-string pattern-string)))
+(set vim.o.grepprg "rg --vimgrep")
 
 {}
