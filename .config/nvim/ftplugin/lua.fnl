@@ -1,3 +1,4 @@
-(let [cmd [:lua-format :-c :$HOME/.luaformat]]
-  (set vim.bo.formatprg (table.concat cmd " ")))
+(do
+  (set vim.bo.formatprg "lua-format -c $HOME/.luaformat"))
+
 {}

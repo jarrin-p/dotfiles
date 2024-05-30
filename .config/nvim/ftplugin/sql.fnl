@@ -1,2 +1,3 @@
-(let [cmd [:sqlformat "-" :-a]] (set vim.bo.formatprg (table.concat cmd " ")))
+(do
+  (set vim.bo.formatprg "sqlformat - -a"))
 {}

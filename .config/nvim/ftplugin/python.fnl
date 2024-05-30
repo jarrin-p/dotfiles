@@ -5,5 +5,5 @@
   (do
     (info #"python.fnl: init")
     (load-once :python #(setup-lsp :pyright {:root_dir util.find_git_ancestor}))
-    (set vim.bo.formatprg "black -q \"-\"")
+    (set vim.bo.formatprg "black -q -")
     {}))
