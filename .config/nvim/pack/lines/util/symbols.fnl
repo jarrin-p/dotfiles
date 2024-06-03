@@ -1,0 +1,9 @@
+{:right-align "%="
+ :box-h "─"
+ :box-v "│"
+ :git ""
+ :left-tr ""
+ :right-tr ""
+ :bl ""
+ :br ""
+ :line-number ""}
