@@ -13,6 +13,9 @@
   (add-cmd :FF file-format {})
   (add-cmd :GO #(exec "silent !tmux split-window -h -c $(dirname %)" false) {})
   (add-cmd :SetFontSize set-font-size {})
+  (add-cmd :ToggleInlayHints
+           #(let [{: enable : is_enabled} vim.lsp.inlay_hint]
+              (enable (not (is_enabled)))) {})
   (let [update-makeprg (fn [args]
                          (let [cmd-prefix "tmux send-keys -t {marked} enter escape 'S"
                                cmd-post "' enter"
