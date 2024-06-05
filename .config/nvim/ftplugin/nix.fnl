@@ -7,6 +7,9 @@
                                [:__ghcWithPkgs
                                 (text "(haskellPackages.ghcWithPackages (hpkgs: [hpkgs.aeson]))")]
 
+                               [:__luajitWithPkgs
+                                (text "(luajit.withPackages (lpkgs: [lpkgs.fennel]))")]
+
                                [:__buildEnv
                                 (text "pkgs.buildEnv {"
                                       "\tname = \"\";"
