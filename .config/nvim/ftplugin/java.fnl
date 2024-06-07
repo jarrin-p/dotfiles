@@ -25,9 +25,8 @@
                                    (tset c :onCompletionItemSelectedCommand
                                          :editor.action.triggerParameterHints)
                                    c)
-      on_attach #(vim.lsp.inlay_hint $2 true)
-      config {: on_attach
-              :cmd [:jdtlsw]
+      ;; on_attach #(vim.lsp.inlay_hint $2 true)
+      config {:cmd [:jdtlsw]
               : capabilities
               :init_options {: extendedClientCapabilities}
               :root_dir (let [find-result (-> (vim.fs.find [:.gradlew
