@@ -10,6 +10,9 @@
                                [:__luajitWithPkgs
                                 (text "(luajit.withPackages (lpkgs: [lpkgs.fennel]))")]
 
+                               [:__gradleWithVersion
+                                (text "pkgs.gradle_7.override{ java = pkgs.jdk11; }")]
+
                                [:__buildEnv
                                 (text "pkgs.buildEnv {"
                                       "\tname = \"\";"
