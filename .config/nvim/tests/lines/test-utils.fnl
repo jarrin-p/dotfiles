@@ -6,3 +6,6 @@
 
 (let [{: linear-search} (require :pack.lines.util.options)]
   (assert (= (linear-search [:a :b :c :d :e :f] :e) 5)))
+
+(let [{: get-branch-text} (require :pack.lines.util.options)]
+  (assert (= (get-branch-text) " feat/fennel-lines")))
