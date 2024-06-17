@@ -1,5 +1,5 @@
 {:linear-search (fn [array item]
-                  "returns the index of 'item' if it exists in 'array'."
+                  "returns the index of 'item' if it exists in 'array', otherwise it returns -1"
                   (accumulate [index -1 i val (ipairs array)
                                &until (not= -1 index)]
                     (if (= item val) i index)))
