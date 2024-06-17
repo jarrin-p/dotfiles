@@ -5,7 +5,12 @@
     (set package.path (.. package.path ";" dotx-path :/.config/nvim/?.lua))))
 
 (let [{: linear-search} (require :pack.lines.util.options)]
-  (assert (= (linear-search [:a :b :c :d :e :f] :e) 5)))
+  (do
+    (print "lines -> testing linear search")
+    (assert (= (linear-search [:a :b :c :d :e :f] :e) 5))))
 
 (let [{: get-branch-text} (require :pack.lines.util.options)]
-  (assert (= (get-branch-text) " feat/fennel-lines")))
+  (do (print "lines -> testing getting the branch text")
+  (assert (= (get-branch-text) " feat/fennel-lines"))))
+
+(print "lines -> tests complete.")

@@ -5,7 +5,7 @@ utils() {
 }
 
 lines() {
-    nvim --headless +"lua require ''" +q
+    nvim --headless +"lua require 'tests.lines.test-utils'" +q
 }
 
 hex_tool() {
