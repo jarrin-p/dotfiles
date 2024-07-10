@@ -3,13 +3,6 @@ Session.vim
 .config/coc/*
 .config/fish/fish_variables
 .config/nvim/autoload/*
-zsh/.zshrc.private
-node_modules/
-nvim/coc-settings.json
 
 *.lua
-
-# global git ignore
-.classpath
-.settings
-.zprofile
+!.config/wezterm/*.lua
