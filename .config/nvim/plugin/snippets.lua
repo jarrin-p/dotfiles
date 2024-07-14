@@ -64,15 +64,15 @@ function JumpOrFallback(direction, fallback)
     vim.g.MakeStatusLine()
 end
 
-vim.api.nvim_set_keymap(
-    'i', '<tab>', '<c-o>:lua JumpOrFallback(1)<enter>',
-        { noremap = true, silent = true }
-)
-
-vim.api.nvim_set_keymap(
-    'i', '<s-tab>', '<c-o>:lua JumpOrFallback(-1)<enter>',
-        { noremap = true, silent = true }
-)
+-- vim.api.nvim_set_keymap(
+--     'i', '<tab>', '<c-o>:lua JumpOrFallback(1)<enter>',
+--         { noremap = true, silent = true }
+-- )
+-- 
+-- vim.api.nvim_set_keymap(
+--     'i', '<s-tab>', '<c-o>:lua JumpOrFallback(-1)<enter>',
+--         { noremap = true, silent = true }
+-- )
 vim.api.nvim_set_keymap(
     'i', '<c-j>', '<c-o>:lua ChooseSnipOrFallback(1)<enter>',
         { noremap = true, silent = true }
