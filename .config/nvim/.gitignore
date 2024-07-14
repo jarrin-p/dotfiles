@@ -1,2 +1,3 @@
 !nix-hook.lua
 !pack/statusline/**
+!plugin/snippets.lua
