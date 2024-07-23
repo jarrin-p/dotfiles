@@ -14,6 +14,7 @@
                 start = [
                   base16-vim
                   cmp-nvim-lsp
+                  cmp-nvim-lsp-signature-help
                   cmp_luasnip
                   fzf-vim
                   gruvbox-material

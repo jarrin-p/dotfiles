@@ -7,6 +7,9 @@
   (cmp.setup {:experimental {:ghost_text false}
               :snippet {:expand #(ls.lsp_expand $1.body)}
               :mapping (cmp.mapping.preset.insert {: <CR>})
-              :sources [{:name :luasnip} {:name :nvim_lsp} {:name :conjure}]}))
+              :sources [{:name :luasnip}
+                        {:name :nvim_lsp}
+                        {:name :conjure}
+                        {:name :nvim_lsp_signature_help}]}))
 
 {}
