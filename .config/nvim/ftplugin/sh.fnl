@@ -1,28 +1,21 @@
-(let [ls (require :luasnip)
-      new-snippet ls.snippet
-      t ls.text_node
-      i ls.insert_node
-      case-stmnt (let [key :.case
-                       switch (t ["case \""])
-                       var-name (i 1 :WORD)
-                       in (t ["\" in"
-                              "    *)"
-                              "        echo \"default case\""
-                              "        ;;"])
-                       starting-pos (i 0)
-                       t-end (t ["" :esac])]
-                   (new-snippet key [switch var-name in starting-pos t-end]))
-      argparse (new-snippet :.argparse
-                            [(t ["while ! test -z \"$1\""
-                                 :do
-                                 "\tcase \"$1\" in"
-                                 "\t\t*)"
-                                 "\t\t\techo 'default case'"
-                                 "\t\t\t;;"
-                                 "\tesac"
-                                 "\tshift"
-                                 :done])])]
-  (ls.cleanup)
-  (ls.add_snippets :sh [case-stmnt argparse]))
+(let [{: text : text-array : add-language-snippets : ins : indent} (require :utils.snippets)]
+  (add-language-snippets :sh [[:__case
+                               [(text "case \"")
+                                (ins 1 :WORD)
+                                (text-array ["\" in"
+                                             (indent 1 "*)")
+                                             (indent 2 "echo \"default case\"")
+                                             (indent 2 ";;")
+                                             :esac])]]
+                              [:__argparse_light
+                               [(text ["while ! test -z \"$1\""
+                                       :do
+                                       (indent 1 "case \"$1\" in")
+                                       (indent 2 "*)")
+                                       (indent 3 "echo 'default case'")
+                                       (indent 3 ";;")
+                                       (indent 1 :esac)
+                                       (indent 1 :shift)
+                                       :done])]]]))
 
 {}

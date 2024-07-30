@@ -40,4 +40,4 @@
                                         {})
         _ (cleanup))))
 
-  {: add-language-snippets : text : ins : indent})
+  {: add-language-snippets : text : ins : indent :text-array text_node})
