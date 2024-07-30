@@ -1,4 +1,3 @@
-(set vim.o.makeprg "tmux send-keys -t 1 'sh %' enter")
 (let [ls (require :luasnip)
       new-snippet ls.snippet
       t ls.text_node
