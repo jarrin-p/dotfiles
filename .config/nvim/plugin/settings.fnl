@@ -7,86 +7,72 @@
 (let [shada-settings (table.concat ["%3" "'10" "\"50" :s10 ":50" :h] ",")]
   (set vim.o.shada shada-settings))
 
-; gui settings
-(set vim.g.font_size 15)
-(set vim.g.FontKW (.. "JetBrains Mono:h" vim.g.font_size ", Fira Code:h"))
-(set vim.o.guifont (.. vim.g.FontKW vim.g.font_size ""))
-(set vim.o.linespace 12)
+(let [vim-settings {:g {:csv_nomap_cr 1 :netrw_liststyle 3}
+                    :o {;;
+                        ;;
+                        ;; layout
+                        :linespace 12
+                        :path (.. vim.o.path "**")
+                        :showtabline 2
+                        :termguicolors true
+                        :title true
+                        :titlestring "%t"
+                        ;;
+                        ;;
+                        ;; visual behavior (doesn't effect document)
+                        :completeopt "menu,menuone,preview,noselect"
+                        :cursorline true
+                        :foldcolumn :3
+                        :foldlevelstart 99
+                        :foldmethod :manual
+                        :ignorecase false
+                        :inccommand :split
+                        :jumpoptions :view
+                        :list true
+                        :listchars "tab:;>,leadmultispace:    ,trail:-"
+                        :mouse :nv
+                        :number true
+                        :relativenumber true
+                        :scrolloff 2
+                        :showmode true
+                        :signcolumn :yes
+                        :smartcase true
+                        :spell false
+                        :splitbelow true
+                        :splitright true
+                        :syntax :on
+                        :textwidth 0
+                        :updatetime 25
+                        :viewoptions "folds,cursor"
+                        :wrap false
+                        ;;
+                        ;;
+                        ;; editing behavior (effects document)
+                        :autoindent false
+                        :autowrite true
+                        :backspace "indent,start"
+                        :clipboard "unnamed,unnamedplus"
+                        :expandtab true
+                        :hidden false
+                        :magic true
+                        :shiftwidth 0
+                        :smartindent false
+                        :tabstop 4
+                        ;;
+                        ;;
+                        ;; plugin settings.
+                        :ttimeoutlen 0
+                        ;;
+                        ;;
+                        ;; settings for external programs
+                        :grepprg "rg --vimgrep"}}]
+  (each [opt-type opts (pairs vim-settings)]
+    (each [opt value (pairs opts)]
+      (tset vim opt-type opt value))))
 
-(set vim.o.title true)
-(set vim.o.titlestring "%t")
-(set vim.o.showtabline 2)
-
-;; always show the tabline
-(set vim.o.tabstop 4)
-
-;; 0 means use tabstop value
-(set vim.o.shiftwidth 0)
-
-;; use spaces instead of tabs.
-(set vim.o.expandtab true)
-
-;; trying out only autoindent.
-(set vim.o.smartindent false)
-
-(set vim.o.wrap false)
-(set vim.o.number true)
-(set vim.o.relativenumber true)
-
-;; show how many lines away instead of exact line number.
-(set vim.o.syntax :on)
-(set vim.o.foldcolumn :3)
-(set vim.o.foldmethod :manual)
-(set vim.o.path (.. vim.o.path "**"))
-(set vim.o.signcolumn :yes)
-(set vim.o.updatetime 25)
-(set vim.o.foldlevelstart 99)
-(set vim.o.scrolloff 2)
-
-;; a little padding for the top and bottom of screen.
-(set vim.o.cursorline true)
-(set vim.o.textwidth 0)
-(set vim.o.showmode true)
-
-;; specifically defining as true for whatever reason.
-(set vim.o.splitright true)
-
-;; splits new window to the right.
-(set vim.o.splitbelow true)
-
-;; splits new window down.
-(set vim.o.list true)
-(set vim.o.listchars "tab:;>,leadmultispace:    ,trail:-")
-(set vim.o.jumpoptions :view)
-(vim.opt_global.shortmess:remove :F)
-
-;; used for `nvim metals`
-(set vim.o.mouse :nv)
-(set vim.o.termguicolors true)
-(set vim.o.viewoptions "folds,cursor")
-
-;; editing settings
-(set vim.o.backspace "indent,eol,start")
-(set vim.o.magic true)
-(set vim.o.spell false)
-(set vim.o.inccommand :split)
-(set vim.o.completeopt "menu,menuone,preview,noselect")
-(set vim.o.ignorecase false)
-(set vim.o.smartcase true)
-(set vim.o.clipboard "unnamed,unnamedplus")
-(set vim.o.autowrite true)
-(set vim.o.hidden false)
-
-;; builtin plugin settings.
-(set vim.g.netrw_liststyle 3)
-(set vim.g.csv_nomap_cr 1)
-
-;; term settings
-(set vim.o.ttimeoutlen 0)
-
-;; lsp settings
-(vim.lsp.inlay_hint.enable true)
-
-(set vim.o.grepprg "rg --vimgrep")
+;; settings that have to be toggled.
+(do
+  (vim.opt_global.shortmess:remove :F)
+  (vim.lsp.inlay_hint.enable true))
 
 {}
