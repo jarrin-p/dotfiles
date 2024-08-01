@@ -20,8 +20,21 @@
 (fn tabs-iter []
   (values tab-iter (tabpagenr "$") 0))
 
+;; see vim.diagnostic.Severity
+
+(local sev-map
+       (let [{: ERROR : WARN : INFO : HINT} vim.diagnostic.severity]
+         {ERROR :errors WARN :warnings INFO :info HINT :hints}))
+
 (do
-  (set vim.g.LinesMakeTabline #(let [selected (tabpagenr)
+  (set vim.g.LinesMakeTabline #(let [diags (accumulate [init {} _ v (ipairs (vim.diagnostic.get))]
+                                             (do
+                                               (tset init v.severity 1)
+                                               init))
+                                     lsp-diag-result (accumulate [init "" severity _ (pairs diags)]
+                                              (.. init " "
+                                                  (tostring (. sev-map severity))))
+                                     selected (tabpagenr)
                                      tabs (icollect [i (tabs-iter)]
                                             (let [highlight (if (= i selected)
                                                                 hl-group.selected
@@ -46,6 +59,8 @@
                                                       hl-group.normal
                                                       :background left-tr)
                                           (format hl-group.fill)
+                                          lsp-diag-result
+                                          " "
                                           right-align
                                           " "
                                           (concat tabs)]
