@@ -50,7 +50,6 @@ in
           pkgs.redis
           pkgs.rename
           pkgs.ripgrep
-          pkgs.rustup
           pkgs.sd
           pkgs.stow
           pkgs.tree
