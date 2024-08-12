@@ -18,6 +18,7 @@
                   cmp_luasnip
                   fzf-vim
                   gruvbox-material
+                  lean-nvim
                   luasnip
                   minimap-vim
                   neoscroll-nvim
