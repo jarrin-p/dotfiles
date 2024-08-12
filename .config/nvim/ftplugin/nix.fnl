@@ -3,7 +3,7 @@
 (let [{: text : add-language-snippets : ins : text-array} (require :utils.snippets)]
   (add-language-snippets :nix
                          [[:__nixpkgsPin
-                           (text "import (builtins.fetchTarball { url = \"https://api.github.com/repos/nixos/nixpkgs/tarball/23.11\"; }) {}")]
+                           (text "import (builtins.fetchTarball { url = \"https://api.github.com/repos/nixos/nixpkgs/tarball/24.05\"; }) {}")]
                           [:__ghcWithPkgs
                            (text "(haskellPackages.ghcWithPackages (hpkgs: [hpkgs.aeson]))")]
                           [:__luajitWithPkgs
