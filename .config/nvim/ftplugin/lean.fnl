@@ -1,12 +1,14 @@
 (set vim.o.tabstop 2)
 (local {: getline : indent} vim.fn)
-(local patterns {:section "^ *section ?" :namespace "^ *namespace ?"})
+(local patterns {:section "^ *section ?"
+                 :namespace "^ *namespace ?"
+                 :end "^ *end ?"})
 
 (fn matching-scope [lnum]
   "returns the line number of the matched key words."
   (let [line (getline lnum)]
-    (if (or (line:find patterns.section) (line:find patterns.namespace)) lnum
-        (= lnum 1) -1
+    (if (or (line:find patterns.section) (line:find patterns.namespace)
+            (line:find patterns.end)) lnum (= lnum 1) -1
         (matching-scope (- lnum 1)))))
 
 (let [{: load-once} (require :utils.load-once)]
@@ -27,7 +29,7 @@
                                      (prev-line:find :where$)
                                      (prev-line:find ":=$"))
                                  (+ prev-indent tabstop)
-                                 (or (current-line:find "^ *end ?"))
+                                 (or (current-line:find patterns.end))
                                  (indent (matching-scope prev-line-nr))
                                  prev-indent)))
     (set vim.bo.indentexpr "g:IndentLean()")))
