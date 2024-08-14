@@ -7,7 +7,7 @@
                #(let [lean (require :lean)]
                   (lean.setup {:ft {:nomodifiable {}}
                                :infoview {:autoopen false :width 20 :height 30}})))
-    (vim.opt.indentkeys:prepend [:=end])
+    (vim.opt.indentkeys:prepend [:0=end])
     (set vim.g.IndentLean #(let [line-nr vim.v.lnum
                                  prev-line-nr (- line-nr 1)
                                  prev-line (getline prev-line-nr)
