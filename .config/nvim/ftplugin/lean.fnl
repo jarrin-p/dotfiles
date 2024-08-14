@@ -18,7 +18,7 @@
                                      (prev-line:find :where$)
                                      (prev-line:find ":=$"))
                                  (+ prev-indent tabstop)
-                                 (or (: (getline ".") :find " *end ?"))
+                                 (or (: (getline ".") :find "^ *end ?"))
                                  (- prev-indent tabstop)
                                  prev-indent)))
     (set vim.bo.indentexpr "g:IndentLean()")))
