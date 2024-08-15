@@ -1,11 +1,22 @@
 let
   pkgs = import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/d8a5a620da8e1cae5348ede15cd244705e02598c"; }) {};
   callPackage = pkgs.callPackage;
+  nvim = (callPackage ./packages/nvim.nix {});
   conf = {
     tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
   };
   wrapped = {
     tmux = pkgs.writeShellScriptBin "tmux" ''${pkgs.tmux}/bin/tmux -f ${conf.tmux} $@'';
+  };
+  commands = {
+    gitroot = pkgs.writeShellScriptBin "g" ''
+      git status > /dev/null 2>&1
+      if test $? -ne 0
+      then
+        echo "not a git repository, nothing to look at."
+      fi
+      ${nvim}/bin/nvim +"Git" +"only"
+    '';
   };
 in
   pkgs.buildEnv {
@@ -13,11 +24,13 @@ in
     paths =
       (import ./packages/lsp.nix { pkgs = pkgs; }) ++
         [
+          commands.gitroot
           wrapped.tmux
+
           (pkgs.gradle_7.override{ java = pkgs.jdk11; })
 
           (callPackage ./packages/fennel.nix {})
-          (callPackage ./packages/nvim.nix {})
+          
 
           # version of rtorrent that doesn't break.
           (import ./packages/rtorrent.nix {})
