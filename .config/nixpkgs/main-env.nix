@@ -1,11 +1,20 @@
 let
   pkgs = import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/d8a5a620da8e1cae5348ede15cd244705e02598c"; }) {};
   callPackage = pkgs.callPackage;
+
   nvim = (callPackage ./packages/nvim.nix {});
+
+  # want the helper tool to notice updates. if this were a path,
+  # it would be stored in the nix-store, and thus would never look like
+  # it changes.
+  this = toString ./main-env.nix;
+  dots = (callPackage ./dots.nix { configLocation = this; });
+
   conf = {
     lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
     tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
   };
+
   bin = {
     bat = pkgs.writeShellScriptBin "bat" ''
       export BAT_THEME=TwoDark
@@ -66,6 +75,8 @@ in
           commands.als
           commands.git-ui
           commands.git-root
+
+          dots
 
           (pkgs.gradle_7.override{ java = pkgs.jdk11; })
 
