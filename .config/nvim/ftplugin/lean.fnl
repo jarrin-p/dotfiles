@@ -4,12 +4,12 @@
                  :namespace "^ *namespace ?"
                  :end "^ *end ?"})
 
-(fn matching-scope [lnum]
-  "returns the line number of the matched key words."
+(fn matching-indent [lnum]
+  "returns an indent level for matched key words."
   (let [line (getline lnum)]
-    (if (or (line:find patterns.section) (line:find patterns.namespace)
-            (line:find patterns.end)) lnum (= lnum 1) -1
-        (matching-scope (- lnum 1)))))
+    (if (or (line:find patterns.section) (line:find patterns.namespace))
+        (indent lnum) (line:find patterns.end) (- (indent lnum) vim.o.tabstop)
+        (= lnum 1) -1 (matching-indent (- lnum 1)))))
 
 (let [{: load-once} (require :utils.load-once)]
   (do
@@ -30,7 +30,7 @@
                                      (prev-line:find ":=$"))
                                  (+ prev-indent tabstop)
                                  (or (current-line:find patterns.end))
-                                 (indent (matching-scope prev-line-nr))
+                                 (matching-indent prev-line-nr)
                                  prev-indent)))
     (set vim.bo.indentexpr "g:IndentLean()")))
 
