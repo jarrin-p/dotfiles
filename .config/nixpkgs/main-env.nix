@@ -7,6 +7,11 @@ let
     tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
   };
   bin = {
+    bat = pkgs.writeShellScriptBin "bat" ''
+      export BAT_THEME=TwoDark
+      ${pkgs.bat}/bin/bat $@
+    '';
+
     lf = pkgs.writeShellScriptBin "lf" ''
       export PATH=${pkgs.lf}/bin:${pkgs.coreutils-full}/bin:${pkgs.bash}/bin
       export LF_CONFIG_HOME=${conf.lf_config_home};
@@ -51,6 +56,7 @@ in
         [
           commands.gitroot
           commands.als
+          bin.bat
           bin.lf
           bin.tmux
           bin.tree
@@ -66,7 +72,6 @@ in
           (import ./packages/terraform.nix {})
 
           pkgs.ansifilter # an actual savior.
-          pkgs.bat
           pkgs.bitwarden-cli
           pkgs.code-minimap
           pkgs.coreutils-full
