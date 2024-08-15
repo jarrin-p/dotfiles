@@ -39,7 +39,7 @@ let
       ${pkgs.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al $@
     '';
 
-    gitroot = pkgs.writeShellScriptBin "g" ''
+    git-ui = pkgs.writeShellScriptBin "git-ui" ''
       git status > /dev/null 2>&1
       if test $? -ne 0
       then
@@ -47,6 +47,11 @@ let
       fi
       ${nvim}/bin/nvim +"Git" +"only"
     '';
+
+    git-root = pkgs.writeShellScriptBin "git-root" ''
+      ${pkgs.git}/bin/git rev-parse --show-toplevel
+    '';
+
   };
 in
   pkgs.buildEnv {
@@ -54,8 +59,9 @@ in
     paths =
       (import ./packages/lsp.nix { pkgs = pkgs; }) ++
         [
-          commands.gitroot
           commands.als
+          commands.git-ui
+          commands.git-root
           bin.bat
           bin.lf
           bin.tmux
