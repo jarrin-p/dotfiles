@@ -98,6 +98,7 @@ in
           pkgs.haskellPackages.hoogle
           pkgs.jq
           pkgs.moar
+          nvim
           pkgs.neovim-remote
           pkgs.nodePackages_latest.pyright
           pkgs.pylint
