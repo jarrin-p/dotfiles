@@ -1,12 +1,19 @@
 let
   pkgs = import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/d8a5a620da8e1cae5348ede15cd244705e02598c"; }) {};
   callPackage = pkgs.callPackage;
+  conf = {
+    tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
+  };
+  wrapped = {
+    tmux = pkgs.writeShellScriptBin "tmux" ''${pkgs.tmux}/bin/tmux -f ${conf.tmux} $@'';
+  };
 in
   pkgs.buildEnv {
     name = "mainEnv";
     paths =
       (import ./packages/lsp.nix { pkgs = pkgs; }) ++
         [
+          wrapped.tmux
           (pkgs.gradle_7.override{ java = pkgs.jdk11; })
 
           (callPackage ./packages/fennel.nix {})
@@ -53,7 +60,6 @@ in
           pkgs.sd
           pkgs.stow
           pkgs.tree
-          pkgs.tmux
           pkgs.universal-ctags
           pkgs.visidata
           pkgs.wget
