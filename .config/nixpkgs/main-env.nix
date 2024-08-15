@@ -59,13 +59,13 @@ in
     paths =
       (import ./packages/lsp.nix { pkgs = pkgs; }) ++
         [
-          commands.als
-          commands.git-ui
-          commands.git-root
           bin.bat
           bin.lf
           bin.tmux
           bin.tree
+          commands.als
+          commands.git-ui
+          commands.git-root
 
           (pkgs.gradle_7.override{ java = pkgs.jdk11; })
 
