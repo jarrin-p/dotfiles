@@ -19,7 +19,6 @@ set -x BAT_THEME TwoDark
 set -x EDITOR nvim
 set -x VISUAL nvim
 
-set -x LF_CONFIG_HOME $DOTX_CONFIG_LOCATION/.config
 set -x WEZTERM_CONFIG_FILE $DOTX_CONFIG_LOCATION/.config/wezterm
 set -x FZF_DEFAULT_COMMAND "rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
 set -x NIX_USER_CONF_FILES $DOTX_CONFIG_LOCATION/.config/nix/nix.conf
@@ -30,16 +29,8 @@ abbr --add GT pushd \(git rev-parse --show-toplevel\)
 abbr --add ls command ls --group-directories-first --human-readable --color
 abbr --add tree command tree --dirsfirst -AC --prune $argv
 
-# command wrappers
 function lf
-    set -x LF_CD_FILE /tmp/.lfcd
-    command lf $argv
-    set -l dir (realpath (cat $LF_CD_FILE))
-    if test -s $LF_CD_FILE && test "$dir" != "$(pwd)"
-        cd "$dir"
-    end
-    rm $LF_CD_FILE
-    set -u LF_CD_FILE
+  cd (command lf)
 end
 
 # explicitly state our terminal can support a changing cursor.

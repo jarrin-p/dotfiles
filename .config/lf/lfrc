@@ -18,6 +18,7 @@ cmd fzf ${{
     fi
 }}
 
+set shell bash
 set relativenumber true
 map Q quit
 map q quit-and-cd

@@ -3,9 +3,23 @@ let
   callPackage = pkgs.callPackage;
   nvim = (callPackage ./packages/nvim.nix {});
   conf = {
+    lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
     tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
   };
   wrapped = {
+    lf = pkgs.writeShellScriptBin "lf" ''
+      export PATH=${pkgs.lf}/bin:${pkgs.coreutils-full}/bin:${pkgs.bash}/bin
+      export LF_CONFIG_HOME=${conf.lf_config_home};
+      export LF_CD_FILE=/tmp/.lfcd
+      lf $@
+      if test -s $LF_CD_FILE
+      then
+        echo $(realpath $(cat $LF_CD_FILE))
+      else
+        echo $(pwd)
+      fi
+      rm -f $LF_CD_FILE
+    '';
     tmux = pkgs.writeShellScriptBin "tmux" ''${pkgs.tmux}/bin/tmux -f ${conf.tmux} $@'';
   };
   commands = {
@@ -25,6 +39,7 @@ in
       (import ./packages/lsp.nix { pkgs = pkgs; }) ++
         [
           commands.gitroot
+          wrapped.lf
           wrapped.tmux
 
           (pkgs.gradle_7.override{ java = pkgs.jdk11; })
@@ -58,7 +73,6 @@ in
           pkgs.gum
           pkgs.haskellPackages.hoogle
           pkgs.jq
-          pkgs.lf
           pkgs.moar
           pkgs.neovim-remote
           pkgs.nodePackages_latest.pyright
