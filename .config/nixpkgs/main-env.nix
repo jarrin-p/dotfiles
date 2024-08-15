@@ -6,7 +6,7 @@ let
     lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
     tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
   };
-  wrapped = {
+  bin = {
     lf = pkgs.writeShellScriptBin "lf" ''
       export PATH=${pkgs.lf}/bin:${pkgs.coreutils-full}/bin:${pkgs.bash}/bin
       export LF_CONFIG_HOME=${conf.lf_config_home};
@@ -51,9 +51,9 @@ in
         [
           commands.gitroot
           commands.als
-          wrapped.lf
-          wrapped.tmux
-          wrapped.tree
+          bin.lf
+          bin.tmux
+          bin.tree
 
           (pkgs.gradle_7.override{ java = pkgs.jdk11; })
 
