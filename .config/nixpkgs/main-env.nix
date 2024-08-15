@@ -30,7 +30,6 @@ in
           (pkgs.gradle_7.override{ java = pkgs.jdk11; })
 
           (callPackage ./packages/fennel.nix {})
-          
 
           # version of rtorrent that doesn't break.
           (import ./packages/rtorrent.nix {})
