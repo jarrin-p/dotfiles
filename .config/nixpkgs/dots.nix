@@ -1,6 +1,6 @@
-{ writeShellScriptBin, gum, configLocation }:
+{ writeShellScriptBin, coreutils-full, gum, configLocation }:
 writeShellScriptBin "dots" ''
-  export PATH=$PATH:${gum}/bin
+  export PATH=$PATH:${gum}/bin:${coreutils-full}/bin
 
   usage() {
       cat <<-EOF
@@ -8,11 +8,17 @@ writeShellScriptBin "dots" ''
   ./dots [command]
 
   command:
-      usage        shows this.
+      dir          show the directory where the dotfiles are located.
       install      runs nix install for the main environment.
+      refresh      alias for install, but more natural when updating.
       setup_shell  add a shim to a shell that sources config accessors for used apps.
       uninstall    removes everything.
+      usage        shows this.
   EOF
+  }
+
+  dir() {
+    dirname ${configLocation}
   }
 
   install_pkgs() {
@@ -50,6 +56,11 @@ writeShellScriptBin "dots" ''
   handle() {
       case "$1" in
           install)
+              install_pkgs
+              ;;
+          go)
+              ;;
+          refresh)
               install_pkgs
               ;;
           setup_shell)

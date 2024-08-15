@@ -2,23 +2,43 @@ let
   pkgs = import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/d8a5a620da8e1cae5348ede15cd244705e02598c"; }) {};
   callPackage = pkgs.callPackage;
 
-  nvim = (callPackage ./packages/nvim.nix {});
-
-  # want the helper tool to notice updates. if this were a path,
-  # it would be stored in the nix-store, and thus would never look like
-  # it changes.
-  this = toString ./main-env.nix;
-  dots = (callPackage ./dots.nix { configLocation = this; });
+  setenv = ''
+    export PAGER=${bin.bat}
+    export MANPAGER="bat --wrap never"
+    export EDITOR=${bin.nvim}/bin/nvim
+    export VISUAL=${bin.nvim}/bin/nvim
+    export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
+    export NIX_USER_CONF_FILES=${conf.nixconf}
+  '';
 
   conf = {
+    # want the helper tool to notice updates. if this were a path,
+    # it would be stored in the nix-store, and thus would never look like
+    # it changes.
+    this = toString ./main-env.nix;
+
+    root = ../../../dotfiles;
+
     lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
     tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
+    nixconf = ../nix/nix.conf;
+    fish = ../fish/config.fish;
   };
 
   bin = {
     bat = pkgs.writeShellScriptBin "bat" ''
       export BAT_THEME=TwoDark
       ${pkgs.bat}/bin/bat $@
+    '';
+
+    dots = (callPackage ./dots.nix { configLocation = conf.this; });
+
+    # load env vars before loading fish shell.
+    # this allows other shells to use them upon invocation as well, without having
+    # to have a lot of duplicate rcs for the preferences.
+    fish = pkgs.writeShellScriptBin "fish" ''
+      ${setenv}
+      ${pkgs.fish}/bin/fish --init-command="source ${conf.fish}" $@
     '';
 
     lf = pkgs.writeShellScriptBin "lf" ''
@@ -35,6 +55,8 @@ let
       rm -f $LF_CD_FILE
     '';
 
+    nvim = (callPackage ./packages/nvim.nix {});
+
     tmux = pkgs.writeShellScriptBin "tmux" ''
       ${pkgs.tmux}/bin/tmux -f ${conf.tmux} $@
     '';
@@ -43,6 +65,12 @@ let
       ${pkgs.tree}/bin/tree --dirsfirst -AC --prune $@
     '';
   };
+
+  # technically, these are executables, but they're more in the context
+  # of wrapping "pieces" of a package, not the whole thing.
+  # i.e, all 'tmux' commands should have the config file associated with it,
+  # but "als" (which is an alias for ls with flags) is a part of pkgs.coreutils,
+  # and all behavior shouldn't be modified/wrapped.
   commands = {
     als = pkgs.writeShellScriptBin "als" ''
       ${pkgs.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al $@
@@ -54,7 +82,7 @@ let
       then
         echo "not a git repository, nothing to look at."
       fi
-      ${nvim}/bin/nvim +"Git" +"only"
+      ${bin.nvim}/bin/nvim +"Git" +"only"
     '';
 
     git-root = pkgs.writeShellScriptBin "git-root" ''
@@ -69,14 +97,16 @@ in
       (import ./packages/lsp.nix { pkgs = pkgs; }) ++
         [
           bin.bat
+          bin.dots
+          bin.fish
           bin.lf
+          bin.nvim
           bin.tmux
           bin.tree
           commands.als
           commands.git-ui
           commands.git-root
 
-          dots
 
           (pkgs.gradle_7.override{ java = pkgs.jdk11; })
 
@@ -97,7 +127,6 @@ in
           pkgs.direnv
           pkgs.ffmpeg
           pkgs.fd
-          pkgs.fish
           pkgs.fnlfmt
           pkgs.fzf
           pkgs.gettext
@@ -109,7 +138,6 @@ in
           pkgs.haskellPackages.hoogle
           pkgs.jq
           pkgs.moar
-          nvim
           pkgs.neovim-remote
           pkgs.nodePackages_latest.pyright
           pkgs.pylint

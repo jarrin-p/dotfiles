@@ -11,17 +11,6 @@ set fish_cursor_insert line
 set fish_cursor_replace_one underscore
 set fish_cursor_visual block
 
-# environment variables.
-set -x PAGER bat
-set -x MANPAGER "bat --wrap never" # todo: look into why `bat -l man` doesn't parse colors correctly.
-
-set -x EDITOR nvim
-set -x VISUAL nvim
-
-set -x WEZTERM_CONFIG_FILE $DOTX_CONFIG_LOCATION/.config/wezterm
-set -x FZF_DEFAULT_COMMAND "rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
-set -x NIX_USER_CONF_FILES $DOTX_CONFIG_LOCATION/.config/nix/nix.conf
-
 function lf
   cd (command lf)
 end
@@ -64,11 +53,6 @@ function fish_prompt
 
     set_color yellow
     printf "> "
-end
-
-# functions
-function get_repo_root
-    git rev-parse --show-toplevel
 end
 
 # aws completion
