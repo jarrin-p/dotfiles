@@ -94,6 +94,7 @@ in
   pkgs.buildEnv {
     name = "mainEnv";
     paths =
+      (if builtins.currentSystem == "aarch64-darwin" then [] else [pkgs.bitwarden-cli]) ++
       (import ./packages/lsp.nix { pkgs = pkgs; }) ++
         [
           bin.bat
@@ -119,7 +120,6 @@ in
           (import ./packages/terraform.nix {})
 
           pkgs.ansifilter # an actual savior.
-          pkgs.bitwarden-cli
           pkgs.code-minimap
           pkgs.coreutils-full
           pkgs.coursier
