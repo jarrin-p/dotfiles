@@ -26,8 +26,6 @@ set -x NIX_USER_CONF_FILES $DOTX_CONFIG_LOCATION/.config/nix/nix.conf
 # abbreviations
 abbr --add gt pushd \(git rev-parse --show-toplevel\)
 abbr --add GT pushd \(git rev-parse --show-toplevel\)
-abbr --add ls command ls --group-directories-first --human-readable --color
-abbr --add tree command tree --dirsfirst -AC --prune $argv
 
 function lf
   cd (command lf)

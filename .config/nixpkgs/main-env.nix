@@ -20,9 +20,20 @@ let
       fi
       rm -f $LF_CD_FILE
     '';
-    tmux = pkgs.writeShellScriptBin "tmux" ''${pkgs.tmux}/bin/tmux -f ${conf.tmux} $@'';
+
+    tmux = pkgs.writeShellScriptBin "tmux" ''
+      ${pkgs.tmux}/bin/tmux -f ${conf.tmux} $@
+    '';
+
+    tree = pkgs.writeShellScriptBin "tree" ''
+      ${pkgs.tree}/bin/tree --dirsfirst -AC --prune $@
+    '';
   };
   commands = {
+    als = pkgs.writeShellScriptBin "als" ''
+      ${pkgs.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al $@
+    '';
+
     gitroot = pkgs.writeShellScriptBin "g" ''
       git status > /dev/null 2>&1
       if test $? -ne 0
@@ -39,8 +50,10 @@ in
       (import ./packages/lsp.nix { pkgs = pkgs; }) ++
         [
           commands.gitroot
+          commands.als
           wrapped.lf
           wrapped.tmux
+          wrapped.tree
 
           (pkgs.gradle_7.override{ java = pkgs.jdk11; })
 
@@ -85,7 +98,6 @@ in
           pkgs.ripgrep
           pkgs.sd
           pkgs.stow
-          pkgs.tree
           pkgs.universal-ctags
           pkgs.visidata
           pkgs.wget
