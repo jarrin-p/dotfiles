@@ -4,42 +4,40 @@ let
 
   setenv = ''
     export PAGER=${bin.bat}
-    export MANPAGER="bat --wrap never"
+    export MANPAGER="${bin.bat} --wrap never"
     export EDITOR=${bin.nvim}/bin/nvim
     export VISUAL=${bin.nvim}/bin/nvim
     export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
     export NIX_USER_CONF_FILES=${conf.nixconf}
   '';
 
-
-   nix-direnv = pkgs.stdenv.mkDerivation {
-    # escape hatch allowing for some impurity.
-    __noChroot = false;
-
-    pname = "modded-nix-direnv";
-    version = "1.0.0";
-
-    # see https://github.com/NixOS/nixpkgs/issues/23099#issuecomment-964024407
-    dontUnpack = true;
-
-    # inputs unavailable at runtime, due to these inputs being specific to the native host platform.
-    # nativeBuildInputs = [];
-
-    buildInputs = [pkgs.nix-direnv];
-
-    installPhase = ''
+  # build the hacky export string.
+  # direnv only supports passing configuration (direnvrc) through XDG_CONFIG_HOME/direnv/direnvrc,
+  # this is pretty much an ugly hack to allow direnv to stay isolated in nix, by altering
+  # the sourced hook function to include an export before the `direnv` binary is called.
+  nix-direnv = pkgs.runCommand "nix-direnv-as-xdg" {} ''
       mkdir -p $out/direnv
       cp ${pkgs.nix-direnv}/share/nix-direnv/direnvrc $out/direnv/direnvrc
-    '';
-  };
+  '';
+
+  fish-hook-export = "set -x XDG_CONFIG_HOME ${nix-direnv}";
+
+  fish-hook = pkgs.runCommand "fish-hook" {} ''
+    export PATH=$PATH:${bin.direnv}/bin:${pkgs.gnused}/bin
+    mkdir -p $out/share
+    direnv hook fish \
+      | sed -e 's@function __direnv_export_eval --on-event fish_prompt;@\0\n\t${fish-hook-export}@' \
+      | sed -e 's@function __direnv_export_eval_2 --on-event fish_preexec;@\0\n\t${fish-hook-export}@' \
+      > $out/share/hook.fish
+  '';
 
   conf = {
     # want the helper tool to notice updates. if this were a path,
     # it would be stored in the nix-store, and thus would never look like
     # it changes.
     this = toString ./main-env.nix;
+
     root = ../../../dotfiles;
-    # xdg = builtins.path { name = "xdg-config"; path = ../../../dotfiles/.config; };
 
     lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
     tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
@@ -53,11 +51,9 @@ let
       ${pkgs.bat}/bin/bat $@
     '';
 
-    # I don't think this is actually working.
-    direnv = pkgs.writeShellScriptBin "direnv" ''
-      export XDG_CONFIG_HOME=${nix-direnv}
-      ${pkgs.direnv}/bin/direnv $@
-    '';
+    # make sure the same direnv gets used everywhere, even though it's not
+    # actually modified at all.
+    direnv = pkgs.direnv;
 
     dots = (callPackage ./dots.nix { configLocation = conf.this; });
 
@@ -66,7 +62,7 @@ let
     # to have a lot of duplicate rcs for the preferences.
     fish = pkgs.writeShellScriptBin "fish" ''
       ${setenv}
-      ${pkgs.fish}/bin/fish --init-command="source ${conf.fish}" $@
+      ${pkgs.fish}/bin/fish --init-command="source ${conf.fish} && source ${fish-hook}/share/hook.fish" $@
     '';
 
     lf = pkgs.writeShellScriptBin "lf" ''
@@ -161,6 +157,7 @@ in
           pkgs.git
           pkgs.glow
           pkgs.gnumake
+          pkgs.gnused
           pkgs.gum
           pkgs.haskellPackages.hoogle
           pkgs.jq
