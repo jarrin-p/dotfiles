@@ -1,26 +1,11 @@
-{ neovim, vimPlugins, runCommand, fd, coreutils-full, findutils}:
+{ neovim, vimPlugins, runCommand, fd, coreutils-full }:
 let
   config = ../../nvim;
-  vimpaths = runCommand "built-nvim-plugins" {} ''
-    export PATH=$PATH:${fd}/bin:${coreutils-full}/bin:${findutils}/bin
+  builder = import ../util/default.nix {};
+  vimpaths = runCommand "vimpaths" {} ''
+    export PATH=$PATH:${builder}/bin
     mkdir -p $out/share
-    cd $out/share
-    files=$(fd '.fnl' ${config} --type f)
-    echo "starting loop over fennel files."
-    for f in $files
-    do
-      echo "f: '$f'"
-      mkdir -p $(dirname $f)
-      fennel --compile $f > $out/share/$f
-    done
-
-    luafiles=$(fd '.lua' ${config} --type f)
-    echo "starting loop over lua files."
-    for f in $luafiles
-    do
-      mkdir -p $(dirname $f)
-      cp $f $out/share/$f
-    done
+    prepvim ${config} $out/share
   '';
 in
 (neovim.override {
