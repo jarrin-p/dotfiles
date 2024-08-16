@@ -9,10 +9,6 @@ vim.g.dotx = dotx_dir
 -- todo: os specific behavior.
 os.execute("cd " .. dotx_dir .. " && make build > /tmp/dotx-buildlog-" .. user)
 
-local added_dirs = "," .. dotx_dir .. "/nvim" .. "," .. dotx_dir .. "/nvim/after"
-vim.o.runtimepath = vim.o.runtimepath .. added_dirs
-vim.o.packpath = vim.o.packpath .. added_dirs
-
 -- these must run before neovim loads anything else.
 vim.cmd('let g:gruvbox_material_enable_italic = 1')
 vim.cmd('colorscheme gruvbox-material')

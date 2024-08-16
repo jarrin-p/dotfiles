@@ -1,11 +1,16 @@
 { neovim, vimPlugins }:
+let
+  config = ../../nvim;
+in
 (neovim.override {
             configure = {
               # a hack that allows nvim config to exist without nix.
               customRC = ''
                 lua << EOF
                   require "os"
-                  package.path = package.path .. ";" .. os.getenv("DOTX_CONFIG_LOCATION") .. "/.config/nvim/?.lua"
+                  package.path = package.path .. ";" .. "${config}/?.lua"
+                  vim.o.runtimepath = vim.o.runtimepath .. ",${config},${config}/after"
+                  vim.o.packpath = vim.o.packpath .. ",${config},${config}/after"
                   require "nix-hook"
                 EOF
               '';
