@@ -1,11 +1,11 @@
-{ neovim, vimPlugins, runCommand, fd, coreutils-full }:
+{ neovim, vimPlugins, runCommand, fd, coreutils-full, fennel }:
 let
   config = ../../nvim;
   builder = import ../util/default.nix {};
   vimpaths = runCommand "vimpaths" {} ''
     export PATH=$PATH:${builder}/bin
     mkdir -p $out/share
-    prepvim ${config} $out/share
+    prepvim ${config} $out/share ${fd}/bin/fd ${fennel}/bin/fennel
   '';
 in
 (neovim.override {
