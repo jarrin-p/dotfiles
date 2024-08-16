@@ -1,16 +1,36 @@
-{ neovim, vimPlugins }:
+{ neovim, vimPlugins, runCommand, fd, coreutils-full, findutils}:
 let
   config = ../../nvim;
+  vimpaths = runCommand "built-nvim-plugins" {} ''
+    export PATH=$PATH:${fd}/bin:${coreutils-full}/bin:${findutils}/bin
+    mkdir -p $out/share
+    cd $out/share
+    files=$(fd '.fnl' ${config} --type f)
+    echo "starting loop over fennel files."
+    for f in $files
+    do
+      echo "f: '$f'"
+      mkdir -p $(dirname $f)
+      fennel --compile $f > $out/share/$f
+    done
+
+    luafiles=$(fd '.lua' ${config} --type f)
+    echo "starting loop over lua files."
+    for f in $luafiles
+    do
+      mkdir -p $(dirname $f)
+      cp $f $out/share/$f
+    done
+  '';
 in
 (neovim.override {
             configure = {
-              # a hack that allows nvim config to exist without nix.
               customRC = ''
                 lua << EOF
                   require "os"
-                  package.path = package.path .. ";" .. "${config}/?.lua"
-                  vim.o.runtimepath = vim.o.runtimepath .. ",${config},${config}/after"
-                  vim.o.packpath = vim.o.packpath .. ",${config},${config}/after"
+                  package.path = package.path .. ";" .. "${vimpaths}/share/?.lua"
+                  vim.o.runtimepath = vim.o.runtimepath .. ",${vimpaths}/share,${vimpaths}/share/after"
+                  vim.o.packpath = vim.o.packpath .. ",${vimpaths}/share,${vimpaths}/share/after"
                   require "nix-hook"
                 EOF
               '';
