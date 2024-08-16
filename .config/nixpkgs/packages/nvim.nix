@@ -1,4 +1,4 @@
-{ neovim, vimPlugins, runCommand, fd, coreutils-full, fennel }:
+{ neovim, vimPlugins, runCommand, fd, fennel }:
 let
   config = ../../nvim;
   builder = import ../util/default.nix {};
