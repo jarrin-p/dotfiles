@@ -11,13 +11,35 @@ let
     export NIX_USER_CONF_FILES=${conf.nixconf}
   '';
 
+
+   nix-direnv = pkgs.stdenv.mkDerivation {
+    # escape hatch allowing for some impurity.
+    __noChroot = false;
+
+    pname = "modded-nix-direnv";
+    version = "1.0.0";
+
+    # see https://github.com/NixOS/nixpkgs/issues/23099#issuecomment-964024407
+    dontUnpack = true;
+
+    # inputs unavailable at runtime, due to these inputs being specific to the native host platform.
+    # nativeBuildInputs = [];
+
+    buildInputs = [pkgs.nix-direnv];
+
+    installPhase = ''
+      mkdir -p $out/direnv
+      cp ${pkgs.nix-direnv}/share/nix-direnv/direnvrc $out/direnv/direnvrc
+    '';
+  };
+
   conf = {
     # want the helper tool to notice updates. if this were a path,
     # it would be stored in the nix-store, and thus would never look like
     # it changes.
     this = toString ./main-env.nix;
-
     root = ../../../dotfiles;
+    # xdg = builtins.path { name = "xdg-config"; path = ../../../dotfiles/.config; };
 
     lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
     tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
@@ -29,6 +51,12 @@ let
     bat = pkgs.writeShellScriptBin "bat" ''
       export BAT_THEME=TwoDark
       ${pkgs.bat}/bin/bat $@
+    '';
+
+    # I don't think this is actually working.
+    direnv = pkgs.writeShellScriptBin "direnv" ''
+      export XDG_CONFIG_HOME=${nix-direnv}
+      ${pkgs.direnv}/bin/direnv $@
     '';
 
     dots = (callPackage ./dots.nix { configLocation = conf.this; });
@@ -98,6 +126,7 @@ in
       (import ./packages/lsp.nix { pkgs = pkgs; }) ++
         [
           bin.bat
+          bin.direnv
           bin.dots
           bin.fish
           bin.lf
@@ -107,7 +136,6 @@ in
           commands.als
           commands.git-ui
           commands.git-root
-
 
           (pkgs.gradle_7.override{ java = pkgs.jdk11; })
 
@@ -124,7 +152,6 @@ in
           pkgs.coreutils-full
           pkgs.coursier
           pkgs.curl
-          pkgs.direnv
           pkgs.ffmpeg
           pkgs.fd
           pkgs.fnlfmt
