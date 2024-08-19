@@ -3,7 +3,6 @@ if ! status is-interactive
 end
 
 set fish_greeting "" # disable greeting.
-echo "I did get sourced."
 
 # make fish more vi like.
 fish_vi_key_bindings

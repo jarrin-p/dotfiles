@@ -55,7 +55,6 @@ let
     fish = pkgs.writeShellScriptBin "fish" ''
       ${setenv}
       ${pkgs.fish}/bin/fish \
-        --no-config \
         --login \
         --interactive \
         --init-command="source ${conf.fish} && source ${conf.fishhook}/direnv-hook.fish" \
