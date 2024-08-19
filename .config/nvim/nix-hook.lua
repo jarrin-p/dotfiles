@@ -2,12 +2,12 @@
 --- however it is desired for this to be called before nvim calls anything else.
 require "os"
 
-local dotx_dir = os.getenv("DOTX_CONFIG_LOCATION") .. "/.config"
-local user = os.getenv("USER")
-vim.g.dotx = dotx_dir
+-- local dotx_dir = os.getenv("DOTX_CONFIG_LOCATION") .. "/.config"
+-- local user = os.getenv("USER")
+-- vim.g.dotx = dotx_dir
 
 -- todo: os specific behavior.
-os.execute("cd " .. dotx_dir .. " && make build > /tmp/dotx-buildlog-" .. user)
+-- os.execute("cd " .. dotx_dir .. " && make build > /tmp/dotx-buildlog-" .. user)
 
 -- these must run before neovim loads anything else.
 vim.cmd('let g:gruvbox_material_enable_italic = 1')
