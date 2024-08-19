@@ -7,6 +7,7 @@ let
     export MANPAGER="${bin.bat} --wrap never"
     export EDITOR=${bin.nvim}/bin/nvim
     export VISUAL=${bin.nvim}/bin/nvim
+    export FAKE_XDG_CONFIG_HOME=""
     export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
     export NIX_USER_CONF_FILES=${conf.nixconf}
   '';
@@ -25,9 +26,14 @@ let
   fish-hook = pkgs.runCommand "fish-hook" {} ''
     export PATH=$PATH:${bin.direnv}/bin:${pkgs.gnused}/bin
     mkdir -p $out/share
+    echo '@@@@ '
+    echo '@@@@ '
+    echo $out
+    echo '@@@@ '
+    echo '@@@@ '
     direnv hook fish \
-      | sed -e 's@function __direnv_export_eval --on-event fish_prompt;@\0\n\t${fish-hook-export}@' \
-      | sed -e 's@function __direnv_export_eval_2 --on-event fish_preexec;@\0\n\t${fish-hook-export}@' \
+      | sed -e 's@function __direnv_export_eval --on-event fish_prompt;@\0\n        ${fish-hook-export}@' \
+      | sed -e 's@function __direnv_export_eval_2 --on-event fish_preexec;@\0\n        ${fish-hook-export}@' \
       > $out/share/hook.fish
   '';
 
@@ -62,7 +68,12 @@ let
     # to have a lot of duplicate rcs for the preferences.
     fish = pkgs.writeShellScriptBin "fish" ''
       ${setenv}
-      ${pkgs.fish}/bin/fish --init-command="source ${conf.fish} && source ${fish-hook}/share/hook.fish" $@
+      ${pkgs.fish}/bin/fish \
+        --no-config \
+        --login \
+        --interactive \
+        --init-command="source ${conf.fish} && source ${fish-hook}/share/hook.fish" \
+        $@
     '';
 
     lf = pkgs.writeShellScriptBin "lf" ''
