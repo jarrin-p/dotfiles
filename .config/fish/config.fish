@@ -13,7 +13,7 @@ set -U fish_cursor_replace_one underscore
 set -U fish_cursor_visual block
 
 set -U fish_color_normal normal
-set -U fish_color_command green
+set -U fish_color_command cyan
 set -U fish_color_quote yellow
 set -U fish_color_redirection cyan --bold
 set -U fish_color_end green
