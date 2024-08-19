@@ -3,6 +3,7 @@ Session.vim
 .config/coc/*
 .config/fish/fish_variables
 .config/nvim/autoload/*
+.direnv
 
 *.lua
 !.config/wezterm/*.lua
