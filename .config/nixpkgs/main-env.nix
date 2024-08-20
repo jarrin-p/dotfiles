@@ -8,6 +8,7 @@ let
     export EDITOR=${bin.nvim}/bin/nvim
     export VISUAL=${bin.nvim}/bin/nvim
     export NIX_DIRENV_LOCATION="${nix-direnv}"
+    export DIRENV_BIN="${bin.direnv}/bin/direnv"
     export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
     export NIX_USER_CONF_FILES=${conf.nixconf}
   '';
