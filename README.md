@@ -1,25 +1,15 @@
 # description
 an ongoing, unstable home for many of my dotfiles. neovim config receives the most updates.
 
-readme is very wip.
+# setup
+all you should need to get running is [nix](https://nixos.org). once you have that, you can just use the main environment `main-env.nix` file however you want, i.e. install it into your env, use it in a `shell.nix`, etc.
 
-`nix` is used to manage dependencies for all applications as part of the development environment. cli applications use environment variables for pointing at configuration files. they are set automatically when sourcing a shell's rc file (currently on `fish` is up to date..).
-
-## getting started
-### minimum requirements
-- [nix](https://nixos.org)
-
-### setup
-run this to install the packages from the nix file (just a wrapped `pkgs.buildEnv`).
+if you install, i.e. with the following,
 ```sh
-./do refresh
+nix-env -if ./.config/nixpkgs/main-env.nix
 ```
-(the `do` script doesn't actually do a whole lot, it's just a few preconfigured commands with a bit of feedback.)
 
-after that, export the variable `DOTX_CONFIG_LOCATION` with a path to where this repository was cloned. you can then source the rc for your shell, and it'll set all the configuration environment variables for cli applications.
+there are some helper commands that become available through an exectuable script `dots`. the contents are in `dots.nix`, but it basically just makes it easier to refresh the configuration or uninstall it if you want.
 
-running
-```sh
-./do setup_shell
-```
-will automate that process for you and add it to startup rcs. only `fish` is configured for right now.
+# uninstall
+uninstall it like any other `nix` package. `nix-env --uninstall main-env` should do the trick.
