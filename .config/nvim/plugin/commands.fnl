@@ -19,8 +19,16 @@
                    val args.args]
                (set vim.o.makeprg (.. cmd-prefix val cmd-post))))
            {:nargs "?"})
+  ;; (add-cmd :ShowDiags #(let [
+  ;;                            diags (vim.diagnostic.get)
+  ;;                            buf (vim.api.nvim_create_buf true true)]
+  ;;                        (do
+  ;;                          (vim.cmd (.. "vsp +b" buf))
+  ;;                          (icollect [i v (ipairs diags)] )
+  ;;                          )) {})
   (add-cmd :ToggleInlayHints
            #(let [{: enable : is_enabled} vim.lsp.inlay_hint]
-              (enable (not (is_enabled)))) {}))
+              (enable (not (is_enabled)))) {})
+  )
 
 {}
