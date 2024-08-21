@@ -5,8 +5,8 @@ writeShellScriptBin "dots" ''
   usage() {
       cat <<-EOF
   usage
-    dots # using without a command will open a command chooser.
-    dots [command]
+      dots # using without a command will open a command chooser.
+      dots [command]
 
   commands
       dir
