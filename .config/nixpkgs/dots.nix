@@ -5,19 +5,22 @@ writeShellScriptBin "dots" ''
   usage() {
       cat <<-EOF
   usage
-  ./dots [command]
+    dots # using without a command will open a command chooser.
+    dots [command]
 
-  command:
-      dir          show the directory where the dotfiles are located.
-      install      runs nix install for the main environment.
-      refresh      alias for install, but more natural when updating.
-      uninstall    removes everything.
-      usage        shows this.
+  commands
+      dir
+        show the directory where the dotfiles are located.
+
+      install, refresh, r
+        runs 'nix-env -if <path/to/main-env.nix>'. 
+
+      uninstall
+        removes everything.
+
+      help, usage
+        shows this.
   EOF
-  }
-
-  dir() {
-    dirname ${configLocation}
   }
 
   install_pkgs() {
@@ -35,10 +38,14 @@ writeShellScriptBin "dots" ''
           install)
               install_pkgs
               ;;
-          go)
-              ;;
           refresh)
               install_pkgs
+              ;;
+          r)
+              install_pkgs
+              ;;
+          dir)
+              dirname ${configLocation}
               ;;
           uninstall)
               nix-env --uninstall 'mainEnv'
@@ -51,7 +58,7 @@ writeShellScriptBin "dots" ''
 
   if test -z "$@"
   then
-      choice=$(gum choose --ordered "install" "uninstall" "usage" "cancel")
+      choice=$(gum choose --ordered "install" "refresh" "uninstall" "usage" "cancel")
       handle $choice
   else
       while ! test -z "$1"
