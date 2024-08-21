@@ -38,6 +38,11 @@ let
     fish = ../fish/config.fish;
   };
 
+  # helper for wrapping commands while preserving script input arguments.
+  # `bash` automatically splits strings into lists, i.e. ./script "hello world" is
+  # processed as a script with two arguments. this function works around that.
+  wrapcmd = cmd: ''eval "${cmd} ''${*@Q}"'';
+
   bin = {
     bat = pkgs.writeShellScriptBin "bat" ''
       export BAT_THEME=TwoDark
@@ -78,13 +83,13 @@ let
 
     nvim = (callPackage ./packages/nvim.nix {});
 
-    tmux = pkgs.writeShellScriptBin "tmux" ''
-      ${pkgs.tmux}/bin/tmux -f ${conf.tmux} $@
-    '';
+    tmux = pkgs.writeShellScriptBin
+      "tmux"
+      (wrapcmd "${pkgs.tmux}/bin/tmux -f ${conf.tmux}");
 
-    tree = pkgs.writeShellScriptBin "tree" ''
-      ${pkgs.tree}/bin/tree --dirsfirst -AC --prune $@
-    '';
+    tree = pkgs.writeShellScriptBin
+      "tree"
+      (wrapcmd "${pkgs.tree}/bin/tree --dirsfirst -AC --prune" );
   };
 
   # technically, these are executables, but they're more in the context
@@ -93,15 +98,16 @@ let
   # but "als" (which is an alias for ls with flags) is a part of pkgs.coreutils,
   # and all behavior shouldn't be modified/wrapped.
   commands = {
-    als = pkgs.writeShellScriptBin "als" ''
-      ${pkgs.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al $@
-    '';
+    als = pkgs.writeShellScriptBin
+      "als"
+      (wrapcmd ''${pkgs.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al'');
 
     git-ui = pkgs.writeShellScriptBin "git-ui" ''
       git status > /dev/null 2>&1
       if test $? -ne 0
       then
         echo "not a git repository, nothing to look at."
+        exit 1
       fi
       ${bin.nvim}/bin/nvim +"Git" +"only"
     '';
