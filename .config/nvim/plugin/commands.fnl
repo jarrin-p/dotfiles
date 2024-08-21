@@ -7,20 +7,20 @@
                            (set vim.g.font-size new-size)
                            (set vim.o.guifont
                                 (.. vim.g.FontKW vim.g.font_size "")))))]
-  ;;(exec "command! GT execute 'lcd' fnameescape(FugitiveWorkTree())" false)
+  (add-cmd :FF file-format {})
   (add-cmd :GT #(let [path (-> (vim.fn.FugitiveWorkTree) (vim.fn.fnameescape))]
                   (vim.cmd.lcd path)) {})
-  (add-cmd :FF file-format {})
   (add-cmd :GO #(exec "silent !tmux split-window -h -c $(dirname %)" false) {})
   (add-cmd :SetFontSize set-font-size {})
+  (add-cmd :SetMakeRunner
+           (fn [args]
+             (let [cmd-prefix "tmux send-keys -t {marked} enter escape 'S"
+                   cmd-post "' enter"
+                   val args.args]
+               (set vim.o.makeprg (.. cmd-prefix val cmd-post))))
+           {:nargs "?"})
   (add-cmd :ToggleInlayHints
            #(let [{: enable : is_enabled} vim.lsp.inlay_hint]
-              (enable (not (is_enabled)))) {})
-  (let [update-makeprg (fn [args]
-                         (let [cmd-prefix "tmux send-keys -t {marked} enter escape 'S"
-                               cmd-post "' enter"
-                               val args.args]
-                           (set vim.o.makeprg (.. cmd-prefix val cmd-post))))]
-    (add-cmd :SetMakeRunner update-makeprg {:nargs "?"})))
+              (enable (not (is_enabled)))) {}))
 
 {}
