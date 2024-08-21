@@ -6,17 +6,25 @@
                          (do
                            (set vim.g.font-size new-size)
                            (set vim.o.guifont
-                                (.. vim.g.FontKW vim.g.font_size "")))))]
-  (add-cmd :ConvertFromUnicode
-           #(do
-              (vim.cmd "silent %sno/↔/<->/g")
-              (vim.cmd "silent %sno/→/->/g")
-              (vim.notify "converted from unicode to ascii.")) {})
-  (add-cmd :ConvertToUnicode
-           #(do
-              (vim.cmd "silent %sno/<->/↔/g")
-              (vim.cmd "silent %sno/ ->/ →/g")
-              (vim.notify "converted from ascii to unicode.")) {})
+                                (.. vim.g.FontKW vim.g.font_size "")))))
+      _ {"↔" "<->" "→" "->"}]
+  (add-cmd :ConvertUnicodeToAscii
+           #(let [{: line1 : line2 : bang} $1
+                  sub-cmd (.. "silent! " (if bang "%sno" (.. line1 "," line2 :sno)))]
+              (do
+                (vim.cmd (.. sub-cmd "/↔/<->/g"))
+                (vim.cmd (.. sub-cmd "/→/->/g"))
+                (vim.notify "converted from unicode to ascii.")))
+           {:range true :bang true})
+  (add-cmd :ConvertAsciiToUnicode
+           #(let [{: line1 : line2 : bang} $1
+                  sub-cmd (.. "silent! " (if bang "%sno" (.. line1 "," line2 :sno)))]
+              (do
+                (vim.notify (.. :sub-cmd: sub-cmd))
+                (vim.cmd (.. sub-cmd "/<->/↔/g"))
+                (vim.cmd (.. sub-cmd "/ ->/ →/g"))
+                (vim.notify "converted from ascii to unicode.")))
+           {:range true :bang true})
   (add-cmd :FF file-format {})
   (add-cmd :GT #(let [path (-> (vim.fn.FugitiveWorkTree) (vim.fn.fnameescape))]
                   (vim.cmd.lcd path)) {})
