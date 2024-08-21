@@ -7,6 +7,16 @@
                            (set vim.g.font-size new-size)
                            (set vim.o.guifont
                                 (.. vim.g.FontKW vim.g.font_size "")))))]
+  (add-cmd :ConvertFromUnicode
+           #(do
+              (vim.cmd "silent %sno/↔/<->/g")
+              (vim.cmd "silent %sno/→/->/g")
+              (vim.notify "converted from unicode to ascii.")) {})
+  (add-cmd :ConvertToUnicode
+           #(do
+              (vim.cmd "silent %sno/<->/↔/g")
+              (vim.cmd "silent %sno/ ->/ →/g")
+              (vim.notify "converted from ascii to unicode.")) {})
   (add-cmd :FF file-format {})
   (add-cmd :GT #(let [path (-> (vim.fn.FugitiveWorkTree) (vim.fn.fnameescape))]
                   (vim.cmd.lcd path)) {})
@@ -28,7 +38,6 @@
   ;;                          )) {})
   (add-cmd :ToggleInlayHints
            #(let [{: enable : is_enabled} vim.lsp.inlay_hint]
-              (enable (not (is_enabled)))) {})
-  )
+              (enable (not (is_enabled)))) {}))
 
 {}
