@@ -60,11 +60,7 @@ let
     # to have a lot of duplicate rcs for the preferences.
     fish = pkgs.writeShellScriptBin "fish" ''
       ${setenv}
-      ${pkgs.fish}/bin/fish \
-        --login \
-        --interactive \
-        --init-command="source ${conf.fish} && source ${conf.fishhook}/direnv-hook.fish" \
-        $@
+      ${pkgs.fish}/bin/fish --init-command="source ${conf.fish} && source ${conf.fishhook}/direnv-hook.fish" $@
     '';
 
     lf = pkgs.writeShellScriptBin "lf" ''
