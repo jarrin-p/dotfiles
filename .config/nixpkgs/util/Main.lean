@@ -35,7 +35,7 @@ def fd (fd_path : String) (path : FilePath) (pattern : String) : IO (List FilePa
 def write_fennel (source : FilePath) (dest : FilePath) (fennel_path : String) : IO Unit := do
   let x <- run [fennel_path, "--compile", source.toString]
   let dir := dest.parent.get!.toString
-  let _ <- IO.println dest.toString
+  let _ <- IO.println (dest.withExtension "lua").toString
   let _ <- run ["mkdir", "-p", dir]
   writeFile (dest.withExtension "lua") x.stdout
 
