@@ -1,7 +1,15 @@
-(set vim.o.compatible false)
-
-(let [vim-settings {:g {:csv_nomap_cr 1 :netrw_liststyle 3}
-                    :o {;;
+(let [vim-settings {:g {:clipboard (if (and (= 1 (vim.fn.executable :clip.exe))
+                                            (= 1
+                                               (vim.fn.executable :powershell.exe)))
+                                       {:name :windows-clip
+                                        :copy {:+ [:clip.exe] :* [:clip.exe]}
+                                        :paste {:+ "powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace(\"`r\", \"\"))"
+                                                :* "powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace(\"`r\", \"\"))"}}
+                                       false)
+                        :csv_nomap_cr 1
+                        :netrw_liststyle 3}
+                    :o {:compatible false
+                        ;;
                         ;;
                         ;; layout
                         :linespace 12
