@@ -3,8 +3,8 @@ let
   callPackage = pkgs.callPackage;
 
   setenv = ''
-    export PAGER=${bin.bat}
-    export MANPAGER="${bin.bat} --wrap never"
+    export PAGER=${bin.bat}/bin/bat
+    export MANPAGER="${bin.bat}/bin/bat --wrap never"
     export EDITOR=${bin.nvim}/bin/nvim
     export VISUAL=${bin.nvim}/bin/nvim
     export NIX_DIRENV_LOCATION="${nix-direnv}"
@@ -44,9 +44,9 @@ let
   wrapcmd = cmd: ''eval "${cmd} ''${*@Q}"'';
 
   bin = {
-    bat = pkgs.writeShellScriptBin "bat" ''
+    bat = let wrapped = wrapcmd "${pkgs.bat}/bin/bat"; in pkgs.writeShellScriptBin "bat" ''
       export BAT_THEME=TwoDark
-      ${pkgs.bat}/bin/bat $@
+      ${wrapped}
     '';
 
     # make sure the same direnv gets used everywhere, even though it's not
@@ -86,9 +86,13 @@ let
       ${bin.nvim}/bin/nvim --headless +q
     '';
 
-    tmux = pkgs.writeShellScriptBin
-      "tmux"
-      (wrapcmd "${pkgs.tmux}/bin/tmux -f ${conf.tmux}");
+    tmux = pkgs.symlinkJoin {
+      name = "tmux-join";
+      paths = [
+        (pkgs.tmux + /share)
+        (pkgs.writeShellScriptBin "tmux" (wrapcmd "${pkgs.tmux}/bin/tmux -f ${conf.tmux}"))
+      ];
+    };
 
     tree = pkgs.writeShellScriptBin
       "tree"
