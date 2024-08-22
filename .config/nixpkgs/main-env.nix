@@ -79,6 +79,13 @@ let
 
     nvim = (callPackage ./packages/nvim.nix {});
 
+    # simple command for ensuring nvim can open.
+    # eventually this should get moved into a test method when
+    # building nvim.
+    nvim-debug = pkgs.writeShellScriptBin "nvim_d" ''
+      ${bin.nvim}/bin/nvim --headless +q
+    '';
+
     tmux = pkgs.writeShellScriptBin
       "tmux"
       (wrapcmd "${pkgs.tmux}/bin/tmux -f ${conf.tmux}");
@@ -126,6 +133,7 @@ in
           bin.fish
           bin.lf
           bin.nvim
+          bin.test-nvim
           bin.tmux
           bin.tree
           commands.als
