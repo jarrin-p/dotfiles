@@ -1,11 +1,4 @@
-; @author jarrin-p
-; @file `settings.fnl`
 (set vim.o.compatible false)
-
-; shada settings
-; @see "h 'sd'" or "h 'shada'"
-(let [shada-settings (table.concat ["%3" "'10" "\"50" :s10 ":50" :h] ",")]
-  (set vim.o.shada shada-settings))
 
 (let [vim-settings {:g {:csv_nomap_cr 1 :netrw_liststyle 3}
                     :o {;;
@@ -20,7 +13,6 @@
                         ;;
                         ;;
                         ;; visual behavior (doesn't effect document)
-                        :completeopt "menu,menuone,preview,noselect"
                         :cursorline true
                         :foldcolumn :3
                         :foldlevelstart 99
@@ -29,7 +21,6 @@
                         :inccommand :split
                         :jumpoptions :view
                         :list true
-                        :listchars "tab:;>,leadmultispace:    ,trail:-"
                         :mouse :nv
                         :number true
                         :relativenumber true
@@ -43,15 +34,12 @@
                         :syntax :on
                         :textwidth 0
                         :updatetime 25
-                        :viewoptions "folds,cursor"
                         :wrap false
                         ;;
                         ;;
                         ;; editing behavior (effects document)
                         :autoindent false
                         :autowrite true
-                        :backspace "indent,start"
-                        :clipboard "unnamed,unnamedplus"
                         :expandtab true
                         :hidden false
                         :magic true
@@ -65,7 +53,16 @@
                         ;;
                         ;;
                         ;; settings for external programs
-                        :grepprg "rg --vimgrep"}}]
+                        :grepprg "rg --vimgrep"}
+                    ;; see `h vim.opt`
+                    :opt {:backspace [:indent :start]
+                          :clipboard [:unnamed :unnamedplus]
+                          :completeopt [:menu :menuone :preview :noselect]
+                          :listchars {:tab ";>"
+                                      :leadmultispace "    "
+                                      :trail "-"}
+                          :shada ["%3" "'10" "\"50" :s10 ":50" :h]
+                          :viewoptions [:folds :cursor]}}]
   (each [opt-type opts (pairs vim-settings)]
     (each [opt value (pairs opts)]
       (tset vim opt-type opt value))))
