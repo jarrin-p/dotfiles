@@ -8,15 +8,18 @@ let
     prepvim ${config} $out/share ${fd}/bin/fd ${fennel}/bin/fennel
   '';
 in
-(neovim.override {
+neovim.override {
             configure = {
               customRC = ''
                 lua << EOF
-                  require "os"
                   package.path = package.path .. ";" .. "${vimpaths}/share/?.lua"
                   vim.o.runtimepath = vim.o.runtimepath .. ",${vimpaths}/share,${vimpaths}/share/after"
                   vim.o.packpath = vim.o.packpath .. ",${vimpaths}/share,${vimpaths}/share/after"
-                  require "nix-hook"
+
+                  -- for some reason these need to be set before anything else.
+                  vim.cmd('let g:gruvbox_material_enable_italic = 1')
+                  vim.cmd('colorscheme gruvbox-material')
+                  require "utils"
                 EOF
               '';
 
@@ -55,4 +58,4 @@ in
                 opt = [];
             };
           };
-        })
+        }
