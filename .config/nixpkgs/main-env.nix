@@ -44,10 +44,14 @@ let
   wrapcmd = cmd: ''eval "${cmd} ''${*@Q}"'';
 
   bin = {
-    bat = let wrapped = wrapcmd "${pkgs.bat}/bin/bat"; in pkgs.writeShellScriptBin "bat" ''
-      export BAT_THEME=TwoDark
-      ${wrapped}
-    '';
+    bat = let
+      wrapped = wrapcmd "${pkgs.bat}/bin/bat";
+      script = (pkgs.writeShellScriptBin "bat" ''
+        export BAT_THEME=TwoDark
+        ${wrapped}
+      '');
+    in
+      pkgs.symlinkJoin { name = "bat-join"; paths = [ (pkgs.bat + /share) script ]; };
 
     # make sure the same direnv gets used everywhere, even though it's not
     # actually modified at all.
@@ -58,24 +62,29 @@ let
     # load env vars before loading fish shell.
     # this allows other shells to use them upon invocation as well, without having
     # to have a lot of duplicate rcs for the preferences.
-    fish = pkgs.writeShellScriptBin "fish" ''
-      ${setenv}
-      ${pkgs.fish}/bin/fish --init-command="source ${conf.fish} && source ${conf.fishhook}/direnv-hook.fish" $@
-    '';
+    fish = let
+      script = pkgs.writeShellScriptBin "fish" ''
+        ${setenv}
+        ${pkgs.fish}/bin/fish --init-command="source ${conf.fish} && source ${conf.fishhook}/direnv-hook.fish" $@
+      '';
+    in
+      pkgs.symlinkJoin { name = "fish-join"; paths = [ (pkgs.fish + /share) script ]; };
 
-    lf = pkgs.writeShellScriptBin "lf" ''
-      export PATH=${pkgs.lf}/bin:${pkgs.coreutils-full}/bin:${pkgs.bash}/bin
-      export LF_CONFIG_HOME=${conf.lf_config_home};
-      export LF_CD_FILE=/tmp/.lfcd
-      lf $@
-      if test -s $LF_CD_FILE
-      then
-        echo $(realpath $(cat $LF_CD_FILE))
-      else
-        echo $(pwd)
-      fi
-      rm -f $LF_CD_FILE
-    '';
+    lf = let script = pkgs.writeShellScriptBin "lf" ''
+        export PATH=${pkgs.lf}/bin:${pkgs.coreutils-full}/bin:${pkgs.bash}/bin
+        export LF_CONFIG_HOME=${conf.lf_config_home};
+        export LF_CD_FILE=/tmp/.lfcd
+        lf $@
+        if test -s $LF_CD_FILE
+        then
+          echo $(realpath $(cat $LF_CD_FILE))
+        else
+          echo $(pwd)
+        fi
+        rm -f $LF_CD_FILE
+      '';
+    in
+      pkgs.symlinkJoin { name = "lf-join"; paths = [ (pkgs.lf + /share) script ]; };
 
     nvim = (callPackage ./packages/nvim.nix {});
 
@@ -94,9 +103,11 @@ let
       ];
     };
 
-    tree = pkgs.writeShellScriptBin
+    tree = let script = pkgs.writeShellScriptBin
       "tree"
       (wrapcmd "${pkgs.tree}/bin/tree --dirsfirst -AC --prune" );
+    in
+      pkgs.symlinkJoin { name = "tree-join"; paths = [ (pkgs.tree + /share) script ]; };
   };
 
   # technically, these are executables, but they're more in the context
