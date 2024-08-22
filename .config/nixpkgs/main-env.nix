@@ -133,7 +133,7 @@ in
           bin.fish
           bin.lf
           bin.nvim
-          bin.test-nvim
+          bin.nvim-debug
           bin.tmux
           bin.tree
           commands.als
