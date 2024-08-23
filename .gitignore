@@ -7,3 +7,4 @@ Session.vim
 
 *.lua
 !.config/wezterm/*.lua
+build

@@ -72,8 +72,10 @@ def do_the_things (search_dir : FilePath) (output_dir : FilePath) (fd_path : Str
   lua_files.forA λ p => copy_lua p.source p.dest
   pure ()
 
+
 def main (args : List String) := do
   match args with
+    | "walk-dir" :: [] => IO.println "hello"
     | store_path :: out_path :: fd_path :: fennel_path :: [] =>
       do_the_things store_path out_path fd_path fennel_path
     | _ => pure ()
