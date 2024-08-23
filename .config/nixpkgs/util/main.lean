@@ -1,6 +1,9 @@
+import util
 abbrev FilePath := System.FilePath
 abbrev realPath := IO.FS.realPath
 abbrev writeFile := IO.FS.writeFile
+
+#eval hello
 
 def run : List String -> IO IO.Process.Output
     | [] => IO.Process.output { cmd := "nothing" }

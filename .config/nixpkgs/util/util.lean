@@ -1,1 +1,1 @@
-def hello := "hello world"
+def hello := "hello, to all the world"
