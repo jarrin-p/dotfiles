@@ -20,6 +20,7 @@ cmd fzf ${{
 
 set shell bash
 set relativenumber true
+set hidden true
 map Q quit
 map q quit-and-cd
 map f fzf
