@@ -11,6 +11,12 @@
         (indent lnum) (line:find patterns.end) (- (indent lnum) vim.o.tabstop)
         (= lnum 1) -1 (matching-indent (- lnum 1)))))
 
+; see `https://github.com/Julian/lean.nvim/wiki/Configuring-&-Extending#semantic-highlighting`
+(let [mappings {"@lsp.type.variable" :Identifier}]
+  (do
+    (each [from to (pairs mappings)]
+      (vim.cmd.highlight (.. :link " " from " " to)))))
+
 (let [{: load-once} (require :utils.load-once)]
   (do
     (load-once :lean
