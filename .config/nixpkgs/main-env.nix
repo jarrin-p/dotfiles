@@ -139,22 +139,11 @@ in
   pkgs.buildEnv {
     name = "mainEnv";
     paths =
-      (if builtins.currentSystem == "aarch64-darwin" then [] else [pkgs.bitwarden-cli]) ++
-      (import ./packages/lsp.nix { pkgs = pkgs; }) ++
-        [
-          bin.bat
-          bin.direnv
-          bin.dots
-          bin.fish
-          bin.lf
-          bin.nvim
-          bin.nvim-debug
-          bin.tmux
-          bin.tree
-          commands.als
-          commands.git-ui
-          commands.git-root
-
+         (builtins.attrValues commands)
+      ++ (builtins.attrValues bin)
+      ++ (if builtins.currentSystem == "aarch64-darwin" then [] else [pkgs.bitwarden-cli])
+      ++ (import ./packages/lsp.nix { pkgs = pkgs; })
+      ++ [
           (pkgs.gradle_7.override{ java = pkgs.jdk11; })
 
           (callPackage ./packages/fennel.nix {})
