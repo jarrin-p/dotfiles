@@ -5,10 +5,10 @@
   llvmPackages_16,
   nil,
   nls,
+  nodePackages_latest,
   sumneko-lua-language-server,
   terraform-ls,
-  yaml-language-server,
-  nodePackages_latest 
+  yaml-language-server
 }:
 let
   bins = [
