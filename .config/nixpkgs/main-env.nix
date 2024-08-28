@@ -147,7 +147,7 @@ in
           # version of rtorrent that doesn't break.
           (import ./packages/rtorrent.nix {})
 
-          pkgs.ansifilter # an actual savior.
+          pkgs.ansifilter
           pkgs.code-minimap
           pkgs.coreutils-full
           pkgs.coursier
@@ -163,7 +163,6 @@ in
           pkgs.gnumake
           pkgs.gnused
           pkgs.gum
-          pkgs.haskellPackages.hoogle
           pkgs.jq
           pkgs.lean
           pkgs.moar
@@ -175,9 +174,6 @@ in
           pkgs.redis
           pkgs.rename
           pkgs.ripgrep
-          pkgs.sd
-          pkgs.stow
-          pkgs.universal-ctags
           pkgs.visidata
           pkgs.wget
           pkgs.yq
