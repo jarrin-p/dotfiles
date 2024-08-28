@@ -144,15 +144,8 @@ in
       ++ (if builtins.currentSystem == "aarch64-darwin" then [] else [pkgs.bitwarden-cli])
       ++ (import ./packages/lsp.nix { pkgs = pkgs; })
       ++ [
-          (pkgs.gradle_7.override{ java = pkgs.jdk11; })
-
-          (callPackage ./packages/fennel.nix {})
-
           # version of rtorrent that doesn't break.
           (import ./packages/rtorrent.nix {})
-
-          # version 1.15 of terraform.
-          (import ./packages/terraform.nix {})
 
           pkgs.ansifilter # an actual savior.
           pkgs.code-minimap
@@ -177,7 +170,6 @@ in
           pkgs.nodePackages_latest.pyright
           pkgs.pylint
           pkgs.python311Packages.sqlparse
-          pkgs.python310
           pkgs.readline
           pkgs.redis
           pkgs.rename
