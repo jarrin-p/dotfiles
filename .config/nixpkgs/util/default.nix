@@ -12,9 +12,8 @@ pkgs.stdenv.mkDerivation {
   installPhase = ''
     export PATH=$PATH:${pkgs.lean4}/bin:${pkgs.coreutils-full}/bin
     mkdir -p $out/bin
-    ls -al
-    leanmake bin
-    mv build/bin/Main $out/bin/prepvim
+    lake build
+    mv .lake/build/bin/vimprep $out/bin/prepvim
     rm -rf build
   '';
 }
