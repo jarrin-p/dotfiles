@@ -30,7 +30,6 @@ let
     vscode-json-languageserver
   ];
 
-  
   imports = [
     # java jdlts with lombok enabled.
     (callPackage ./jdtls/default.nix {})
