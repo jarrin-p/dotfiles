@@ -8,8 +8,12 @@
   "returns an indent level for matched key words."
   (let [line (getline lnum)]
     (if (or (line:find patterns.section) (line:find patterns.namespace))
-        (indent lnum) (line:find patterns.end) (- (indent lnum) vim.o.tabstop)
-        (= lnum 1) -1 (matching-indent (- lnum 1)))))
+        (indent lnum)
+        (line:find patterns.end)
+        (- (indent lnum) vim.o.tabstop)
+        (= lnum 1)
+        -1
+        (matching-indent (- lnum 1)))))
 
 ; see `https://github.com/Julian/lean.nvim/wiki/Configuring-&-Extending#semantic-highlighting`
 (let [mappings {"@lsp.type.variable" :Identifier}]
@@ -22,7 +26,9 @@
     (load-once :lean
                #(let [lean (require :lean)]
                   (lean.setup {:ft {:nomodifiable {}}
-                               :infoview {:autoopen false :width 20 :height 30}})))
+                               :infoview {:autoopen false
+                                          :width 100
+                                          :height 300}})))
     (vim.opt.indentkeys:prepend [:0=end])
     (set vim.g.IndentLean #(let [line-nr vim.v.lnum
                                  current-line (getline line-nr)
