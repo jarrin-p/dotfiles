@@ -139,12 +139,12 @@ in
   pkgs.buildEnv {
     name = "mainEnv";
     paths =
-         (builtins.attrValues commands)
-      ++ (builtins.attrValues bin)
+         (builtins.attrValues bin)
+      ++ (builtins.attrValues commands)
       ++ (if builtins.currentSystem == "aarch64-darwin" then [] else [pkgs.bitwarden-cli])
-      ++ (import ./packages/lsp.nix { pkgs = pkgs; })
+      ++ (callPackage ./packages/lsp.nix {})
       ++ [
-          # version of rtorrent that doesn't break.
+          # version of rtorrent that isn't broken.
           (import ./packages/rtorrent.nix {})
 
           pkgs.ansifilter
@@ -166,7 +166,6 @@ in
           pkgs.jq
           pkgs.lean
           pkgs.moar
-          pkgs.neovim-remote
           pkgs.nodePackages_latest.pyright
           pkgs.pylint
           pkgs.python311Packages.sqlparse

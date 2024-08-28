@@ -1,8 +1,8 @@
-{ pkgs }:
+{ bash, coreutils }:
 let
   lombok = builtins.fetchurl "https://projectlombok.org/downloads/lombok.jar";
 in
-with pkgs; derivation {
+derivation {
   name = "lombok";
   system = builtins.currentSystem;
 
