@@ -23,12 +23,12 @@ let
     yaml-language-server
   ];
   nodeBins = with nodePackages_latest; [
-    vscode-css-languageserver-bin
-    vscode-json-languageserver
-    vscode-html-languageserver-bin
-    typescript-language-server
     dockerfile-language-server-nodejs
     pyright
+    typescript-language-server
+    vscode-css-languageserver-bin
+    vscode-html-languageserver-bin
+    vscode-json-languageserver
   ];
 
   imports = [
