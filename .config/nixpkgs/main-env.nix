@@ -166,7 +166,6 @@ in
           pkgs.jq
           pkgs.lean
           pkgs.moar
-          pkgs.pylint
           pkgs.python311Packages.sqlparse
           pkgs.readline
           pkgs.redis
