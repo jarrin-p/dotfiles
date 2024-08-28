@@ -165,6 +165,7 @@ in
           pkgs.gum
           pkgs.haskellPackages.hoogle
           pkgs.jq
+          pkgs.lean
           pkgs.moar
           pkgs.neovim-remote
           pkgs.nodePackages_latest.pyright
