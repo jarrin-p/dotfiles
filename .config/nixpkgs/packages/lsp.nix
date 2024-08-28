@@ -28,6 +28,7 @@ let
     vscode-html-languageserver-bin
     typescript-language-server
     dockerfile-language-server-nodejs
+    pyright
   ];
 
   imports = [
