@@ -29,7 +29,7 @@
                                :infoview {:autoopen false
                                           :width 100
                                           :height 300}})))
-    (vim.opt.indentkeys:prepend [:0=end])
+    (vim.opt_local.indentkeys:prepend [:0=end])
     (set vim.g.IndentLean #(let [line-nr vim.v.lnum
                                  current-line (getline line-nr)
                                  prev-line-nr (- line-nr 1)
