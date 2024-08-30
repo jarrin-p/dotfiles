@@ -198,6 +198,7 @@ in
           coreutils-full
           coursier
           curl
+          direnv
           ffmpeg
           fd
           fnlfmt
