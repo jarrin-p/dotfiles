@@ -1,16 +1,18 @@
-{ neovim, vimPlugins, runCommand, fd, fennel }:
+{ neovim, vimPlugins, runCommand, fd, fennel, sd }:
 let
   config = ../../nvim;
   vimpaths = runCommand "vimpaths" {} ''
-    export PATH=$PATH:${fd}/bin:${fennel}/bin
+    export PATH=$PATH:${fd}/bin:${fennel}/bin:${sd}/bin
     cd ${config}
     fd --type directory | xargs -I% mkdir -p $out/share/%
 
     # aot compile fennel.
     for f in $(fd --type file ".fnl")
     do
-      echo "compiling fennel to lua from '$f' to '$out/share/$f.lua'."
-      fennel --compile $f > $out/share/$f.lua &
+      outpath="$out/share/$(sd --fixed-strings .fnl .lua <<< $f)"
+
+      echo "compiling fennel to lua from '$f' to '$outpath'."
+      fennel --compile $f > $outpath &
     done
 
     for f in $(fd --type file ".lua")
@@ -25,7 +27,7 @@ neovim.override {
             configure = {
               customRC = ''
                 lua << EOF
-                  package.path = package.path .. ";" .. "${vimpaths}/share/?.fnl.lua"
+                  package.path = package.path .. ";" .. "${vimpaths}/share/?.lua"
                   vim.o.runtimepath = vim.o.runtimepath .. ",${vimpaths}/share,${vimpaths}/share/after"
                   vim.o.packpath = vim.o.packpath .. ",${vimpaths}/share,${vimpaths}/share/after"
 
