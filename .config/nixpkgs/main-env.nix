@@ -1,6 +1,19 @@
 {
-  # additional configuration (must be supplied by caller)
-  callerPath,
+  # configuration arguments.
+  callerPath, # required
+  conf ? {
+    # want the helper tool to notice updates. if this were a path,
+    # it would be stored in the nix-store, and thus would never look like
+    # it changes.
+    this = toString ./main-env.nix;
+
+    fish = ../fish/config.fish;
+    fishhook = ./packages/fish;
+    lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
+    nixconf = ../nix/nix.conf;
+    root = ../../../dotfiles;
+    tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
+  },
 
   # the remaining are attributes of the nixpkgs set and will be
   # provided by `callPackage` if not given.
@@ -75,19 +88,6 @@ let
       cp ${nix-direnv}/share/nix-direnv/direnvrc $out/direnv/direnvrc
   '';
 
-  conf = {
-    # want the helper tool to notice updates. if this were a path,
-    # it would be stored in the nix-store, and thus would never look like
-    # it changes.
-    this = toString ./main-env.nix;
-
-    fish = ../fish/config.fish;
-    fishhook = ./packages/fish;
-    lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
-    nixconf = ../nix/nix.conf;
-    root = ../../../dotfiles;
-    tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
-  };
 
   # helper for wrapping commands while preserving script input arguments.
   # `bash` automatically splits strings into lists, i.e. ./script "hello world" is
