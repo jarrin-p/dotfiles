@@ -1,5 +1,11 @@
 {
-  # pkgs methods.
+  # additional configuration (must be supplied by caller)
+  callerPath,
+
+  # the remaining are attributes of the nixpkgs set and will be
+  # provided by `callPackage` if not given.
+
+  # nixpkgs methods.
   buildEnv,
   callPackage,
   runCommand,
@@ -54,7 +60,7 @@ let
     export EDITOR=${bin.nvim}/bin/nvim
     export VISUAL=${bin.nvim}/bin/nvim
     export NIX_DIRENV_LOCATION="${nix-denv}"
-    export DIRENV_BIN="${bin.direnv}/bin/direnv"
+    export DIRENV_BIN="${direnv}/bin/direnv"
     export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
     export NIX_USER_CONF_FILES=${conf.nixconf}
   '';
@@ -74,14 +80,12 @@ let
     # it changes.
     this = toString ./main-env.nix;
 
-    root = ../../../dotfiles;
-
-    fishhook = ./packages/fish;
-
-    lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
-    tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
-    nixconf = ../nix/nix.conf;
     fish = ../fish/config.fish;
+    fishhook = ./packages/fish;
+    lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
+    nixconf = ../nix/nix.conf;
+    root = ../../../dotfiles;
+    tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
   };
 
   # helper for wrapping commands while preserving script input arguments.
@@ -99,11 +103,7 @@ let
     in
       symlinkJoin { name = "bat-join"; paths = [ (bat + /share) script ]; };
 
-    # make sure the same direnv gets used everywhere, even though it's not
-    # actually modified at all.
-    direnv = direnv;
-
-    dots = (callPackage ./dots.nix { configLocation = conf.this; });
+    dots = (callPackage ./dots.nix { inherit callerPath; });
 
     # load env vars before loading fish shell.
     # this allows other shells to use them upon invocation as well, without having
@@ -161,12 +161,12 @@ let
   # i.e, all 'tmux' commands should have the config file associated with it,
   # but "als" (which is an alias for ls with flags) is a part of pkgs.coreutils,
   # and all behavior shouldn't be modified/wrapped.
-  commands = {
-    als = writeShellScriptBin
+  commands = [
+    (writeShellScriptBin
       "als"
-      (wrapcmd ''${coreutils-full}/bin/ls --group-directories-first --human-readable --color -al'');
+      (wrapcmd ''${coreutils-full}/bin/ls --group-directories-first --human-readable --color -al''))
 
-    git-ui = writeShellScriptBin "git-ui" ''
+    (writeShellScriptBin "git-ui" ''
       git status > /dev/null 2>&1
       if test $? -ne 0
       then
@@ -174,19 +174,19 @@ let
         exit 1
       fi
       ${bin.nvim}/bin/nvim +"Git" +"only"
-    '';
+    '')
 
-    git-root = writeShellScriptBin "git-root" ''
+    (writeShellScriptBin "git-root" ''
       ${git}/bin/git rev-parse --show-toplevel
-    '';
+    '')
 
-  };
+  ];
 in
   buildEnv {
-    name = "mainEnv";
+    name = "dotx-environment";
     paths =
          (builtins.attrValues bin)
-      ++ (builtins.attrValues commands)
+      ++ commands
       ++ (if builtins.currentSystem == "aarch64-darwin" then [] else [bitwarden-cli])
       ++ (callPackage ./packages/lsp.nix {})
       ++ [

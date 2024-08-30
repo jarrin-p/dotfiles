@@ -1,4 +1,4 @@
-{ writeShellScriptBin, coreutils-full, gum, configLocation }:
+{ writeShellScriptBin, coreutils-full, gum, callerPath }:
 writeShellScriptBin "dots" ''
   export PATH=$PATH:${gum}/bin:${coreutils-full}/bin
 
@@ -24,10 +24,10 @@ writeShellScriptBin "dots" ''
   }
 
   install_pkgs() {
-      if test -f ${configLocation}
+      if test -f ${callerPath}
       then
-          echo 'installing ${configLocation}'
-          nix-env -if ${configLocation}
+          echo 'installing ${callerPath}'
+          nix-env -if ${callerPath}
       else
           echo 'could not locate main file. maybe you moved this directory? if so, reinstall without this tool.'
       fi
@@ -45,7 +45,7 @@ writeShellScriptBin "dots" ''
               install_pkgs
               ;;
           dir)
-              dirname ${configLocation}
+              dirname ${callerPath}
               ;;
           uninstall)
               nix-env --uninstall 'mainEnv'
