@@ -49,6 +49,7 @@
   fish,
   lf,
   nix-direnv,
+  sd,
   tmux,
   tree,
 }:
@@ -217,6 +218,7 @@ in
           redis
           rename
           ripgrep
+          sd
           visidata
           wget
           yq
