@@ -32,8 +32,8 @@ neovim.override {
                   vim.o.packpath = vim.o.packpath .. ",${vimpaths}/share,${vimpaths}/share/after"
 
                   -- for some reason these need to be set before anything else.
-                  vim.cmd('let g:gruvbox_material_enable_italic = 1')
-                  vim.cmd('colorscheme gruvbox-material')
+                  -- vim.cmd('let g:gruvbox_material_enable_italic = 1')
+                  -- vim.cmd('colorscheme gruvbox-material')
                   require "utils"
                 EOF
               '';

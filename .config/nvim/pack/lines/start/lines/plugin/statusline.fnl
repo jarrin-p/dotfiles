@@ -1,5 +1,4 @@
 (local {:nvim_create_autocmd autocmd} vim.api)
-(local {: get-colorscheme-as-hex} (require :utils.color-tool))
 (local {: format : transition} (require :pack.lines.util.component))
 (local {: array-reversed : get-abs-path-as-table}
        (require :pack.lines.util.options))
@@ -14,15 +13,15 @@
 
 ;; names that get reused.
 (local hl-group {:fill :LinesDefaultFill
-              :header :LinesHeader
-              :dir :LinesDirectory
-              :ft :LinesFtInfo})
+                 :header :LinesHeader
+                 :dir :LinesDirectory
+                 :ft :LinesFtInfo})
 
 (let [{: concat} table
       {:nvim_set_hl set-hl :nvim_get_option_value get-opt} vim.api
-      fg (get-colorscheme-as-hex :Fg :foreground)
-      lighter (get-colorscheme-as-hex :Tabline :background)
-      darker (get-colorscheme-as-hex :FloatBorder :background)
+      ;; fg (get-colorscheme-as-hex :Normal :foreground)
+      ;; lighter (get-colorscheme-as-hex :Tabline :background)
+      ;; darker (get-colorscheme-as-hex :FloatBorder :background)
       line-number (.. line-number-symbol " %l:%L")
       column "col %c"
       buf-number "buf %n"]
@@ -35,7 +34,7 @@
                header
                opts.modified
                " "
-               (transition hl-group.dir hl-group.header :background left-tr)
+               ;; (transition hl-group.dir hl-group.header :background left-tr)
                bl
                " "
                (format hl-group.dir)
@@ -43,7 +42,7 @@
                " "
                (format hl-group.fill)
                right-align
-               (transition hl-group.fill hl-group.ft :background right-tr)
+               ;; (transition hl-group.fill hl-group.ft :background right-tr)
                (format hl-group.ft)
                " "
                tag-indicator
@@ -63,12 +62,12 @@
 
   ;; create the highlight groups
   (do
-    (set-hl 0 hl-group.fill {:fg :Black :bg darker})
-    (set-hl 0 hl-group.header {:fg :Black :bg fg})
+    (set-hl 0 hl-group.fill {:ctermfg 11 :ctermbg 0})
+    (set-hl 0 hl-group.header {:ctermfg 11 :ctermbg 0})
     (set-hl 0 hl-group.dir {:italic 1
-                         :fg (get-colorscheme-as-hex :Comment :foreground)
-                         :bg darker})
-    (set-hl 0 hl-group.ft {: fg :bg lighter})
+                            :ctermfg 11
+                            :ctermbg 0})
+    (set-hl 0 hl-group.ft {:ctermfg 12 :ctermbg 4})
     (set vim.g.LinesStatusBuild
          #(let [path (get-abs-path-as-table)
                 head (table.remove path)

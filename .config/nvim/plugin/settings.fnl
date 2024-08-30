@@ -15,7 +15,7 @@
                         :linespace 12
                         :path (.. vim.o.path "**")
                         :showtabline 2
-                        :termguicolors true
+                        :termguicolors false
                         :title true
                         :titlestring "%t"
                         ;;

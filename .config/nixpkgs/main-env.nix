@@ -138,8 +138,16 @@ let
     # simple command for ensuring nvim can open.
     # eventually this should get moved into a test method when
     # building nvim.
-    nvim-debug = writeShellScriptBin "nvim_d" ''
-      ${bin.nvim}/bin/nvim --headless +q
+    nvim-debug = let wrapped = wrapcmd "${bin.nvim}/bin/nvim --headless"; in
+      writeShellScriptBin "nvim_d" ''
+        if test "$1" = "--help"
+        then
+            echo 'runs nvim and prints any messages to stdout.'
+            echo 'additional arguments/commands can be passed for specific testing.'
+            echo 'runs: nvim --headless $@ +q'
+            exit 0
+        fi
+        ${wrapped} +q
     '';
 
     tmux = symlinkJoin {

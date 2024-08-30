@@ -8,8 +8,9 @@
 
 (local hl-group
        {:normal :Tabline
-        :fill :Statusline
-        :selected (reversed :Tabline :TablineSelected)})
+        :fill :Tabline
+        :selected :Tabline})
+        ;; :selected (reversed :Tabline :TablineSelected)})
 
 (fn tab-iter [total-tabs i]
   (let [i (+ i 1)]
