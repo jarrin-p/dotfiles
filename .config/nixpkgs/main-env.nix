@@ -1,13 +1,59 @@
+{
+  # pkgs methods.
+  buildEnv,
+  callPackage,
+  runCommand,
+  symlinkJoin,
+  writeShellScriptBin,
+
+  # unmodified pkgs.
+  ansifilter,
+  code-minimap,
+  coursier,
+  curl,
+  ffmpeg,
+  fd,
+  fnlfmt,
+  fzf,
+  gettext,
+  gh,
+  git,
+  glow,
+  gnumake,
+  gnused,
+  gum,
+  jq,
+  lean,
+  moar,
+  # python311Packages.sqlparse,
+  readline,
+  redis,
+  rename,
+  ripgrep,
+  visidata,
+  wget,
+  yq,
+
+  # wrapped pkgs
+  bash,
+  bat,
+  bitwarden-cli,
+  coreutils-full,
+  direnv,
+  fish,
+  lf,
+  nix-direnv,
+  tmux,
+  tree,
+}:
 let
-  pkgs = import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/d8a5a620da8e1cae5348ede15cd244705e02598c"; }) {};
-  callPackage = pkgs.callPackage;
 
   setenv = ''
     export PAGER=${bin.bat}/bin/bat
     export MANPAGER="${bin.bat}/bin/bat --wrap never"
     export EDITOR=${bin.nvim}/bin/nvim
     export VISUAL=${bin.nvim}/bin/nvim
-    export NIX_DIRENV_LOCATION="${nix-direnv}"
+    export NIX_DIRENV_LOCATION="${nix-denv}"
     export DIRENV_BIN="${bin.direnv}/bin/direnv"
     export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
     export NIX_USER_CONF_FILES=${conf.nixconf}
@@ -17,9 +63,9 @@ let
   # direnv only supports passing configuration (direnvrc) through XDG_CONFIG_HOME/direnv/direnvrc,
   # this is pretty much an ugly hack to allow direnv to stay isolated in nix, by altering
   # the sourced hook function to include an export before the `direnv` binary is called.
-  nix-direnv = pkgs.runCommand "nix-direnv-as-xdg" {} ''
+  nix-denv = runCommand "nix-direnv-as-xdg" {} ''
       mkdir -p $out/direnv
-      cp ${pkgs.nix-direnv}/share/nix-direnv/direnvrc $out/direnv/direnvrc
+      cp ${nix-direnv}/share/nix-direnv/direnvrc $out/direnv/direnvrc
   '';
 
   conf = {
@@ -45,17 +91,17 @@ let
 
   bin = {
     bat = let
-      wrapped = wrapcmd "${pkgs.bat}/bin/bat";
-      script = (pkgs.writeShellScriptBin "bat" ''
+      wrapped = wrapcmd "${bat}/bin/bat";
+      script = (writeShellScriptBin "bat" ''
         export BAT_THEME=TwoDark
         ${wrapped}
       '');
     in
-      pkgs.symlinkJoin { name = "bat-join"; paths = [ (pkgs.bat + /share) script ]; };
+      symlinkJoin { name = "bat-join"; paths = [ (bat + /share) script ]; };
 
     # make sure the same direnv gets used everywhere, even though it's not
     # actually modified at all.
-    direnv = pkgs.direnv;
+    direnv = direnv;
 
     dots = (callPackage ./dots.nix { configLocation = conf.this; });
 
@@ -63,15 +109,15 @@ let
     # this allows other shells to use them upon invocation as well, without having
     # to have a lot of duplicate rcs for the preferences.
     fish = let
-      script = pkgs.writeShellScriptBin "fish" ''
+      script = writeShellScriptBin "fish" ''
         ${setenv}
-        ${pkgs.fish}/bin/fish --init-command="source ${conf.fish} && source ${conf.fishhook}/direnv-hook.fish" $@
+        ${fish}/bin/fish --init-command="source ${conf.fish} && source ${conf.fishhook}/direnv-hook.fish" $@
       '';
     in
-      pkgs.symlinkJoin { name = "fish-join"; paths = [ (pkgs.fish + /share) script ]; };
+      symlinkJoin { name = "fish-join"; paths = [ (fish + /share) script ]; };
 
-    lf = let script = pkgs.writeShellScriptBin "lf" ''
-        export PATH=${pkgs.lf}/bin:${pkgs.coreutils-full}/bin:${pkgs.bash}/bin
+    lf = let script = writeShellScriptBin "lf" ''
+        export PATH=${lf}/bin:${coreutils-full}/bin:${bash}/bin
         export LF_CONFIG_HOME=${conf.lf_config_home};
         export LF_CD_FILE=/tmp/.lfcd
         lf $@
@@ -84,30 +130,30 @@ let
         rm -f $LF_CD_FILE
       '';
     in
-      pkgs.symlinkJoin { name = "lf-join"; paths = [ (pkgs.lf + /share) script ]; };
+      symlinkJoin { name = "lf-join"; paths = [ (lf + /share) script ]; };
 
     nvim = (callPackage ./packages/nvim.nix {});
 
     # simple command for ensuring nvim can open.
     # eventually this should get moved into a test method when
     # building nvim.
-    nvim-debug = pkgs.writeShellScriptBin "nvim_d" ''
+    nvim-debug = writeShellScriptBin "nvim_d" ''
       ${bin.nvim}/bin/nvim --headless +q
     '';
 
-    tmux = pkgs.symlinkJoin {
+    tmux = symlinkJoin {
       name = "tmux-join";
       paths = [
-        (pkgs.tmux + /share)
-        (pkgs.writeShellScriptBin "tmux" (wrapcmd "${pkgs.tmux}/bin/tmux -f ${conf.tmux}"))
+        (tmux + /share)
+        (writeShellScriptBin "tmux" (wrapcmd "${tmux}/bin/tmux -f ${conf.tmux}"))
       ];
     };
 
-    tree = let script = pkgs.writeShellScriptBin
+    tree = let script = writeShellScriptBin
       "tree"
-      (wrapcmd "${pkgs.tree}/bin/tree --dirsfirst -AC --prune" );
+      (wrapcmd "${tree}/bin/tree --dirsfirst -AC --prune" );
     in
-      pkgs.symlinkJoin { name = "tree-join"; paths = [ (pkgs.tree + /share) script ]; };
+      symlinkJoin { name = "tree-join"; paths = [ (tree + /share) script ]; };
   };
 
   # technically, these are executables, but they're more in the context
@@ -116,11 +162,11 @@ let
   # but "als" (which is an alias for ls with flags) is a part of pkgs.coreutils,
   # and all behavior shouldn't be modified/wrapped.
   commands = {
-    als = pkgs.writeShellScriptBin
+    als = writeShellScriptBin
       "als"
-      (wrapcmd ''${pkgs.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al'');
+      (wrapcmd ''${coreutils-full}/bin/ls --group-directories-first --human-readable --color -al'');
 
-    git-ui = pkgs.writeShellScriptBin "git-ui" ''
+    git-ui = writeShellScriptBin "git-ui" ''
       git status > /dev/null 2>&1
       if test $? -ne 0
       then
@@ -130,50 +176,49 @@ let
       ${bin.nvim}/bin/nvim +"Git" +"only"
     '';
 
-    git-root = pkgs.writeShellScriptBin "git-root" ''
-      ${pkgs.git}/bin/git rev-parse --show-toplevel
+    git-root = writeShellScriptBin "git-root" ''
+      ${git}/bin/git rev-parse --show-toplevel
     '';
 
   };
 in
-  pkgs.buildEnv {
+  buildEnv {
     name = "mainEnv";
     paths =
          (builtins.attrValues bin)
       ++ (builtins.attrValues commands)
-      ++ (if builtins.currentSystem == "aarch64-darwin" then [] else [pkgs.bitwarden-cli])
+      ++ (if builtins.currentSystem == "aarch64-darwin" then [] else [bitwarden-cli])
       ++ (callPackage ./packages/lsp.nix {})
       ++ [
           # version of rtorrent that isn't broken.
           (import ./packages/rtorrent.nix {})
 
-          pkgs.ansifilter
-          pkgs.code-minimap
-          pkgs.coreutils-full
-          pkgs.coursier
-          pkgs.curl
-          pkgs.ffmpeg
-          pkgs.fd
-          pkgs.fnlfmt
-          pkgs.fzf
-          pkgs.gettext
-          pkgs.gh
-          pkgs.git
-          pkgs.glow
-          pkgs.gnumake
-          pkgs.gnused
-          pkgs.gum
-          pkgs.jq
-          pkgs.lean
-          pkgs.moar
-          pkgs.python311Packages.sqlparse
-          pkgs.readline
-          pkgs.redis
-          pkgs.rename
-          pkgs.ripgrep
-          pkgs.visidata
-          pkgs.wget
-          pkgs.yq
+          ansifilter
+          code-minimap
+          coreutils-full
+          coursier
+          curl
+          ffmpeg
+          fd
+          fnlfmt
+          fzf
+          gettext
+          gh
+          git
+          glow
+          gnumake
+          gnused
+          gum
+          jq
+          lean
+          moar
+          readline
+          redis
+          rename
+          ripgrep
+          visidata
+          wget
+          yq
         ];
 }
 # broken packages.
