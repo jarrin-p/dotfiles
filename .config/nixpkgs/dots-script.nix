@@ -12,7 +12,7 @@ writeShellScriptBin "dots" ''
       dir
         show the directory where the dotfiles are located.
 
-      install, refresh, r
+      refresh, r
         runs 'nix-env -if <path/to/main-env.nix>'. 
 
       uninstall
@@ -23,32 +23,42 @@ writeShellScriptBin "dots" ''
   EOF
   }
 
-  install_pkgs() {
+  refresh_pkgs() {
       if test -f ${callerPath}
       then
-          echo 'installing ${callerPath}'
-          nix-env -if ${callerPath}
+          echo 'installing ${callerPath}.'
+          echo 'steps:'
+          echo "  nix profile remove 'dotx-environment'"
+          echo "  try   -> nix profile install"
+          echo "  catch -> nix profile rollback"
+          echo ""
+          nix profile remove 'dotx-environment' \
+            && {
+              echo 'installing profile.'
+              nix profile install --file ${callerPath}
+            } || {
+              echo 'failed to install. rolling back.'
+              nix profile rollback
+            }
       else
-          echo 'could not locate main file. maybe you moved this directory? if so, reinstall without this tool.'
+          echo 'could not locate main file. maybe you moved the repository?'
+          echo 'if so, remove then install from the new directory to get this script working again.'
       fi
   }
 
   handle() {
       case "$1" in
-          install)
-              install_pkgs
-              ;;
           refresh)
-              install_pkgs
+              refresh_pkgs
               ;;
           r)
-              install_pkgs
+              refresh_pkgs
               ;;
           dir)
               dirname ${callerPath}
               ;;
           uninstall)
-              nix-env --uninstall 'mainEnv'
+              nix profile remove 'dotx-environment'
               ;;
           *)
               usage
