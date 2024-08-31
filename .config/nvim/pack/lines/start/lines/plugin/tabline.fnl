@@ -1,7 +1,7 @@
 (local {: get-branch-text} (require :pack.lines.util.options))
 (local {: concat} table)
 
-(local {: format : transition : reversed} (require :pack.lines.util.component))
+(local {: format : transition } (require :pack.lines.util.component))
 (local {: tabpagenr : tabpagewinnr :win_getid win-getid : fnamemodify} vim.fn)
 (local {:nvim_win_get_buf win-getbuff :nvim_buf_get_name buf-getname} vim.api)
 (local {: right-align : left-tr} (require :pack.lines.util.symbols))
@@ -56,9 +56,9 @@
                                           " "
                                           (get-branch-text)
                                           " "
-                                          (transition hl-group.fill
-                                                      hl-group.normal
-                                                      :background left-tr)
+                                          ;; (transition hl-group.fill
+                                          ;;             hl-group.normal
+                                          ;;             :background left-tr)
                                           (format hl-group.fill)
                                           lsp-diag-result
                                           " "

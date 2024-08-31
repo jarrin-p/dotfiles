@@ -1,0 +1,24 @@
+{
+  "name": "dots",
+  "author": "jarrin-p",
+  "color": [
+    "#1a1a1a",
+    "#00254f",
+    "#982a2a",
+    "#8a7a63",
+    "#164fba",
+    "#1a807d",
+    "#ad581d",
+    "#2c2c2c",
+    "#baba9f",
+    "#478fe0",
+    "#e17979",
+    "#beb090",
+    "#92a0ba",
+    "#15a69b",
+    "#e5913b",
+    "#5c5c5c"
+  ],
+  "foreground": "#baba9f",
+  "background": "#1a1a1a"
+}

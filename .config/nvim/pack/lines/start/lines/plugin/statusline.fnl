@@ -1,11 +1,9 @@
 (local {:nvim_create_autocmd autocmd} vim.api)
-(local {: format : transition} (require :pack.lines.util.component))
+(local {: format } (require :pack.lines.util.component))
 (local {: array-reversed : get-abs-path-as-table}
        (require :pack.lines.util.options))
 
 (local {: right-align
-        : left-tr
-        : right-tr
         : bl
         : br
         :line-number line-number-symbol}
@@ -62,12 +60,12 @@
 
   ;; create the highlight groups
   (do
-    (set-hl 0 hl-group.fill {:ctermfg 11 :ctermbg 0})
-    (set-hl 0 hl-group.header {:ctermfg 11 :ctermbg 0})
+    (set-hl 0 hl-group.fill {:ctermfg 11 :ctermbg 7})
+    (set-hl 0 hl-group.header {:ctermfg 11 :ctermbg 7})
     (set-hl 0 hl-group.dir {:italic 1
                             :ctermfg 11
-                            :ctermbg 0})
-    (set-hl 0 hl-group.ft {:ctermfg 12 :ctermbg 4})
+                            :ctermbg 7})
+    (set-hl 0 hl-group.ft {:ctermfg 11 :ctermbg 7})
     (set vim.g.LinesStatusBuild
          #(let [path (get-abs-path-as-table)
                 head (table.remove path)

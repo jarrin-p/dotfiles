@@ -1,18 +1,23 @@
-(let [set-hl (fn [name opts] (vim.api.nvim_set_hl 0 name opts))]
-  (set-hl :Comment {:ctermfg 7})
-  (set-hl :DiffAdd {:ctermbg 2})
-  (set-hl :DiffAdded {:link :DiffAdd})
-  (set-hl :DiffDelete {:ctermbg 1 :ctermfg 1})
-  (set-hl :DiffRemoved {:ctermbg 1})
-  (set-hl :DiffChange {:ctermbg 9})
-  (set-hl :DiffText {:ctermbg 9})
-  (set-hl :EndOfBuffer {:ctermfg 8})
-  (set-hl :Folded {:link :Comment})
-  (set-hl :Search {:ctermbg 3 :underline true :italic true})
-  (set-hl :CurSearch {:ctermbg 7 :underline true :italic true :bold true})
-  (set-hl :String {:link :AquaItalic})
-  (set-hl :MsgArea {:ctermfg 15 :ctermbg 0})
-  (set-hl :TablineFill {:link :Normal})
-  (set-hl :Whitespace {:ctermfg 9})
-
-  )
+(let [fg :ctermfg
+      bg :ctermbg ;; this is a comment.
+      config {:Comment {fg 15 :italic true}
+              :Constant {fg 12}
+              :CurSearch {bg 9 :underline true :italic true :bold true}
+              :DiffAdd {bg 2}
+              :DiffAdded {:link :DiffAdd}
+              :DiffChange {bg 9}
+              :DiffDelete {bg 1 fg 1}
+              :DiffRemoved {bg 1}
+              :DiffText {bg 9}
+              :EndOfBuffer {fg 0}
+              :Folded {:link :Comment}
+              :LineNr {fg 9}
+              :MsgArea {fg 15 bg 0}
+              :Search {:underline true :italic true}
+              :SpecialKey {fg 13}
+              :Statement {fg 13}
+              :String {fg 5}
+              :TablineFill {:link :Normal}
+              :Whitespace {fg 9}}]
+  (each [k v (pairs config)]
+    (vim.api.nvim_set_hl 0 k v)))

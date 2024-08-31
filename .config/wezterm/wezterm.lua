@@ -26,6 +26,8 @@ local os
 if package.config:sub(1, 1) == '\\' then os = 'win' else os = 'unix' end
 
 if os == 'win' then
+    local mine = wezterm.color.load_terminal_sexy_scheme "fill this in with a path :-)"
+    config.colors = mine
     config.default_domain = 'WSL:Ubuntu'
 
     config.animation_fps = 1
