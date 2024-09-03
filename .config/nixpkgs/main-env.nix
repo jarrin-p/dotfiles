@@ -43,6 +43,7 @@
   gum,
   jq,
   lean,
+  luaformatter,
   moar,
   # python311Packages.sqlparse,
   readline,
@@ -221,6 +222,7 @@ in
           gum
           jq
           lean
+          luaformatter
           moar
           readline
           redis

@@ -1,3 +1,16 @@
+(fn build-lua-tbl [key value]
+  (case (key:find "@")
+    nil (.. key " = " value ", ")
+    _ (.. "[\"" key "\"] = " value ", ")))
+
+(fn serialize [tbl]
+  (accumulate [result "" key value (pairs tbl)]
+    (let [res (case (type value)
+                :table (build-lua-tbl key (.. "{ " (serialize value) " }"))
+                :string (build-lua-tbl key (.. "\"" value "\""))
+                _ (build-lua-tbl key (tostring value)))]
+      (.. result res))))
+
 (let [{: file-format} (require :utils)
       exec vim.api.nvim_exec
       add-cmd vim.api.nvim_create_user_command
@@ -17,6 +30,15 @@
                 (vim.cmd (.. sub-cmd "/→/->/g"))
                 (vim.notify "converted from unicode to ascii.")))
            {:range true :bang true})
+  (add-cmd :ExportHighlights
+           #(do
+              (vim.cmd.tabnew)
+              (vim.fn.append (vim.fn.line "$")
+                             (.. "local colors = { "
+                                 (serialize (vim.api.nvim_get_hl 0 {})) " }"))
+              (vim.fn.append (vim.fn.line "$")
+                             (.. "for k, v in pairs(colors) do vim.api.nvim_set_hl(0, k, v) end")))
+           {})
   (add-cmd :ConvertAsciiToUnicode
            #(let [{: line1 : line2 : bang} $1
                   sub-cmd (.. "silent! "
