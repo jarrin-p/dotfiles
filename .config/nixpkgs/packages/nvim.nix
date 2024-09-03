@@ -27,7 +27,7 @@ neovim.override {
             configure = {
               customRC = ''
                 lua << EOF
-                  package.path = package.path .. ";" .. "${vimpaths}/share/?.lua"
+                  package.path = package.path .. ";" .. "${vimpaths}/share/?.lua;${fennel}/share/lua/5.2/?.lua"
                   vim.o.runtimepath = vim.o.runtimepath .. ",${vimpaths}/share,${vimpaths}/share/after"
                   vim.o.packpath = vim.o.packpath .. ",${vimpaths}/share,${vimpaths}/share/after"
 
