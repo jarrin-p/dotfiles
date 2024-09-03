@@ -1,4 +1,11 @@
-{ neovim, vimPlugins, runCommand, fd, fennel, sd }:
+{
+  fd,
+  fennel,
+  neovim,
+  runCommand,
+  sd,
+  vimPlugins
+}:
 let
   config = ../../nvim;
   vimpaths = runCommand "vimpaths" {} ''
@@ -20,6 +27,8 @@ let
       echo "copying lua from '$f' to '$out/share/$f'."
       cp $f $out/share/$f &
     done
+
+    # obviously, wait until everything is finished.
     wait
   '';
 in
