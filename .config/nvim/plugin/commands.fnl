@@ -3,6 +3,17 @@
     nil (.. key " = " value ", ")
     _ (.. "[\"" key "\"] = " value ", ")))
 
+(fn build-fnl-tbl [key value]
+  (.. "\"" key "\" " value " "))
+
+(fn serialize-fnl [tbl]
+  (accumulate [result "" key value (pairs tbl)]
+    (let [res (case (type value)
+                :table (build-fnl-tbl key (.. "{ " (serialize-fnl value) " }"))
+                :string (build-fnl-tbl key (.. "\"" value "\""))
+                _ (build-fnl-tbl key (tostring value)))]
+      (.. result res))))
+
 (fn serialize [tbl]
   (accumulate [result "" key value (pairs tbl)]
     (let [res (case (type value)
@@ -39,6 +50,27 @@
               (vim.fn.append (vim.fn.line "$")
                              (.. "for k, v in pairs(colors) do vim.api.nvim_set_hl(0, k, v) end")))
            {})
+  (add-cmd :ExportHighlightsFennel
+           #(let [{: tabnew : write : FF} vim.cmd
+                  {: append : line} vim.fn
+                  {:nvim_get_hl get-hl :nvim_create_autocmd autocmd} vim.api]
+              (do
+                (tabnew)
+                (append (line "$")
+                        (.. "(local colors { " (serialize-fnl (get-hl 0 {}))
+                            " })"))
+                (append (line "$")
+                        (.. "(collect [k v (pairs colors)] (vim.api.nvim_set_hl 0 k v))"))
+                (set vim.bo.filetype :fennel)
+                (write {:args [:/tmp/colors.fnl] :bang true})
+                (FF)
+                (autocmd [:BufWritePost]
+                         {;; doesn't exist yet, todo: clean
+                          :callback #(do
+                                       (vim.cmd.FennelSourceBuffer)
+                                       false)
+                          :desc "automatically sources the color configuration when saving a change to see immediate results."
+                          :buffer 0}))) {})
   (add-cmd :ConvertAsciiToUnicode
            #(let [{: line1 : line2 : bang} $1
                   sub-cmd (.. "silent! "
@@ -53,11 +85,13 @@
                      (let [{: eval} (require :fennel)]
                        (eval opts.args))) {:nargs "?"})
   (add-cmd :FennelSourceBuffer #(let [{: eval} (require :fennel)]
-                                  (-> (vim.api.nvim_buf_get_lines 0 0
-                                                                  (vim.fn.line "$")
-                                                                  false)
-                                      (table.concat "  ")
-                                      (eval))) {})
+                                  (do
+                                    (-> (vim.api.nvim_buf_get_lines 0 0
+                                                                    (vim.fn.line "$")
+                                                                    false)
+                                        (table.concat "  ")
+                                        (eval))
+                                    false)) {})
   (add-cmd :FF file-format {})
   (add-cmd :GT #(let [path (-> (vim.fn.FugitiveWorkTree) (vim.fn.fnameescape))]
                   (vim.cmd.lcd path)) {})
