@@ -34,8 +34,14 @@ writeShellScriptBin "dots" ''
           echo ""
           nix profile remove 'dotx-environment' \
             && {
-              echo 'installing profile.'
-              nix profile install --file ${callerPath}
+              if test "$1" = "--verbose"
+              then
+                echo '[verbose] installing profile.'
+                nix profile install --print-build-logs --file ${callerPath}
+              else
+                echo 'installing profile.'
+                nix profile install --file ${callerPath}
+              fi
             } || {
               echo 'failed to install. rolling back.'
               nix profile rollback
@@ -49,10 +55,10 @@ writeShellScriptBin "dots" ''
   handle() {
       case "$1" in
           refresh)
-              refresh_pkgs
+              refresh_pkgs $2
               ;;
           r)
-              refresh_pkgs
+              refresh_pkgs $2
               ;;
           dir)
               dirname ${callerPath}
@@ -71,10 +77,7 @@ writeShellScriptBin "dots" ''
       choice=$(gum choose --ordered "install" "refresh" "uninstall" "usage" "cancel")
       handle $choice
   else
-      while ! test -z "$1"
-      do
-          handle $1
-          shift
-      done
+      handle "$1" "$2"
+      shift
   fi
 ''
