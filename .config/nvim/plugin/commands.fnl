@@ -1,18 +1,10 @@
+(fn build-fnl-tbl [key value]
+  (.. "\"" key "\" " value " "))
+
 (fn build-lua-tbl [key value]
   (case (key:find "@")
     nil (.. key " = " value ", ")
     _ (.. "[\"" key "\"] = " value ", ")))
-
-(fn build-fnl-tbl [key value]
-  (.. "\"" key "\" " value " "))
-
-(fn serialize-fnl [tbl]
-  (accumulate [result "" key value (pairs tbl)]
-    (let [res (case (type value)
-                :table (build-fnl-tbl key (.. "{ " (serialize-fnl value) " }"))
-                :string (build-fnl-tbl key (.. "\"" value "\""))
-                _ (build-fnl-tbl key (tostring value)))]
-      (.. result res))))
 
 (fn serialize [tbl]
   (accumulate [result "" key value (pairs tbl)]
@@ -22,14 +14,23 @@
                 _ (build-lua-tbl key (tostring value)))]
       (.. result res))))
 
+(fn serialize-fnl [tbl]
+  (accumulate [result "" key value (pairs tbl)]
+    (let [res (case (type value)
+                :table (build-fnl-tbl key (.. "{ " (serialize-fnl value) " }"))
+                :string (build-fnl-tbl key (.. "\"" value "\""))
+                _ (build-fnl-tbl key (tostring value)))]
+      (.. result res))))
+
+(fn set-font-size [opts]
+  (let [new-size (+ vim.g.font-size opts.args)]
+    (when (> new-size 0)
+      (do
+        (set vim.g.font-size new-size)
+        (set vim.o.guifont (.. vim.g.FontKW vim.g.font_size ""))))))
+
 (let [{: file-format} (require :utils)
-      {:nvim_exec exec :nvim_create_user_command add-cmd} vim.api
-      set-font-size #(let [new-size (+ vim.g.font-size $1.args)]
-                       (when (> new-size 0)
-                         (do
-                           (set vim.g.font-size new-size)
-                           (set vim.o.guifont
-                                (.. vim.g.FontKW vim.g.font_size "")))))]
+      {:nvim_exec exec :nvim_create_user_command add-cmd} vim.api]
   (add-cmd :ConvertAsciiToUnicode
            #(let [{: line1 : line2 : bang} $1
                   sub-cmd (.. "silent! "
