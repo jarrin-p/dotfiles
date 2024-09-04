@@ -52,6 +52,12 @@
   (add-cmd :Fennel (fn [opts]
                      (let [{: eval} (require :fennel)]
                        (eval opts.args))) {:nargs "?"})
+  (add-cmd :FennelSourceBuffer #(let [{: eval} (require :fennel)]
+                                  (-> (vim.api.nvim_buf_get_lines 0 0
+                                                                  (vim.fn.line "$")
+                                                                  false)
+                                      (table.concat "  ")
+                                      (eval))) {})
   (add-cmd :FF file-format {})
   (add-cmd :GT #(let [path (-> (vim.fn.FugitiveWorkTree) (vim.fn.fnameescape))]
                   (vim.cmd.lcd path)) {})
