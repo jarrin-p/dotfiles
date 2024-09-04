@@ -23,15 +23,23 @@
       (.. result res))))
 
 (let [{: file-format} (require :utils)
-      exec vim.api.nvim_exec
-      add-cmd vim.api.nvim_create_user_command
+      {:nvim_exec exec :nvim_create_user_command add-cmd} vim.api
       set-font-size #(let [new-size (+ vim.g.font-size $1.args)]
                        (when (> new-size 0)
                          (do
                            (set vim.g.font-size new-size)
                            (set vim.o.guifont
-                                (.. vim.g.FontKW vim.g.font_size "")))))
-      _ {"↔" "<->" "→" "->"}]
+                                (.. vim.g.FontKW vim.g.font_size "")))))]
+  (add-cmd :ConvertAsciiToUnicode
+           #(let [{: line1 : line2 : bang} $1
+                  sub-cmd (.. "silent! "
+                              (if bang "%sno" (.. line1 "," line2 :sno)))]
+              (do
+                (vim.notify (.. "sub-cmd:" sub-cmd))
+                (vim.cmd (.. sub-cmd "/<->/↔/g"))
+                (vim.cmd (.. sub-cmd "/ ->/ →/g"))
+                (vim.notify "converted from ascii to unicode.")))
+           {:range true :bang true})
   (add-cmd :ConvertUnicodeToAscii
            #(let [{: line1 : line2 : bang} $1
                   sub-cmd (.. "silent! "
@@ -51,7 +59,7 @@
                              (.. "for k, v in pairs(colors) do vim.api.nvim_set_hl(0, k, v) end")))
            {})
   (add-cmd :ExportHighlightsFennel
-           #(let [{: tabnew : write : FF} vim.cmd
+           #(let [{: tabnew : FF : FennelSourceBuffer} vim.cmd
                   {: append : line} vim.fn
                   {:nvim_get_hl get-hl :nvim_create_autocmd autocmd} vim.api]
               (do
@@ -62,25 +70,15 @@
                 (append (line "$")
                         (.. "(collect [k v (pairs colors)] (vim.api.nvim_set_hl 0 k v))"))
                 (set vim.bo.filetype :fennel)
-                (write {:args [:/tmp/colors.fnl] :bang true})
+                (vim.cmd "silent write! /tmp/colors.fnl")
                 (FF)
                 (autocmd [:BufWritePost]
-                         {;; doesn't exist yet, todo: clean
-                          :callback #(do
-                                       (vim.cmd.FennelSourceBuffer)
+                         {:callback #(do
+                                       (FennelSourceBuffer)
+                                       ;; don't delete the command when finished.
                                        false)
                           :desc "automatically sources the color configuration when saving a change to see immediate results."
                           :buffer 0}))) {})
-  (add-cmd :ConvertAsciiToUnicode
-           #(let [{: line1 : line2 : bang} $1
-                  sub-cmd (.. "silent! "
-                              (if bang "%sno" (.. line1 "," line2 :sno)))]
-              (do
-                (vim.notify (.. "sub-cmd:" sub-cmd))
-                (vim.cmd (.. sub-cmd "/<->/↔/g"))
-                (vim.cmd (.. sub-cmd "/ ->/ →/g"))
-                (vim.notify "converted from ascii to unicode.")))
-           {:range true :bang true})
   (add-cmd :Fennel (fn [opts]
                      (let [{: eval} (require :fennel)]
                        (eval opts.args))) {:nargs "?"})
