@@ -53,6 +53,9 @@ function lf
   cd (command lf)
 end
 
+# turn colors into a list.
+set -x COLORS (string split \n -- $COLORS)
+
 # explicitly state our terminal can support a changing cursor.
 if string match -q 'xterm*' $TERM
     set -U fish_vi_force_cursor 1

@@ -7,6 +7,7 @@
     # it changes.
     this = toString ./main-env.nix;
 
+    colors = ../../base16.theme.json;
     fish = ../fish/config.fish;
     fishhook = ./packages/fish;
     lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
@@ -78,6 +79,9 @@ let
     export DIRENV_BIN="${direnv}/bin/direnv"
     export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
     export NIX_USER_CONF_FILES=${conf.nixconf}
+
+    # array separated by newlines.
+    export COLORS=$(${jq}/bin/jq -r '.color[]' ${conf.colors})
   '';
 
   # build the hacky export string.
