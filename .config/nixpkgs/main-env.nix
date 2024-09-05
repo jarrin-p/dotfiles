@@ -109,7 +109,7 @@ let
     in
       symlinkJoin { name = "bat-join"; paths = [ (bat + /share) script ]; };
 
-    dots-script = (callPackage ./dots-script.nix { inherit callerPath; });
+    dots-script = (callPackage ./dots-script.nix { inherit (conf) colors; inherit callerPath; });
 
     # load env vars before loading fish shell.
     # this allows other shells to use them upon invocation as well, without having

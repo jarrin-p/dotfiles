@@ -1,4 +1,4 @@
-{ writeShellScriptBin, coreutils-full, gum, callerPath }:
+{ writeShellScriptBin, coreutils-full, gum, callerPath, colors }:
 writeShellScriptBin "dots" ''
   export PATH=$PATH:${gum}/bin:${coreutils-full}/bin
 
@@ -52,8 +52,22 @@ writeShellScriptBin "dots" ''
       fi
   }
 
+  colorscheme() {
+    echo "exporting colorscheme as xresources"
+    echo "note: this is based on the nix store version, not from ${callerPath}."
+    echo "      you will need to re-install the profile to see changes made to the"
+    echo "      colorscheme reflected here."
+    echo ""
+    jq -r '.color | to_entries | .[] | "*.color" + (.key | tostring) + ": " + .value' ${colors}
+    jq -r '"*.foreground: " + .foreground' ${colors}
+    jq -r '"*.background: " + .background' ${colors}
+  }
+
   handle() {
       case "$1" in
+          colorscheme)
+              colorscheme
+              ;;
           refresh)
               refresh_pkgs $2
               ;;
@@ -74,7 +88,7 @@ writeShellScriptBin "dots" ''
 
   if test -z "$@"
   then
-      choice=$(gum choose --ordered "install" "refresh" "uninstall" "usage" "cancel")
+      choice=$(gum choose --ordered "refresh" "colorscheme" "uninstall" "usage" "cancel")
       handle $choice
   else
       handle "$1" "$2"
