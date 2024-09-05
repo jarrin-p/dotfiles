@@ -83,12 +83,15 @@
   (add-cmd :Fennel (fn [opts]
                      (let [{: eval} (require :fennel)]
                        (eval opts.args))) {:nargs "?"})
-  (add-cmd :FennelSourceBuffer #(let [{: eval} (require :fennel)]
+  (add-cmd :FennelSourceBuffer #(let [{: eval} (require :fennel)
+                                      lines (vim.api.nvim_buf_get_lines 0 0
+                                                                        (vim.fn.line "$")
+                                                                        false)]
                                   (do
-                                    (-> (vim.api.nvim_buf_get_lines 0 0
-                                                                    (vim.fn.line "$")
-                                                                    false)
-                                        (table.concat "  ")
+                                    (-> (icollect [_ v (ipairs lines)]
+                                          (let [(val _count) (v:gsub ";;.*" "")]
+                                            val))
+                                        (table.concat " ")
                                         (eval))
                                     false)) {})
   (add-cmd :FF file-format {})
