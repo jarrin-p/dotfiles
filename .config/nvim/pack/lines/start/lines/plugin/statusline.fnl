@@ -1,12 +1,9 @@
-(local {:nvim_create_autocmd autocmd} vim.api)
-(local {: format } (require :pack.lines.util.component))
+(local {:nvim_create_autocmd autocmd :nvim_set_hl set-hl :nvim_get_option_value get-opt} vim.api)
+(local {: format} (require :pack.lines.util.component))
 (local {: array-reversed : get-abs-path-as-table}
        (require :pack.lines.util.options))
 
-(local {: right-align
-        : bl
-        : br
-        :line-number line-number-symbol}
+(local {: right-align : bl : br :line-number line-number-symbol}
        (require :pack.lines.util.symbols))
 
 ;; names that get reused.
@@ -16,7 +13,6 @@
                  :ft :LinesFtInfo})
 
 (let [{: concat} table
-      {:nvim_set_hl set-hl :nvim_get_option_value get-opt} vim.api
       ;; fg (get-colorscheme-as-hex :Normal :foreground)
       ;; lighter (get-colorscheme-as-hex :Tabline :background)
       ;; darker (get-colorscheme-as-hex :FloatBorder :background)
@@ -60,11 +56,9 @@
 
   ;; create the highlight groups
   (do
-    (set-hl 0 hl-group.fill {:ctermfg 11 :ctermbg 7})
+    (set-hl 0 hl-group.fill {:ctermfg 11})
     (set-hl 0 hl-group.header {:ctermfg 11 :ctermbg 7})
-    (set-hl 0 hl-group.dir {:italic 1
-                            :ctermfg 11
-                            :ctermbg 7})
+    (set-hl 0 hl-group.dir {:italic 1 :ctermfg 11 :ctermbg 7})
     (set-hl 0 hl-group.ft {:ctermfg 11 :ctermbg 7})
     (set vim.g.LinesStatusBuild
          #(let [path (get-abs-path-as-table)

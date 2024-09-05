@@ -1,6 +1,6 @@
 (let [fg :ctermfg
-      bg :ctermbg ;; this is a comment.
-      config {:Comment {fg 15 :italic true}
+      bg :ctermbg
+      config {:Comment {fg 8 :italic true}
               :Constant {fg 12}
               :CurSearch {bg 9 :underline true :italic true :bold true}
               :DiffAdd {bg 2}
