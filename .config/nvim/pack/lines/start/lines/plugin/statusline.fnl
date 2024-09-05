@@ -56,10 +56,10 @@
 
   ;; create the highlight groups
   (do
-    (set-hl 0 hl-group.fill {:ctermfg 11})
-    (set-hl 0 hl-group.header {:ctermfg 11 :ctermbg 7})
-    (set-hl 0 hl-group.dir {:italic 1 :ctermfg 11 :ctermbg 7})
-    (set-hl 0 hl-group.ft {:ctermfg 11 :ctermbg 7})
+    (set-hl 0 hl-group.fill {:ctermbg 0})
+    (set-hl 0 hl-group.header {:ctermfg 8 :ctermbg 0})
+    (set-hl 0 hl-group.dir {:italic 1 :ctermfg 8 :ctermbg 0})
+    (set-hl 0 hl-group.ft {:ctermfg 8 :ctermbg 0})
     (set vim.g.LinesStatusBuild
          #(let [path (get-abs-path-as-table)
                 head (table.remove path)
