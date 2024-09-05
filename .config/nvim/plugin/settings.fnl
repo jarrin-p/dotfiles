@@ -28,6 +28,7 @@
                         :ignorecase false
                         :inccommand :split
                         :jumpoptions :view
+                        :laststatus 3
                         :list true
                         :mouse :nv
                         :number true
