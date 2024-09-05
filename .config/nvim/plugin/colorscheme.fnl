@@ -17,7 +17,6 @@
               :SpecialKey {fg 13}
               :Statement {fg 13}
               :String {fg 5}
-              :TablineFill {:link :Normal}
               :Whitespace {fg 9}}]
   (each [k v (pairs config)]
     (vim.api.nvim_set_hl 0 k v)))
