@@ -1,24 +1,25 @@
 {
-  "name": "dots",
-  "author": "jarrin-p",
+  "name": "Dracula (Official) modded",
+  "author": "timescam, jarrin",
   "color": [
-    "#1a1a1a",
-    "#00254f",
-    "#982a2a",
-    "#8a7a63",
-    "#164fba",
-    "#1a807d",
-    "#ad581d",
-    "#2c2c2c",
-    "#baba9f",
-    "#478fe0",
-    "#e17979",
-    "#beb090",
-    "#92a0ba",
-    "#15a69b",
-    "#e5913b",
-    "#5c5c5c"
+    "#21222c",
+    "#ff5555",
+    "#50fa7b",
+    "#f1fa8c",
+    "#bd93f9",
+    "#ff79c6",
+    "#8be9fd",
+    "#f8f8f2",
+    "#6272a4",
+    "#ff6e6e",
+    "#69ff94",
+    "#ffffa5",
+    "#d6acff",
+    "#ff92df",
+    "#a4ffff",
+    "#ffffff"
   ],
-  "foreground": "#baba9f",
-  "background": "#1a1a1a"
+  "foreground": "#f8f8f2",
+  "background": "#282a36"
 }
+
