@@ -1,12 +1,12 @@
 (let [config {:Comment {:ctermfg 8 :italic true}
               :Constant {:ctermfg 12}
               :CurSearch {:ctermbg 8 :underline true :italic true :bold true}
-              :DiffAdd {:ctermbg 2}
+              :DiffAdd {:ctermfg 2}
               :DiffAdded {:link :DiffAdd}
               :DiffChange {:ctermbg 9}
-              :DiffDelete {:ctermbg 1 :ctermfg 1}
-              :DiffRemoved {:ctermbg 1}
-              :DiffText {:ctermbg 9}
+              :DiffDelete {:ctermfg 1}
+              :DiffRemoved {:ctermfg 1}
+              :DiffText {:ctermfg 9}
               :EndOfBuffer {:ctermfg 0}
               :Folded {:link :Comment}
               :LineNr {:ctermfg 9}
