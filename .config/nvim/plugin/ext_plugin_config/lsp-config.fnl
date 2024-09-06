@@ -4,6 +4,7 @@
                        (capabilities-fn))
       servers {:ccls {}
                :cssls {:cmd [:css-languageserver :--stdio] : capabilities}
+               :elmls {}
                :fennel_ls {:init_options {:fennel-ls {:extra-globals :vim}}}
                :hls {}
                :html {:cmd [:html-languageserver :--stdio] : capabilities}
