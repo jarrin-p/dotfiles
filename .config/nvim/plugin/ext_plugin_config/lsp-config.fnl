@@ -1,5 +1,13 @@
 (let [lspconfig (require :lspconfig)
       {:default_capabilities capabilities-fn} (require :cmp_nvim_lsp)
+      ;; border [{"🭽" :FloatBorder}
+      ;;         {"▔" :FloatBorder}
+      ;;         {"🭾" :FloatBorder}
+      ;;         {"▕" :FloatBorder}
+      ;;         {"🭿" :FloatBorder}
+      ;;         {"▁" :FloatBorder}
+      ;;         {"🭼" :FloatBorder}
+      ;;         {"▏" :FloatBorder}]
       capabilities (-> (vim.lsp.protocol.make_client_capabilities)
                        (capabilities-fn))
       servers {:ccls {}
@@ -21,6 +29,6 @@
                :yamlls {}}]
   (each [server config (pairs servers)]
     (let [{: setup} (. lspconfig server)]
-      (setup config))))
+        (setup config))))
 
 {}
