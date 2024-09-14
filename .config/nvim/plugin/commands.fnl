@@ -98,6 +98,8 @@
   (add-cmd :GT #(let [path (-> (vim.fn.FugitiveWorkTree) (vim.fn.fnameescape))]
                   (vim.cmd.lcd path)) {})
   (add-cmd :GO #(exec "silent !tmux split-window -h -c $(dirname %)" false) {})
+  ;; alias
+  (add-cmd :Info #(vim.cmd.LeanInfoviewToggle) {})
   (add-cmd :SetFontSize set-font-size {})
   (add-cmd :SetMakeRunner
            (fn [opts]
