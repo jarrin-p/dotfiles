@@ -82,6 +82,7 @@ let
     export PATH=$HOME/.elan/bin:$PATH
 
     # array separated by newlines.
+    export COLORS_PATH=${conf.colors}
     export COLORS=$(${jq}/bin/jq -r '.color[]' ${conf.colors})
   '';
 
