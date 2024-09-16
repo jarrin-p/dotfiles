@@ -21,6 +21,17 @@
     (each [from to (pairs mappings)]
       (vim.cmd.highlight (.. :link " " from " " to)))))
 
+; todo: use something like this for inserting type annotations.
+; `vim.lsp.buf_request_sync(0, "textDocument/hover", vim.lsp.util.make_position_params(), 1000)`
+; ideally, this could be implemented as a code action, but if the language server doesn't support it,
+; it might be easier to just make something jank.
+;; (let [{:buf_request buf-request : util} vim.lsp
+;;       {:make_position_params pos-params} util]
+;;   (-> (buf-request :textDocument/hover (pos-params))
+;;       (. :results :contents :value)
+;;       ; modify the resulting string...
+;;       ))
+
 (let [{: load-once} (require :utils.load-once)]
   (do
     (load-once :lean
@@ -40,7 +51,7 @@
                                      (prev-line:find patterns.namespace)
                                      (prev-line:find :where$)
                                      (prev-line:find :with$)
-                                     (prev-line:find :=>$)
+                                     (prev-line:find "=>$")
                                      (prev-line:find :calc$)
                                      (prev-line:find ":=$"))
                                  (+ prev-indent tabstop)
