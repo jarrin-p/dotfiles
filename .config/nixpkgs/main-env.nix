@@ -31,6 +31,7 @@
   code-minimap,
   coursier,
   curl,
+  elan,
   ffmpeg,
   fd,
   fnlfmt,
@@ -43,7 +44,6 @@
   gnused,
   gum,
   jq,
-  lean,
   luaformatter,
   moar,
   # python311Packages.sqlparse,
@@ -79,6 +79,7 @@ let
     export DIRENV_BIN="${direnv}/bin/direnv"
     export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
     export NIX_USER_CONF_FILES=${conf.nixconf}
+    export PATH=$HOME/.elan/bin:$PATH
 
     # array separated by newlines.
     export COLORS=$(${jq}/bin/jq -r '.color[]' ${conf.colors})
@@ -213,6 +214,7 @@ in
           coursier
           curl
           direnv
+          elan
           ffmpeg
           fd
           fnlfmt
@@ -225,7 +227,6 @@ in
           gnused
           gum
           jq
-          lean
           luaformatter
           moar
           readline
