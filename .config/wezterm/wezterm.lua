@@ -22,10 +22,10 @@ config.keys = {
 config.enable_scroll_bar = false
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 
-local os
-if package.config:sub(1, 1) == '\\' then os = 'win' else os = 'unix' end
+local operating_system
+if package.config:sub(1, 1) == '\\' then operating_system = 'win' else operating_system = 'unix' end
 
-if os == 'win' then
+if operating_system == 'win' then
     local mine = wezterm.color.load_terminal_sexy_scheme "fill this in with a path :-)"
     config.colors = mine
     config.default_domain = 'WSL:Ubuntu'
@@ -34,7 +34,9 @@ if os == 'win' then
     config.font_size = 11.0
     config.line_height = 1.0
 
-elseif os == 'unix' then
+elseif operating_system == 'unix' then
+    local mine = wezterm.color.load_terminal_sexy_scheme "your path goes here"
+    config.colors = mine
     config.animation_fps = 1
     config.font_size = 13
     config.line_height = 1.3
