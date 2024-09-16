@@ -55,6 +55,12 @@
                                          "\tinstallPhase = ''"
                                          "\t\tmkdir -p $out"
                                          "\t'';"
-                                         "};"])]]]))
+                                         "};"])]]
+                          [:__writeShellScriptBin
+                           [(text "writeShellScriptBin \"")
+                            (ins 1 :bin_name)
+                            (text "\" ''" "")
+                            (ins 2 "# your script")
+                            (text "" "''")]]]))
 
 {}
