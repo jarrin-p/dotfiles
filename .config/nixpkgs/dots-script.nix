@@ -26,26 +26,9 @@ writeShellScriptBin "dots" ''
   refresh_pkgs() {
       if test -f ${callerPath}
       then
-          echo 'installing ${callerPath}.'
-          echo 'steps:'
-          echo "  nix profile remove 'dotx-environment'"
-          echo "  try   -> nix profile install"
-          echo "  catch -> nix profile rollback"
+          echo 'via nix-env -if ${callerPath}.'
           echo ""
-          nix profile remove 'dotx-environment' \
-            && {
-              if test "$1" = "--verbose"
-              then
-                echo '[verbose] installing profile.'
-                nix profile install --print-build-logs --file ${callerPath}
-              else
-                echo 'installing profile.'
-                nix profile install --file ${callerPath}
-              fi
-            } || {
-              echo 'failed to install. rolling back.'
-              nix profile rollback
-            }
+          nix-env -if ${callerPath}
       else
           echo 'could not locate main file. maybe you moved the repository?'
           echo 'if so, remove then install from the new directory to get this script working again.'
@@ -78,7 +61,7 @@ writeShellScriptBin "dots" ''
               dirname ${callerPath}
               ;;
           uninstall)
-              nix profile remove 'dotx-environment'
+              nix-env --uninstall 'dotx-environment'
               ;;
           *)
               usage
