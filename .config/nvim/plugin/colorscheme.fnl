@@ -12,6 +12,7 @@
                    :Whitespace {:ctermfg 9}
                    "@lsp" {:ctermfg 14}
                    ;; language specific
+                   ;; todo - use `loadonce` in the actual filetype for better optics.
                    ;; scala
                    :scalaSquareBracketsBrackets {:link :Delimiter}
                    :scalaNameDefinition {:link "@variable"}
@@ -20,7 +21,12 @@
                    "@lsp.type.keyword.scala" {:link :Statement}
                    "@lsp.typemod.method.definition.scala" {:ctermfg 7}
                    "@lsp.typemod.class.abstract.scala" {:link :Type}
-                   ;;
+                   ;; nix
+                   "@lsp.typemod.punctuation.delimiter.nix" {:ctermfg 2}
+                   "@lsp.type.parameter.nix" {:ctermfg 15}
+                   "@lsp.typemod.parameter.definition.nix" {:link "@lsp.type.parameter.nix"}
+                   "@lsp.mod.definition.nix" {:ctermfg 11}
+                   "@lsp.typemod.property.definition.nix" {:ctermfg 11}
                    ;; vim
                    :CurSearch {:ctermbg 8
                                :underline true
