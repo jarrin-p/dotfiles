@@ -1,6 +1,12 @@
-(let [{: add-language-snippets : text : indent} (require :utils.snippets)]
+(let [{: add-language-snippets : text : indent : text-array } (require :utils.snippets)]
   (add-language-snippets :sbt
-                         [[:__project
+                         [[:__task (text-array ["lazy val newTask = taskKey[Unit](\"description\")"
+                                                "newTask := {"
+                                                (indent 1 "// your task")
+                                                "}"
+                                                ])]
+                          [:__sysprocess (text "import scala.sys.process.*")]
+                          [:__project
                            (text "lazy val root = project"
                                  (indent 1 ".in(file(\".\"))")
                                  (indent 1 ".settings(")
