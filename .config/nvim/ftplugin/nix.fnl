@@ -57,10 +57,10 @@
                                          "\t'';"
                                          "};"])]]
                           [:__writeShellScriptBin
-                           [(text "writeShellScriptBin \"")
+                           [(text "pkgs.writeShellScriptBin \"")
                             (ins 1 :bin_name)
                             (text "\" ''" "")
                             (ins 2 "# your script")
-                            (text "" "''")]]]))
+                            (text "" "'';")]]]))
 
 {}
