@@ -29,6 +29,7 @@ off the top of my head, here's a list of configured languages/servers that I hav
 - rust - `rust_analyzer`
 - nix - `nil`
 - fennel - `fennel_ls`
+- lean - lean's builtin lsp + `lean-nvim`.
 - lua - `lua_ls`, also sets the vimruntime as a global workspace.
 - terraform - `terraformls` (rough) (can be slow and/or freeze sometimes.)
 - json, yaml - `jsonls`, `yamlls` - should tell you when json or yaml are improperly formatted.
