@@ -12,7 +12,7 @@ the might be a little bulky in size right now, since it comes with several langu
     - `nix-env -if default.nix` (recommended)
     - `nix profile install --file default.nix` (this will cause your profile to become incompatible with `nix-env` in the future).
 
-now you should have an `nvim` setup with several language servers, some useful cli tools with isolated configurations (`rg`, `fd`, `lf`, `direnv`, etc), and a `fish` shell with some variables automatically exported.
+now you should have an `nvim` setup with several language servers, some useful cli tools with isolated configurations (`fzf`, `rg`, `fd`, `lf`, `direnv`, etc), and a `fish` shell with some variables automatically exported.
 
 # tooling
 to see a full list of tooling made available, check [.config/nixpkgs/main-env.nix](.config/nixpkgs/main-env.nix).
