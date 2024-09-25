@@ -1,94 +1,89 @@
 (let [{:nvim_set_keymap set-keymap} vim.api
-      map #(vim.api.nvim_set_keymap "" $1 $2 {:noremap false :silent true})
-      nnoremap #(vim.api.nvim_set_keymap :n $1 $2 {:noremap true :silent true})
-      inoremap #(vim.api.nvim_set_keymap :i $1 (.. :<c-o> $2)
-                                         {:noremap true :silent true})
-      tnoremap #(vim.api.nvim_set_keymap :t $1 $2 {:noremap true :silent true})]
+      ;; see nvim_set_keymap docs, empty string in position 2 implies noop so callback can be passed
+      nnoremap-cb #(set-keymap :n $1 ""
+                               {:noremap true :silent true :callback $2})]
   (do
-    (map :<space> :<leader>)
-    (nnoremap :Y :y$)
-    (nnoremap :g? ":Maps<enter>") ; fzf search for maps.
-    (nnoremap :U :<c-r>) ; change U to redo because I'm simple and U confuses me.
-    (nnoremap "`" "'") ; swap mapping of "jump to mark's col,line" with "jump to mark's line".
-    (nnoremap "'" "`") ; swap mapping of "jump to mark's line" with "jump to mark's col,line".
-    ;;
-    ;; gui maps
-    ;;
-    (nnoremap :<leader>+ ":SetFontSize(1)") ; increase or decrease respectively the font size via mapping.
-    (nnoremap :<leader>- ":SetFontSize(-1)")
-    (nnoremap :<leader>w ":sil make<enter>")
-    ;;
-    ;; insert mode maps
-    ;;
-    (inoremap :<c-h> :b) ; note: this `inoremap` prepends `<c-o>` for a single action.
-    (inoremap :<c-l> :E<c-o>l)
-    ;;
-    ;; window management
-    ;; these apply to vertical splits as well, mimics my skhd behavior instead using ctrl modifier
-    ;;
-    (nnoremap :<c-h> :<c-w>W) ; previous window (above, left)
-    (nnoremap :<c-l> :<c-w>w)
-    ;;
-    ;; buffer navigating
-    ;;
-    (nnoremap :<c-b> ":b#<enter>")
-    (nnoremap :<c-j> ":bprev<enter>")
-    (nnoremap :<c-k> ":bnext<enter>")
-    (nnoremap :<c-t> ":tabedit %<enter>")
-    (nnoremap :<c-f> ":lcd %:p:h<enter>:pwd<enter>")
-    (nnoremap :<c-g> ":GT<enter>:pwd<enter>")
-    ;;
-    ;; fold method changing
-    ;;
-    (nnoremap :<leader>zfi ":set foldmethod=indent<enter>")
-    (nnoremap :<leader>zfm ":set foldmethod=manual<enter>")
-    ;;
-    ;; finding navigation
-    ;;
-    (nnoremap :<leader>n ":cnext<enter>")
-    (nnoremap :<leader>p ":cprev<enter>")
-    (nnoremap :<leader>t ":NvimTreeToggle<enter>")
-    (nnoremap :<leader>T ":NvimTreeFindFile<enter>")
-    ;;
-    ;; git
-    ;;
-    (nnoremap :<leader>G ":tab G<enter>")
-    (nnoremap :<leader>b ":G branch<enter>")
+    ;; general keymaps
+    (set-keymap "" :<space> :<leader> {:noremap false :silent true})
+    (set-keymap :n :Y :y$ {:noremap true :silent true})
+    (set-keymap :n :U :<c-r> {:noremap true :silent true}) ; change U to redo because I'm simple and U confuses me.
+    (set-keymap :n "`" "'" {:noremap true :silent true}) ; swap mapping of "jump to mark's col,line" with "jump to mark's line".
+    (set-keymap :n "'" "`" {:noremap true :silent true}) ; swap mapping of "jump to mark's line" with "jump to mark's col,line".
+    (set-keymap :n :<c-h> :<c-w>W {:noremap true :silent true}) ; previous window (above, left)
+    (set-keymap :n :<c-l> :<c-w>w {:noremap true :silent true})
     ;;
     ;; terminal remaps
     ;;
-    (tnoremap "<C-[>" "<C-\\><C-n>")
-    (tnoremap :<c-h> "<C-\\><C-n><c-w>W")
-    (tnoremap :<c-l> "<C-\\><C-n><c-w>w")
+    (set-keymap :t "<C-[>" "<C-\\><C-n>" {:noremap true :silent true})
+    (set-keymap :t :<c-h> "<C-\\><C-n><c-w>W" {:noremap true :silent true})
+    (set-keymap :t :<c-l> "<C-\\><C-n><c-w>w" {:noremap true :silent true})
+    ;;
+    ;; gui maps
+    ;;
+    (nnoremap-cb :<leader>+ #(vim.cmd.SetFontSize 1)) ; increase or decrease respectively the font size via mapping.
+    (nnoremap-cb :<leader>- #(vim.cmd.SetFontSize -1))
+    ;;
+    ;; buffer navigating
+    ;;
+    (nnoremap-cb "[B" #(vim.cmd.b "#"))
+    (nnoremap-cb "[b" vim.cmd.bprev)
+    (nnoremap-cb "]b" vim.cmd.bnext)
+    (nnoremap-cb :<c-t> #(vim.cmd.tabedit "%"))
+    (nnoremap-cb :<c-f> #(do
+                           (vim.cmd.lcd "%:p:h")
+                           (vim.cmd.pwd)))
+    (nnoremap-cb :<c-g> #(do
+                           (vim.cmd.GT)
+                           (vim.cmd.pwd)))
+    ;;
+    ;; fold method changing
+    ;;
+    (nnoremap-cb :<leader>zfi #(set vim.o.foldmethod :indent))
+    (nnoremap-cb :<leader>zfm #(set vim.o.foldmethod :manual))
+    ;;
+    ;; finding navigation
+    ;;
+    (nnoremap-cb "]c" vim.cmd.cnext)
+    (nnoremap-cb "[c" vim.cmd.cprev)
+    (nnoremap-cb "[t" vim.cmd.NvimTreeClose)
+    (nnoremap-cb "]t" vim.cmd.NvimTreeOpen)
+    (nnoremap-cb :<leader>T vim.cmd.NvimTreeFindFile)
+    ;;
+    ;; git
+    ;;
+    (nnoremap-cb :<leader>G #(vim.cmd.tab :G))
+    (nnoremap-cb :<leader>b #(vim.cmd.G :branch))
     ;;
     ;; fzf
     ;;
-    (nnoremap :<leader>f ":FZF <enter>")
-    (nnoremap :<leader>B ":FuzzyBranchSelect<enter>")
-    (nnoremap :<leader>h ":FuzzyBranchChanges<enter>")
-    (nnoremap :<leader>H ":FuzzyBranchChangesSetBranch<enter>")
-    (nnoremap :<leader>b ":FuzzyBufferSelect<enter>")
-    (nnoremap :<leader>F ":FuzzyFindNoIgnore<enter>")
-    (nnoremap :<leader>g ":FuzzyGrep<enter>")
+    (nnoremap-cb :<leader>f vim.cmd.FZF)
+    (nnoremap-cb :<leader>F vim.cmd.FuzzyFindNoIgnore)
+    (nnoremap-cb :<leader>g vim.cmd.FuzzyGrep)
+    (nnoremap-cb :<leader>b vim.cmd.FuzzyBufferSelect)
+    (nnoremap-cb :<leader>B vim.cmd.FuzzyBranchSelect)
+    (nnoremap-cb :<leader>h vim.cmd.FuzzyBranchChanges)
+    (nnoremap-cb :<leader>H vim.cmd.FuzzyBranchChangesSetBranch)
+    (nnoremap-cb :g? vim.cmd.Maps)
     ;;
     ;; lsp
     ;;
-    (set-keymap :n :g= "" {:callback #(vim.lsp.buf.format {:async false})})
-    (set-keymap :n :gD "" {:callback vim.lsp.buf.declaration})
-    (set-keymap :n :gd "" {:callback vim.lsp.buf.definition})
-    (set-keymap :n :gi "" {:callback vim.lsp.buf.incoming_calls})
-    (set-keymap :n :<leader>d "" {:callback vim.lsp.buf.hover})
-    (set-keymap :n :gi "" {:callback vim.lsp.buf.incoming_calls})
-    (set-keymap :n :<leader>rn "" {:callback vim.lsp.buf.rename})
-    (set-keymap :n :gc "" {:callback vim.lsp.buf.code_action})
-    (set-keymap :n :gsw "" {:callback vim.lsp.buf.workspace_symbol}) ; [s]ymbol [w]orkspace
-    (set-keymap :n :gsd "" {:callback vim.lsp.buf.document_symbol}) ; [s]ymbol [d]ocument
-    (set-keymap :n :gso "" {:callback vim.cmd.SymbolsOutline}) ; [s]ymbol [o]utline
-    (set-keymap :n "[d" "" {:callback vim.diagnostic.goto_next})
-    (set-keymap :n "]d" "" {:callback vim.diagnostic.goto_prev})
+    (nnoremap-cb :g= #(vim.lsp.buf.format {:async false}))
+    (nnoremap-cb :gD vim.lsp.buf.declaration)
+    (nnoremap-cb :gd vim.lsp.buf.definition)
+    (nnoremap-cb :gi vim.lsp.buf.incoming_calls)
+    (nnoremap-cb :<leader>d vim.lsp.buf.hover)
+    (nnoremap-cb :gi vim.lsp.buf.incoming_calls)
+    (nnoremap-cb :<leader>rn vim.lsp.buf.rename)
+    (nnoremap-cb :gc vim.lsp.buf.code_action)
+    (nnoremap-cb :gsw vim.lsp.buf.workspace_symbol) ; [s]ymbol [w]orkspace
+    (nnoremap-cb :gsd vim.lsp.buf.document_symbol) ; [s]ymbol [d]ocument
+    (nnoremap-cb :gso vim.cmd.SymbolsOutline) ; [s]ymbol [o]utline
+    (nnoremap-cb "]d" vim.diagnostic.goto_next)
+    (nnoremap-cb "[d" vim.diagnostic.goto_prev)
     ;;
     ;; minimap
     ;;
-    (nnoremap :<leader>m ":MinimapToggle<enter>")))
+    (nnoremap-cb "]m" vim.cmd.Minimap)
+    (nnoremap-cb "[m" vim.cmd.MinimapClose)))
 
 {}
