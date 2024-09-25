@@ -51,8 +51,7 @@
     ;;
     ;; git
     ;;
-    (nnoremap-cb :<leader>G #(vim.cmd.tab :G))
-    (nnoremap-cb :<leader>b #(vim.cmd.G :branch))
+    (nnoremap-cb :<leader>G #(vim.cmd "tab G"))
     ;;
     ;; fzf
     ;;
