@@ -1,4 +1,5 @@
-(let [map #(vim.api.nvim_set_keymap "" $1 $2 {:noremap false :silent true})
+(let [{:nvim_set_keymap set-keymap} vim.api
+      map #(vim.api.nvim_set_keymap "" $1 $2 {:noremap false :silent true})
       nnoremap #(vim.api.nvim_set_keymap :n $1 $2 {:noremap true :silent true})
       inoremap #(vim.api.nvim_set_keymap :i $1 (.. :<c-o> $2)
                                          {:noremap true :silent true})
@@ -72,18 +73,19 @@
     ;;
     ;; lsp
     ;;
-    (nnoremap :gD ":lua vim.lsp.buf.declaration()<enter>")
-    (nnoremap :gd ":lua vim.lsp.buf.definition()<enter>")
-    (nnoremap :<leader>d ":lua vim.lsp.buf.hover()<enter>")
-    (nnoremap :gi ":lua vim.lsp.buf.incoming_calls()<enter>")
-    (nnoremap :<leader>rn ":lua vim.lsp.buf.rename()<enter>")
-    (nnoremap :gc ":lua vim.lsp.buf.code_action()<enter>")
-    (nnoremap :g= ":lua vim.lsp.buf.format{async = false}<enter>")
-    (nnoremap :gsw ":lua vim.lsp.buf.workspace_symbol()<enter>") ; [s]ymbol [w]orkspace
-    (nnoremap :gsd ":lua vim.lsp.buf.document_symbol()<enter>") ; [s]ymbol [d]ocument
-    (nnoremap :gso ":SymbolsOutline<enter>") ; [s]ymbol [o]utline
-    (nnoremap :<leader>j ":lua vim.diagnostic.goto_next()<enter>")
-    (nnoremap :<leader>k ":lua vim.diagnostic.goto_prev()<enter>")
+    (set-keymap :n :g= "" {:callback #(vim.lsp.buf.format {:async false})})
+    (set-keymap :n :gD "" {:callback vim.lsp.buf.declaration})
+    (set-keymap :n :gd "" {:callback vim.lsp.buf.definition})
+    (set-keymap :n :gi "" {:callback vim.lsp.buf.incoming_calls})
+    (set-keymap :n :<leader>d "" {:callback vim.lsp.buf.hover})
+    (set-keymap :n :gi "" {:callback vim.lsp.buf.incoming_calls})
+    (set-keymap :n :<leader>rn "" {:callback vim.lsp.buf.rename})
+    (set-keymap :n :gc "" {:callback vim.lsp.buf.code_action})
+    (set-keymap :n :gsw "" {:callback vim.lsp.buf.workspace_symbol}) ; [s]ymbol [w]orkspace
+    (set-keymap :n :gsd "" {:callback vim.lsp.buf.document_symbol}) ; [s]ymbol [d]ocument
+    (set-keymap :n :gso "" {:callback vim.cmd.SymbolsOutline}) ; [s]ymbol [o]utline
+    (set-keymap :n "[d" "" {:callback vim.diagnostic.goto_next})
+    (set-keymap :n "]d" "" {:callback vim.diagnostic.goto_prev})
     ;;
     ;; minimap
     ;;
