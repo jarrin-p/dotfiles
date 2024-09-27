@@ -2,5 +2,7 @@
 (vim.cmd.iabbrev "\\or\\ ∨")
 (vim.cmd.iabbrev "\\bullet\\ •")
 (vim.cmd.iabbrev "\\.\\ •")
+(vim.cmd.iabbrev "\\in\\ ∈")
+(vim.cmd.iabbrev "\\element\\ ∈")
 
 {}
