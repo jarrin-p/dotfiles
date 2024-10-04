@@ -70,10 +70,10 @@
 let
 
   setenv = ''
-    export PAGER=${bin.bat}/bin/bat
-    export MANPAGER="${bin.bat}/bin/bat --wrap never"
-    export EDITOR=${bin.nvim}/bin/nvim
-    export VISUAL=${bin.nvim}/bin/nvim
+    export PAGER=${alias.bat}/bin/bat
+    export MANPAGER="${alias.bat}/bin/bat --wrap never"
+    export EDITOR=${alias.nvim}/bin/nvim
+    export VISUAL=${alias.nvim}/bin/nvim
     export NIX_DIRENV_LOCATION="${nix-denv}"
     export DIRENV_BIN="${direnv}/bin/direnv"
     export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
@@ -99,7 +99,7 @@ let
   # processed as a script with two arguments. this function works around that.
   wrapcmd = cmd: ''eval "${cmd} ''${*@Q}"'';
 
-  bin = {
+  alias = {
     bat = let
       wrapped = wrapcmd "${bat}/bin/bat";
       script = (writeShellScriptBin "bat" ''
@@ -143,7 +143,7 @@ let
     # simple command for ensuring nvim can open.
     # eventually this should get moved into a test method when
     # building nvim.
-    nvim-debug = let wrapped = wrapcmd "${bin.nvim}/bin/nvim --headless"; in
+    nvim-debug = let wrapped = wrapcmd "${alias.nvim}/bin/nvim --headless"; in
       writeShellScriptBin "nvim_d" ''
         if test "$1" = "--help"
         then
@@ -187,7 +187,7 @@ let
         echo "not a git repository, nothing to look at."
         exit 1
       fi
-      ${bin.nvim}/bin/nvim +"Git" +"only"
+      ${alias.nvim}/bin/nvim +"Git" +"only"
     '')
 
     (writeShellScriptBin "git-root" ''
@@ -199,7 +199,7 @@ in
   buildEnv {
     name = "dotx-environment";
     paths =
-         (builtins.attrValues bin)
+         (builtins.attrValues alias)
       ++ commands
       ++ (if builtins.currentSystem == "aarch64-darwin" then [] else [bitwarden-cli])
       ++ (callPackage ./packages/lsp.nix {})
