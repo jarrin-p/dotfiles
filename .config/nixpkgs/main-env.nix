@@ -15,6 +15,9 @@
     tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
   },
 
+  # custom utils
+  wrapcmd ? (import ./util.nix).wrapcmd,
+
   # the remaining are attributes of the nixpkgs set and will be
   # provided by `callPackage` if not given.
 
@@ -92,13 +95,6 @@ let
       mkdir -p $out/direnv
       cp ${nix-direnv}/share/nix-direnv/direnvrc $out/direnv/direnvrc
   '';
-
-
-  # helper for wrapping commands while preserving script input arguments.
-  # `bash` automatically splits strings into lists, i.e. ./script "hello world" is
-  # processed as a script with two arguments. this function works around that.
-  wrapcmd = cmd: ''eval "${cmd} ''${*@Q}"'';
-
   alias = {
     bat = let
       wrapped = wrapcmd "${bat}/bin/bat";
