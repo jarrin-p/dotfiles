@@ -11,7 +11,6 @@
     fish = ../fish/config.fish;
     fishhook = ./packages/fish;
     lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
-    nixconf = ../nix/nix.conf;
     root = ../../../dotfiles;
     tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
   },
@@ -78,7 +77,6 @@ let
     export NIX_DIRENV_LOCATION="${nix-denv}"
     export DIRENV_BIN="${direnv}/bin/direnv"
     export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
-    export NIX_USER_CONF_FILES=${conf.nixconf}
     export PATH=$HOME/.elan/bin:$PATH
 
     # array separated by newlines.
