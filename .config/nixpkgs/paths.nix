@@ -10,4 +10,4 @@
     lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
     root = ../../../dotfiles;
     tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
-  }
+}
