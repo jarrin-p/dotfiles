@@ -44,6 +44,7 @@
   yq,
 
   # wrapped pkgs
+  als,
   bash,
   bat,
   bitwarden-cli,
@@ -151,9 +152,6 @@ let
   # but "als" (which is an alias for ls with flags) is a part of pkgs.coreutils,
   # and all behavior shouldn't be modified/wrapped.
   commands = [
-    (writeShellScriptBin
-      "als"
-      (wrapcmd ''${coreutils-full}/bin/ls --group-directories-first --human-readable --color -al''))
 
     (writeShellScriptBin "git-ui" ''
       git status > /dev/null 2>&1
@@ -182,6 +180,7 @@ in
           # version of rtorrent that isn't broken.
           (import ./packages/rtorrent.nix {})
 
+          als
           ansifilter
           bat
           code-minimap
