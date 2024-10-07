@@ -1,6 +1,5 @@
 {
   # configuration arguments.
-  callerPath, # required
   conf ? import ./paths.nix {},
   wrapcmd ? (import ./util.nix).wrapcmd,
 
@@ -50,6 +49,7 @@
   bitwarden-cli,
   coreutils-full,
   direnv,
+  dots-script,
   fish,
   lf,
   nix-direnv,
@@ -85,7 +85,6 @@ let
   '';
 
   bin = {
-    dots-script = (callPackage ./dots-script.nix { inherit (conf) colors; inherit callerPath; });
 
     # load env vars before loading fish shell.
     # this allows other shells to use them upon invocation as well, without having
@@ -176,6 +175,7 @@ in
           coursier
           curl
           direnv
+          dots-script
           elan
           ffmpeg
           fd

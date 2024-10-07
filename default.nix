@@ -20,6 +20,11 @@
           in
             prev.symlinkJoin { name = "bat-join"; paths = [ (prev.bat + /share) script ]; };
 
+          dots-script = prev.callPackage ./.config/nixpkgs/dots-script.nix {
+            inherit (conf) colors;
+            callerPath = toString ./default.nix;
+          };
+
           tmux = prev.symlinkJoin {
             name = "tmux-join";
             paths = [
@@ -37,6 +42,4 @@
       ];
   }
 }:
-pkgs.callPackage ./.config/nixpkgs/main-env.nix {
-  callerPath = toString ./default.nix;
-}
+pkgs.callPackage ./.config/nixpkgs/main-env.nix {}
