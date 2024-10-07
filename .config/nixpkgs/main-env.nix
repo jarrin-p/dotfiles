@@ -59,8 +59,8 @@
 let
 
   setenv = ''
-    export PAGER=${bin.bat}/bin/bat
-    export MANPAGER="${bin.bat}/bin/bat --wrap never"
+    export PAGER=${bat}/bin/bat
+    export MANPAGER="${bat}/bin/bat --wrap never"
     export EDITOR=${bin.nvim}/bin/nvim
     export VISUAL=${bin.nvim}/bin/nvim
     export NIX_DIRENV_LOCATION="${nix-denv}"
@@ -84,15 +84,6 @@ let
   '';
 
   bin = {
-    bat = let
-      wrapped = wrapcmd "${bat}/bin/bat";
-      script = (writeShellScriptBin "bat" ''
-        export BAT_THEME=TwoDark
-        ${wrapped}
-      '');
-    in
-      symlinkJoin { name = "bat-join"; paths = [ (bat + /share) script ]; };
-
     dots-script = (callPackage ./dots-script.nix { inherit (conf) colors; inherit callerPath; });
 
     # load env vars before loading fish shell.
@@ -192,6 +183,7 @@ in
           (import ./packages/rtorrent.nix {})
 
           ansifilter
+          bat
           code-minimap
           coreutils-full
           coursier
