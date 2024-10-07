@@ -10,10 +10,9 @@
             ${prev.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al
           '';
 
-          bat = let
+          bat-overlay = let
             wrapped = wrapcmd "${prev.bat}/bin/bat";
             script = prev.writeShellScriptBin "bat" ''
-              echo 'im an overlay, bitch'
               export BAT_THEME=TwoDark
               ${wrapped}
             '';
@@ -24,6 +23,33 @@
             inherit (conf) colors;
             callerPath = toString ./default.nix;
           };
+
+          # load env vars before loading fish shell.
+          # this allows other shells to use them upon invocation as well, without having
+          # to have a lot of duplicate rcs for the preferences.
+          fish-overlay = let
+            setenv = ''
+              export PAGER=${final.bat}/bin/bat
+              export MANPAGER="${final.bat}/bin/bat --wrap never"
+              export EDITOR=${final.nvim}/bin/nvim
+              export VISUAL=${final.nvim}/bin/nvim
+              export NIX_DIRENV_LOCATION="${final.nix-denv}"
+              export DIRENV_BIN="${final.direnv}/bin/direnv"
+              export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
+              export NIX_USER_CONF_FILES=${conf.nixconf}
+              export PATH=$HOME/.elan/bin:$PATH
+
+              # array separated by newlines.
+              export COLORS_PATH=${conf.colors}
+              export COLORS=$(${final.jq}/bin/jq -r '.color[]' ${conf.colors})
+            '';
+
+            script = prev.writeShellScriptBin "fish" ''
+              ${setenv}
+              ${prev.fish}/bin/fish --init-command="source ${conf.fish} && source ${conf.fishhook}/direnv-hook.fish" $@
+            '';
+          in
+            prev.symlinkJoin { name = "fish-join"; paths = [ (prev.fish + /share) script ]; };
 
           git-root = prev.writeShellScriptBin "git-root" ''${prev.git}/bin/git rev-parse --show-toplevel'';
 
@@ -36,7 +62,6 @@
                 fi
                 ${final.nvim}/bin/nvim +"Git" +"only"
           '';
-
 
           lf-overlay = let script = prev.writeShellScriptBin "lf" ''
               export PATH=${prev.lf}/bin:${prev.coreutils-full}/bin:${prev.bash}/bin
