@@ -2,6 +2,7 @@
   pkgs ? import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/d8a5a620da8e1cae5348ede15cd244705e02598c"; }) {
     overlays =
       let
+        conf = import ./.config/nixpkgs/paths.nix {};
         wrapcmd = (import ./.config/nixpkgs/util.nix).wrapcmd;
       in
         [ (final: prev: {
@@ -18,6 +19,14 @@
             '';
           in
             prev.symlinkJoin { name = "bat-join"; paths = [ (prev.bat + /share) script ]; };
+
+          tmux = prev.symlinkJoin {
+            name = "tmux-join";
+            paths = [
+              (prev.tmux + /share)
+              (prev.writeShellScriptBin "tmux" (wrapcmd "${prev.tmux}/bin/tmux -f ${conf.tmux}"))
+            ];
+          };
 
           tree = let script = prev.writeShellScriptBin
             "tree"

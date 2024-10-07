@@ -131,13 +131,6 @@ let
         ${wrapped} +q
     '';
 
-    tmux = symlinkJoin {
-      name = "tmux-join";
-      paths = [
-        (tmux + /share)
-        (writeShellScriptBin "tmux" (wrapcmd "${tmux}/bin/tmux -f ${conf.tmux}"))
-      ];
-    };
 
   };
 
@@ -203,6 +196,7 @@ in
           rename
           ripgrep
           sd
+          tmux
           tree
           visidata
           wget
