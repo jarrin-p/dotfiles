@@ -1,7 +1,6 @@
 {
   # configuration arguments.
   conf ? import ./paths.nix {},
-  wrapcmd ? (import ./util.nix).wrapcmd,
 
   # the remaining are attributes of the nixpkgs set and will be
   # provided by `callPackage` if not given.
