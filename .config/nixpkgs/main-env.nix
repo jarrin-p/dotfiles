@@ -139,11 +139,6 @@ let
       ];
     };
 
-    tree = let script = writeShellScriptBin
-      "tree"
-      (wrapcmd "${tree}/bin/tree --dirsfirst -AC --prune" );
-    in
-      symlinkJoin { name = "tree-join"; paths = [ (tree + /share) script ]; };
   };
 
   # technically, these are executables, but they're more in the context
@@ -208,6 +203,7 @@ in
           rename
           ripgrep
           sd
+          tree
           visidata
           wget
           yq

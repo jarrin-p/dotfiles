@@ -9,7 +9,6 @@
             ${prev.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al
           '';
 
-
           bat = let
             wrapped = wrapcmd "${prev.bat}/bin/bat";
             script = prev.writeShellScriptBin "bat" ''
@@ -19,8 +18,14 @@
             '';
           in
             prev.symlinkJoin { name = "bat-join"; paths = [ (prev.bat + /share) script ]; };
-          })
-        ];
+
+          tree = let script = prev.writeShellScriptBin
+            "tree"
+            (wrapcmd "${prev.tree}/bin/tree --dirsfirst -AC --prune" );
+          in
+            prev.symlinkJoin { name = "tree-join"; paths = [ (prev.tree + /share) script ]; };
+        })
+      ];
   }
 }:
 pkgs.callPackage ./.config/nixpkgs/main-env.nix {
