@@ -52,8 +52,8 @@
   fish,
   git-root,
   git-ui,
-  lf,
   nix-direnv,
+  lf-overlay,
   nvim,
   nvim-debug,
   sd,
@@ -100,22 +100,6 @@ let
     in
       symlinkJoin { name = "fish-join"; paths = [ (fish + /share) script ]; };
 
-    lf = let script = writeShellScriptBin "lf" ''
-        export PATH=${lf}/bin:${coreutils-full}/bin:${bash}/bin
-        export LF_CONFIG_HOME=${conf.lf_config_home};
-        export LF_CD_FILE=/tmp/.lfcd
-        lf $@
-        if test -s $LF_CD_FILE
-        then
-          echo $(realpath $(cat $LF_CD_FILE))
-        else
-          echo $(pwd)
-        fi
-        rm -f $LF_CD_FILE
-      '';
-    in
-      symlinkJoin { name = "lf-join"; paths = [ (lf + /share) script ]; };
-
 
 
   };
@@ -154,6 +138,7 @@ in
           gnused
           gum
           jq
+          lf-overlay
           luaformatter
           moar
           nvim

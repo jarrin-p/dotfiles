@@ -25,7 +25,7 @@
             callerPath = toString ./default.nix;
           };
 
-          git-root = (prev.writeShellScriptBin "git-root" ''${prev.git}/bin/git rev-parse --show-toplevel'');
+          git-root = prev.writeShellScriptBin "git-root" ''${prev.git}/bin/git rev-parse --show-toplevel'';
 
           git-ui = prev.writeShellScriptBin "git-ui" ''
                 git status > /dev/null 2>&1
@@ -35,6 +35,33 @@
                   exit 1
                 fi
                 ${final.nvim}/bin/nvim +"Git" +"only"
+          '';
+
+
+          lf-overlay = let script = prev.writeShellScriptBin "lf" ''
+              export PATH=${prev.lf}/bin:${prev.coreutils-full}/bin:${prev.bash}/bin
+              export LF_CONFIG_HOME=${conf.lf_config_home};
+              export LF_CD_FILE=/tmp/.lfcd
+              lf $@
+              if test -s $LF_CD_FILE
+              then
+                echo $(realpath $(cat $LF_CD_FILE))
+              else
+                echo $(pwd)
+              fi
+              rm -f $LF_CD_FILE
+            '';
+          in
+            prev.symlinkJoin { name = "lf-join"; paths = [ (prev.lf + /share) script ]; };
+
+
+          # build the hacky export string.
+          # direnv only supports passing configuration (direnvrc) through XDG_CONFIG_HOME/direnv/direnvrc,
+          # this is pretty much an ugly hack to allow direnv to stay isolated in nix, by altering
+          # the sourced hook function to include an export before the `direnv` binary is called.
+          nix-denv = prev.runCommand "nix-direnv-as-xdg" {} ''
+              mkdir -p $out/direnv
+              cp ${prev.nix-direnv}/share/nix-direnv/direnvrc $out/direnv/direnvrc
           '';
 
           nvim = (prev.callPackage ./.config/nixpkgs/packages/nvim.nix {});
@@ -53,7 +80,6 @@
               fi
               ${wrapped} +q
           '';
-
 
           tmux = prev.symlinkJoin {
             name = "tmux-join";
