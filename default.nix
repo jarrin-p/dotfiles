@@ -25,6 +25,36 @@
             callerPath = toString ./default.nix;
           };
 
+          git-root = (prev.writeShellScriptBin "git-root" ''${prev.git}/bin/git rev-parse --show-toplevel'');
+
+          git-ui = prev.writeShellScriptBin "git-ui" ''
+                git status > /dev/null 2>&1
+                if test $? -ne 0
+                then
+                  echo "not a git repository, nothing to look at."
+                  exit 1
+                fi
+                ${final.nvim}/bin/nvim +"Git" +"only"
+          '';
+
+          nvim = (prev.callPackage ./.config/nixpkgs/packages/nvim.nix {});
+
+          # simple command for ensuring nvim can open.
+          # eventually this should get moved into a test method when
+          # building nvim.
+          nvim-debug = let wrapped = wrapcmd "${final.nvim}/bin/nvim --headless"; in
+            prev.writeShellScriptBin "nvim_d" ''
+              if test "$1" = "--help"
+              then
+                  echo 'runs nvim and prints any messages to stdout.'
+                  echo 'additional arguments/commands can be passed for specific testing.'
+                  echo 'runs: nvim --headless $@ +q'
+                  exit 0
+              fi
+              ${wrapped} +q
+          '';
+
+
           tmux = prev.symlinkJoin {
             name = "tmux-join";
             paths = [

@@ -51,8 +51,12 @@
   direnv,
   dots-script,
   fish,
+  git-root,
+  git-ui,
   lf,
   nix-direnv,
+  nvim,
+  nvim-debug,
   sd,
   tmux,
   tree,
@@ -62,8 +66,8 @@ let
   setenv = ''
     export PAGER=${bat}/bin/bat
     export MANPAGER="${bat}/bin/bat --wrap never"
-    export EDITOR=${bin.nvim}/bin/nvim
-    export VISUAL=${bin.nvim}/bin/nvim
+    export EDITOR=${nvim}/bin/nvim
+    export VISUAL=${nvim}/bin/nvim
     export NIX_DIRENV_LOCATION="${nix-denv}"
     export DIRENV_BIN="${direnv}/bin/direnv"
     export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
@@ -113,54 +117,14 @@ let
     in
       symlinkJoin { name = "lf-join"; paths = [ (lf + /share) script ]; };
 
-    nvim = (callPackage ./packages/nvim.nix {});
-
-    # simple command for ensuring nvim can open.
-    # eventually this should get moved into a test method when
-    # building nvim.
-    nvim-debug = let wrapped = wrapcmd "${bin.nvim}/bin/nvim --headless"; in
-      writeShellScriptBin "nvim_d" ''
-        if test "$1" = "--help"
-        then
-            echo 'runs nvim and prints any messages to stdout.'
-            echo 'additional arguments/commands can be passed for specific testing.'
-            echo 'runs: nvim --headless $@ +q'
-            exit 0
-        fi
-        ${wrapped} +q
-    '';
 
 
   };
-
-  # technically, these are executables, but they're more in the context
-  # of wrapping "pieces" of a package, not the whole thing.
-  # i.e, all 'tmux' commands should have the config file associated with it,
-  # but "als" (which is an alias for ls with flags) is a part of pkgs.coreutils,
-  # and all behavior shouldn't be modified/wrapped.
-  commands = [
-
-    (writeShellScriptBin "git-ui" ''
-      git status > /dev/null 2>&1
-      if test $? -ne 0
-      then
-        echo "not a git repository, nothing to look at."
-        exit 1
-      fi
-      ${bin.nvim}/bin/nvim +"Git" +"only"
-    '')
-
-    (writeShellScriptBin "git-root" ''
-      ${git}/bin/git rev-parse --show-toplevel
-    '')
-
-  ];
 in
   buildEnv {
     name = "dotx-environment";
     paths =
          (builtins.attrValues bin)
-      ++ commands
       ++ (if builtins.currentSystem == "aarch64-darwin" then [] else [bitwarden-cli])
       ++ (callPackage ./packages/lsp.nix {})
       ++ [
@@ -184,6 +148,8 @@ in
           gettext
           gh
           git
+          git-ui
+          git-root
           glow
           gnumake
           gnused
@@ -191,6 +157,8 @@ in
           jq
           luaformatter
           moar
+          nvim
+          nvim-debug
           readline
           redis
           rename
