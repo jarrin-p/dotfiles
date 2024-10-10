@@ -4,8 +4,8 @@
     (add-language-snippets :c
                            [[:__main
                              [(text "#include <stdio.h>"
-                                    "int main(int argc, char *arv[]) {" "\t")
+                                    "int main(int argc, char *argv[]) {" "\t")
                               (ins 1 "// your code")
-                              (text "" "\treturn 1;" "}")]]])))
+                              (text "" "\treturn 0;" "}")]]])))
 
 {}
