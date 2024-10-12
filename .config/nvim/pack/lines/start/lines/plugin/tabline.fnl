@@ -71,6 +71,7 @@
                                           " "
                                           (concat tabs)]
                                          "")))
+  (vim.api.nvim_create_autocmd [:InsertLeave] {:callback vim.g.LinesMakeTabline})
   (vim.cmd "set tabline=%!LinesMakeTabline()"))
 
 {}
