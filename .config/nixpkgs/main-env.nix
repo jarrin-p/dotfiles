@@ -25,6 +25,7 @@
   gum,
   jq,
   luaformatter,
+  metals,
   moar,
   # python311Packages.sqlparse,
   readline,
@@ -88,6 +89,7 @@
           jq
           lf-overlay
           luaformatter
+          metals
           moar
           nvim
           nvim-debug

@@ -1,6 +1,7 @@
 {
   fd,
   fennel,
+  metals,
   neovim,
   runCommand,
   sd,
@@ -39,6 +40,7 @@ neovim.override {
                   package.path = package.path .. ";" .. "${vimpaths}/share/?.lua;${fennel}/share/lua/5.2/?.lua"
                   vim.o.runtimepath = vim.o.runtimepath .. ",${vimpaths}/share,${vimpaths}/share/after"
                   vim.o.packpath = vim.o.packpath .. ",${vimpaths}/share,${vimpaths}/share/after"
+                  vim.g.METALS_PATH = "${metals}/bin/metals"
                   require "utils"
                 EOF
               '';
