@@ -4,7 +4,7 @@
       {: default_capabilities} (require :cmp_nvim_lsp)
       capabilities (default_capabilities)]
   (do
-    (set config.settings {:fallbackScalaVersion :3.1.3
+    (set config.settings {:fallbackScalaVersion :3.3.3
                           :sbtScript :sbt
                           :autoImportBuild :all
                           :metalsBinaryPath vim.g.METALS_PATH})
