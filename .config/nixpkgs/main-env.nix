@@ -12,6 +12,7 @@
   coursier,
   curl,
   elan,
+  fennel,
   ffmpeg,
   fd,
   fnlfmt,
@@ -72,6 +73,7 @@
           direnv
           dots-script
           elan
+          fennel
           ffmpeg
           fd
           fish-overlay
