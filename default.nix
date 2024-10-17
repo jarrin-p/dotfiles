@@ -70,7 +70,7 @@
               lf $@
               if test -s "$LF_CD_FILE"
               then
-                echo $(realpath $(cat "$LF_CD_FILE"))
+                echo $(realpath "$(cat "$LF_CD_FILE")")
               else
                 echo "$(pwd)"
               fi
