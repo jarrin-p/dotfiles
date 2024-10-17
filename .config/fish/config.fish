@@ -50,7 +50,7 @@ set -U fish_pager_color_selected_completion
 set -U fish_color_host_remote
 
 function lf
-  cd (command lf)
+  cd "$(command lf)"
 end
 
 # turn colors into a list.
