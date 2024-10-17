@@ -45,7 +45,7 @@ for example, `tex` files add an autocommand to run `:make` on save if a makefile
 
 # some current works in progress and/or ideas.
 - externalize the color scheme to a json file in order to unify app color schemes. the bulk of this is actually updating all the `nvim` highlight groups to retain good syntax highlighting.
-- fix some of the lsp's.
+- fix some of the lsps.
 - clean up the `nixpkgs` directory.
 - add modularity / slim installs.
 - add the ability to build the preconfigured environment into a standalone package (i.e, without nix, download release, add ./release/bin to path, full env is ready to go).
