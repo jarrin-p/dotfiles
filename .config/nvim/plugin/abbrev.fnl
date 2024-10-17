@@ -1,9 +1,11 @@
-(vim.cmd.iabbrev "\\and\\ ∧")
-(vim.cmd.iabbrev "\\or\\ ∨")
-(vim.cmd.iabbrev "\\bullet\\ •")
-(vim.cmd.iabbrev "\\.\\ •")
-(vim.cmd.iabbrev "\\in\\ ∈")
-(vim.cmd.iabbrev "\\element\\ ∈")
-(vim.cmd.iabbrev "\\delta\\ δ")
+(let [iabbrev {"\\and\\" "∧"
+               "\\or\\" "∨"
+               "\\bullet\\" "•"
+               "\\.\\" "•"
+               "\\in\\" "∈"
+               "\\element\\" "∈"
+               "\\delta\\" "δ"}]
+  (each [k v (pairs iabbrev)]
+    (vim.cmd.iabbrev (.. k " " v))))
 
 {}
