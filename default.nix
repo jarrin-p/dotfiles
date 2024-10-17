@@ -65,16 +65,16 @@
 
           lf-overlay = let script = prev.writeShellScriptBin "lf" ''
               export PATH=${prev.lf}/bin:${prev.coreutils-full}/bin:${prev.bash}/bin
-              export LF_CONFIG_HOME=${conf.lf_config_home};
+              export LF_CONFIG_HOME="${conf.lf_config_home}";
               export LF_CD_FILE=/tmp/.lfcd
               lf $@
-              if test -s $LF_CD_FILE
+              if test -s "$LF_CD_FILE"
               then
-                echo $(realpath $(cat $LF_CD_FILE))
+                echo $(realpath $(cat "$LF_CD_FILE"))
               else
-                echo $(pwd)
+                echo "$(pwd)"
               fi
-              rm -f $LF_CD_FILE
+              rm -f "$LF_CD_FILE"
             '';
           in
             prev.symlinkJoin { name = "lf-join"; paths = [ (prev.lf + /share) script ]; };
