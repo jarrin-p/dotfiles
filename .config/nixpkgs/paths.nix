@@ -12,6 +12,6 @@
     fishhook = ./packages/fish;
     lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };
     nixconf = ../nix/nix.conf;
-    root = ../../../dotfiles;
+    root = ../../.;
     tmux = builtins.path { name = "tmux_config"; path = ../tmux/.tmux.conf; };
 }
