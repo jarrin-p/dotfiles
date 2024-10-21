@@ -11,6 +11,7 @@
                    :Statement {:ctermfg 13 :italic true}
                    :Whitespace {:ctermfg 9}
                    "@lsp" {:ctermfg 14}
+                   :LspInlayHint {:ctermfg 8 :italic true}
                    ;; language specific
                    ;; todo - use `loadonce` in the actual filetype for better optics.
                    ;; scala
