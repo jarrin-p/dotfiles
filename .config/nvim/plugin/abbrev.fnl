@@ -1,4 +1,5 @@
-(let [iabbrev {"\\and\\" "∧"
+(let [iabbrev {"\\alpha\\" "α"
+               "\\and\\" "∧"
                "\\or\\" "∨"
                "\\bullet\\" "•"
                "\\.\\" "•"
