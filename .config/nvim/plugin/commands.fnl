@@ -40,7 +40,9 @@
                 (vim.cmd (.. sub-cmd "/<->/↔/g"))
                 (vim.cmd (.. sub-cmd "/ ->/ →/g"))
                 (vim.notify "converted from ascii to unicode.")))
-           {:range true :bang true})
+           {:range true
+            :bang true
+            :desc "converts ascii to unicode in a buffer (opinionated)."})
   (add-cmd :ConvertUnicodeToAscii
            #(let [{: line1 : line2 : bang} $1
                   sub-cmd (.. "silent! "
@@ -49,7 +51,9 @@
                 (vim.cmd (.. sub-cmd "/↔/<->/g"))
                 (vim.cmd (.. sub-cmd "/→/->/g"))
                 (vim.notify "converted from unicode to ascii.")))
-           {:range true :bang true})
+           {:range true
+            :bang true
+            :desc "converts unicode to ascii in a buffer (opinionated)."})
   (add-cmd :ExportHighlights
            #(do
               (vim.cmd.tabnew)
@@ -79,10 +83,12 @@
                                        ;; don't delete the command when finished.
                                        false)
                           :desc "automatically sources the color configuration when saving a change to see immediate results."
-                          :buffer 0}))) {})
+                          :buffer 0})))
+           {:desc "Creates a new buffer containing the current color scheme configuration. Automatically sources on changing colors."})
   (add-cmd :Fennel (fn [opts]
                      (let [{: eval} (require :fennel)]
-                       (eval opts.args))) {:nargs "?"})
+                       (eval opts.args)))
+           {:nargs "?" :desc "Run arbitrary fennel."})
   (add-cmd :FennelSourceBuffer #(let [{: eval} (require :fennel)
                                       lines (vim.api.nvim_buf_get_lines 0 0
                                                                         (vim.fn.line "$")
@@ -93,21 +99,28 @@
                                             val))
                                         (table.concat " ")
                                         (eval))
-                                    false)) {})
-  (add-cmd :FF file-format {})
+                                    false))
+           {:desc "sources the given fennel buffer into neovim."})
+  (add-cmd :FF file-format
+           {:desc "alias for gggqG. formats entire doc using `formatprg`."})
   (add-cmd :GT #(let [path (-> (vim.fn.FugitiveWorkTree) (vim.fn.fnameescape))]
-                  (vim.cmd.lcd path)) {})
-  (add-cmd :GO #(exec "silent !tmux split-window -h -c $(dirname %)" false) {})
+                  (vim.cmd.lcd path))
+           {:desc "'Git Top' (idk). Changes vim's pwd to the root of a git directory if there is one."})
+  (add-cmd :GO #(exec "silent !tmux split-window -h -c $(dirname %)" false)
+           {:desc "Opens the directory the current file is in, in tmux."})
   ;; alias
-  (add-cmd :Info #(vim.cmd.LeanInfoviewToggle) {})
-  (add-cmd :SetFontSize set-font-size {})
+  (add-cmd :Info #(vim.cmd.LeanInfoviewToggle)
+           {:desc "Lean specific. Alias for LeanInfoviewToggle."})
+  (add-cmd :SetFontSize set-font-size
+           {:desc "GUI specific. Sets the font size"})
   (add-cmd :SetMakeRunner
            (fn [opts]
              (let [cmd-prefix "tmux send-keys -t {marked} enter escape 'S"
                    cmd-post "' enter"
                    val opts.args]
                (set vim.o.makeprg (.. cmd-prefix val cmd-post))))
-           {:nargs "?"})
+           {:nargs "?"
+            :desc "Sets makeprg, but wrapped in a tmux command that will send the command to the marked pane. Mostly a convenience for not wanting to rewire the muscle memory of using `make`"})
   ;; (add-cmd :ShowDiags #(let [
   ;;                            diags (vim.diagnostic.get)
   ;;                            buf (vim.api.nvim_create_buf true true)]
@@ -117,6 +130,7 @@
   ;;                          )) {})
   (add-cmd :ToggleInlayHints
            #(let [{: enable : is_enabled} vim.lsp.inlay_hint]
-              (enable (not (is_enabled)))) {}))
+              (enable (not (is_enabled))))
+           {:desc "Simple toggle command for turning off and on inlay hints."}))
 
 {}
