@@ -7,7 +7,7 @@
       in
         [ (final: prev: {
           als = prev.writeShellScriptBin "als" ''
-            ${prev.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al
+            ${prev.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al $@
           '';
 
           bat-overlay = let
