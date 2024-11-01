@@ -10,6 +10,8 @@
             ${prev.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al $@
           '';
 
+          bash-language-server = pkgs.nodePackages_latest.bash-language-server;
+
           bat-overlay = let
             wrapped = wrapcmd "${prev.bat}/bin/bat";
             script = prev.writeShellScriptBin "bat" ''
