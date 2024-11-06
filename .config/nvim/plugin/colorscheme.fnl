@@ -14,6 +14,14 @@
                    :LspInlayHint {:ctermfg 8 :italic true}
                    ;; language specific
                    ;; todo - use `loadonce` in the actual filetype for better optics.
+                   ;; java
+                   "@lsp.type.modifier.java" {:ctermfg 5}
+                   "@lsp.type.parameter.java" {:ctermfg 7}
+                   "@lsp.typemod.class.readonly.java" {:ctermfg 11}
+                   "@lsp.typemod.class.public.java" {:ctermfg 11}
+                   "@lsp.typemod.class.typeArgument.java" {:ctermfg 11}
+                   "@lsp.typemod.property.readonly.java" {:ctermfg 7}
+                   "@lsp.typemod.property.public.java" {:ctermfg 7}
                    ;; scala
                    :scalaSquareBracketsBrackets {:link :Delimiter}
                    :scalaNameDefinition {:link "@variable"}
