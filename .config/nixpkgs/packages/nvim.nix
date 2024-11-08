@@ -62,6 +62,7 @@ neovim.override {
                   nvim-jdtls
                   nvim-lspconfig
                   nvim-metals
+                  nvim-notify
                   nvim-tree-lua
                   plenary-nvim
                   symbols-outline-nvim

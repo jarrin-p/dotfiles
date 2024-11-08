@@ -79,6 +79,7 @@
 ;; settings that have to be toggled.
 (do
   (vim.opt_global.shortmess:remove :F)
-  (vim.lsp.inlay_hint.enable true))
+  (vim.lsp.inlay_hint.enable true)
+  (set vim.notify (require :notify)))
 
 {}
