@@ -11,14 +11,14 @@
                                            (indent 2 ";;")
                                            :esac])]]
                             [:__argparse_light
-                             [(text ["while ! test -z \"$1\""
-                                     :do
-                                     (indent 1 "case \"$1\" in")
-                                     (indent 2 "*)")
-                                     (indent 3 "echo 'default case'")
-                                     (indent 3 ";;")
-                                     (indent 1 :esac)
-                                     (indent 1 :shift)
-                                     :done])]]])))
+                             [(text-array ["while ! test -z \"$1\""
+                                           :do
+                                           (indent 1 "case \"$1\" in")
+                                           (indent 2 "*)")
+                                           (indent 3 "echo 'default case'")
+                                           (indent 3 ";;")
+                                           (indent 1 :esac)
+                                           (indent 1 :shift)
+                                           :done])]]])))
 
 {}
