@@ -1,6 +1,7 @@
-(let [{: text : text-array : add-language-snippets : ins : indent} (require :utils.snippets)]
+(let [{: text : text-array : add-language-snippets : ins : indent} (require :utils.snippets)
+      {: setup-lsp} (require :utils.lsp-util)]
   (do
-    (-> (require :lspconfig) (. :bashls) (: :setup))
+    (setup-lsp :bashls {})
     (add-language-snippets :sh
                            [[:__case
                              [(text "case \"")
