@@ -4,6 +4,8 @@
                    :Character {:ctermfg 12 :italic true}
                    :Comment {:ctermfg 8 :italic true}
                    :Constant {:ctermfg 12}
+                   :CursorColumn {:ctermbg 0}
+                   :CursorLine {:ctermbg 0}
                    :Delimiter {:ctermfg 7}
                    :Operator {:ctermfg 10}
                    :String {:ctermfg 5 :italic true}
