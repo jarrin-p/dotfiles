@@ -62,6 +62,7 @@
     (nnoremap-cb :<leader>B vim.cmd.FuzzyBranchSelect)
     (nnoremap-cb :<leader>h vim.cmd.FuzzyBranchChanges)
     (nnoremap-cb :<leader>H vim.cmd.FuzzyBranchChangesSetBranch)
+    (nnoremap-cb :<leader>: vim.cmd.Commands)
     (nnoremap-cb :g? vim.cmd.Maps)
     ;;
     ;; lsp
