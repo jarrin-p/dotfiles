@@ -29,7 +29,9 @@
   luaformatter,
   metals,
   moar,
+  pandoc,
   # python311Packages.sqlparse,
+  poppler_utils,
   readline,
   redis,
   rename,
@@ -60,10 +62,9 @@
     paths =
          (if builtins.currentSystem == "aarch64-darwin" then [] else [bitwarden-cli])
       ++ (callPackage ./packages/lsp.nix {})
-      ++ [
           # version of rtorrent that isn't broken.
-          (import ./packages/rtorrent.nix {})
-
+      ++ [(import ./packages/rtorrent.nix {})]
+      ++ [
           als
           ansifilter
           bat-overlay
@@ -98,6 +99,8 @@
           nvim
           nvim-debug
           readline
+          pandoc
+          poppler_utils
           redis
           rename
           ripgrep
