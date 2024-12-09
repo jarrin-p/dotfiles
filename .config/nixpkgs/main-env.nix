@@ -36,6 +36,7 @@
   redis,
   rename,
   ripgrep,
+  unzip,
   visidata,
   wget,
   yq,
@@ -107,6 +108,7 @@
           sd
           tmux
           tree
+          unzip
           visidata
           wget
           yq
