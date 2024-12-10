@@ -25,7 +25,7 @@
                :sqlls {}
                :terraformls {}
                :texlab {}
-               :tsserver {:cmd [:typescript-language-server :--stdio]}
+               :ts_ls {:cmd [:typescript-language-server :--stdio]}
                :yamlls {}}]
   (each [server config (pairs servers)]
     (let [{: setup} (. lspconfig server)]
