@@ -23,7 +23,7 @@ to see a full list of tooling made available, check [.config/nixpkgs/main-env.ni
 there are several language servers that have been configured with this setup, and should work out of the box with the `nvim` that comes with this environment.
 
 > [!NOTE]
-> I've used all the servers here at least for a bit. the experience with some is a little rougher than others.
+> I've used all the servers here at least for a bit.
 
 off the top of my head, here's a list of configured languages/servers that I have used. there are more, but they're probably not as tested.
 - scala - `metals` (requires installed `jdk` > 17 I think, this will be fixed eventually). tested mostly with `sbt`. works with `scala-cli` scripts as well.
@@ -33,10 +33,10 @@ off the top of my head, here's a list of configured languages/servers that I hav
 - fennel - `fennel_ls`
 - lean - lean's builtin lsp + `lean-nvim`.
 - lua - `lua_ls`, also sets the vimruntime as a global workspace.
-- terraform - `terraformls` (rough) (can be slow and/or freeze sometimes.)
+- terraform - `terraformls` (can be slow and/or freeze sometimes.)
 - json, yaml - `jsonls`, `yamlls` - should tell you when json or yaml are improperly formatted.
-- javascript, typescript - `typescript-language-server`. (rough) (typescript occasionally needs restarting but js seems find.)
-- latex - `texlab` - autocomplete doesn't help substantially with parameters, but it's pretty snappy overall.
+- javascript, typescript - `typescript-language-server`. (typescript occasionally needs restarting but js seems find, although recent update seemed to fix this)
+- latex - `texlab`
 
 ## additional language configuration
 the easiest way to check what additional features, snippets, etc, I may have added for a language would be to look at the filetype config located in [.config/nvim/ftplugin](.config/nvim/ftplugin).

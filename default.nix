@@ -1,5 +1,6 @@
 {
-  pkgs ? import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/d8a5a620da8e1cae5348ede15cd244705e02598c"; }) {
+  commit ? "7243daf549a0b69bd0f11a43401cadd86b4f2ef0",
+  pkgs ? import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/${commit}"; }) {
     overlays =
       let
         conf = import ./.config/nixpkgs/paths.nix {};
@@ -10,7 +11,7 @@
             ${prev.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al $@
           '';
 
-          bash-language-server = pkgs.nodePackages_latest.bash-language-server;
+          # bash-language-server = pkgs.nodePackages_latest.bash-language-server;
 
           bat-overlay = let
             wrapped = wrapcmd "${prev.bat}/bin/bat";

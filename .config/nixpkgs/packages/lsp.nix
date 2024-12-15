@@ -6,8 +6,10 @@
   nil,
   nls,
   nodePackages_latest,
+  pyright,
   sumneko-lua-language-server,
   terraform-ls,
+  vscode-langservers-extracted,
   yaml-language-server
 }:
 let
@@ -17,6 +19,7 @@ let
     llvmPackages_16.clang-unwrapped
     nil # nix language server.
     nls
+    pyright
     sumneko-lua-language-server
     terraform-ls
     yaml-language-server
@@ -32,11 +35,7 @@ let
 
   nodeBins = with nodePackages_latest; [
     dockerfile-language-server-nodejs
-    pyright
     typescript-language-server
-    vscode-css-languageserver-bin
-    vscode-html-languageserver-bin
-    vscode-json-languageserver
   ];
 in
   bins ++ imports ++ nodeBins
