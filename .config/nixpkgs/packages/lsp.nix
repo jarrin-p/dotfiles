@@ -22,6 +22,7 @@ let
     pyright
     sumneko-lua-language-server
     terraform-ls
+    vscode-langservers-extracted
     yaml-language-server
   ];
 
