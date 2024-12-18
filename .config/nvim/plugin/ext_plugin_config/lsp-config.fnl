@@ -16,7 +16,6 @@
                :fennel_ls {:init_options {:fennel-ls {:extra-globals :vim}}}
                :hls {}
                :html {:cmd [:html-languageserver :--stdio] : capabilities}
-               :jsonls {:cmd [:vscode-json-languageserver :--stdio]}
                :lua_ls {:settings {:Lua {:diagnostics {:globals [:vim]
                                                        :workspace {:library {(vim.fn.expand :$VIMRUNTIME/lua) true
                                                                              (vim.fn.expand :$VIMRUNTIME/lua/vim/lsp) true}}}}}}

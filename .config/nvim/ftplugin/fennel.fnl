@@ -14,5 +14,4 @@
                              [(text "(icollect [i v (ipairs ")
                               (ins 1 :array)
                               (text ")]" "\tv)")]]]))
-
   {})
