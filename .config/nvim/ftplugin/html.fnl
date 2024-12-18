@@ -1,6 +1,8 @@
 (set vim.o.tabstop 2)
 
-(let [{:text_node text-node
+(let [{: setup-lsp} (require :utils.lsp-util)
+      {: load-once} (require :utils.load-once)
+      {:text_node text-node
        :insert_node insert-node
        : snippet
        : cleanup
@@ -17,10 +19,12 @@
                             "<script src=\"your_script.js\"></script>"
                             :</body>
                             :</html>])]]
-  (cleanup)
-  (->> [(snippet :__doctype doctype)
-        (snippet :__js-tag javascript-tag)
-        (snippet :__template template)]
-       (add-snippets :html)))
+  (do
+    (load-once :html #(setup-lsp :html {:cmd [:vscode-html-language-server :--stdio]}))
+    (cleanup)
+    (->> [(snippet :__doctype doctype)
+          (snippet :__js-tag javascript-tag)
+          (snippet :__template template)]
+         (add-snippets :html))))
 
 {}
