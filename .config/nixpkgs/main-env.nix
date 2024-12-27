@@ -9,6 +9,7 @@
   # unmodified pkgs.
   ansifilter,
   bash-language-server,
+  black,
   code-minimap,
   coursier,
   curl,
@@ -70,6 +71,7 @@
           ansifilter
           bat-overlay
           bash-language-server
+          black
           code-minimap
           coreutils-full
           coursier
