@@ -26,6 +26,7 @@
   gnumake,
   gnused,
   gum,
+  haskellPackages,
   jq,
   luaformatter,
   metals,
@@ -87,6 +88,7 @@
           fzf
           gettext
           gh
+          (haskellPackages.ghcWithPackages (hpkgs: [hpkgs.shake]))
           git
           git-ui
           git-root
