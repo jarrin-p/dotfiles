@@ -66,6 +66,7 @@ neovim.override {
                   nvim-tree-lua
                   plenary-nvim
                   symbols-outline-nvim
+                  vim-caddyfile
                   vim-closetag
                   vim-fish
                   vim-fugitive
