@@ -15,7 +15,6 @@
 let
   bins = [
     ccls
-    haskell-language-server
     llvmPackages_16.clang-unwrapped
     nil # nix language server.
     nls
