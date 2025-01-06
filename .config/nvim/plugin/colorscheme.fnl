@@ -38,6 +38,9 @@
                    "@lsp.typemod.parameter.definition.nix" {:link "@lsp.type.parameter.nix"}
                    "@lsp.mod.definition.nix" {:ctermfg 11}
                    "@lsp.typemod.property.definition.nix" {:ctermfg 11}
+                   ;; c
+                   "@type.builtin.c" {:link :cType}
+                   "@constant.builtin.c" {:link :cConstant}
                    ;; vim
                    :CurSearch {:ctermbg 8
                                :underline true
