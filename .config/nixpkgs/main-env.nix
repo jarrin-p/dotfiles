@@ -42,6 +42,7 @@
   visidata,
   wget,
   yq,
+  zip,
 
   # wrapped pkgs
   als,
@@ -116,6 +117,7 @@
           visidata
           wget
           yq
+          zip
         ];
 }
 # broken packages.
