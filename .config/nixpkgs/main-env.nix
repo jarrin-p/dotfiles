@@ -38,6 +38,7 @@
   redis,
   rename,
   ripgrep,
+  sshfs,
   unzip,
   visidata,
   wget,
@@ -110,6 +111,7 @@
           rename
           ripgrep
           sd
+          sshfs
           tmux
           tree
           unzip
