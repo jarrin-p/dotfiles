@@ -67,7 +67,6 @@
          (if builtins.currentSystem == "aarch64-darwin" then [] else [bitwarden-cli])
       ++ (callPackage ./packages/lsp.nix {})
           # version of rtorrent that isn't broken.
-      ++ [(import ./packages/rtorrent.nix {})]
       ++ [
           als
           ansifilter
