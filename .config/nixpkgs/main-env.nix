@@ -1,3 +1,7 @@
+# was really hoping to be able to use something like `x@{fnargs...}` here
+# in order to pass it to `buildEnv`, but I think that this running via `callPackage`
+# is adding some fields that aren't being filtered out in a way I understand.
+# ie, `s@{<args>}, (filter (arg not derivation) s)` still has functions in it.
 {
   # the remaining are attributes of the nixpkgs set and will be
   # provided by `callPackage` if not given.
