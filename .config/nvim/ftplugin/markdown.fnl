@@ -1,5 +1,5 @@
 (set vim.o.spell true)
-(set vim.o.conceallevel 1)
+(set vim.o.conceallevel 0)
 
 (let [{:text_node text-node
        :insert_node insert-node
