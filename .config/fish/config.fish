@@ -69,11 +69,14 @@ set __fish_git_prompt_show_informative_status 1
 function fish_prompt
     printf "\n"
 
-    set -l git (fish_git_prompt)
-    if ! test -z "$git"
-        set_color blue
-        fish_git_prompt | tr -d ' '
-        printf ' '
+    # only do this when the env var is not set.
+    if test -z "$FISH_HIDE_GIT_STATUS"
+        set -l git (fish_git_prompt)
+        if ! test -z "$git"
+            set_color blue
+            fish_git_prompt | tr -d ' '
+            printf ' '
+        end
     end
 
     set_color brblack
