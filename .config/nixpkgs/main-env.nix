@@ -31,6 +31,7 @@
   gnused,
   gum,
   haskellPackages,
+  haskell-language-server,
   jq,
   luaformatter,
   metals,
@@ -101,6 +102,7 @@
           gnumake
           gnused
           gum
+          haskell-language-server
           jq
           lf-overlay
           luaformatter
