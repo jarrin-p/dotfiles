@@ -7,6 +7,10 @@
         wrapcmd = (import ./.config/nixpkgs/util.nix).wrapcmd;
       in
         [ (final: prev: {
+          aichat = let
+            pkgs = import (builtins.fetchTarball { url = "https://api.github.com/repos/nixos/nixpkgs/tarball/6c21d3e5332aadb0d0818bfbc79684c8d1b089f4"; }) {};
+          in pkgs.aichat;
+
           als = prev.writeShellScriptBin "als" ''
             ${prev.coreutils-full}/bin/ls --group-directories-first --human-readable --color -al $@
           '';

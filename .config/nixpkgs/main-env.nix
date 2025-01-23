@@ -11,6 +11,7 @@
   callPackage,
 
   # unmodified pkgs.
+  aichat,
   ansifilter,
   bash-language-server,
   black,
@@ -74,6 +75,7 @@
       ++ (callPackage ./packages/lsp.nix {})
           # version of rtorrent that isn't broken.
       ++ [
+          aichat
           als
           ansifilter
           bat-overlay
