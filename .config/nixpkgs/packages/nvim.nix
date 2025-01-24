@@ -73,6 +73,7 @@ neovim.override {
                   vim-nickel
                   vim-nix
                   vim-surround
+                  vim-table-mode
                   vim-terraform
                   vim-terraform-completion
 

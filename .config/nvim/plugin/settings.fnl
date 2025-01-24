@@ -7,7 +7,8 @@
                                                 :* "powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace(\"`r\", \"\"))"}}
                                        false)
                         :csv_nomap_cr 1
-                        :netrw_liststyle 3}
+                        :netrw_liststyle 3
+                        :table_mode_disable_mappings 1}
                     :o {:compatible false
                         ;;
                         ;;
