@@ -33,6 +33,7 @@
   gum,
   haskellPackages,
   haskell-language-server,
+  httpie,
   jq,
   luaformatter,
   metals,
@@ -105,6 +106,7 @@
           gnused
           gum
           haskell-language-server
+          httpie
           jq
           lf-overlay
           luaformatter
