@@ -1,7 +1,8 @@
 (let [;{: info} (require :utils.log)
       {: setup-lsp} (require :utils.lsp-util)
-      {: load-once} (require :utils.load-once)]
+      {: load-once} (require :utils.load-once)
+      settings {:sw 2 :ts 2}]
   (do
     (load-once :r #(setup-lsp :r_language_server {}))
-    (set vim.o.sw 2)
-    (set vim.o.ts 2)))
+    (each [k v (pairs settings)]
+      (tset vim.o k v))))
