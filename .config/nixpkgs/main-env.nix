@@ -45,6 +45,7 @@
   redis,
   rename,
   ripgrep,
+  R,
   sshfs,
   unzip,
   visidata,
@@ -120,6 +121,7 @@
           redis
           rename
           ripgrep
+          R
           sd
           sshfs
           tmux

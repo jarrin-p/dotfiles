@@ -7,6 +7,7 @@
   nls,
   nodePackages_latest,
   pyright,
+  rPackages,
   sumneko-lua-language-server,
   terraform-ls,
   vscode-langservers-extracted,
@@ -19,6 +20,7 @@ let
     nil # nix language server.
     nls
     pyright
+    rPackages.languageserver
     sumneko-lua-language-server
     terraform-ls
     vscode-langservers-extracted
