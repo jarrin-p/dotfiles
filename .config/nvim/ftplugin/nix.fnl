@@ -12,6 +12,8 @@
                            (text "pkgs.gradle_7.override{ java = pkgs.jdk11; }")]
                           [:__sbtWithJdkOverride
                            (text "(pkgs.sbt.override { jre = pkgs.jdk20; })")]
+                          [:__texPkg
+                           (text "texlive.combined.scheme-full")]
                           [:__buildEnv
                            (text-array ["pkgs.buildEnv {"
                                         "\tname = \"\";"
