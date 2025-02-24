@@ -2,4 +2,4 @@
   (add-language-snippets :make
                          [[:__pandoc_md_to_pdf
                            [(text "%.pdf: %.md"
-                                  "\tpandoc --from markdown --to pdf -o $@ @<")]]]))
+                                  "\tpandoc --from markdown --to pdf -o $@ $<")]]]))
