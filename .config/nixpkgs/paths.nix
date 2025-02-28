@@ -9,7 +9,7 @@
 
     colors = ../../base16.theme.json;
     fish = ../fish/config.fish;
-    elvish = ../elvish/config.elv;
+    elvish = ../elvish/conf.elv;
     fishhook = ./packages/fish;
     elvishhook = ../elvish/hook.elv;
     lf_config_home = builtins.path { name = "lf_config_home"; path = ../../.config; };

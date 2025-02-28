@@ -19,7 +19,7 @@
   coursier,
   curl,
   elan,
-  elvish,
+  elvish-overlay,
   fennel,
   ffmpeg,
   fd,
@@ -92,7 +92,7 @@
           direnv
           dots-script
           elan
-          elvish
+          elvish-overlay
           fennel
           ffmpeg
           fd
