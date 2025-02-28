@@ -1,4 +1,3 @@
-## hook for direnv
 set @edit:before-readline = $@edit:before-readline {
         try {
                 var m = [("/Users/js/.nix-profile/bin/direnv" export elvish | from-json)]
@@ -19,6 +18,6 @@ set @edit:before-readline = $@edit:before-readline {
 
 fn lf { cd (command lf) }
 
-#set edit:prompt = {
-#  styled "" "blue"
-#}
+fn vsp { tmux split-window -h -c $E:PWD }
+
+eval (starship init elvish)

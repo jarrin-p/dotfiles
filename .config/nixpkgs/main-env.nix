@@ -49,6 +49,7 @@
   ripgrep,
   R,
   sshfs,
+  starship,
   unzip,
   visidata,
   wget,
@@ -128,6 +129,7 @@
           R
           sd
           sshfs
+          starship
           tmux
           tree
           unzip
