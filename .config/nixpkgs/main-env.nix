@@ -19,6 +19,7 @@
   coursier,
   curl,
   elan,
+  elvish,
   fennel,
   ffmpeg,
   fd,
@@ -34,6 +35,7 @@
   haskellPackages,
   haskell-language-server,
   httpie,
+  ncurses,
   jq,
   luaformatter,
   metals,
@@ -90,6 +92,7 @@
           direnv
           dots-script
           elan
+          elvish
           fennel
           ffmpeg
           fd
@@ -108,6 +111,7 @@
           gum
           haskell-language-server
           httpie
+          ncurses
           jq
           lf-overlay
           luaformatter

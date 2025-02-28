@@ -34,6 +34,33 @@
           # load env vars before loading fish shell.
           # this allows other shells to use them upon invocation as well, without having
           # to have a lot of duplicate rcs for the preferences.
+          elvish-overlay = let
+            setenv = ''
+              export PAGER=${final.bat}/bin/bat
+              export MANPAGER="${final.bat}/bin/bat --wrap never"
+              export EDITOR=${final.nvim}/bin/nvim
+              export VISUAL=${final.nvim}/bin/nvim
+              export NIX_DIRENV_LOCATION="${final.nix-denv}"
+              export DIRENV_BIN="${final.direnv}/bin/direnv"
+              export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
+              export NIX_USER_CONF_FILES=${conf.nixconf}
+              export PATH=$HOME/.elan/bin:$PATH
+
+              # array separated by newlines.
+              export COLORS_PATH=${conf.colors}
+              export COLORS=$(${final.jq}/bin/jq -r '.color[]' ${conf.colors})
+            '';
+
+            script = prev.writeShellScriptBin "elvish" ''
+              ${setenv}
+              ${prev.elvish}/bin/elvish -rc ${conf.elvish} $@
+            '';
+          in
+            prev.symlinkJoin { name = "fish-join"; paths = [ (prev.fish + /share) script ]; };
+
+          # load env vars before loading fish shell.
+          # this allows other shells to use them upon invocation as well, without having
+          # to have a lot of duplicate rcs for the preferences.
           fish-overlay = let
             setenv = ''
               export PAGER=${final.bat}/bin/bat
@@ -71,7 +98,7 @@
           '';
 
           lf-overlay = let script = prev.writeShellScriptBin "lf" ''
-              export PATH=${prev.lf}/bin:${prev.coreutils-full}/bin:${prev.bash}/bin
+              export PATH=${prev.lf}/bin:${prev.coreutils-full}/bin:${prev.bash}/bin:/usr/bin
               export LF_CONFIG_HOME="${conf.lf_config_home}";
               export LF_CD_FILE=/tmp/.lfcd
               lf $@
@@ -85,7 +112,6 @@
             '';
           in
             prev.symlinkJoin { name = "lf-join"; paths = [ (prev.lf + /share) script ]; };
-
 
           # build the hacky export string.
           # direnv only supports passing configuration (direnvrc) through XDG_CONFIG_HOME/direnv/direnvrc,
