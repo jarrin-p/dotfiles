@@ -10,8 +10,12 @@ set @edit:before-readline = $@edit:before-readline {
     } catch e { echo $e }
 }
 
-fn lf { cd (command lf) }
+set @edit:before-readline = $@edit:before-readline {
+    tmux rename-window (pwd | str:split)
+}
 
+fn lf { cd (command lf) }
 fn vsp { tmux split-window -h -c $E:PWD }
+fn sp { tmux split-window -c $E:PWD }
 
 eval (starship init elvish)
