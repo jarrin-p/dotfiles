@@ -11,7 +11,7 @@ set @edit:before-readline = $@edit:before-readline {
 }
 
 set @edit:before-readline = $@edit:before-readline {
-    tmux rename-window (pwd | str:split)
+    tmux rename-window (pwd)
 }
 
 fn lf { cd (command lf) }
