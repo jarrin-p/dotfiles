@@ -14,7 +14,7 @@ set @edit:before-readline = $@edit:before-readline {
     tmux rename-window (pwd)
 }
 
-fn lf { cd (command lf) }
+fn lf { cd ((which lf)) }
 fn vsp { tmux split-window -h -c $E:PWD }
 fn sp { tmux split-window -c $E:PWD }
 
