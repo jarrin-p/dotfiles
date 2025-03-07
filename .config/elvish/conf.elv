@@ -10,8 +10,9 @@ set @edit:before-readline = $@edit:before-readline {
     } catch e { echo $e }
 }
 
+# other things go here.
 set @edit:before-readline = $@edit:before-readline {
-    tmux rename-window (pwd)
+
 }
 
 fn lf { cd ((which lf)) }
