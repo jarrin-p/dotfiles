@@ -31,33 +31,6 @@
             callerPath = toString ./default.nix;
           };
 
-          # load env vars before loading fish shell.
-          # this allows other shells to use them upon invocation as well, without having
-          # to have a lot of duplicate rcs for the preferences.
-          elvish-overlay = let
-            setenv = ''
-              export PAGER=${final.bat}/bin/bat
-              export MANPAGER="${final.bat}/bin/bat --wrap never"
-              export EDITOR=${final.nvim}/bin/nvim
-              export VISUAL=${final.nvim}/bin/nvim
-              export NIX_DIRENV_LOCATION="${final.nix-denv}"
-              export DIRENV_BIN="${final.direnv}/bin/direnv"
-              export FZF_DEFAULT_COMMAND="rg --glob '!*.git' --glob '!*.class' --glob '!*.jar' --glob '!*.java.html' --files --hidden"
-              export NIX_USER_CONF_FILES=${conf.nixconf}
-              export PATH=$HOME/.elan/bin:$PATH
-
-              # array separated by newlines.
-              export COLORS_PATH=${conf.colors}
-              export COLORS=$(${final.jq}/bin/jq -r '.color[]' ${conf.colors})
-            '';
-
-            script = prev.writeShellScriptBin "elvish" ''
-              ${setenv}
-              ${prev.elvish}/bin/elvish -rc ${conf.elvish} $@
-            '';
-          in
-            prev.symlinkJoin { name = "elvish-join"; paths = [ (prev.elvish + /share) script ]; };
-
           git-root = prev.writeShellScriptBin "git-root" ''${prev.git}/bin/git rev-parse --show-toplevel'';
 
           git-ui = prev.writeShellScriptBin "git-ui" ''
@@ -67,7 +40,7 @@
                   echo "not a git repository, nothing to look at."
                   exit 1
                 fi
-                ${final.nvim}/bin/nvim +"Git" +"only"
+                nvim +"Git" +"only"
           '';
 
           lf-overlay = let script = prev.writeShellScriptBin "lf" ''

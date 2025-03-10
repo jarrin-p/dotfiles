@@ -19,7 +19,7 @@
   coursier,
   curl,
   elan,
-  elvish-overlay,
+  elvish,
   fennel,
   ffmpeg,
   fd,
@@ -63,7 +63,6 @@
   coreutils-full,
   direnv,
   dots-script,
-  fish-overlay,
   git-root,
   git-ui,
   lf-overlay,
@@ -91,11 +90,9 @@
           direnv
           dots-script
           elan
-          elvish-overlay
           fennel
           ffmpeg
           fd
-          fish-overlay
           fnlfmt
           fzf
           gettext
