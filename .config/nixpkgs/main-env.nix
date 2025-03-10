@@ -67,8 +67,6 @@
   git-root,
   git-ui,
   lf-overlay,
-  nvim,
-  nvim-debug,
   sd,
   tmux,
   tree,
@@ -118,8 +116,6 @@
           luaformatter
           metals
           moar
-          nvim
-          nvim-debug
           readline
           pandoc
           poppler_utils
